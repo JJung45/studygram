@@ -1,1 +1,1 @@
-# studygram-backend
+# studygram
