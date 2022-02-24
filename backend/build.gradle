@@ -6,14 +6,15 @@ plugins {
 
 group = 'com.studygram'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
+sourceCompatibility = '1.8'
+targetCompatibility = 1.8
 
 repositories {
 	mavenCentral()
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter:2.6.3'
+	implementation 'org.springframework.boot:spring-boot-starter-web:2.6.3'
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2'
 	runtimeOnly 'mysql:mysql-connector-java:8.0.25'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test:2.6.3'
