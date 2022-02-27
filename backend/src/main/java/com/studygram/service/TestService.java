@@ -1,6 +1,7 @@
 package com.studygram.service;
 
-import com.studygram.dto.Test;
+import com.studygram.domain.Member;
+import com.studygram.domain.Test;
 import com.studygram.mapper.TestMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,5 +16,9 @@ public class TestService {
 
     public List<Test> selectAll() {
         return testMapper.selectAll();
+    }
+
+    public List<Member> selectMemberAll() {
+        return testMapper.selectMemberAll();
     }
 }
