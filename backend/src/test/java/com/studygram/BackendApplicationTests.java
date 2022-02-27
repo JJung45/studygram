@@ -18,4 +18,9 @@ class BackendApplicationTests {
 				.forEach(System.out::println);
 	}
 
+	@Test
+	void 데이터베이스_Member_테이블_테스트() {
+		testService.selectMemberAll();
+	}
+
 }

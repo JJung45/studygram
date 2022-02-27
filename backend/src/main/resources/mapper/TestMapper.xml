@@ -7,4 +7,11 @@
         FROM
             test
     </select>
+
+    <select id="selectMemberAll" resultType="Member">
+        SELECT
+            *
+        FROM
+            member
+    </select>
 </mapper>
