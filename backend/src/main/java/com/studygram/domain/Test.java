@@ -1,4 +1,4 @@
-package com.studygram.dto;
+package com.studygram.domain;
 
 public class Test {
     private int idx;
