@@ -1,14 +1,11 @@
+import logo from './logo.svg';
 import './App.css';
-import Auth from './pages/auth/component/Auth';
+import Register from './pages/login/Register';
 
 function App() {
   return (
-    <div className="conatiner">
-      <div className='main'>
-        <div className='wrapper'>
-          <Auth />
-        </div>
-      </div>
+    <div className="App">
+      <Register></Register>
     </div>
   );
 }
