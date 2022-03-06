@@ -20,29 +20,29 @@ public class OAuthApiResponse<T> {
     private final static String INVALID_REFRESH_TOKEN = "Invalid refresh token.";
     private final static String NOT_EXPIRED_TOKEN_YET = "Not expired token yet.";
 
-    private final OAtuhApiResponseHeader header;
+    private final OAuthApiResponseHeader header;
     private final Map<String, T> body;
 
     public static <T> OAuthApiResponse<T> success(String name, T body) {
         Map<String, T> map = new HashMap<>();
         map.put(name, body);
 
-        return new OAuthApiResponse(new OAtuhApiResponseHeader(SUCCESS, SUCCESS_MESSAGE), map);
+        return new OAuthApiResponse(new OAuthApiResponseHeader(SUCCESS, SUCCESS_MESSAGE), map);
     }
 
     public static <T> OAuthApiResponse<T> fail() {
-        return new OAuthApiResponse(new OAtuhApiResponseHeader(FAILED, FAILED_MESSAGE), null);
+        return new OAuthApiResponse(new OAuthApiResponseHeader(FAILED, FAILED_MESSAGE), null);
     }
 
     public static <T> OAuthApiResponse<T> invalidAccessToken() {
-        return new OAuthApiResponse(new OAtuhApiResponseHeader(FAILED, INVALID_ACCESS_TOKEN), null);
+        return new OAuthApiResponse(new OAuthApiResponseHeader(FAILED, INVALID_ACCESS_TOKEN), null);
     }
 
     public static <T> OAuthApiResponse<T> invalidRefreshToken() {
-        return new OAuthApiResponse(new OAtuhApiResponseHeader(FAILED, INVALID_REFRESH_TOKEN), null);
+        return new OAuthApiResponse(new OAuthApiResponseHeader(FAILED, INVALID_REFRESH_TOKEN), null);
     }
 
     public static <T> OAuthApiResponse<T> notExpiredTokenYet() {
-        return new OAuthApiResponse(new OAtuhApiResponseHeader(FAILED, NOT_EXPIRED_TOKEN_YET), null);
+        return new OAuthApiResponse(new OAuthApiResponseHeader(FAILED, NOT_EXPIRED_TOKEN_YET), null);
     }
 }

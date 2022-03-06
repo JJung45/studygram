@@ -13,11 +13,11 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private final UserMapper memberMapper;
+    private final UserMapper userMapper;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User member = memberMapper.findByUserId(username);
+        User member = userMapper.findByUserId(username);
         if (member == null) {
             throw new UsernameNotFoundException("Can not find username.");
         }
