@@ -42,6 +42,14 @@ const RegisterComponent = ({ form, onChange, onSubmit }) => {
           </div>
           <div className="form-wrap">
             <form className="form">
+                  <a className="button-box" href="#">
+                      <button className="btn">
+                      Log in with Facebook
+                      </button>
+                  </a>
+                  <div className="or-line">
+                    <span className="line"></span> <span className="or">OR</span> <span className="line"></span>
+                  </div>
                   <InputBox>
                     <Input
                       name="username"
@@ -94,10 +102,7 @@ const RegisterComponent = ({ form, onChange, onSubmit }) => {
 
         <div className="login-box">
           <div className="text">
-              Do you have account?<Link to="/login">Sign up</Link>
-            <Routes>
-                <Route path="/login" element={props => <LoginPage {...props}/>} />
-            </Routes>
+              Do you have account?<Link to="/">Login</Link>
           </div>
         </div>
       </div>

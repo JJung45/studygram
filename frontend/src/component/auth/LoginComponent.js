@@ -73,6 +73,14 @@ const LoginComponent = ({ form, onChange, onSubmit }) => {
                   Log in
                 </button>
               </span>
+              <div className="or-line">
+                <span className="line"></span> <span className="or">OR</span> <span className="line"></span>
+              </div>
+              <a className="button-box" href="#">
+                <button className="btn">
+                  Log in with Facebook
+                </button>
+              </a>
               <a className="forgot" href="#">
                 Forgot password?
               </a>
@@ -83,9 +91,6 @@ const LoginComponent = ({ form, onChange, onSubmit }) => {
         <div className="login-box">
           <div className="text">
               Don't have an account?<Link to="/register">Sign up</Link>
-            <Routes>
-                <Route path="/register" element={props => <RegisterPage {...props}/>} />
-            </Routes>
           </div>
         </div>
       </div>

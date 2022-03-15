@@ -92,3 +92,28 @@
     color:#3897f0;
     margin-left:3px;
   }
+
+  .or-line {
+    justify-content: center;
+    align-items: center;
+    margin: 15px 40px 15px 40px;
+    display: flex;
+  }
+
+  .or-line .line {
+    display: flex;
+    height: 0.5px;
+    margin-right: 3px;
+    width: 100%;
+    background: gray;
+  }
+
+  
+  .or-line .or {
+    color: #8e8e8e;
+    font-weight: bold;
+    font-size: 10px;
+    display: flex;
+    margin-left: 15px;
+    margin-right: 15px;
+  }
