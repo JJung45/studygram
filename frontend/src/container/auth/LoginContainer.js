@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux"
-import AuthForm from '../../component/auth/AuthForm';
+import LoginComponent from '../../component/auth/LoginComponent';
 import { changeField, initializeForm, login } from '../../module/auth/auth';
 
-const LoginForm = () => {
+const LoginContainer = () => {
     const dispatch = useDispatch();
     const { form, auth, authError } = useSelector(({ auth }) => ({
         form: auth.login,
@@ -47,7 +47,7 @@ const LoginForm = () => {
     },[authError, auth, dispatch]);
 
     return(
-        <AuthForm
+        <LoginComponent
             type="login"
             form={form}
             onChange={onChange}
@@ -56,4 +56,4 @@ const LoginForm = () => {
     );
 };
 
-export default LoginForm;
+export default LoginContainer;

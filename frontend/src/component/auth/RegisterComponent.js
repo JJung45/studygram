@@ -1,9 +1,7 @@
 import React from "react";
 import "../../styles/Auth.css";
 import styled from "styled-components";
-import { Link } from 'react-router-dom';
-import { Route, Routes } from 'react-router-dom';
-import RegisterPage from "../../pages/RegisterPage";
+import { Route, Link, Routes } from 'react-router-dom';
 import LoginPage from "../../pages/LoginPage";
 
 
@@ -30,8 +28,7 @@ const Input = styled.input`
   }
 `;
 
-// type = register or login
-const AuthForm = ({ type, form, onChange, onSubmit }) => {
+const RegisterComponent = ({ form, onChange, onSubmit }) => {
   return (
     <div className="article">
       <div className="content">
@@ -45,8 +42,6 @@ const AuthForm = ({ type, form, onChange, onSubmit }) => {
           </div>
           <div className="form-wrap">
             <form className="form">
-              {type === "register" ? (
-                <>
                   <InputBox>
                     <Input
                       name="username"
@@ -85,38 +80,6 @@ const AuthForm = ({ type, form, onChange, onSubmit }) => {
                       required
                     />
                   </InputBox>
-                </>
-              ) : (
-                <>
-                  <InputBox>
-                    <Input
-                      name="username"
-                      type="text"
-                      placeholder="Phone number, username, or email"
-                      autocorrect="off"
-                      autocapitalize="off"
-                      maxlength="30"
-                      onChange={onChange}
-                      value={form.username}
-                      required
-                    />
-                  </InputBox>
-                  <InputBox>
-                    <Input
-                      name="password"
-                      type="password"
-                      placeholder="password"
-                      autocorrect="off"
-                      autocapitalize="off"
-                      onChange={onChange}
-                      value={form.password}
-                      maxlength="30"
-                      required
-                    />
-                  </InputBox>
-                </>
-              )}
-
               <span className="button-box">
                 <button className="btn" type="submit" name="submit" onSubmit={onSubmit}>
                   Log in
@@ -130,17 +93,16 @@ const AuthForm = ({ type, form, onChange, onSubmit }) => {
         </div>
 
         <div className="login-box">
-          <p className="text">
-            Don't have an account?<Link to="/register">Sign up</Link>
+          <div className="text">
+              Do you have account?<Link to="/login">Sign up</Link>
             <Routes>
-              <Route path="/" element={<LoginPage />} />
-              <Route path="/register" element={<RegisterPage />} />
+                <Route path="/login" element={props => <LoginPage {...props}/>} />
             </Routes>
-          </p>
+          </div>
         </div>
       </div>
     </div>
   );
 };
 
-export default AuthForm;
+export default RegisterComponent;
