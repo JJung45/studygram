@@ -11,7 +11,6 @@ import net.minidev.json.annotate.JsonIgnore;
 @NoArgsConstructor // 파라미터가 없는 기본 생성자 생성
 @AllArgsConstructor // 모든 필드를 파라미터로 받는 생성자 생성
 public class UserRefreshToken {
-    @JsonIgnore
     private long refreshTokenSeq;
     private String userId;  // userId Or EmailId
     private String refreshToken;

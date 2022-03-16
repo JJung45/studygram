@@ -10,10 +10,10 @@ import java.security.Key;
 import java.util.Date;
 
 @Slf4j
-@Getter
-@Setter
 @RequiredArgsConstructor
 public class AuthToken {
+
+    @Getter
     private final String token;
     private final Key key;
 

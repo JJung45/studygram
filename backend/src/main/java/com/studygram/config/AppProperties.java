@@ -12,7 +12,6 @@ import java.util.List;
 
 @Getter
 @ConfigurationProperties(prefix = "app")
-@Component
 public class AppProperties {
 
     private final Auth auth = new Auth();
