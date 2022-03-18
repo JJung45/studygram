@@ -22,13 +22,17 @@
     -webkit-box-flex: 1;
       -moz-box-flex: 1;  
   }
+
+  .forget-content {
+    max-width: 388px;
+  }
   
   .login-box {
     background: #fff;
     border: 1px solid #e6e6e6;
     border-radius: 1px;
     margin:0 0 10px;
-    padding: 10px 0;
+    padding: 20px 0;
     /* align-items: center; */
   }
   
@@ -37,11 +41,26 @@
     justify-content: center;
     margin: 14.45px auto 12px;
   }
+
+  .forgot-header {
+    margin: auto 40px 12px;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .forget-text {
+    font-size: 14px;
+    color: gray;
+  }
   
   .logo {
     background: cover no-repeat;
     width:175px;
     height:auto;
+  }
+
+  .forgot-header .logo {
+    width: 96px;
   }
   
   .form {

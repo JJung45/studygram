@@ -1,8 +1,7 @@
 import React from "react";
 import "../../styles/Auth.css";
 import styled from "styled-components";
-import { Route, Link, Routes } from 'react-router-dom';
-import RegisterPage from "../../pages/RegisterPage";
+import { Link } from 'react-router-dom';
 
 
 const InputBox = styled.div`
@@ -81,9 +80,9 @@ const LoginComponent = ({ form, onChange, onSubmit }) => {
                   Log in with Facebook
                 </button>
               </a>
-              <a className="forgot" href="#">
+              <Link className="forgot" to="/forgetpassword">
                 Forgot password?
-              </a>
+              </Link>
             </form>
           </div>
         </div>

@@ -1,8 +1,7 @@
 import React from "react";
 import "../../styles/Auth.css";
 import styled from "styled-components";
-import { Route, Link, Routes } from 'react-router-dom';
-import LoginPage from "../../pages/LoginPage";
+import { Link } from 'react-router-dom';
 
 
 const InputBox = styled.div`
@@ -93,9 +92,6 @@ const RegisterComponent = ({ form, onChange, onSubmit }) => {
                   Log in
                 </button>
               </span>
-              <a className="forgot" href="#">
-                Forgot password?
-              </a>
             </form>
           </div>
         </div>
