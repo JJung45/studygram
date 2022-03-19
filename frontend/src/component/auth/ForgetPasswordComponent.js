@@ -31,7 +31,7 @@ const ForgetPasswordComponent = () => {
     return (
         <div className="article">
           <div className="content forget-content">
-            <div className="login-box">
+            <div className="login-box foret-login-box">
               <div className="header forgot-header">
                 <img
                   className="logo"
@@ -64,8 +64,16 @@ const ForgetPasswordComponent = () => {
                 </span>
               </div>
 
-              <div className="text">
+              <div className="or-line">
+                <span className="line"></span> <span className="or">OR</span> <span className="line"></span>
+              </div>
+
+              <div className="forget-text text">
                   <Link to="/register">Create New Account</Link>
+              </div>
+
+              <div className="forget-back-to-login">
+                  <Link to="/">Back To Login</Link>
               </div>
             </div>
           </div>
