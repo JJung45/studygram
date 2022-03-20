@@ -54,40 +54,43 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-                    .cors()
-                .and()
-                    .sessionManagement()
-                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                    .csrf().disable()
-                    .formLogin().disable()
-                    .httpBasic().disable()
-                    .exceptionHandling()
-                    .authenticationEntryPoint(new RestAuthenticationEntryPoint())
-                    .accessDeniedHandler(tokenAccessDeniedHandler)
-                .and()
-                    .authorizeRequests()
-                    .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-                    .antMatchers("/api/**").hasAnyAuthority(RoleType.USER.getCode())
-                    .antMatchers("/api/**/admin/**").hasAnyAuthority(RoleType.ADMIN.getCode())
-                    .anyRequest().authenticated()
-                .and()
-                    .oauth2Login()
-                    .authorizationEndpoint()
-                    .baseUri("/oauth2/authorization")
-                    .authorizationRequestRepository(oAuth2AuthorizationRequestBasedOnCookieRepository())
-                .and()
-                    .redirectionEndpoint()
-                    .baseUri("/*/oauth2/code/*")
-                .and()
-                    .userInfoEndpoint()
-                    .userService(oAuth2UserService)
-                .and()
-                    .successHandler(oAuth2AuthenticationSuccessHandler())
-                    .failureHandler(oAuth2AuthenticationFailureHandler());
+//        http.authorizeRequests().anyRequest().permitAll();
+        http.csrf().disable();
 
-        http.addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+//        http
+//                    .cors()
+//                .and()
+//                    .sessionManagement()
+//                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//                .and()
+//                    .csrf().disable()
+//                    .formLogin().disable()
+//                    .httpBasic().disable()
+//                    .exceptionHandling()
+//                    .authenticationEntryPoint(new RestAuthenticationEntryPoint())
+//                    .accessDeniedHandler(tokenAccessDeniedHandler)
+//                .and()
+//                    .authorizeRequests()
+//                    .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
+//                    .antMatchers("/api/**").hasAnyAuthority(RoleType.USER.getCode())
+//                    .antMatchers("/api/**/admin/**").hasAnyAuthority(RoleType.ADMIN.getCode())
+//                    .anyRequest().authenticated()
+//                .and()
+//                    .oauth2Login()
+//                    .authorizationEndpoint()
+//                    .baseUri("/oauth2/authorization")
+//                    .authorizationRequestRepository(oAuth2AuthorizationRequestBasedOnCookieRepository())
+//                .and()
+//                    .redirectionEndpoint()
+//                    .baseUri("/*/oauth2/code/*")
+//                .and()
+//                    .userInfoEndpoint()
+//                    .userService(oAuth2UserService)
+//                .and()
+//                    .successHandler(oAuth2AuthenticationSuccessHandler())
+//                    .failureHandler(oAuth2AuthenticationFailureHandler());
+//
+//        http.addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
     /*

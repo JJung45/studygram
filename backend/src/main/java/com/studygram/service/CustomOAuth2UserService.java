@@ -45,7 +45,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         ProviderType providerType = ProviderType.valueOf(userRequest.getClientRegistration().getRegistrationId().toUpperCase());
 
         OAuth2UserInfo userInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(providerType, user.getAttributes());
-        User savedUser = userMapper.findByUserId(userInfo.getId());
+        User savedUser = userMapper.findByUserName(userInfo.getId());
 
         if (savedUser != null) {
             if (providerType != savedUser.getProviderType()) {
@@ -65,15 +65,18 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     private User createUser(OAuth2UserInfo userInfo, ProviderType providerType) {
         LocalDateTime now = LocalDateTime.now();
         User user = new User(
-                userInfo.getId(),
-                userInfo.getName(),
-                "1234",
-                userInfo.getEmail(),
+                userInfo.getId(), // user_name
+                userInfo.getName(), // full_name
+                "1234", // passwd
+                // phoneId == null
+                userInfo.getEmail(), // email_id
                 providerType,
                 RoleType.USER
         );
+        if(userMapper.save(user) < 1)
+            return null;
 
-        return userMapper.saveAndFlush(user);
+        return userMapper.findByUserName(user.getUserName());
     }
 
     private User updateUser(User user, OAuth2UserInfo userInfo) {
@@ -81,9 +84,11 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             user.setUserName(userInfo.getName());
         }
 
-        /*if (userInfo.getImageUrl() != null && !user.getProfileImageUrl().equals(userInfo.getImageUrl())) {
+        /*
+        if (userInfo.getImageUrl() != null && !user.getProfileImageUrl().equals(userInfo.getImageUrl())) {
             user.setProfileImageUrl(userInfo.getImageUrl());
-        }*/
+        }
+        */
 
         return user;
     }

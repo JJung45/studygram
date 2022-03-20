@@ -4,6 +4,7 @@ import com.studygram.common.oauth.OAuthApiResponse;
 import com.studygram.domain.User;
 import com.studygram.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/users")
 @RequiredArgsConstructor
 public class UserController {
+    @Autowired
     private UserService userService;
 
     @GetMapping
