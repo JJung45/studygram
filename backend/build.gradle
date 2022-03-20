@@ -35,10 +35,6 @@ dependencies {
 	testImplementation 'org.springframework.security:spring-security-test'
 	testImplementation 'io.rest-assured:rest-assured:3.0.3'
 
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testCompile('org.springframework.security:spring-security-test')
-	testCompile('io.rest-assured:rest-assured:3.0.3')
-
 	compile('org.springframework.boot:spring-boot-starter-oauth2-client')
 
 }
