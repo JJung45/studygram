@@ -2,23 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.studygram.mapper.UserRefreshTokenMapper">
     <select id="findByUserId" parameterType="String" resultType="UserRefreshToken">
-
+        select * from user_refresh_token where user_id = #{userId}
     </select>
     <select id="findByUserIdAndRefreshToken" parameterType="String" resultType="UserRefreshToken">
-
-    </select>
-    <select id="findByEmailId" parameterType="String" resultType="UserRefreshToken">
-
-    </select>
-    <select id="findByEmailIdAndRefreshToken" parameterType="String" resultType="UserRefreshToken">
-
+        select * from user_refresh_token where user_id = #{userId} and refresh_token = #{refreshToken}
     </select>
     <update id="updateRefreshToken" parameterType="UserRefreshToken">
-
+        update user_refresh_token set refresh_token = #{refreshToken} where user_id = #{userId}
     </update>
-    <update id="saveAndFlush" parameterType="UserRefreshToken">
 
-    </update>
+    <insert id="saveAndFlush" parameterType="UserRefreshToken">
+        insert into user_refresh_token (user_id, refresh_token)
+        values(#{userId}, #{refreshToken})
+    </insert>
 
 
 </mapper>

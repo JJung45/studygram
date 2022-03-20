@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.studygram.mapper.UserMapper">
-    <select id="findByUserId" parameterType="String" resultType="User">
-
+    <select id="findByUserName" parameterType="String" resultType="User">
+        select * from user where user_name=#{userName}
     </select>
 
     <select id="findByEmailId" parameterType="String" resultType="User">
-
+        select * from user where email_id=#{emailId}
     </select>
 
-    <select id="saveAndFlush" parameterType="User" resultType="User">
+    <insert id="save" parameterType="User">
+        insert into user (user_name, full_name, passwd, phone_id, email_id, provider_type, role_type)
+            values(#{userName}, #{fullName}, #{passwd}, #{phoneId}, #{emailId}, #{providerType}, #{roleType})
+    </insert>
 
+    <select id="selectAll" resultType="User">
+        select * from user
     </select>
 </mapper>

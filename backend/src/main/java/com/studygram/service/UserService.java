@@ -5,6 +5,8 @@ import com.studygram.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService {
     @Autowired
@@ -14,7 +16,11 @@ public class UserService {
         if (userId.contains("@")) {
             return userMapper.findByEmailId(userId);
         } else {
-            return userMapper.findByUserId(userId);
+            return userMapper.findByUserName(userId);
         }
+    }
+
+    public List<User> getAllUsers() {
+        return userMapper.selectAll();
     }
 }

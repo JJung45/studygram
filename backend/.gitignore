@@ -39,3 +39,6 @@ out/
 ### yml ###
 *.yml
 
+
+### 인증정보 제외 ###
+/src/main/resources/application-oauth.properties
