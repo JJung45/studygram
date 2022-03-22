@@ -25,6 +25,22 @@ public class AppProperties {
         private String tokenSecret;
         private long tokenExpiry;
         private long refreshTokenExpiry;
+
+        public String getTokenSecret() {
+            return tokenSecret;
+        }
+
+        public void setTokenSecret(String tokenSecret) {
+            this.tokenSecret = tokenSecret;
+        }
+
+        public long getTokenExpirationMsec() {
+            return tokenExpiry;
+        }
+
+        public void setTokenExpiry(long tokenExpiry) {
+            this.tokenExpiry = tokenExpiry;
+        }
     }
 
     public static final class OAuth2 {
@@ -38,5 +54,12 @@ public class AppProperties {
             this.authorizedRedirectUris = authorizedRedirectUris;
             return this;
         }
+    }
+
+    public Auth getAuth() {
+        return auth;
+    }
+    public OAuth2 getOauth2() {
+        return oauth2;
     }
 }
