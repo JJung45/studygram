@@ -13,6 +13,7 @@ import com.studygram.utils.HeaderUtil;
 import com.studygram.utils.UserPrincipal;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -24,6 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 
+@MapperScan("com.studygram.mapper")
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
