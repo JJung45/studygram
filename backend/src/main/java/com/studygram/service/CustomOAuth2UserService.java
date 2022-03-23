@@ -1,5 +1,6 @@
 package com.studygram.service;
 
+import com.studygram.common.Jaso;
 import com.studygram.common.oauth.ProviderType;
 import com.studygram.common.oauth.RoleType;
 import com.studygram.domain.OAuth2UserInfo;
@@ -65,11 +66,10 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     private User createUser(OAuth2UserInfo userInfo, ProviderType providerType) {
         LocalDateTime now = LocalDateTime.now();
         User user = new User(
-                userInfo.getId(), // user_name
+                Jaso.hangulToJaso(userInfo.getName()), // user_name -> full_name 기준으로 임의로 작성
                 userInfo.getName(), // full_name
-                "1234", // passwd
-                // phoneId == null
                 userInfo.getEmail(), // email_id
+                userInfo.getId(),
                 providerType,
                 RoleType.USER
         );
@@ -92,4 +92,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
         return user;
     }
+
 }
+

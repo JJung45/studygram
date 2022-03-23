@@ -25,7 +25,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 
-@MapperScan("com.studygram.mapper")
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor

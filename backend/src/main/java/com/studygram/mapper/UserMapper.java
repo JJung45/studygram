@@ -14,5 +14,6 @@ public interface UserMapper {
     int save(User user);
     List<User> selectAll();
 
+    int updateUser(User user);
 
 }

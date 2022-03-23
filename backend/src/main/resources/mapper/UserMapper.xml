@@ -10,11 +10,17 @@
     </select>
 
     <insert id="save" parameterType="User">
-        insert into user (user_name, full_name, passwd, phone_id, email_id, provider_type, role_type)
-            values(#{userName}, #{fullName}, #{passwd}, #{phoneId}, #{emailId}, #{providerType}, #{roleType})
+        insert into user (user_name, full_name, passwd, phone_id, email_id, client_id, provider_type, role_type)
+            values(#{userName}, #{fullName}, #{passwd}, #{phoneId}, #{emailId}, #{clientId}, #{providerType}, #{roleType})
     </insert>
 
     <select id="selectAll" resultType="User">
         select * from user
     </select>
+
+    <update id="updateUser" parameterType="User">
+        update User set user_name = #{userName}
+            where client_id = #{clientId}
+        return user_name;
+    </update>
 </mapper>
