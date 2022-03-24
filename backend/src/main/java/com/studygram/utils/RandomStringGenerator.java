@@ -1,37 +1,29 @@
 package com.studygram.utils;
 
-import java.nio.charset.Charset;
-import java.util.Random;
-
 public class RandomStringGenerator {
-    public static String getRandomString(int i) {
-        byte[] bytearray;
-        String mystring;
-        StringBuffer thebuffer;
+    public static String getRandomString(int i)
+    {
+        String theAlphaNumericS;
+        StringBuilder builder;
 
-        bytearray = new byte[256];
-        new Random().nextBytes(bytearray);
+        theAlphaNumericS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                + "0123456789";
 
-        mystring
-                = new String(bytearray, Charset.forName("UTF-8"));
+        //create the StringBuffer
+        builder = new StringBuilder(i);
 
-        // Create the StringBuffer
-        thebuffer = new StringBuffer();
+        for (int m = 0; m < i; m++) {
 
-        for (int m = 0; m < mystring.length(); m++) {
+            // generate numeric
+            int myindex
+                    = (int)(theAlphaNumericS.length()
+                    * Math.random());
 
-            char n = mystring.charAt(m);
-
-            if (((n >= 'A' && n <= 'Z')
-                    || (n >= '0' && n <= '9'))
-                    && (i > 0)) {
-
-                thebuffer.append(n);
-                i--;
-            }
+            // add the characters
+            builder.append(theAlphaNumericS
+                    .charAt(myindex));
         }
 
-        // resulting string
-        return thebuffer.toString();
+        return builder.toString();
     }
 }
