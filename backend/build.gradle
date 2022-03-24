@@ -6,7 +6,7 @@ plugins {
 
 group = 'com.studygram'
 version = '0.0.1-SNAPSHOT'
-targetCompatibility = 1.8
+targetCompatibility = '1.8'
 
 repositories {
 	mavenCentral()
@@ -35,7 +35,7 @@ dependencies {
 	testImplementation 'org.springframework.security:spring-security-test'
 	testImplementation 'io.rest-assured:rest-assured:3.0.3'
 
-	compile('org.springframework.boot:spring-boot-starter-oauth2-client')
+	testImplementation('org.springframework.boot:spring-boot-starter-oauth2-client')
 
 }
 
