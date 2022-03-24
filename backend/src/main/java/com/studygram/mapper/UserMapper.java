@@ -10,9 +10,11 @@ import java.util.List;
 @Repository
 public interface UserMapper {
     User findByUserName(String userName);
+    User findByClientId(String clientId);
     User findByEmailId(String emailId);
     int save(User user);
     List<User> selectAll();
 
+    int updateUser(User user);
 
 }

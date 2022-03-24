@@ -5,16 +5,26 @@
         select * from user where user_name=#{userName}
     </select>
 
+    <select id="findByClientId" parameterType="String" resultType="User">
+        select * from user where client_id=#{clientId}
+    </select>
+
     <select id="findByEmailId" parameterType="String" resultType="User">
         select * from user where email_id=#{emailId}
     </select>
 
     <insert id="save" parameterType="User">
-        insert into user (user_name, full_name, passwd, phone_id, email_id, provider_type, role_type)
-            values(#{userName}, #{fullName}, #{passwd}, #{phoneId}, #{emailId}, #{providerType}, #{roleType})
+        insert into user (user_name, full_name, passwd, phone_num, email_id, client_id, provider_type, role_type, profile_image_url)
+            values(#{userName}, #{fullName}, #{passwd}, #{phoneNum}, #{emailId}, #{clientId}, #{providerType}, #{roleType}, #{profileImageUrl})
     </insert>
 
     <select id="selectAll" resultType="User">
         select * from user
     </select>
+
+    <update id="updateUser" parameterType="User">
+        update User set user_name = #{userName}
+            where client_id = #{clientId}
+        return user_name;
+    </update>
 </mapper>

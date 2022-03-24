@@ -18,10 +18,10 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User member = userMapper.findByUserName(username);
-        if (member == null) {
+        User user = userMapper.findByUserName(username);
+        if (user == null) {
             throw new UsernameNotFoundException("Can not find username.");
         }
-        return UserPrincipal.create(member);
+        return UserPrincipal.create(user);
     }
 }

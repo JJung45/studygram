@@ -96,8 +96,10 @@ public class UserPrincipal implements OAuth2User, UserDetails, OidcUser {
         );
     }
 
-    public static UserPrincipal create(User member, Map<String, Object> attributes) {
-        UserPrincipal userPrincipal = create(member);
+
+    public static UserPrincipal create(User user, Map<String, Object> attributes) {
+        UserPrincipal userPrincipal = create(user);
+
         userPrincipal.setAttributes(attributes);
 
         return userPrincipal;

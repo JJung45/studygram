@@ -1,7 +1,6 @@
 package com.studygram.domain;
 
 import com.studygram.common.oauth.ProviderType;
-import com.studygram.domain.impl.FacebookOAuth2UserInfo;
 import com.studygram.domain.impl.GoogleOAuth2UserInfo;
 import com.studygram.domain.impl.KakaoOAuth2UserInfo;
 import com.studygram.domain.impl.NaverOAuth2UserInfo;
