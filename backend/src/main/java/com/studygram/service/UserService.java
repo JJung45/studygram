@@ -13,11 +13,7 @@ public class UserService {
     private UserMapper userMapper;
 
     public User getUser(String userId) {
-        if (userId.contains("@")) {
-            return userMapper.findByEmailId(userId);
-        } else {
-            return userMapper.findByUserName(userId);
-        }
+        return userMapper.findByUserName(userId);
     }
 
     public List<User> getAllUsers() {

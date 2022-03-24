@@ -22,19 +22,16 @@ public class UserController {
     @GetMapping
     public OAuthApiResponse getUser() {
         org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        System.out.println("@@@@@@@@@ User Principal :" + principal.toString());
-
+//      모르겠다... 모르겠어....
         User user = userService.getUser(principal.getUsername());
+        System.out.println("@@@@@@@@@@@" + principal.getUsername());
 
         return OAuthApiResponse.success("user", user);
     }
 
-    @PostMapping("setUserName")
-    public OAuthApiResponse changeUserInfo(@Param("userName") String userName) {
+    @PostMapping("changeUserInfo")
+    public OAuthApiResponse changeUserInfo() {
         org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        System.out.println("@@@@@@@@@ User Principal :" + principal.toString());
 
         User user = userService.getUser(principal.getUsername());
 

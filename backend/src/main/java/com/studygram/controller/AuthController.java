@@ -51,12 +51,12 @@ public class AuthController {
                 )
         );
 
-        String userId = authReqModel.getId();
+        String clientId = authReqModel.getId();
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         Date now = new Date();
         AuthToken accessToken = tokenProvider.createAuthToken(
-                userId,
+                clientId,
                 ((UserPrincipal) authentication.getPrincipal()).getRoleType().getCode(),
                 new Date(now.getTime() + appProperties.getAuth().getTokenExpiry())
         );
@@ -68,10 +68,10 @@ public class AuthController {
         );
 
         // userId refresh token 으로 DB 확인
-        UserRefreshToken userRefreshToken = userRefreshTokenMapper.findByUserId(userId);
+        UserRefreshToken userRefreshToken = userRefreshTokenMapper.findByUserId(clientId);
         if (userRefreshToken == null) {
             // 없는 경우 새로 등록
-            userRefreshToken = new UserRefreshToken(userId, refreshToken.getToken());
+            userRefreshToken = new UserRefreshToken(clientId, refreshToken.getToken());
             //userRefreshTokenMapper.saveAndFlush(userRefreshToken);
             userRefreshTokenMapper.updateRefreshToken(userRefreshToken);
         } else {

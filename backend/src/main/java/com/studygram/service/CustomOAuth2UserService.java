@@ -1,6 +1,5 @@
 package com.studygram.service;
 
-import com.studygram.common.Jaso;
 import com.studygram.common.oauth.ProviderType;
 import com.studygram.common.oauth.RoleType;
 import com.studygram.domain.OAuth2UserInfo;
@@ -8,6 +7,7 @@ import com.studygram.domain.OAuth2UserInfoFactory;
 import com.studygram.domain.User;
 import com.studygram.exception.OAuthProviderMissMatchException;
 import com.studygram.mapper.UserMapper;
+import com.studygram.utils.RandomStringGenerator;
 import com.studygram.utils.UserPrincipal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,10 +43,11 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     }
 
     private OAuth2User process(OAuth2UserRequest userRequest, OAuth2User user) {
+        System.out.println("GET USER ATTRIBUTES : "+user.getAttributes());
         ProviderType providerType = ProviderType.valueOf(userRequest.getClientRegistration().getRegistrationId().toUpperCase());
 
         OAuth2UserInfo userInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(providerType, user.getAttributes());
-        User savedUser = userMapper.findByUserName(userInfo.getId());
+        User savedUser = userMapper.findByClientId(userInfo.getId());
 
         if (savedUser != null) {
             if (providerType != savedUser.getProviderType()) {
@@ -65,13 +66,26 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     private User createUser(OAuth2UserInfo userInfo, ProviderType providerType) {
         LocalDateTime now = LocalDateTime.now();
+        String emailId = userInfo.getEmail();
+        int index = emailId.indexOf("@");
+        if(index == -1)
+            throw new IllegalArgumentException("Invalid Email ID.");
+
+        String userName = emailId.substring(0, index);
+        // user_name 중복검사 (이미 Provider Type은 검사)
+        User savedUser = userMapper.findByUserName(userName);
+        if(savedUser != null) {
+            userName += RandomStringGenerator.getRandomString(3);
+        }
+
         User user = new User(
-                Jaso.hangulToJaso(userInfo.getName()), // user_name -> full_name 기준으로 임의로 작성
+                userName, // user_name -> full_name 기준으로 임의로 작성
                 userInfo.getName(), // full_name
                 userInfo.getEmail(), // email_id
                 userInfo.getId(),
                 providerType,
-                RoleType.USER
+                RoleType.USER,
+                userInfo.getImageUrl()
         );
         if(userMapper.save(user) < 1)
             return null;
@@ -80,15 +94,13 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     }
 
     private User updateUser(User user, OAuth2UserInfo userInfo) {
-        if (userInfo.getName() != null && !user.getUserName().equals(userInfo.getName())) {
-            user.setUserName(userInfo.getName());
+        if (userInfo.getName() != null && !user.getFullName().equals(userInfo.getName())) {
+            user.setFullName(userInfo.getName());
         }
 
-        /*
         if (userInfo.getImageUrl() != null && !user.getProfileImageUrl().equals(userInfo.getImageUrl())) {
             user.setProfileImageUrl(userInfo.getImageUrl());
         }
-        */
 
         return user;
     }

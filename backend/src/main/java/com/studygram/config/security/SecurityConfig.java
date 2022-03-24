@@ -54,9 +54,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-//        http.authorizeRequests().anyRequest().permitAll();
-//        http.csrf().disable();
-
         http
                     .cors()
                 .and()
@@ -88,7 +85,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .userService(oAuth2UserService)
                 .and()
                     .successHandler(oAuth2AuthenticationSuccessHandler())
-                    .failureHandler(oAuth2AuthenticationFailureHandler());
+                    .failureHandler(oAuth2AuthenticationFailureHandler())
+
+                .and()
+                    .logout()
+                    .logoutSuccessUrl("/");
 
         http.addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
