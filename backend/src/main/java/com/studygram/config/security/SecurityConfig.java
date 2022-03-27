@@ -1,5 +1,6 @@
 package com.studygram.config.security;
 
+import com.studygram.common.oauth.AuthTokenProvider;
 import com.studygram.common.oauth.RoleType;
 import com.studygram.config.AppProperties;
 import com.studygram.config.CorsProperties;
@@ -7,14 +8,12 @@ import com.studygram.exception.RestAuthenticationEntryPoint;
 import com.studygram.filter.TokenAuthenticationFilter;
 import com.studygram.mapper.OAuth2AuthorizationRequestBasedOnCookieRepository;
 import com.studygram.mapper.UserRefreshTokenMapper;
-import com.studygram.common.oauth.AuthTokenProvider;
-import com.studygram.service.CustomUserDetailsService;
 import com.studygram.service.CustomOAuth2UserService;
+import com.studygram.service.CustomUserDetailsService;
 import com.studygram.utils.OAuth2AuthenticationFailureHandler;
 import com.studygram.utils.OAuth2AuthenticationSuccessHandler;
 import com.studygram.utils.TokenAccessDeniedHandler;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -54,6 +53,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+//        http.authorizeRequests().anyRequest().permitAll();
+//        http.csrf().disable();
+
         http
                     .cors()
                 .and()
