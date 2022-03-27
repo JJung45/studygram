@@ -89,7 +89,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .and()
                     .logout()
+//                    .logoutUrl("/logout")
                     .logoutSuccessUrl("/");
+//                    .deleteCookies("JSESSIONID", "remember - me") // 로그아웃 후 해당 쿠키 삭제
+//                    .addLogoutHandler(logoutHandler()) // 로그아웃 핸들러
+//                    .logoutSuccessHandler(logoutSuccessHandler()) // 로그아웃 성공 후 핸들러
 
         http.addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }

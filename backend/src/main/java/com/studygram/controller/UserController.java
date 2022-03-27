@@ -24,7 +24,6 @@ public class UserController {
         org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 //      모르겠다... 모르겠어....
         User user = userService.getUser(principal.getUsername());
-        System.out.println("@@@@@@@@@@@" + principal.getUsername());
 
         return OAuthApiResponse.success("user", user);
     }

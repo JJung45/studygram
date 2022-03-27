@@ -89,6 +89,7 @@ public class UserPrincipal implements OAuth2User, UserDetails, OidcUser {
     public static UserPrincipal create(User user) {
         return new UserPrincipal(
                 user.getUserName(),
+                // Client ID 로 해야하는지...?
                 user.getPasswd(),
                 user.getProviderType(),
                 RoleType.USER,

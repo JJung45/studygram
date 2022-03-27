@@ -66,6 +66,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     private User createUser(OAuth2UserInfo userInfo, ProviderType providerType) {
         LocalDateTime now = LocalDateTime.now();
+        System.out.println("!!!!!!!!!!!"+userInfo.getName()+","+userInfo.getId()+","+userInfo.getEmail()+","+userInfo.getImageUrl());
         String emailId = userInfo.getEmail();
         int index = emailId.indexOf("@");
         if(index == -1)
