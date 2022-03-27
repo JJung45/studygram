@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @AllArgsConstructor
-public class OAuthApiResponseHeader {
+public class ApiResponseHeader {
     private int code;
     private String message;
 }

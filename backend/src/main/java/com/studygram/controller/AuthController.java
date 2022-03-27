@@ -1,6 +1,6 @@
 package com.studygram.controller;
 
-import com.studygram.common.oauth.OAuthApiResponse;
+import com.studygram.common.oauth.ApiResponse;
 import com.studygram.common.oauth.RoleType;
 import com.studygram.config.AppProperties;
 import com.studygram.domain.UserRefreshToken;
@@ -39,7 +39,7 @@ public class AuthController {
     private final static String REFRESH_TOKEN = "refresh_token";
 
     @PostMapping("/login")
-    public OAuthApiResponse login(
+    public ApiResponse login(
             HttpServletRequest request,
             HttpServletResponse response,
             @RequestBody AuthReqModel authReqModel
@@ -83,22 +83,22 @@ public class AuthController {
         CookieUtil.deleteCookie(request, response, REFRESH_TOKEN);
         CookieUtil.addCookie(response, REFRESH_TOKEN, refreshToken.getToken(), cookieMaxAge);
 
-        return OAuthApiResponse.success("token", accessToken.getToken());
+        return ApiResponse.success("token", accessToken.getToken());
     }
 
     @GetMapping("/refresh")
-    public OAuthApiResponse refreshToken (HttpServletRequest request, HttpServletResponse response) {
+    public ApiResponse refreshToken (HttpServletRequest request, HttpServletResponse response) {
         // access token 확인
         String accessToken = HeaderUtil.getAccessToken(request);
         AuthToken authToken = tokenProvider.convertAuthToken(accessToken);
         if (!authToken.validate()) {
-            return OAuthApiResponse.invalidAccessToken();
+            return ApiResponse.invalidAccessToken();
         }
 
         // expired access token 인지 확인
         Claims claims = authToken.getExpiredTokenClaims();
         if (claims == null) {
-            return OAuthApiResponse.notExpiredTokenYet();
+            return ApiResponse.notExpiredTokenYet();
         }
 
         String userId = claims.getSubject();
@@ -111,13 +111,13 @@ public class AuthController {
         AuthToken authRefreshToken = tokenProvider.convertAuthToken(refreshToken);
 
         if (authRefreshToken.validate()) {
-            return OAuthApiResponse.invalidRefreshToken();
+            return ApiResponse.invalidRefreshToken();
         }
 
         // userId refresh token 으로 DB 확인
         UserRefreshToken userRefreshToken = userRefreshTokenMapper.findByUserIdAndRefreshToken(userId, refreshToken);
         if (userRefreshToken == null) {
-            return OAuthApiResponse.invalidRefreshToken();
+            return ApiResponse.invalidRefreshToken();
         }
 
         Date now = new Date();
@@ -147,6 +147,6 @@ public class AuthController {
             CookieUtil.addCookie(response, REFRESH_TOKEN, authRefreshToken.getToken(), cookieMaxAge);
         }
 
-        return OAuthApiResponse.success("token", newAccessToken.getToken());
+        return ApiResponse.success("token", newAccessToken.getToken());
     }
 }
