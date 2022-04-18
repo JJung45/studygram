@@ -71,7 +71,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                     .authorizeRequests()
                     .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-                    .antMatchers("/api/**").hasAnyAuthority(RoleType.USER.getCode())
+                    .antMatchers("/api/**").permitAll()
                     .antMatchers("/api/**/admin/**").hasAnyAuthority(RoleType.ADMIN.getCode())
                     .anyRequest().authenticated()
                 .and()
@@ -91,9 +91,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .and()
                     .logout()
-//                    .logoutUrl("/logout")
-                    .logoutSuccessUrl("/");
-//                    .deleteCookies("JSESSIONID", "remember - me") // 로그아웃 후 해당 쿠키 삭제
+                    .logoutUrl("/api/logout")
+                    .logoutSuccessUrl("http://localhost:3000/")
+                    .deleteCookies("refresh_token");
 //                    .addLogoutHandler(logoutHandler()) // 로그아웃 핸들러
 //                    .logoutSuccessHandler(logoutSuccessHandler()) // 로그아웃 성공 후 핸들러
 
