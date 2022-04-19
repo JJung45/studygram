@@ -1,44 +1,46 @@
 package com.studygram.controller;
 
-import lombok.RequiredArgsConstructor;
+import com.studygram.domain.Post;
+import com.studygram.service.PostService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/posts")
-@RequiredArgsConstructor
 public class PostController {
 
-    @PostMapping(path = "/{postId}")
-//    public ResponseEntity<CollectionDTO> addCollection(@Valid @RequestBody CollectionDTO collectionDTO, HttpServletRequest request){
-//        String token        = jwtUtil.extractTokenFromHeader(request);
-//        String publisherIdFromToken  = jwtUtil.extractPublisherId(token);
-//        String publisherIdFromParam  = collectionDTO.getPublisherId();
-//
-//        if ( !publisherIdFromToken.equals(publisherIdFromParam) ) {
-//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-//        }
-//        return new ResponseEntity<>(collectionService.addCollection(collectionDTO),
-//                HttpStatus.CREATED);
-//    }
+    @Autowired
+    private PostService postService;
 
-    @PutMapping(path = "/{postId}")
+    @PostMapping(path = "/{postId}")
+    public ResponseEntity addPost(@Valid @RequestBody Post post, HttpServletRequest request){
+        postService.save(post);
+        return ResponseEntity.ok().body(HttpStatus.OK);
+    }
+
+//    @PutMapping(path = "/{postId}")
 //    public ResponseEntity<CollectionDTO> updateCollection(@Valid @RequestBody CollectionDTO collectionDTO){
 //        CollectionDTO newCollection = collectionService.updateCollection(collectionDTO);
 //        return ResponseEntity.ok(newCollection);
 //    }
 
-    @DeleteMapping(path="/{postId}")
+//    @DeleteMapping(path="/{postId}")
 //    public void deleteCollection(@PathVariable(name="postId") String postId) {
 //        collectionService.deleteCollection(postId);
 //    }
 
-    @GetMapping(path="/{postId}")
+//    @GetMapping(path="/{postId}")
 //    public ResponseEntity<CollectionDTO> getCollection(@PathVariable(name = "postId") String postId){
 //        CollectionDTO collectionDTO = collectionService.getCollectionById(postId);
 //        return ResponseEntity.ok(collectionDTO);
 //    }
 
-    @GetMapping(path = "/")
+//    @GetMapping(path = "/")
 //    public ResponseEntity<Page<CollectionDTO>> getCollections(@PageableDefault(page = 0,size = 200) @RequestParam(required = false) Map<String,String> requestParams,
 //                                                              Pageable pageable, HttpServletRequest request) {
 //
