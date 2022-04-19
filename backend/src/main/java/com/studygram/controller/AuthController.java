@@ -1,19 +1,22 @@
 package com.studygram.controller;
 
 import com.studygram.common.oauth.ApiResponse;
-import com.studygram.common.oauth.RoleType;
-import com.studygram.config.AppProperties;
-import com.studygram.domain.UserRefreshToken;
-import com.studygram.domain.AuthReqModel;
 import com.studygram.common.oauth.AuthToken;
 import com.studygram.common.oauth.AuthTokenProvider;
+import com.studygram.common.oauth.RoleType;
+import com.studygram.config.AppProperties;
+import com.studygram.domain.AuthReqModel;
+import com.studygram.domain.User;
+import com.studygram.domain.UserRefreshToken;
 import com.studygram.mapper.UserRefreshTokenMapper;
+import com.studygram.service.UserService;
 import com.studygram.utils.CookieUtil;
 import com.studygram.utils.HeaderUtil;
 import com.studygram.utils.UserPrincipal;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
-import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -37,6 +40,9 @@ public class AuthController {
 
     private final static long THREE_DAYS_MSEC = 259200000;
     private final static String REFRESH_TOKEN = "refresh_token";
+
+    @Autowired
+    private UserService userService;
 
     @PostMapping("/login")
     public ApiResponse login(
@@ -148,5 +154,14 @@ public class AuthController {
         }
 
         return ApiResponse.success("token", newAccessToken.getToken());
+    }
+
+    @PostMapping("/save")
+    public ApiResponse save(@RequestBody User user) {
+        if (userService.getUser(user.getUserName()) != null) {
+            return ApiResponse.fail();
+        }
+        userService.save(user);
+        return ApiResponse.success(HttpStatus.OK.name(), null);
     }
 }
