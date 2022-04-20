@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PostMapper {
     int save(Post post);
+    Post findById(int id);
 }
