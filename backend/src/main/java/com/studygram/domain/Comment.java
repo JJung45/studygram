@@ -16,6 +16,7 @@ public class Comment {
     int userId;
     String contents;
     List<String> tags;
+    List<String> likes;
     Date createdDate;
     Date updatedDate;
 }

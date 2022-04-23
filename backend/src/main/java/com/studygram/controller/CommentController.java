@@ -1,34 +1,46 @@
 package com.studygram.controller;
 
 import com.studygram.domain.Comment;
+import com.studygram.service.CommentService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @Controller
 public class CommentController {
-    @GetMapping("/comments")
-    public List<Comment> getCommentsList() {
-        return null;
+    private final CommentService commentService;
+
+    @Autowired
+    public CommentController(CommentService commentService) {
+        this.commentService = commentService;
     }
 
-    @PostMapping("/comments")
-    public void createCommnets() {
+    @GetMapping("/comment")
+    public List<Comment> getCommentsList(@RequestParam("postId") int postId) {
+        return commentService.getCommentsListByPostID(postId);
+    }
+
+    @PostMapping(value ="/comment/new") // value ={,} 다중 맵핑 가능
+    public void createComment(Comment comment) {
+        commentService.createComment(comment);
 
     }
 
-    @PutMapping("/comments")
-    public void modifyComments() {
+    @PutMapping("/comment/upd")
+    public void modifyComment(Comment comment) {
+        commentService.updateComment(comment);
 
     }
 
-    @DeleteMapping("/comments")
-    public void removeComments() {
-
+    @DeleteMapping("/comment/del")
+    public void removeCommentByCommentId(@RequestParam("commentId") int commentId) {
+        commentService.deleteCommentByCommentId(commentId);
     }
 
+    @DeleteMapping("/comment/del")
+    public void removeCommentByPostId(@RequestParam("postId") int postId) {
+        commentService.deleteCommentByCommentId(postId);
+    }
 }
