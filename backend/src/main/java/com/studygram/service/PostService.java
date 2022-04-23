@@ -14,7 +14,7 @@ public class PostService {
     private PostMapper postMapper;
 
     public int save(Post post) {
-        return (int)postMapper.save(post);
+        return postMapper.save(post);
     }
 
     public Post findById(int postId) {
