@@ -17,11 +17,11 @@ public class CommentService {
     }
 
     public List<Comment> getCommentsListByPostID(int postId) {
-        return commentMapper.selectCommentsListByPostID(postId);
+        return commentMapper.findByPostId(postId);
     }
 
     public void createComment(Comment comment) {
-        if(commentMapper.insertComment(comment) < 0) {
+        if(commentMapper.save(comment) < 0) {
             // 실패 예외처리
         }
     }
