@@ -1,20 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.studygram.mapper.CommentMapper">
-    <select id="selectCommentsListByPostID" resultType="Comment">
-        select idx, post_id, user_id, contents
-            from comment comm, user usr
-            where comm.user_id = usr.idx
-              and comm.post_id = #{postId}
-        order by idx desc
+    <resultMap id="commentResultMap" type="com.studygram.domain.Comment">
+        <id column="idx" property="idx"/>
+        <result column="post_id" property="postId"/>
+        <result column="user_id" property="userId"/>
+        <result column="content" property="content"/>
+        <result column="created_date" property="createdDate"/>
+        <result column="updated_date" property="updatedDate"/>
+        <!-- collection 태그는 마지막 -->
+        <collection property="tags" resultMap="tags" />
+    </resultMap>
+    <resultMap id="tags" type="com.studygram.domain.Tag">
+        <id column="idx" property="idx" />
+        <result column="post_id" property="postId"/>
+        <result column="content" property="content"/>
+    </resultMap>
+    <select id="findByPostId" resultMap="commentResultMap">
+        select t1.idx as idx, t1.post_id as post_id, t2.idx as user_id, t1.content as content, t1.created_date, t1.updated_date, t3.idx as tags
+            from comment t1
+                left join user t2 on t1.user_id = t2.idx
+                left join tag t3 on t1.idx = t3.post_id
+            where 1 = 1
+              and t1.user_id = t2.idx
+              and t1.post_id = #{postId}
+        order by t1.idx desc
     </select>
-    <insert id="insertComment" parameterType="Comment">
-        insert into comment(post_id, user_id, contents)
-            values (#{postId}, #{userId}, #{contents})
+    <insert id="save" parameterType="Comment">
+        insert into comment(post_id, user_id, content)
+            values (#{postId}, #{userId}, #{content})
     </insert>
 
-    <update id="updateComment" parameterType="Comment">
-        update comment set contents = #{contents}, updated_date = #{udatedDate}
+    <update id="update" parameterType="Comment">
+        update comment set content = #{content}, updated_date = #{updatedDate}
         where post_id = #{postId}
     </update>
 
