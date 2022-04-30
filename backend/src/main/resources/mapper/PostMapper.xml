@@ -11,7 +11,13 @@
     <select id="findById" parameterType="Integer" resultType="Post">
         select * from post where idx=#{idx}
     </select>
-    <select id="findAll" resultType="post">
+    <select id="findAll" resultType="Post">
         select * from post
     </select>
+    <update id="update" parameterType="Post">
+        update post set content =#{content} where idx = #{idx}
+    </update>
+    <delete id="delete" parameterType="Post">
+        delete from post where idx = #{idx}
+    </delete>
 </mapper>

@@ -11,6 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 // TODO 왜 spirngboottest intializationError가 날까..?
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -65,8 +68,50 @@ public class PostServiceTest {
         postService.save(post2);
 
         //then
-
         List<Post> nowPosts = postService.findAll();
         Assertions.assertEquals(nowPosts.size(), posts.size() + 2);
+    }
+
+    @Test
+    void 게시판_업데이트() {
+        //given
+        Post post = new Post();
+        post.setCommentsId(1);
+        post.setContent("test");
+        post.setLikesId(1);
+        post.setTagsId(3);
+        post.setImageUrlId(4);
+        post.setUserId(35);
+        postService.save(post);
+
+        //when
+        Post updatedPost = postService.findById(post.getIdx());
+        updatedPost.setContent("hihi");
+        postService.update(updatedPost);
+
+        //then
+        Post updatePost = postService.findById(updatedPost.getIdx());
+        Assertions.assertEquals("hihi",updatePost.getContent());
+    }
+
+    @Test
+    void 게시판_삭제() {
+        //given
+        Post post = new Post();
+        post.setCommentsId(1);
+        post.setContent("deletetest");
+        post.setLikesId(1);
+        post.setTagsId(3);
+        post.setImageUrlId(4);
+        post.setUserId(35);
+        postService.save(post);
+
+        //when
+        Post newPost = postService.findById(post.getIdx());
+        assertNotNull(newPost);
+        postService.delete(post);
+
+        //then
+        assertNull(postService.findById(post.getIdx()));
     }
 }

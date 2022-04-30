@@ -24,16 +24,17 @@ public class PostController {
         return ResponseEntity.ok().body(HttpStatus.OK);
     }
 
-//    @PutMapping(path = "/{postId}")
-//    public ResponseEntity<CollectionDTO> updateCollection(@Valid @RequestBody CollectionDTO collectionDTO){
-//        CollectionDTO newCollection = collectionService.updateCollection(collectionDTO);
-//        return ResponseEntity.ok(newCollection);
-//    }
+    @PutMapping(path = "/{postId}")
+    public ResponseEntity updatePost(@Valid @RequestBody Post post){
+        Post newPost = postService.update(post);
+        return ResponseEntity.ok(newPost);
+    }
 
-//    @DeleteMapping(path="/{postId}")
-//    public void deleteCollection(@PathVariable(name="postId") String postId) {
-//        collectionService.deleteCollection(postId);
-//    }
+    @DeleteMapping(path="/{postId}")
+    public void deletePost(@PathVariable(name="postId") int postId) {
+        Post post = postService.findById(postId);
+        postService.delete(post);
+    }
 
     @GetMapping(path="/{postId}")
     public ResponseEntity getPost(@PathVariable(name = "postId") int postId){
