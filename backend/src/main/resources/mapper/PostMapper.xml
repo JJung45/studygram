@@ -4,12 +4,14 @@
     <insert id="save" parameterType="Post">
         insert into post (user_id, image_url_id, content, likes_id, tags_id, comments_id)
             values(#{userId}, #{imageUrlId}, #{content}, #{likesId}, #{tagsId}, #{commentsId})
-        <!-- TODO 이건 또 왜 안돼..?ㅠ  -->
         <selectKey resultType="int" keyProperty="idx" order="AFTER">
             SELECT IFNULL(MAX(post.idx), 1) FROM post
         </selectKey>
     </insert>
-    <select id="finyById" parameterType="Integer" resultType="Post">
+    <select id="findById" parameterType="Integer" resultType="Post">
         select * from post where idx=#{idx}
+    </select>
+    <select id="findAll" resultType="post">
+        select * from post
     </select>
 </mapper>

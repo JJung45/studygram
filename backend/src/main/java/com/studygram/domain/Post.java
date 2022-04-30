@@ -7,7 +7,7 @@ import java.util.Date;
 @Getter
 @Setter
 public class Post {
-    long idx;
+    int idx;
     int userId;
     int imageUrlId;
     String content;

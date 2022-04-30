@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class PostService {
@@ -19,5 +21,9 @@ public class PostService {
 
     public Post findById(int postId) {
         return postMapper.findById(postId);
+    }
+
+    public List<Post> findAll() {
+        return postMapper.findAll();
     }
 }
