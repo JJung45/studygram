@@ -33,7 +33,7 @@ public class CommentService {
     public void updateComment(Comment comment) {
         if(commentMapper.findByCommentId(comment.getIdx()) == null) {
             log.error("Can't find Comment!");
-            return;
+            ApiResponse.notFoundFail();
         }
 
         if(commentMapper.update(comment) < 0) {
@@ -42,14 +42,23 @@ public class CommentService {
     }
 
     public void deleteCommentByCommentId(int commentId) {
+        if(commentMapper.findByCommentId(commentId) == null) {
+            log.error("Can't find Comment!");
+            ApiResponse.notFoundFail();
+        }
+
         if(commentMapper.deleteByCommentID(commentId) < 0) {
             ApiResponse.fail();
         }
     }
 
     public void deleteCommentsByPostId(int postId) {
+//        if(postMapper.deleteByPostID(postId) == null) {
+//            log.error("Not Found Post");
+//            ApiResponse.notFoundFail();
+//        }
         if(commentMapper.deleteByPostID(postId) < 0) {
-            ApiResponse.fail();
+            log.debug("Noting to Delete");
         }
     }
 
