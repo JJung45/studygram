@@ -12,9 +12,9 @@ import java.util.List;
 public interface CommentMapper {
     List<Comment> findByPostId(int postId);
 //    List<Tag> getTagListByPostId(int postId);
+    Comment findByCommentId(int commentId);
     int save(Comment comment);
     int update(Comment comment);
-    int deleteByCommentID(int commentId);
-    int deleteByPostID(int postId);
-    Comment findByCommentId(int commentId);
+    int deleteByCommentId(int commentId);
+    int deleteByPostId(int postId);
 }

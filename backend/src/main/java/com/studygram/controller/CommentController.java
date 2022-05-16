@@ -22,11 +22,16 @@ public class CommentController {
 
     @GetMapping("")
     // url="localhost:8090/comment?postId=1
-//    @GetMapping("/{postId}") using with @PathVariable
-    // url="localhost:8090/comment/1
-    public List<Comment> getCommentsList(@RequestParam int postId) {
+    public List<Comment> getCommentsListByPostId(@RequestParam int postId) {
         return commentService.getCommentsListByPostID(postId);
     }
+
+//    @GetMapping("/{commentId}")
+//     url="localhost:8090/comment/1
+//    public Comment getCommentByCommentId(@PathVariable int commentId) {
+//        return commentService.getCommentByCommentID(commentId);
+//    }
+
 
     @PostMapping("/save") // value ={,} 다중 맵핑 가능
     public ApiResponse createComment(@RequestBody Comment comment) {
@@ -36,7 +41,7 @@ public class CommentController {
 
     @PutMapping("/update")
     // url="localhost:8090/comment/update
-    public void updateComment(Comment comment) {
+    public void updateComment(@RequestBody Comment comment) {
         commentService.updateComment(comment);
 
     }

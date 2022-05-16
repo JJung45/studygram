@@ -1,7 +1,9 @@
 package com.studygram.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.studygram.controller.CommentController;
+import com.studygram.domain.AuthReqModel;
 import com.studygram.domain.Comment;
 import com.studygram.mapper.CommentMapper;
 import com.studygram.utils.StringUtil;
@@ -21,6 +23,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.swing.tree.ExpandVetoException;
 import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -46,9 +49,17 @@ public class CommentServiceTest {
     ObjectMapper objectMapper = new ObjectMapper();
 
     @BeforeEach
-    public void setup() {
+    public void setup() throws Exception {
         openMocks = MockitoAnnotations.openMocks(this);
         mockMvc = MockMvcBuilders.standaloneSetup(CommentController.class).build();
+
+        // given
+        AuthReqModel authReqModel = new AuthReqModel("leehyeji", "1234");
+        // when & then
+        mockMvc.perform(post("/api/v1/auth/login")
+                .content(objectMapper.writeValueAsString(authReqModel))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
     }
 
 
@@ -60,16 +71,6 @@ public class CommentServiceTest {
                 .userId(20)
                 .content("test")
                 .build();
-
-        /* 인증
-        // given
-        AuthReqModel authReqModel = new AuthReqModel("minchoi", "1234");
-        // when & then
-        mockMvc.perform(post("/api/v1/auth/login")
-                .content(objectMapper.writeValueAsString(authReqModel))
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-         */
 
         // when & then
         mockMvc.perform(post("/comment/save")
@@ -84,8 +85,8 @@ public class CommentServiceTest {
         int postId = 12;
 
         // when & then
-//       MvcResult mvcResult = mockMvc.perform(get("/comment?postId=" + postId))
-       mockMvc.perform(get("/comment/" + postId))
+//       mockMvc.perform(get("/comment/" + postId))
+       mockMvc.perform(get("/comment?postId=" + postId))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andReturn();
@@ -96,6 +97,7 @@ public class CommentServiceTest {
     public void 댓글수정() throws Exception {
         // given
         comment = Comment.builder()
+                .idx(2)
                 .postId(12)
                 .userId(20)
                 .content("updateTEST")
@@ -113,7 +115,7 @@ public class CommentServiceTest {
         int commentId = 4;
 
         // when & then
-        mockMvc.perform(delete("/comment/delete"+commentId))
+        mockMvc.perform(delete("/comment/delete/"+commentId))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andReturn();

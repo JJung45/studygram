@@ -57,11 +57,12 @@ public class CommentService {
         if (originComment == null) {
             log.error("Can't find Comment!");
             ApiResponse.notFoundFail(); // return 예외처리?
-            return;
         } else {
             originComment.setContent(comment.getContent());
             originComment.setUpdatedDate(TimeUtil.getCurrentTime());
-            if (commentMapper.update(comment) < 0) {
+            System.out.println("originCom:"+originComment.toString());
+            if (commentMapper.update(originComment) < 0) {
+                System.out.println("Update 완료");
                 ApiResponse.fail();
             }
         }
@@ -74,7 +75,7 @@ public class CommentService {
             ApiResponse.notFoundFail();
         }
 
-        if(commentMapper.deleteByCommentID(commentId) < 0) {
+        if(commentMapper.deleteByCommentId(commentId) < 0) {
             ApiResponse.fail();
         }
     }
@@ -84,7 +85,7 @@ public class CommentService {
 //            log.error("Not Found Post");
 //            ApiResponse.notFoundFail();
 //        }
-        if(commentMapper.deleteByPostID(postId) < 0) {
+        if(commentMapper.deleteByPostId(postId) < 0) {
             log.debug("Noting to Delete");
         }
     }

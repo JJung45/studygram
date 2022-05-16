@@ -27,6 +27,10 @@
             where post_id = #{postId}
     </select>
 
+    <select id="findByCommentId" resultType="Comment">
+        select * from comment where idx = #{commentId}
+    </select>
+
     <insert id="save" parameterType="Comment">
         insert into comment(post_id, user_id, content)
             values (#{postId}, #{userId}, #{content})
@@ -37,11 +41,11 @@
         where post_id = #{postId}
     </update>
 
-    <delete id="deleteCommentByCommentID">
-        delete comment where comment_id = #{commentId}
+    <delete id="deleteByCommentId">
+        delete from comment where idx = #{commentId}
     </delete>
-    <delete id="deleteCommentByPostID">
-        delete comment where post_id = #{postId}
+    <delete id="deleteByPostId">
+        delete from comment where post_id = #{postId}
     </delete>
 
 
