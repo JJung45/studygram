@@ -7,7 +7,7 @@ import com.studygram.domain.OAuth2UserInfoFactory;
 import com.studygram.domain.User;
 import com.studygram.exception.OAuthProviderMissMatchException;
 import com.studygram.mapper.UserMapper;
-import com.studygram.utils.RandomStringGenerator;
+import com.studygram.utils.StringUtil;
 import com.studygram.utils.UserPrincipal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,7 +76,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         // user_name 중복검사 (이미 Provider Type은 검사)
         User savedUser = userMapper.findByUserName(userName);
         if(savedUser != null) {
-            userName += RandomStringGenerator.getRandomString(3);
+            userName += StringUtil.getRandomString(3);
         }
 
         User user = new User(

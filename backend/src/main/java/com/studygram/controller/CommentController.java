@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
+@RequestMapping("/comment")
 public class CommentController {
     private final CommentService commentService;
 
@@ -19,31 +20,30 @@ public class CommentController {
         this.commentService = commentService;
     }
 
-    @GetMapping("/comment")
-    // url="localhost:8090/comment?postId=
-    public List<Comment> getCommentsList(@RequestParam("postId") int postId) {
+    @GetMapping("")
+    // url="localhost:8090/comment?postId=1
+//    @GetMapping("/{postId}") using with @PathVariable
+    // url="localhost:8090/comment/1
+    public List<Comment> getCommentsList(@RequestParam int postId) {
         return commentService.getCommentsListByPostID(postId);
     }
 
-    @PostMapping("/comment/save") // value ={,} 다중 맵핑 가능
+    @PostMapping("/save") // value ={,} 다중 맵핑 가능
     public ApiResponse createComment(@RequestBody Comment comment) {
-//        if(postService.getPost(comment.getPostId()) == null)
-//            return ApiResponse.fail();
         commentService.createComment(comment);
         return ApiResponse.success(HttpStatus.OK.name(), null);
     }
 
-    @PutMapping("/comment/upd")
-    public void modifyComment(Comment comment) {
+    @PutMapping("/update")
+    // url="localhost:8090/comment/update
+    public void updateComment(Comment comment) {
         commentService.updateComment(comment);
 
     }
 
-    @DeleteMapping("/comment/del")
-    // url="localhost:8090/comment/del?commentId=
-    public void removeCommentByCommentId(@RequestParam("commentId") int commentId) {
+    @DeleteMapping("/delete/{commentId}")
+    // url="localhost:8090/comment/delete/{commentId}
+    public void deleteCommentByCommentId(@PathVariable("commentId") int commentId) {
         commentService.deleteCommentByCommentId(commentId);
     }
-
-    // 나중에 Post 지울때 Comment 지우는거 같이 할 필요 있음
 }

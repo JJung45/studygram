@@ -62,8 +62,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .sessionManagement()
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                    .csrf().ignoringAntMatchers("/comment/**") // csrf 예외처리
-                    .disable() // csrf 미적용
                     .formLogin().disable()
                     .httpBasic().disable()
                     .exceptionHandling()

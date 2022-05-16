@@ -11,6 +11,7 @@ import java.util.List;
 /*
 * Mapper.xml 에서 Collection Index 에러 나오는것 해결하기 위해ㅑ서
 * All/No Args 어노테이션 필수... 왜?... 대체...?
+* Builder가 내부에서
 * */
 @AllArgsConstructor
 @NoArgsConstructor

@@ -12,6 +12,8 @@ import java.util.Date;
 public class Tag {
     int idx;
     int postId;
+    int commentId;
     String content;
     Date createdDate;
 }
+
