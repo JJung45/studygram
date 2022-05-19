@@ -1,6 +1,6 @@
 package com.studygram.service;
 
-import com.studygram.common.oauth.ApiResponse;
+import com.studygram.common.ApiResponse;
 import com.studygram.domain.Comment;
 import com.studygram.domain.Tag;
 import com.studygram.mapper.CommentMapper;

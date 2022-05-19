@@ -1,11 +1,10 @@
 package com.studygram.controller;
 
-import com.studygram.common.oauth.ApiResponse;
+import com.studygram.common.ApiResponse;
 import com.studygram.domain.Comment;
 import com.studygram.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

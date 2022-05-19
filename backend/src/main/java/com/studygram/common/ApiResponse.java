@@ -1,5 +1,6 @@
-package com.studygram.common.oauth;
+package com.studygram.common;
 
+import com.studygram.common.oauth.ApiResponseHeader;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

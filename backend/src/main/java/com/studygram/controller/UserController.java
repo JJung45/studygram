@@ -1,6 +1,6 @@
 package com.studygram.controller;
 
-import com.studygram.common.oauth.ApiResponse;
+import com.studygram.common.ApiResponse;
 import com.studygram.domain.User;
 import com.studygram.service.UserService;
 import lombok.RequiredArgsConstructor;

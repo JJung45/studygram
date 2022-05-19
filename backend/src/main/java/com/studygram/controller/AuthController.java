@@ -1,6 +1,6 @@
 package com.studygram.controller;
 
-import com.studygram.common.oauth.ApiResponse;
+import com.studygram.common.ApiResponse;
 import com.studygram.common.oauth.AuthToken;
 import com.studygram.common.oauth.AuthTokenProvider;
 import com.studygram.common.oauth.RoleType;

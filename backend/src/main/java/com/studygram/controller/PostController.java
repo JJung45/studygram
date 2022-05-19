@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -26,7 +25,7 @@ public class PostController {
 
     // TODO @PathVariable(name="postId")?
     @PutMapping(path = "/{postId}")
-    public ResponseEntity updatePost(@RequestBody Post post){
+    public ResponseEntity updatePost(@PathVariable(name="postId") @RequestBody Post post){
         Post newPost = postService.update(post);
         return ResponseEntity.ok(newPost);
     }
