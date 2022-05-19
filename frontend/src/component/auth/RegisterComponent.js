@@ -40,12 +40,23 @@ const RegisterComponent = ({ form, onChange, onSubmit }) => {
             />
           </div>
           <div className="form-wrap">
+            <a className="button-box" href="http://localhost:8090/oauth2/authorization/google?redirect_uri=http://localhost:3000/oauth2/redirect">
+              <button className="btn">
+                Log in with Google
+              </button>
+            </a>
+            <a className="button-box" href="http://localhost:8090/oauth2/authorization/naver?redirect_uri=http://localhost:3000/oauth2/redirect">
+              <button className="btn">
+                Log in with Naver
+              </button>
+            </a>
+            <a className="button-box" href="http://localhost:8090/oauth2/authorization/kakao?redirect_uri=http://localhost:3000/oauth2/redirect">
+              <button className="btn">
+                Log in with KaKao
+              </button>
+            </a>
             <form className="form">
-                  <a className="button-box" href="#">
-                      <button className="btn">
-                      Log in with Facebook
-                      </button>
-                  </a>
+                  
                   <div className="or-line">
                     <span className="line"></span> <span className="or">OR</span> <span className="line"></span>
                   </div>
@@ -59,7 +70,7 @@ const RegisterComponent = ({ form, onChange, onSubmit }) => {
                       maxlength="30"
                       onChange={onChange}
                       value={form.username}
-                      required
+                      // required
                     />
                   </InputBox>
                   <InputBox>
@@ -84,7 +95,7 @@ const RegisterComponent = ({ form, onChange, onSubmit }) => {
                       onChange={onChange}
                       value={form.password}
                       maxlength="30"
-                      required
+                      // required
                     />
                   </InputBox>
               <span className="button-box">
