@@ -9,11 +9,7 @@ import java.util.Date;
 public class Post {
     int idx;
     int userId;
-    int imageUrlId;
     String content;
-    int likesId;
-    int tagsId;
-    int commentsId;
     Date createdDate;
     Date updatedDate;
 

@@ -12,20 +12,21 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/posts")
+@RequestMapping("/post")
 public class PostController {
 
     @Autowired
     private PostService postService;
 
-    @PostMapping(path = "/{postId}")
-    public ResponseEntity addPost(@Valid @RequestBody Post post, HttpServletRequest request){
+    @PostMapping(path = "/save")
+    public ResponseEntity addPost(@RequestBody Post post, HttpServletRequest request){
         postService.save(post);
         return ResponseEntity.ok().body(HttpStatus.OK);
     }
 
+    // TODO @PathVariable(name="postId")?
     @PutMapping(path = "/{postId}")
-    public ResponseEntity updatePost(@Valid @RequestBody Post post){
+    public ResponseEntity updatePost(@RequestBody Post post){
         Post newPost = postService.update(post);
         return ResponseEntity.ok(newPost);
     }
