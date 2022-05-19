@@ -75,9 +75,19 @@ const LoginComponent = ({ form, onChange, onSubmit }) => {
               <div className="or-line">
                 <span className="line"></span> <span className="or">OR</span> <span className="line"></span>
               </div>
-              <a className="button-box" href="#">
+              <a className="button-box" href="http://localhost:8090/oauth2/authorization/google?redirect_uri=http://localhost:3000/oauth2/redirect">
                 <button className="btn">
-                  Log in with Facebook
+                  Log in with Google
+                </button>
+              </a>
+              <a className="button-box" href="http://localhost:8090/oauth2/authorization/naver?redirect_uri=http://localhost:3000/oauth2/redirect">
+                <button className="btn">
+                  Log in with Naver
+                </button>
+              </a>
+              <a className="button-box" href="http://localhost:8090/oauth2/authorization/kakao?redirect_uri=http://localhost:3000/oauth2/redirect">
+                <button className="btn">
+                  Log in with KaKao
                 </button>
               </a>
               <Link className="forgot" to="/forgetpassword">
