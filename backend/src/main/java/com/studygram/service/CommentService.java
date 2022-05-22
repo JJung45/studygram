@@ -16,6 +16,7 @@ import java.util.List;
 @Slf4j
 public class CommentService {
     private final CommentMapper commentMapper;
+    private PostService postService;
 
     @Autowired
     public CommentService(CommentMapper commentMapper) {
@@ -28,9 +29,9 @@ public class CommentService {
 
     public void createComment(Comment comment) {
         // 1. Post 데이터 있는지 확인
-//        if(postService.getPost(comment.getPostId()).isNull()) {
-//            ApiResponse.fail();
-//        }
+        if(postService.findById(comment.getPostId()) == null) {
+            ApiResponse.fail();
+        }
 
         // 2. 댓글 내용에서 Tag 추출하고 Insert
         String content = comment.getContent();
@@ -80,14 +81,5 @@ public class CommentService {
         }
     }
 
-    public void deleteCommentsByPostId(int postId) {
-//        if(postMapper.deleteByPostID(postId) == null) {
-//            log.error("Not Found Post");
-//            ApiResponse.notFoundFail();
-//        }
-        if(commentMapper.deleteByPostId(postId) < 0) {
-            log.debug("Noting to Delete");
-        }
-    }
 
 }
