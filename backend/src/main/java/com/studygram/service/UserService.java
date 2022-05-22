@@ -33,14 +33,8 @@ public class UserService {
     }
 
     public void save(User user) {
-        if (getUser(user.getUserName()) != null) {
-            throw new IllegalArgumentException("이미 존재하는 회원입니다.");
-        }
-
         user.setPasswd(passwordEncoder.encode(user.getPasswd()));
         userMapper.save(user);
-
-        // 로그인으로 url 옮기기?
     }
 
 }

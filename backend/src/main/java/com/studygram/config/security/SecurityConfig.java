@@ -71,9 +71,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                     .authorizeRequests()
                     .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-                    .antMatchers("/api/**").hasAnyAuthority(RoleType.USER.getCode())
+                    .antMatchers("/api/**", "/comment/**").permitAll()
                     .antMatchers("/api/**/admin/**").hasAnyAuthority(RoleType.ADMIN.getCode())
-                    .anyRequest().authenticated()
+                    .anyRequest().authenticated() // 모든 요청에 대해 인증 필요
                 .and()
                     .oauth2Login()
                     .authorizationEndpoint()
@@ -91,13 +91,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .and()
                     .logout()
-//                    .logoutUrl("/logout")
-                    .logoutSuccessUrl("/");
-//                    .deleteCookies("JSESSIONID", "remember - me") // 로그아웃 후 해당 쿠키 삭제
+                    .logoutUrl("/api/logout")
+                    .logoutSuccessUrl("http://localhost:3000/")
+                    .deleteCookies("refresh_token");
 //                    .addLogoutHandler(logoutHandler()) // 로그아웃 핸들러
 //                    .logoutSuccessHandler(logoutSuccessHandler()) // 로그아웃 성공 후 핸들러
 
         http.addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+
+
     }
 
     /*

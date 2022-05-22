@@ -1,5 +1,6 @@
-package com.studygram.common.oauth;
+package com.studygram.common;
 
+import com.studygram.common.oauth.ApiResponseHeader;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -44,5 +45,9 @@ public class ApiResponse<T> {
 
     public static <T> ApiResponse<T> notExpiredTokenYet() {
         return new ApiResponse(new ApiResponseHeader(FAILED, NOT_EXPIRED_TOKEN_YET), null);
+    }
+
+    public static <T> ApiResponse<T> notFoundFail() {
+        return new ApiResponse(new ApiResponseHeader(FAILED, NOT_FOUND_MESSAGE), null);
     }
 }
