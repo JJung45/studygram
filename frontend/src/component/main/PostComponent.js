@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import Feed from "./Feed";
+import Post from "./Post";
 import InfiniteScroll from "react-infinite-scroll-component";
-const FeedComponent = () => {
+const PostComponent = () => {
   const dummy = [
     {
       id: "minchoi",
@@ -40,9 +40,9 @@ const FeedComponent = () => {
 
   const [data, setData] = useState(dummy);
   const [hasMore, setHasMore] = useState(true);
-  useEffect(() => {
-    nextData();
-  }, []);
+  // useEffect(() => {
+  //   nextData();
+  // }, []);
 
   const nextData = () => {
     if (data.length > 10) {
@@ -62,11 +62,11 @@ const FeedComponent = () => {
         loader={<h4>Loading...</h4>}
       >
         {data?.map((data, index) => (
-          <Feed data={data} key={index}></Feed>
+          <Post data={data} key={index}></Post>
         ))}
       </InfiniteScroll>
     </div>
   );
 };
 
-export default FeedComponent;
+export default PostComponent;

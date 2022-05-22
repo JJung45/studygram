@@ -1,6 +1,6 @@
 import React from "react";
 
-const Feed = ({ data }) => {
+const Post = ({ data }) => {
   return (
     <article>
       <header>
@@ -101,4 +101,4 @@ const Feed = ({ data }) => {
   );
 };
 
-export default Feed;
+export default Post;
