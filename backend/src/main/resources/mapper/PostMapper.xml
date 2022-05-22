@@ -8,8 +8,35 @@
             SELECT IFNULL(MAX(post.idx), 1) FROM post
         </selectKey>
     </insert>
-    <select id="findById" parameterType="Integer" resultType="Post">
-        select * from post where idx=#{idx}
+    <resultMap id="postResultMap" type="com.studygram.domain.Post">
+        <id column="idx" property="idx"/>
+        <result column="user_id" property="userId"/>
+        <result column="content" property="content"/>
+        <result column="created_date" property="createdDate"/>
+        <result column="updated_date" property="updatedDate"/>
+        <collection property="tags" column="idx" javaType="java.util.ArrayList" ofType="com.studygram.domain.Tag" select="findTags" />
+        <collection property="likes" column="idx" javaType="java.util.ArrayList" ofType="com.studygram.domain.Like" select="findLikes" />
+        <collection property="comments" column="idx" javaType="java.util.ArrayList" ofType="com.studygram.domain.Comment" select="findComments" />
+    </resultMap>
+
+    <select id="findById" resultMap="postResultMap">
+        select post.idx as idx, post.user_id as user_id, post.content as content, post.created_date as created_date, post.updated_date as updated_date
+            from post
+            left join tag on tag.post_id = post.idx
+            left join like on like.post_id = post.idx
+            left join comment on comment.user_id = post.idx
+            where post.post_id = #{idx}
+            order by post.idx desc
+    </select>
+
+    <select id="findComments" parameterType="Integer">
+        select * from comments where post_id = #{idx}
+    </select>
+    <select id="findTags" parameterType="Integer">
+        select * from tags where post_id = #{idx}
+    </select>
+    <select id="findLikes" parameterType="Integer">
+        select * from likes where post_id = #{idx}
     </select>
     <select id="findAll" resultType="Post">
         select * from post
