@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Post from "./Post";
 import InfiniteScroll from "react-infinite-scroll-component";
+import PostApi from "../../lib/api/post";
+
 const PostComponent = () => {
   const dummy = [
     {
@@ -45,12 +47,7 @@ const PostComponent = () => {
   // }, []);
 
   const nextData = () => {
-    if (data.length > 10) {
-      setHasMore(false);
-    }
-    setData((prev) => {
-      return prev.concat(dummy2);
-    });
+    PostApi.getPosts();
   };
 
   return (
