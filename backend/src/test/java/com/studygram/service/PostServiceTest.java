@@ -1,18 +1,16 @@
 package com.studygram.service;
 
 import com.studygram.domain.Post;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
+import org.junit.Assert;
+import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-// TODO 왜 spirngboottest intializationError가 날까..?
 @SpringBootTest
 @RunWith(SpringRunner.class)
 @Transactional
@@ -25,7 +23,7 @@ public class PostServiceTest {
     private int postCount;
     private Post originalPost;
 
-    @BeforeEach
+    @Before
     public void beforeEach() {
         originalPost = new Post();
         originalPost.setContent("test");
@@ -48,7 +46,7 @@ public class PostServiceTest {
 
         //then
         Post resPost = postService.findById(post.getIdx());
-        Assertions.assertEquals(resPost.getIdx(), post.getIdx());
+        Assert.assertEquals(resPost.getIdx(), post.getIdx());
     }
 
     @Test
@@ -61,7 +59,7 @@ public class PostServiceTest {
 
         //then
         List<Post> nowPosts = postService.findAll();
-        Assertions.assertEquals(nowPosts.size(), postCount + 1);
+        Assert.assertEquals(nowPosts.size(), postCount + 1);
     }
 
     @Test
@@ -76,7 +74,7 @@ public class PostServiceTest {
 
         //then
         Post updatePost = postService.findById(updatedPost.getIdx());
-        Assertions.assertNotEquals(beforeContent,updatePost.getContent());
+        Assert.assertNotEquals(beforeContent,updatePost.getContent());
     }
 
     @Test
@@ -85,10 +83,10 @@ public class PostServiceTest {
 
         //when
         Post newPost = postService.findById(originalPost.getIdx());
-        Assertions.assertNotNull(newPost);
+        Assert.assertNotNull(newPost);
         postService.delete(originalPost);
 
         //then
-        Assertions.assertNull(postService.findById(originalPost.getIdx()));
+        Assert.assertNull(postService.findById(originalPost.getIdx()));
     }
 }
