@@ -1,5 +1,6 @@
 package com.studygram.controller;
 
+import com.studygram.common.ApiResponse;
 import com.studygram.domain.Post;
 import com.studygram.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,37 +19,34 @@ public class PostController {
     private PostService postService;
 
     @PostMapping(path = "/save")
-    public ResponseEntity addPost(@RequestBody Post post, HttpServletRequest request){
+    public ApiResponse addPost(@RequestBody Post post) throws Exception{
         postService.save(post);
-        return ResponseEntity.ok().body(HttpStatus.OK);
+        return ApiResponse.success(HttpStatus.OK.name(), post);
     }
 
     // TODO @PathVariable(name="postId")?
     @PutMapping(path = "/{postId}")
-    public ResponseEntity updatePost(@PathVariable(name="postId") @RequestBody Post post){
+    public ApiResponse updatePost(@PathVariable(name="postId") @RequestBody Post post) throws Exception{
         Post newPost = postService.update(post);
-        return ResponseEntity.ok(newPost);
+        return ApiResponse.success(HttpStatus.OK.name(), newPost);
     }
 
     @DeleteMapping(path="/{postId}")
-    public void deletePost(@PathVariable(name="postId") int postId) {
+    public void deletePost(@PathVariable(name="postId") int postId) throws Exception {
         Post post = postService.findById(postId);
         postService.delete(post);
     }
 
     @GetMapping(path="/{postId}")
-    public ResponseEntity getPost(@PathVariable(name = "postId") int postId){
-        // TODO 댓글 + 사진 + 태그 연동 필요
-        Post post = postService.findById(postId);
-        return ResponseEntity.ok(post);
+    public Post getPost(@PathVariable(name = "postId") int postId) throws Exception{
+        return postService.findById(postId);
     }
 
     @GetMapping(path = "/")
-    public ResponseEntity getPosts(@RequestParam(required = false) HttpServletRequest request) {
+    public List<Post> getPosts() throws Exception{
         // TODO 페이징 필요
-        // TODO 댓글 + 사진 + 태그 연동 필요
-        List<Post> posts = postService.findAll();
-        return ResponseEntity.ok(posts);
+        // TODO 사진 연동 필요
+        return postService.findAll();
     }
 
 }
