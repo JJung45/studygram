@@ -1,6 +1,9 @@
 package com.studygram.service;
 
+import com.studygram.domain.Comment;
+import com.studygram.domain.Like;
 import com.studygram.domain.Post;
+import com.studygram.domain.Tag;
 import org.junit.Test;
 import org.junit.Assert;
 import org.junit.Before;
@@ -16,19 +19,47 @@ import java.util.List;
 @Transactional
 public class PostServiceTest {
 
-    // TODO 왜 beforeeach는 안될까..?
+    private static final int userId = 5;
+
     @Autowired
     PostService postService;
+    Post originalPost;
+    int postCount;
 
-    private int postCount;
-    private Post originalPost;
+    @Autowired
+    CommentService commentService;
+    Comment comment;
+
+    @Autowired
+    TagService tagService;
+    Tag tag;
+
+    @Autowired
+    LikeService likeService;
+    Like like;
 
     @Before
     public void beforeEach() {
         originalPost = new Post();
         originalPost.setContent("test");
-        originalPost.setUserId(35);
+        originalPost.setUserId(userId);
         postService.save(originalPost);
+
+        comment = new Comment();
+        comment.setContent("sdfsdf");
+        comment.setUserId(originalPost.getUserId());
+        comment.setPostId(originalPost.getIdx());
+        commentService.createComment(comment);
+
+        tag = new Tag();
+        tag.setContent("sdf");
+        tag.setPostId(originalPost.getIdx());
+        tagService.save(tag);
+
+        like = new Like();
+        like.setUserId(originalPost.getUserId());
+        like.setPostId(originalPost.getIdx());
+        likeService.save(like);
 
         List<Post> posts = postService.findAll();
         postCount = posts.size();
@@ -39,7 +70,7 @@ public class PostServiceTest {
         //given
         Post post = new Post();
         post.setContent("test");
-        post.setUserId(35);
+        post.setUserId(userId);
 
         //when
         postService.save(post);
@@ -54,7 +85,7 @@ public class PostServiceTest {
         //when
         Post post = new Post();
         post.setContent("test");
-        post.setUserId(35);
+        post.setUserId(userId);
         postService.save(post);
 
         //then
