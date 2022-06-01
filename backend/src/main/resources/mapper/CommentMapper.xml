@@ -13,11 +13,10 @@
     </resultMap>
 
     <select id="findByPostId" resultMap="commentResultMap">
-        select t1.idx as idx, t1.post_id as post_id, t2.idx as user_id, t1.content as content
+        select t1.idx as idx, t1.post_id as post_id, t2.idx as user_id, t2.user_name, t1.content as content
             from comment t1
                 left join user t2 on t1.user_id = t2.idx
             where 1 = 1
-              and t1.user_id = t2.idx
               and t1.post_id = #{postId}
         order by t1.idx desc
     </select>
@@ -28,7 +27,10 @@
     </select>
 
     <select id="findByCommentId" resultType="Comment">
-        select * from comment where idx = #{commentId}
+        select t1.idx as idx, t1.post_id as post_id, t2.idx as user_id, t2.user_name, t1.content as content
+            from comment t1
+                 left join user t2 on t1.user_id = t2.idx
+        where t1.idx = #{commentId}
     </select>
 
     <insert id="save" parameterType="Comment">

@@ -19,8 +19,9 @@ public class CommentService {
     private PostService postService;
 
     @Autowired
-    public CommentService(CommentMapper commentMapper) {
+    public CommentService(CommentMapper commentMapper, PostService postService) {
         this.commentMapper = commentMapper;
+        this.postService = postService;
     }
 
     public List<Comment> getCommentsListByPostID(int postId) {
