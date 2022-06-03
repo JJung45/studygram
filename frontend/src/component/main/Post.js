@@ -1,4 +1,5 @@
 import React from "react";
+import CommentComponent from "./CommentComponent";
 
 const Post = ({ data }) => {
   return (
@@ -68,7 +69,8 @@ const Post = ({ data }) => {
           </p>
         </div>
         <div class="comment-section">
-          <ul class="comments">
+          <CommentComponent/>
+          {/* <ul class="comments">
             <li>
               <span>
                 <span class="point-span userID">test2</span>딤섬 맛있었다
@@ -79,7 +81,7 @@ const Post = ({ data }) => {
                 alt="하트"
               />
             </li>
-          </ul>
+          </ul> */}
           <div class="time-log">
             <span>32분 전</span>
           </div>

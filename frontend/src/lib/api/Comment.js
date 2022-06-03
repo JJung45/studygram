@@ -6,7 +6,9 @@ const prefix = "/comment";
 /**
  * 댓글을 전체 조회한다. (게시글 ID 기준)
  */
-const getComments = ({postId}) => client.get(`${prefix}?postId=`, {postId});
+const getComments = (postId) => client.get(`${prefix}`, {params: 
+    {postId: postId} 
+});
 
 /**
  * 댓글을 조회한다. (댓글 ID 기준)

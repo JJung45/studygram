@@ -1,77 +1,47 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect, useState } from "react";
 import CommentApi from "../../lib/api/Comment";
+import Comment from "../Comment";
 
-const CommentComponent =() => {
+const CommentComponent = () => {
+  const [comments, setComments] = useState([]);
 
-}
-class CommentListComponent extends Component {
-    constructor(props) {
-        super(props);
+  useEffect(() => {
+    CommentApi.getComments(12)
+      .then((res) => {
+        setComments({...res.data});
+        console.log("comments: ", comments);
+      })
+      .catch((err) => {
+        console.log("getComments() Error!", err);
+      });
+  }, []); // 의존성 배열 비어있음
 
-        this.state = {
-            comments: [],
-            message: null
-        }
-    }
+  
 
-    componentDidMount() {
-        this.reloadCommentList();
-    }
+  const deleteComment = (commnetId) => {
+    CommentApi.deleteComment(commnetId)
+      .then((res) => {
+        this.setState({
+          message: "Comment Deleted Successfully.",
+        });
+      })
+      .catch((err) => {
+        console.log("deleteComment() Error!", err);
+      });
+  };
 
-    reloadCommentList = () => {
-        // fetch("/comments?postId="+12)
-        // .then(reponse => Response.json())
-        // .then(data => {
-        //     this.setState({
-        //         comments: data
-        //     })
-        // })
-        CommentApi.getComments(12)
-        .then(res => {
-            this.setState({
-                comments: res.data
-            })
-        })
-        .catch(err => {
-            console.log('reloadCommentList() Error!', err);
-        })
-    }
+  const editComment = () => {
+    window.localStorage.removeItem("commentId");
+    this.props.history.push("/add-comment");
+  };
 
-    deleteComment = (commnetId) => {
-        CommentApi.deleteComment(commnetId)
-        .then(res => {
-            this.setState({
-                message: 'Comment Deleted Successfully.'
-            });
-        })
-        .catch(err => {
-            console.log('deleteComment() Error!', err);
-        })
-    }
-
-    editComment = () => {
-        window.localStorage.removeItem("commentID");
-        this.props.history.push('/add-comment');
-    }
-
-    render() {
-        return (
-            <ul className="comment">
-                {this.state.comments.map(comment =>
-                    <li key={comment.idx} className="commentText">
-                        <div className="commentMargin">
-                            <span className="commentNameBold>">{comment.userId}</span>
-                            {comment.content}
-                        </div>
-                        <div className="commentStart">
-                            <i className="far fa-trash-alt" onClick={() => this.de(comment.idx)}/>
-                            <i className="fas fa-heart colorHear" />
-                        </div>
-                    </li>
-                )}
-            </ul>
-        )
-    }
-}
+  return (
+    <div>
+      {/* {comments && comments.map((comment) => (
+        <Comment data={comment}></Comment>
+      ))} */}
+    </div>
+  );
+};
 
 export default CommentComponent;

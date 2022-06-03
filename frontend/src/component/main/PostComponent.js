@@ -47,7 +47,7 @@ const PostComponent = () => {
   // }, []);
 
   const nextData = () => {
-    PostApi.getPosts();
+    // PostApi.getPosts();
   };
 
   return (

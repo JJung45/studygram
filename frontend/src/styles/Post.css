@@ -227,6 +227,16 @@ ul.comments li {
   color: #262626;
   font-size: 14px;
 }
+.commentText {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2px;
+}
+.commentNameBold {
+  margin-right: 5px;
+  font-weight: bold;
+}
+
 img.comment-heart {
   width: 12px;
   height: 12px;
