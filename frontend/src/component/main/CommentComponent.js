@@ -9,37 +9,41 @@ const CommentComponent = () => {
     CommentApi.getComments(12)
       .then((res) => {
         setComments({...res.data});
-        console.log("comments: ", comments);
+        console.log("Get Comments: ", comments);
       })
       .catch((err) => {
         console.log("getComments() Error!", err);
       });
   }, []); // 의존성 배열 비어있음
 
-  
 
   const deleteComment = (commnetId) => {
     CommentApi.deleteComment(commnetId)
       .then((res) => {
-        this.setState({
-          message: "Comment Deleted Successfully.",
-        });
+        setComments({...res.data});
+        console.log("Delete Comments: ", comments);
       })
       .catch((err) => {
         console.log("deleteComment() Error!", err);
       });
   };
 
-  const editComment = () => {
-    window.localStorage.removeItem("commentId");
-    this.props.history.push("/add-comment");
+  const editComment = (comment) => {
+    CommentApi.updateComment(comment)
+    .then((res) => {
+      setComments({...res.data});
+      console.log("Update Comments: ", comments);
+    })
+    .catch((err) => {
+      console.log("editComment() Error!", err);
+    })
   };
 
   return (
     <div>
-      {/* {comments && comments.map((comment) => (
+      {comments && comments.map((comment) => (
         <Comment data={comment}></Comment>
-      ))} */}
+      ))}
     </div>
   );
 };
