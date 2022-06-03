@@ -21,15 +21,15 @@ public class CommentController {
 
     @GetMapping("")
     // url="localhost:8090/comment?postId=1
-    public List<Comment> getCommentsListByPostId(@RequestParam int postId) {
+    public List<Comment> getCommentsListByPostId(@RequestParam("postId") int postId) {
         return commentService.getCommentsListByPostID(postId);
     }
 
-//    @GetMapping("/{commentId}")
+    @GetMapping("/{commentId}")
 //     url="localhost:8090/comment/1
-//    public Comment getCommentByCommentId(@PathVariable int commentId) {
-//        return commentService.getCommentByCommentID(commentId);
-//    }
+    public Comment getCommentByCommentId(@PathVariable int commentId) {
+        return commentService.getCommentByCommentID(commentId);
+    }
 
 
     @PostMapping("/save") // value ={,} 다중 맵핑 가능
