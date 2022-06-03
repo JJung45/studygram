@@ -22,13 +22,20 @@ const PostComponent = () => {
     },
   ];
 
-  const [data, setData] = useState(dummy);
+  const [data, setData] = useState(null);
   const [hasMore, setHasMore] = useState(true);
 
   const nextData = () => {
-    console.log("next Data");
-    PostApi.getPosts();
+    PostApi.getPosts()
+      .then(res => {
+        setData(res.data);
+      });
+    
   };
+
+  useEffect(() => {
+    nextData();
+  },[])
 
   return (
     <div id="scrollArea" className="feeds">

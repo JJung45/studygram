@@ -1,6 +1,7 @@
 import React from "react";
 
 const Post = ({ data }) => {
+
   return (
     <article>
       <header>
@@ -10,7 +11,7 @@ const Post = ({ data }) => {
             src="https://cdn4.iconfinder.com/data/icons/48-bubbles/48/30.User-512.png"
             alt="minchoi님의 프로필 사진"
           />
-          <span className="userID main-id point-span">{data.id}</span>
+          <span className="userID main-id point-span">{data.userId}</span>
         </div>
         <img
           className="icon-react icon-more"
@@ -71,7 +72,7 @@ const Post = ({ data }) => {
           <ul className="comments">
             <li>
               <span>
-                <span className="point-span userID">test2</span>딤섬 맛있었다
+                <span className="point-span userID">test2</span>{data.content}
               </span>
               <img
                 className="comment-heart"
