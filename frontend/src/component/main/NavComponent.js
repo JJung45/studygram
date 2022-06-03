@@ -4,8 +4,8 @@ import styled from "styled-components";
 const NavComponent = ({ form, onChange, onSubmit }) => {
   return (
     <nav>
-      <div class="nav-container">
-        <div class="nav-1">
+      <div className="nav-container">
+        <div className="nav-1">
           <img
             src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Instagram_logo.svg/320px-Instagram_logo.svg.png"
             alt="logo_img"
@@ -14,10 +14,10 @@ const NavComponent = ({ form, onChange, onSubmit }) => {
         <input
           id="searchInput"
           type="search"
-          class="input-search"
+          className="input-search"
           placeholder="검색"
         />
-        <div class="nav-2">
+        <div className="nav-2">
           <img
             src="https://cdn4.iconfinder.com/data/icons/pictype-free-vector-icons/16/home-512.png"
             alt="home"
@@ -39,7 +39,7 @@ const NavComponent = ({ form, onChange, onSubmit }) => {
             alt="like"
           />
           <img
-            class="pic"
+            className="pic"
             src="https://cdn4.iconfinder.com/data/icons/48-bubbles/48/30.User-512.png"
             alt="mypage"
           />

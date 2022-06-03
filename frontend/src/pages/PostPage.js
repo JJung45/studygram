@@ -1,19 +1,19 @@
 import React from "react";
 import NavContainer from "../container/main/NavContainer";
-import FeedContainer from "../container/main/FeedContainer";
+import PostContainer from "../container/main/PostContainer";
 import AsideContainer from "../container/main/AsideContainer";
-import "../styles/Feed.css";
+import "../styles/Post.css";
 
-const FeedPage = () => {
+const PostPage = () => {
   return (
     <>
       <NavContainer />
       <main>
-        <FeedContainer />
+        <PostContainer />
         <AsideContainer />
       </main>
     </>
   );
 };
 
-export default FeedPage;
+export default PostPage;
