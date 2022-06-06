@@ -3,21 +3,16 @@ package com.studygram.domain;
 import lombok.*;
 
 import java.util.Date;
-import java.util.List;
 
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Post {
+public class Like {
     int idx;
+    int postId;
     int userId;
-    String content;
-    List<Tag> tags;
-    List<Like> likes;
-    List<Comment> comments;
     Date createdDate;
-    Date updatedDate;
-
 }
+
