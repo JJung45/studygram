@@ -48,5 +48,7 @@
         delete from comment where post_id = #{postId}
     </delete>
 
-
+    <select id="findComments" parameterType="Integer" resultType="Comment">
+        select * from comment where post_id = #{idx}
+    </select>
 </mapper>
