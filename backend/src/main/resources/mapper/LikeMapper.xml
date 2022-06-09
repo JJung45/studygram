@@ -11,4 +11,13 @@
     <select id="findLikes" parameterType="Integer" resultType="Like">
         select * from `like` where post_id = #{idx}
     </select>
+    <select id="countAll" resultType="int">
+        SELECT COUNT(*) FROM `like`
+    </select>
+    <select id="randOneIdx" resultType="Like">
+        SELECT * FROM `like` p ORDER BY RAND() LIMIT 1;
+    </select>
+    <delete id="delete" parameterType="Like">
+        delete from `like` where idx = #{idx}
+    </delete>
 </mapper>

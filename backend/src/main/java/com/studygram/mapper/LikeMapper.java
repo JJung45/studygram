@@ -8,4 +8,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface LikeMapper {
     int save(Like like);
+    void delete(Like like);
+    int countAll();
+    Like randOneIdx();
 }
