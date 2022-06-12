@@ -22,7 +22,21 @@ public class Comment {
     String userName;
     String content;
     List<Tag> tags;
-//    List<String> likes;
+    List<Like> likes;
     Date createdDate;
     Date updatedDate;
+
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "idx=" + idx +
+                ", postId=" + postId +
+                ", userId=" + userId +
+                ", userName='" + userName + '\'' +
+                ", content='" + content + '\'' +
+                ", tags=" + tags +
+                ", createdDate=" + createdDate +
+                ", updatedDate=" + updatedDate +
+                '}';
+    }
 }

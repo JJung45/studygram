@@ -13,6 +13,7 @@ import java.util.List;
 public class Post {
     int idx;
     int userId;
+    String userName;
     String content;
     List<Tag> tags;
     List<Like> likes;
@@ -20,4 +21,18 @@ public class Post {
     Date createdDate;
     Date updatedDate;
 
+    @Override
+    public String toString() {
+        return "Post{" +
+                "idx=" + idx +
+                ", userId=" + userId +
+                ", userName='" + userName + '\'' +
+                ", content='" + content + '\'' +
+                ", tags=" + tags +
+                ", likes=" + likes +
+                ", comments=" + comments +
+                ", createdDate=" + createdDate +
+                ", updatedDate=" + updatedDate +
+                '}';
+    }
 }

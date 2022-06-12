@@ -33,7 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
-@Transactional
+//@Transactional
 public class CommentServiceTest {
     @Autowired
     CommentService commentService;
@@ -67,9 +67,9 @@ public class CommentServiceTest {
     public void 댓글작성() throws Exception {
         // given
         comment = Comment.builder()
-                .postId(12)
-                .userId(20)
-                .content("test")
+                .postId(28)
+                .userId(24)
+                .content("testComment")
                 .build();
 
         // when & then
