@@ -1,6 +1,8 @@
 import React from "react";
 import CommentComponent from "./CommentComponent";
 
+// const onChange
+
 const Post = ({ data }) => {
   return (
     <article>
@@ -89,15 +91,19 @@ const Post = ({ data }) => {
       </div>
       <div class="hl"></div>
       <div class="comment">
+        {/* <form onSubmit={CommentComponent.addComment}> */}
         <input
           id="input-comment"
           class="input-comment"
           type="text"
           placeholder="댓글 달기..."
+          // value={comment}
+          // onChange={onChange}
         />
-        <button type="submit" class="submit-comment" disabled>
+        <button type="submit" class="submit-comment">
           게시
         </button>
+        {/* </form> */}
       </div>
     </article>
   );

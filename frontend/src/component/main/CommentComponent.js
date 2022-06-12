@@ -16,6 +16,16 @@ const CommentComponent = () => {
       });
   }, []); // 의존성 배열 비어있음
 
+  const addComment = (comment) => {
+    CommentApi.addComment(comment)
+    .then((res) => {
+      setComments({...res.data});
+        console.log("Delete Comments: ", comments);
+    })
+    .catch((err) => {
+      console.log("deleteComment() Error!", err);
+    });
+  }
 
   const deleteComment = (commnetId) => {
     CommentApi.deleteComment(commnetId)
