@@ -16,7 +16,7 @@
         <result column="updated_date" property="updatedDate"/>
         <collection property="tags" column="idx" javaType="java.util.ArrayList" ofType="com.studygram.domain.Tag" select="com.studygram.mapper.TagMapper.findTagsByPostId" />
         <collection property="likes" column="idx" javaType="java.util.ArrayList" ofType="com.studygram.domain.Like" select="com.studygram.mapper.LikeMapper.findLikesByPostId" />
-        <collection property="comments" column="idx" javaType="java.util.ArrayList" ofType="com.studygram.domain.Comment" select="com.studygram.mapper.CommentMapper.findByCommentsPostId" />
+        <collection property="comments" column="idx" javaType="java.util.ArrayList" ofType="com.studygram.domain.Comment" select="com.studygram.mapper.CommentMapper.findCommentsByPostId" />
     </resultMap>
 
     <select id="findById" resultMap="postResultMap">

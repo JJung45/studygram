@@ -10,7 +10,7 @@ import java.util.List;
 @Mapper
 @Repository
 public interface CommentMapper {
-    List<Comment> findByPostId(int postId);
+    List<Comment> findCommentsByPostId(int postId);
 //    List<Tag> getTagListByPostId(int postId);
     Comment findByCommentId(int commentId);
     int save(Comment comment);

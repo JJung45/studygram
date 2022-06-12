@@ -25,7 +25,7 @@ public class CommentService {
     }
 
     public List<Comment> getCommentsListByPostID(int postId) {
-        return commentMapper.findByPostId(postId);
+        return commentMapper.findCommentsByPostId(postId);
     }
 
     public Comment getCommentByCommentID(int commentId) { return commentMapper.findByCommentId(commentId);}

@@ -16,7 +16,7 @@
         <collection property="likes" column="idx" javaType="java.util.ArrayList" ofType="com.studygram.domain.Like" select="com.studygram.mapper.LikeMapper.findLikesByCommentId" />
     </resultMap>
 
-    <select id="findByCommentsPostId" resultMap="commentResultMap">
+    <select id="findCommentsByPostId" resultMap="commentResultMap">
         select t1.idx as idx, t1.post_id as post_id, t2.idx as user_id, t2.user_name, t1.content as content
             from comment t1
                 left join user t2 on t1.user_id = t2.idx
