@@ -4,9 +4,15 @@ plugins {
 	id 'java'
 }
 
-group = 'com.studygram'
-version = '0.0.1-SNAPSHOT'
+//group = 'com.studygram'
+//version = '0.0.1-SNAPSHOT'
 targetCompatibility = '1.8'
+
+bootJar {
+	archivesBaseName = 'com.example.study'
+	archiveFileName = 'Studygram_Backend.jar'
+	archiveVersion = "0.0.1"
+}
 
 repositories {
 	mavenCentral()
