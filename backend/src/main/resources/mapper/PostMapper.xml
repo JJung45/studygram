@@ -31,7 +31,7 @@
             order by post.idx desc
     </select>
 
-    <select id="findAll" resultType="Post">
+    <select id="findAll" resultMap="postResultMap">
         select post.idx as idx, post.user_id as user_id, `user`.user_name as user_name, post.content as content, post.created_date as created_date, post.updated_date as updated_date
           from post
                  left join `user` on post.user_id = `user`.idx

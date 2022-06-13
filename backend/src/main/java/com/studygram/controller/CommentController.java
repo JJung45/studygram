@@ -5,6 +5,7 @@ import com.studygram.domain.Comment;
 import com.studygram.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,6 +23,7 @@ public class CommentController {
     @GetMapping("")
     // url="localhost:8090/comment?postId=1
     public List<Comment> getCommentsListByPostId(@RequestParam("postId") int postId) {
+        // TODO 댓글 페이징 필요
         return commentService.getCommentsListByPostID(postId);
     }
 

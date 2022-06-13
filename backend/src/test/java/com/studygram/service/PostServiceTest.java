@@ -83,13 +83,17 @@ public class PostServiceTest {
     @Test
     public void 게시판_전체_조회() {
         //when
-//        Post post = new Post();
-//        post.setContent("test22");
-//        post.setUserId(userId);
-//        postService.save(post);
+        Post post = new Post();
+        post.setContent("test22");
+        post.setUserId(userId);
+        postService.save(post);
 
         //then
         List<Post> nowPosts = postService.findAll();
+//        for(Post post : nowPosts) {
+//        System.out.println(nowPosts.toString());
+//
+//        }
         Assert.assertEquals(nowPosts.size(), postCount + 1);
     }
 
