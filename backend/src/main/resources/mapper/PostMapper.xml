@@ -32,6 +32,9 @@
     <select id="findAll" resultType="Post">
         select * from post
     </select>
+    <select id="findAll" parameterType="int" resultType="Post">
+        select * from post orders limit #{limit} offset #{offset}
+    </select>
     <update id="update" parameterType="Post">
         update post set content =#{content} where idx = #{idx}
     </update>
