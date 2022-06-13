@@ -1,6 +1,7 @@
 package com.studygram.service;
 
 import com.studygram.domain.Like;
+import com.studygram.domain.Post;
 import com.studygram.mapper.LikeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,5 +26,10 @@ public class LikeService {
 
     public Like randOneIdx() {
         return likeMapper.randOneIdx();
+    }
+
+    // TODO 테스트 필요
+    public Like findByPostUser(int postId, int userId) {
+        return likeMapper.findByPostUser(postId, userId);
     }
 }

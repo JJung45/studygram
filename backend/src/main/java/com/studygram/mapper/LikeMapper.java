@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 public interface LikeMapper {
     int save(Like like);
     void delete(Like like);
+    Like findByPostUser(int postId, int userId);
     int countAll();
     Like randOneIdx();
 }
