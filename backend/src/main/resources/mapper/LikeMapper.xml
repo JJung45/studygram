@@ -10,7 +10,7 @@
     </insert>
     <select id="findLikes" parameterType="Integer" resultType="Like">
         select * from `like` where post_id = #{idx}
-    </select>findById
+    </select>
     <select id="findByPostUser" parameterType="Integer" resultType="Like">
         select * from `like` where post_id = #{postId} and user_id = #{userId}
     </select>
