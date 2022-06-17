@@ -29,10 +29,7 @@
             order by post.idx desc
     </select>
 
-    <select id="findAll" resultType="Post">
-        select * from post
-    </select>
-    <select id="findAll" parameterType="int" resultType="Post">
+    <select id="findAll" parameterType="Integer" resultType="Post">
         select * from post orders limit #{limit} offset #{offset}
     </select>
     <update id="update" parameterType="Post">

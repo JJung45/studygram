@@ -24,10 +24,6 @@ public class PostService {
         return postMapper.findById(postId);
     }
 
-    public List<Post> findAll() {
-        return postMapper.findAll();
-    }
-
     public List<Post> findAll(Integer limit, Integer offset) {
         return postMapper.findAll(limit, offset);
     }

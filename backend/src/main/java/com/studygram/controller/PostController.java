@@ -16,6 +16,10 @@ import java.util.List;
 @RequestMapping("/post")
 public class PostController {
 
+    public static final int LIMIT = 100;
+    public static final int OFFSET = 1;
+
+
     @Autowired
     private PostService postService;
 
@@ -44,8 +48,16 @@ public class PostController {
     }
 
     @GetMapping(path = "/")
-    public List<Post> getPosts(@RequestParam @Nullable int limit, @RequestParam @Nullable int offset) throws Exception{
+    public List<Post> getPosts(@RequestParam @Nullable Integer limit, @RequestParam @Nullable Integer offset) throws Exception{
         // TODO 사진 연동 필요
+        if(limit == null) {
+            limit = LIMIT;
+        }
+
+        if(offset == null) {
+            offset = OFFSET;
+        }
+        
         return postService.findAll(limit, offset);
     }
 
