@@ -113,8 +113,6 @@ public class PostServiceTest {
         //given
 
         //when
-        Post newPost = postService.findById(originalPost.getIdx());
-        Assert.assertNotNull(newPost);
         postService.delete(originalPost);
 
         //then

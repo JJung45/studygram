@@ -28,7 +28,6 @@
             where post.idx = #{idx}
             order by post.idx desc
     </select>
-
     <select id="findAll" resultType="Post">
         select * from post
     </select>
@@ -38,4 +37,7 @@
     <delete id="delete" parameterType="Post">
         delete from post where idx = #{idx}
     </delete>
+    <select id="findPosts" parameterType="Integer" resultType="Post">
+        select * from post where tag_id = #{idx}
+    </select>
 </mapper>
