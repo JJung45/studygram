@@ -61,7 +61,8 @@ public class PostServiceTest {
         like.setPostId(originalPost.getIdx());
         likeService.save(like);
 
-        List<Post> posts = postService.findAll();
+        // TODO 데이터가 100개 넘었을 때 문제 발생할듯
+        List<Post> posts = postService.findAll(100,1);
         postCount = posts.size();
     }
 
@@ -89,7 +90,7 @@ public class PostServiceTest {
         postService.save(post);
 
         //then
-        List<Post> nowPosts = postService.findAll();
+        List<Post> nowPosts = postService.findAll(100,1);
         Assert.assertEquals(nowPosts.size(), postCount + 1);
     }
 
