@@ -14,11 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
-
-import static org.hamcrest.Matchers.hasProperty;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -26,6 +22,9 @@ import static org.hamcrest.Matchers.hasProperty;
 public class TagServiceTest {
 
     private static final int userId = 5;
+    private static final String test1Tag = "#rgrg";
+    private static final String test2Tag = "#하이루";
+    private static final String test3Tag = "#안hi";
 
     @Autowired
     PostService postService;
@@ -33,80 +32,59 @@ public class TagServiceTest {
 
     @Autowired
     TagService tagService;
-    int tagCount;
 
     @Before
     public void beforeEach() {
         originalPost = new Post();
-        originalPost.setContent("test");
+        originalPost.setContent("testassdfdsfsfsfs " + test1Tag + test2Tag + test3Tag);
         originalPost.setUserId(userId);
         postService.save(originalPost);
-
-        tagCount = tagService.countAll();
     }
 
     @Test
-    public void 태그_작성() {
+    public void 게시물이_저장된후_게시물에_샵이_붙은_단어가_태그로_저장된다() {
         //given
-        Tag tag = new Tag();
-        tag.setContent("asdfasf");
-        tag.setPostId(originalPost.getIdx());
+        Assert.assertNull(originalPost.getTags());
 
         //when
-        tagService.save(tag);
+        tagService.saveTags(originalPost);
 
         //then
-        int nowTagCount = tagService.countAll();
-        Assert.assertEquals(++tagCount, nowTagCount);
+        Assert.assertNotNull(originalPost.getTags());
+
+        ArrayList<String> tagContents = new ArrayList<>();
+        for(Tag tag : originalPost.getTags()) {
+            tagContents.add(tag.getContent());
+        }
+        Assert.assertTrue(tagContents.contains(test1Tag));
+        Assert.assertTrue(tagContents.contains(test2Tag));
+        Assert.assertTrue(tagContents.contains(test3Tag));
     }
 
     @Test
-    public void 태그_조회() {
+    public void 게시물이_업데이트된후_태그가_수정된다() {
         //given
-        Tag tag = new Tag();
-        tag.setContent("asdfasf");
-        tag.setPostId(originalPost.getIdx());
-        tagService.save(tag);
-
-        Tag tag2 = new Tag();
-        tag2.setContent("가나다라");
-        tag2.setPostId(originalPost.getIdx());
-        tagService.save(tag2);
 
         //when
-        ArrayList<String> testContents = new ArrayList<>();
-        testContents.add(tag.getContent());
-        testContents.add(tag2.getContent());
-        ArrayList<Tag> testTag = tagService.findByContents(testContents);
 
         //then
-        //Assert.assertEquals(testTag.getIdx(),tag.getIdx());
-        int a= 1;
     }
 
     @Test
-    public void 태그_삭제() {
+    public void 검색시_해당_컨텐츠를_가진_태그의_연관된_게시물들을_모두_가져온다() {
         //given
-        Tag tag = new Tag();
-        tag.setContent("asdfasf");
-        tag.setPostId(originalPost.getIdx());
-        tagService.save(tag);
-
-        Tag tag2 = new Tag();
-        tag2.setContent("가나다라");
-        tag2.setPostId(originalPost.getIdx());
-        tagService.save(tag2);
-
-        Assert.assertThat(tag, hasProperty("idx"));
-        Assert.assertThat(tag2, hasProperty("idx"));
 
         //when
-        ArrayList<Integer> testTagIdxes = new ArrayList<>();
-        testTagIdxes.add(tag.getIdx());
-        testTagIdxes.add(tag2.getIdx());
-        tagService.delete(testTagIdxes);
 
         //then
-        Assert.assertNull(postService.findById(originalPost.getIdx()));
+    }
+
+    @Test
+    public void 검색시_유사한_컨텐츠를_가진_태그들을_모두_가져온다() {
+        //given
+
+        //when
+
+        //then
     }
 }

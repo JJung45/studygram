@@ -51,11 +51,6 @@ public class PostServiceTest {
         comment.setPostId(originalPost.getIdx());
         commentService.createComment(comment);
 
-        tag = new Tag();
-        tag.setContent("sdf");
-        tag.setPostId(originalPost.getIdx());
-        tagService.save(tag);
-
         like = new Like();
         like.setUserId(originalPost.getUserId());
         like.setPostId(originalPost.getIdx());
