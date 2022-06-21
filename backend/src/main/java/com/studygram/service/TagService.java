@@ -1,14 +1,11 @@
 package com.studygram.service;
 
+import com.studygram.domain.Post;
 import com.studygram.domain.Tag;
 import com.studygram.mapper.TagMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 public class TagService {
@@ -16,19 +13,37 @@ public class TagService {
     @Autowired
     private TagMapper tagMapper;
 
-    public int save(Tag tag) {
-        return tagMapper.save(tag);
+    @Autowired
+    private PostTagService postTagService;
+
+    public void saveTags(Post post) {
+        String content = post.getContent();
+        String[] tagList = content.substring(content.lastIndexOf("#")+1).split("#");
+
+        // 게시물이 저장된 다음에 가져와야할듯!
+        int postIdx = post.getIdx();
+        for(String tagContent : tagList) {
+            Tag tag = new Tag();
+            tag.setPostId(postIdx);
+            tag.setContent(tagContent);
+            postTagService.saveTagPost(post, tag);
+        }
+
     }
 
-    public ArrayList<Tag> findByContents(ArrayList<String> tagContents) {
-        return tagMapper.findByContents(tagContents);
+    public void updateTagsByPost(Post post) {
+        postTagService.deleteTagsByPost(post);
+        saveTags(post);
     }
 
-    public int countAll() {
-        return tagMapper.countAll();
+    //검색(태그클릭)
+    public ArrayList<Post> findPostsByTag(String search) {
+        Tag tag = tagMapper.findContent(search);
+        return postTagService.findPostsByTag(tag);
     }
 
-    public void delete(ArrayList<Integer> tagIdxes) {
-        tagMapper.delete(tagIdxes);
+    //자동완성
+    public ArrayList<Tag> findTags(String search) {
+        return tagMapper.findSimilarContent(search);
     }
 }

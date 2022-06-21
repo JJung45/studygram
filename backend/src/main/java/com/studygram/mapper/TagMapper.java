@@ -13,7 +13,6 @@ import java.util.Map;
 @Repository
 public interface TagMapper {
     int save(Tag tag);
-    ArrayList<Tag> findByContents(ArrayList<String> contents); // TODO xml 수정. resultMap 오류
-    void delete(ArrayList<Integer> tagIndexes); // TODO xml 수정. resultMap 오류
-    int countAll();
+    Tag findContent(String search);
+    ArrayList<Tag> findSimilarContent(String search);
 }
