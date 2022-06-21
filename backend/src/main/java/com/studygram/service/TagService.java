@@ -23,9 +23,11 @@ public class TagService {
         // 게시물이 저장된 다음에 가져와야할듯!
         int postIdx = post.getIdx();
         for(String tagContent : tagList) {
+            String newTagContent = tagContent.replaceFirst("#","");
+
             Tag tag = new Tag();
             tag.setPostId(postIdx);
-            tag.setContent(tagContent);
+            tag.setContent(newTagContent);
             postTagService.saveTagPost(post, tag);
         }
 

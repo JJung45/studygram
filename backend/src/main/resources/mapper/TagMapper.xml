@@ -8,22 +8,10 @@
             SELECT IFNULL(MAX(tag.idx), 1) FROM tag
         </selectKey>
     </insert>
-    <select id="findTags" parameterType="Integer" resultType="Tag">
-        select * from tag where post_id = #{idx}
+    <select id="findContent" parameterType="String" resultType="Tag">
+        select * from tags where content = ${search}
     </select>
-    <select id="findByContents" parameterType="ArrayList" resultType="ArrayList">
-        select * from tag where contents in
-        <foreach collection="list" index="index" item="content" open="(" close=")" separator=",">
-            #{content}
-        </foreach>
+    <select id="findSimilarContent" parameterType="String" resultType="ArrayList">
+        select * from tags where content like ${search}
     </select>
-    <select id="countAll" resultType="Integer">
-        select count(*) from tag
-    </select>
-    <delete id="delete" parameterType="ArrayList">
-        delete from tag where idx in
-        <foreach collection="list" index="index" item="tagIndex" open="(" close=")" separator=",">
-            #{tagIndex}
-        </foreach>
-    </delete>
 </mapper>
