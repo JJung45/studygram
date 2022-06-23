@@ -31,14 +31,15 @@
             order by post.idx desc
     </select>
 
-    <select id="findAll" resultMap="postResultMap">
+    <select id="findAll" parameterType="Integer" resultType="Post">
         select post.idx as idx, post.user_id as user_id, `user`.user_name as user_name, post.content as content, post.created_date as created_date, post.updated_date as updated_date
-          from post
+        from post
                  left join `user` on post.user_id = `user`.idx
                  left join tag on tag.post_id = post.idx
                  left join `like` on `like`.post_id = post.idx
                  left join comment on comment.post_id = post.idx
         order by post.idx desc
+        limit #{limit} offset #{offset}
     </select>
     <update id="update" parameterType="Post">
         update post set content =#{content} where idx = #{idx}

@@ -4,6 +4,7 @@ import com.studygram.domain.Post;
 import com.studygram.mapper.PostMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,8 +24,8 @@ public class PostService {
         return postMapper.findById(postId);
     }
 
-    public List<Post> findAll() {
-        return postMapper.findAll();
+    public List<Post> findAll(Integer limit, Integer offset) {
+        return postMapper.findAll(limit, offset);
     }
 
     public Post update(Post post) {
