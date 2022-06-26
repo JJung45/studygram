@@ -18,6 +18,8 @@ public class Post {
     List<Tag> tags;
     List<Like> likes;
     List<Comment> comments;
+    int likeCnt;
+    int commentCnt;
     Date createdDate;
     Date updatedDate;
 

@@ -12,4 +12,5 @@ public interface LikeMapper {
     int save(Like like);
     List<Like> findLikesByPostId(int postId);
     List<Like> findLikesByCommentId(int commentId);
+    int findLikesCntByPostId(int postId);
 }

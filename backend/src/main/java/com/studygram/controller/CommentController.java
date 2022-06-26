@@ -1,6 +1,7 @@
 package com.studygram.controller;
 
 import com.studygram.common.ApiResponse;
+import com.studygram.common.SimplePageRequest;
 import com.studygram.domain.Comment;
 import com.studygram.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +23,9 @@ public class CommentController {
 
     @GetMapping("")
     // url="localhost:8090/comment?postId=1
-    public List<Comment> getCommentsListByPostId(@RequestParam("postId") int postId) {
+    public List<Comment> getCommentsListByPostId(@RequestParam("postId") int postId, SimplePageRequest pageRequest) {
         // TODO 댓글 페이징 필요
-        return commentService.getCommentsListByPostID(postId);
+        return commentService.getCommentsListByPostID(postId, pageRequest);
     }
 
     @GetMapping("/{commentId}")

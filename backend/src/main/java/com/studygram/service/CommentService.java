@@ -1,6 +1,7 @@
 package com.studygram.service;
 
 import com.studygram.common.ApiResponse;
+import com.studygram.common.SimplePageRequest;
 import com.studygram.domain.Comment;
 import com.studygram.domain.Tag;
 import com.studygram.mapper.CommentMapper;
@@ -24,8 +25,10 @@ public class CommentService {
         this.postService = postService;
     }
 
-    public List<Comment> getCommentsListByPostID(int postId) {
-        return commentMapper.findCommentsByPostId(postId);
+    public List<Comment> getCommentsListByPostID(int postId, SimplePageRequest pageRequest) {
+        int limit = pageRequest.getLimit();
+        long offset = pageRequest.getOffset();
+        return commentMapper.findCommentsByPostId(postId, limit, offset);
     }
 
     public Comment getCommentByCommentID(int commentId) { return commentMapper.findByCommentId(commentId);}
