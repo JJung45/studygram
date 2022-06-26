@@ -17,4 +17,7 @@
     <select id="findTags" parameterType="Integer" resultType="Tag">
         select * from tag where post_id = #{idx}
     </select>
+    <delete id="deleteTagsByPost" parameterType="Post">
+        delete from tag where post_id = #{idx}
+    </delete>
 </mapper>

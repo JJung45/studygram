@@ -1,8 +1,6 @@
 package com.studygram.service;
 
 
-import com.studygram.domain.Comment;
-import com.studygram.domain.Like;
 import com.studygram.domain.Post;
 import com.studygram.domain.Tag;
 import org.junit.Assert;
@@ -13,9 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.ArrayList;
-import java.util.List;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -49,17 +45,14 @@ public class TagServiceTest {
 
         //when
         tagService.saveTags(originalPost);
-
         Post newPost = postService.findById(originalPost.getIdx());
 
         //then
         Assert.assertNotNull(newPost.getTags());
-
         ArrayList<String> tagContents = new ArrayList<>();
         for(Tag tag : newPost.getTags()) {
             tagContents.add(tag.getContents());
         }
-
         Assert.assertTrue(tagContents.contains(test1Tag.replaceAll("#","")));
         Assert.assertTrue(tagContents.contains(test2Tag.replaceAll("#","")));
         Assert.assertTrue(tagContents.contains(test3Tag.replaceAll("#","")));
@@ -68,10 +61,25 @@ public class TagServiceTest {
     @Test
     public void 게시물이_업데이트된후_태그가_수정된다() {
         //given
+        tagService.saveTags(originalPost);
+        Post post = postService.findById(originalPost.getIdx());
 
         //when
+        post.setContent("asdfsdf #update #hihi #post");
+        tagService.updateTagsByPost(post);
 
         //then
+        //TODO fetch 하는법
+        Post newPost = postService.findById(originalPost.getIdx());
+        ArrayList<String> tagContents = new ArrayList<>();
+        for(Tag tag : newPost.getTags()) {
+            tagContents.add(tag.getContents());
+        }
+
+        Assert.assertFalse(tagContents.contains(test1Tag.replaceAll("#","")));
+        Assert.assertFalse(tagContents.contains(test2Tag.replaceAll("#","")));
+        Assert.assertFalse(tagContents.contains(test3Tag.replaceAll("#","")));
+
     }
 
     @Test

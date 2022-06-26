@@ -8,8 +8,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Service
@@ -47,6 +45,7 @@ public class TagService {
     }
 
     public void updateTagsByPost(Post post) {
+        tagMapper.deleteTagsByPost(post);
         postTagService.deleteTagsByPost(post);
         saveTags(post);
     }
