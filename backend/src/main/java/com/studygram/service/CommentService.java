@@ -28,7 +28,7 @@ public class CommentService {
     public List<Comment> getCommentsListByPostID(int postId, SimplePageRequest pageRequest) {
         int limit = pageRequest.getLimit();
         long offset = pageRequest.getOffset();
-        return commentMapper.findCommentsByPostId(postId, limit, offset);
+        return commentMapper.findCommentsByPostIdWithPaging(postId, limit, offset);
     }
 
     public Comment getCommentByCommentID(int commentId) { return commentMapper.findByCommentId(commentId);}

@@ -11,7 +11,8 @@ import java.util.List;
 @Mapper
 @Repository
 public interface CommentMapper {
-    List<Comment> findCommentsByPostId(@Param("postId") int postId, @Param("limit") int limit, @Param("offset") long offset);
+    List<Comment> findCommentsByPostId(int postId);
+    List<Comment> findCommentsByPostIdWithPaging(@Param("postId") int postId, @Param("limit") int limit, @Param("offset") long offset);
 //    List<Tag> getTagListByPostId(int postId);
     Comment findByCommentId(int commentId);
     int save(Comment comment);
