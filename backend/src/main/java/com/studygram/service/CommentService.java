@@ -38,7 +38,7 @@ public class CommentService {
         for(String str : tags) {
             Tag tag = new Tag();
             tag.setCommentId(comment.getIdx());
-            tag.setContent(str);
+            tag.setContents(str);
             /*
             if(tagService.save(tag) < 0) {
                 ApiResponse.fail();

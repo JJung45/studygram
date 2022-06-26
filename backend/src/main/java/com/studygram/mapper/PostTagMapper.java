@@ -11,6 +11,6 @@ import java.util.ArrayList;
 @Repository
 public interface PostTagMapper {
     void deleteTagsByPost(Post post);
-    void save(@Param("post") Post post, @Param("tag") Tag tag);
+    void save(@Param("post") Integer post, @Param("tag") Integer tag);
     ArrayList<Post> findPostsByTag(Tag tag);
 }

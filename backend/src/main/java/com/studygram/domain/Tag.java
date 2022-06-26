@@ -13,7 +13,7 @@ public class Tag {
     int idx;
     int postId;
     int commentId;
-    String content;
+    String contents;
     Date createdDate;
 }
 

@@ -28,7 +28,7 @@ public class PostTagService {
     public void saveTagPost(Post post, Tag tag)
     {
         tagMapper.save(tag);
-        postTagMapper.save(post, tag);
+        postTagMapper.save(post.getIdx(), tag.getIdx());
     }
 
     public ArrayList<Post> findPostsByTag(Tag tag)

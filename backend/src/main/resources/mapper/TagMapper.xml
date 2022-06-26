@@ -3,15 +3,18 @@
 <mapper namespace="com.studygram.mapper.TagMapper">
     <insert id="save" parameterType="Tag">
         insert into tag (contents, post_id)
-        values(#{content}, #{postId})
+        values(#{contents}, #{postId})
         <selectKey resultType="int" keyProperty="idx" order="AFTER">
             SELECT IFNULL(MAX(tag.idx), 1) FROM tag
         </selectKey>
     </insert>
     <select id="findContent" parameterType="String" resultType="Tag">
-        select * from tags where content = ${search}
+        select * from tag where content = ${search}
     </select>
     <select id="findSimilarContent" parameterType="String" resultType="ArrayList">
-        select * from tags where content like ${search}
+        select * from tag where content like ${search}
+    </select>
+    <select id="findTags" parameterType="Integer" resultType="Tag">
+        select * from tag where post_id = #{idx}
     </select>
 </mapper>

@@ -4,7 +4,7 @@
     <delete id="deleteTagsPost" parameterType="Post">
         delete * from post_tag where post_idx = #{post}
     </delete>
-    <insert id="save" parameterType="Post, Tag">
+    <insert id="save">
         insert into post_tag (post_idx, tag_idx)
         values(#{post}, #{tag})
     </insert>

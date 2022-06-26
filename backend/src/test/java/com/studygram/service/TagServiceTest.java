@@ -15,6 +15,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -49,16 +50,19 @@ public class TagServiceTest {
         //when
         tagService.saveTags(originalPost);
 
+        Post newPost = postService.findById(originalPost.getIdx());
+
         //then
-        Assert.assertNotNull(originalPost.getTags());
+        Assert.assertNotNull(newPost.getTags());
 
         ArrayList<String> tagContents = new ArrayList<>();
-        for(Tag tag : originalPost.getTags()) {
-            tagContents.add(tag.getContent());
+        for(Tag tag : newPost.getTags()) {
+            tagContents.add(tag.getContents());
         }
-        Assert.assertTrue(tagContents.contains(test1Tag));
-        Assert.assertTrue(tagContents.contains(test2Tag));
-        Assert.assertTrue(tagContents.contains(test3Tag));
+
+        Assert.assertTrue(tagContents.contains(test1Tag.replaceAll("#","")));
+        Assert.assertTrue(tagContents.contains(test2Tag.replaceAll("#","")));
+        Assert.assertTrue(tagContents.contains(test3Tag.replaceAll("#","")));
     }
 
     @Test

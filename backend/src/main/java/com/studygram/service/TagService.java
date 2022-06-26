@@ -6,6 +6,11 @@ import com.studygram.mapper.TagMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Service
 public class TagService {
@@ -18,17 +23,25 @@ public class TagService {
 
     public void saveTags(Post post) {
         String content = post.getContent();
-        String[] tagList = content.substring(content.lastIndexOf("#")+1).split("#");
+        String[] arr = content.split(" ");
+        List<String> tagList = Arrays.stream(arr)
+                .filter(string -> string.contains("#"))
+                .collect(Collectors.toList());
 
         // 게시물이 저장된 다음에 가져와야할듯!
         int postIdx = post.getIdx();
         for(String tagContent : tagList) {
-            String newTagContent = tagContent.replaceFirst("#","");
+            String[] newTagList = tagContent.split("#");
 
-            Tag tag = new Tag();
-            tag.setPostId(postIdx);
-            tag.setContent(newTagContent);
-            postTagService.saveTagPost(post, tag);
+            for(String newTagContent : newTagList) {
+                if (newTagContent.equals("")) {
+                    continue;
+                }
+                Tag tag = new Tag();
+                tag.setPostId(postIdx);
+                tag.setContents(newTagContent);
+                postTagService.saveTagPost(post, tag);
+            }
         }
 
     }

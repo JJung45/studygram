@@ -22,10 +22,11 @@
     <select id="findById" resultMap="postResultMap">
         select post.idx as idx, post.user_id as user_id, post.content as content, post.created_date as created_date, post.updated_date as updated_date
             from post
-            left join tag on tag.post_id = post.idx
+            left join post_tag on post_tag.post_idx = post.idx
             left join `like` on `like`.post_id = post.idx
             left join comment on comment.post_id = post.idx
             where post.idx = #{idx}
+            group by post.idx
             order by post.idx desc
     </select>
     <select id="findAll" resultType="Post">
