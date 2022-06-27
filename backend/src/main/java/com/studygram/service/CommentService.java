@@ -1,6 +1,7 @@
 package com.studygram.service;
 
 import com.studygram.common.ApiResponse;
+import com.studygram.common.SimplePageRequest;
 import com.studygram.domain.Comment;
 import com.studygram.domain.Tag;
 import com.studygram.mapper.CommentMapper;
@@ -16,21 +17,27 @@ import java.util.List;
 @Slf4j
 public class CommentService {
     private final CommentMapper commentMapper;
+    private PostService postService;
 
     @Autowired
-    public CommentService(CommentMapper commentMapper) {
+    public CommentService(CommentMapper commentMapper, PostService postService) {
         this.commentMapper = commentMapper;
+        this.postService = postService;
     }
 
-    public List<Comment> getCommentsListByPostID(int postId) {
-        return commentMapper.findByPostId(postId);
+    public List<Comment> getCommentsListByPostID(int postId, SimplePageRequest pageRequest) {
+        int limit = pageRequest.getLimit();
+        long offset = pageRequest.getOffset();
+        return commentMapper.findCommentsByPostIdWithPaging(postId, limit, offset);
     }
+
+    public Comment getCommentByCommentID(int commentId) { return commentMapper.findByCommentId(commentId);}
 
     public void createComment(Comment comment) {
         // 1. Post 데이터 있는지 확인
-//        if(postService.getPost(comment.getPostId()).isNull()) {
-//            ApiResponse.fail();
-//        }
+        if(postService.findById(comment.getPostId()) == null) {
+            ApiResponse.fail();
+        }
 
         // 2. 댓글 내용에서 Tag 추출하고 Insert
         String content = comment.getContent();
@@ -80,14 +87,5 @@ public class CommentService {
         }
     }
 
-    public void deleteCommentsByPostId(int postId) {
-//        if(postMapper.deleteByPostID(postId) == null) {
-//            log.error("Not Found Post");
-//            ApiResponse.notFoundFail();
-//        }
-        if(commentMapper.deleteByPostId(postId) < 0) {
-            log.debug("Noting to Delete");
-        }
-    }
 
 }

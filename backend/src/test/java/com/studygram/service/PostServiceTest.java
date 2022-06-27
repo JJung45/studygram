@@ -16,10 +16,10 @@ import java.util.List;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-@Transactional
+//@Transactional
 public class PostServiceTest {
 
-    private static final int userId = 5;
+    private static final int userId = 24; //leehyeji
 
     @Autowired
     PostService postService;
@@ -70,7 +70,7 @@ public class PostServiceTest {
     public void 게시판_작성() {
         //given
         Post post = new Post();
-        post.setContent("test");
+        post.setContent("test2222");
         post.setUserId(userId);
 
         //when
@@ -85,7 +85,7 @@ public class PostServiceTest {
     public void 게시판_전체_조회() {
         //when
         Post post = new Post();
-        post.setContent("test");
+        post.setContent("test22");
         post.setUserId(userId);
         postService.save(post);
 
@@ -120,5 +120,14 @@ public class PostServiceTest {
 
         //then
         Assert.assertNull(postService.findById(originalPost.getIdx()));
+    }
+
+    @Test
+    public void 게시글_1개_조회() {
+        // given
+        int postId = 28;
+
+        Post newPost = postService.findById(postId);
+        System.out.println(newPost.toString());
     }
 }

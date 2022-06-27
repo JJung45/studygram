@@ -14,24 +14,36 @@
         <result column="content" property="content"/>
         <result column="created_date" property="createdDate"/>
         <result column="updated_date" property="updatedDate"/>
-        <collection property="tags" column="idx" javaType="java.util.ArrayList" ofType="com.studygram.domain.Tag" select="com.studygram.mapper.TagMapper.findTags" />
-        <collection property="likes" column="idx" javaType="java.util.ArrayList" ofType="com.studygram.domain.Like" select="com.studygram.mapper.LikeMapper.findLikes" />
-        <collection property="comments" column="idx" javaType="java.util.ArrayList" ofType="com.studygram.domain.Comment" select="com.studygram.mapper.CommentMapper.findComments" />
+        <collection property="tags" column="idx" javaType="java.util.ArrayList" ofType="com.studygram.domain.Tag" select="com.studygram.mapper.TagMapper.findTagsByPostId" />
+        <collection property="likes" column="idx" javaType="java.util.ArrayList" ofType="com.studygram.domain.Like" select="com.studygram.mapper.LikeMapper.findLikesByPostId" />
+        <collection property="comments" column="idx" javaType="java.util.ArrayList" ofType="com.studygram.domain.Comment" select="com.studygram.mapper.CommentMapper.findCommentsByPostId" />
+        <collection property="likeCnt" column="idx" select="com.studygram.mapper.LikeMapper.findLikeCntByPostId"/>
+        <collection property="commentCnt" column="idx" select="com.studygram.mapper.CommentMapper.findCommentCntByPostId"/>
     </resultMap>
 
     <select id="findById" resultMap="postResultMap">
-        select post.idx as idx, post.user_id as user_id, post.content as content, post.created_date as created_date, post.updated_date as updated_date
+        select post.idx as idx, post.user_id as user_id, `user`.user_name as user_name, post.content as content, post.created_date as created_date, post.updated_date as updated_date
             from post
-            left join tag on tag.post_id = post.idx
-            left join `like` on `like`.post_id = post.idx
-            left join comment on comment.post_id = post.idx
-            where post.idx = #{idx}
-            order by post.idx desc
+                left join `user` on post.user_id = `user`.idx
+                left join tag on tag.post_id = post.idx
+                left join `like` on `like`.post_id = post.idx
+                left join comment on comment.post_id = post.idx
+            where 1 = 1
+              and post.idx = #{idx}
+            group by post.idx
     </select>
 
-    <select id="findAll" parameterType="Integer" resultType="Post">
-        select * from post orders limit #{limit} offset #{offset}
+    <select id="findAll" parameterType="Integer" resultMap="postResultMap">
+        select post.idx as idx, post.user_id as user_id, `user`.user_name as user_name, post.content as content, post.created_date as created_date, post.updated_date as updated_date
+        from post
+                 left join `user` on post.user_id = `user`.idx
+                 left join tag on tag.post_id = post.idx
+                 left join `like` on `like`.post_id = post.idx
+                 left join comment on comment.post_id = post.idx
+        group by post.idx
+        limit #{limit} offset #{offset}
     </select>
+
     <update id="update" parameterType="Post">
         update post set content =#{content} where idx = #{idx}
     </update>
