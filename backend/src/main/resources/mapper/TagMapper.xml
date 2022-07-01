@@ -9,10 +9,10 @@
         </selectKey>
     </insert>
     <select id="findContent" parameterType="String" resultType="Tag">
-        select * from tag where content = ${search}
+        select * from tag where contents = '${search}'
     </select>
     <select id="findSimilarContent" parameterType="String" resultType="ArrayList">
-        select * from tag where content like ${search}
+        select * from tag where contents like '${search}'
     </select>
     <select id="findTags" parameterType="Integer" resultType="Tag">
         select * from tag where post_id = #{idx}

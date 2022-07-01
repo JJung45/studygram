@@ -35,9 +35,16 @@ public class TagService {
                 if (newTagContent.equals("")) {
                     continue;
                 }
-                Tag tag = new Tag();
-                tag.setPostId(postIdx);
-                tag.setContents(newTagContent);
+
+                Tag tag = tagMapper.findContent(newTagContent);
+                if (tagMapper.findContent(newTagContent) == null) {
+                    Tag newTag = new Tag();
+                    newTag.setPostId(postIdx);
+                    newTag.setContents(newTagContent);
+                    tagMapper.save(tag);
+                    tag = newTag;
+                }
+
                 postTagService.saveTagPost(post, tag);
             }
         }

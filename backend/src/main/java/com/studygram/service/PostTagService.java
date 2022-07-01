@@ -17,9 +17,6 @@ public class PostTagService {
     @Autowired
     private PostTagMapper postTagMapper;
 
-    @Autowired
-    private TagMapper tagMapper;
-
     public void deleteTagsByPost(Post post)
     {
         postTagMapper.deleteTagsByPost(post);
@@ -27,7 +24,6 @@ public class PostTagService {
 
     public void saveTagPost(Post post, Tag tag)
     {
-        tagMapper.save(tag);
         postTagMapper.save(post.getIdx(), tag.getIdx());
     }
 
