@@ -15,6 +15,7 @@ public interface CommentMapper {
     List<Comment> findCommentsByPostIdWithPaging(@Param("postId") int postId, @Param("limit") int limit, @Param("offset") long offset);
 //    List<Tag> getTagListByPostId(int postId);
     Comment findByCommentId(int commentId);
+    int getCommentCntByPostId(int postId);
     int save(Comment comment);
     int update(Comment comment);
     int deleteByCommentId(int commentId);

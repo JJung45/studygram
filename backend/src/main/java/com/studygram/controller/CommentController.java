@@ -34,6 +34,12 @@ public class CommentController {
         return commentService.getCommentByCommentID(commentId);
     }
 
+    @GetMapping("/count/{postId}")
+//     url="localhost:8090/comment/1
+    public int getCommentCntByPostId(@PathVariable int postId) {
+        return commentService.getCommentCntByPostID(postId);
+    }
+
 
     @PostMapping("/save") // value ={,} 다중 맵핑 가능
     public ApiResponse createComment(@RequestBody Comment comment) {
