@@ -11,4 +11,7 @@
     <select id="findPostsByTag" parameterType="Tag" resultType="ArrayList">
         select * from post_tag where tag_idx = #{tag}
     </select>
+    <select id="findTags" parameterType="Tags" resultType="PostTag">
+        select * from post_tag where tag_idx = #{idx}
+    </select>
 </mapper>

@@ -2,7 +2,9 @@ package com.studygram.service;
 
 
 import com.studygram.domain.Post;
-import com.studygram.domain.Tag;
+import com.studygram.domain.PostTag;
+import com.studygram.domain.Tags;
+import com.studygram.mapper.TagsMapper;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
+import java.util.List;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -30,6 +33,12 @@ public class TagServiceTest {
     @Autowired
     TagService tagService;
 
+    @Autowired
+    TagsMapper tagMapper;
+
+    @Autowired
+    PostTagService postTagService;
+
     @Before
     public void beforeEach() {
         originalPost = new Post();
@@ -45,12 +54,19 @@ public class TagServiceTest {
 
         //when
         tagService.saveTags(originalPost);
+
+        //debug
         Post newPost = postService.findById(originalPost.getIdx());
+        List<Tags> tags = newPost.getTags();
+
+        Tags test = tagMapper.findContent("rgrg");
+        List<PostTag> test2 = postTagService.findPostsByTag(test);
+        //debug
 
         //then
-        Assert.assertNotNull(newPost.getTags());
+        Assert.assertNotNull(tags);
         ArrayList<String> tagContents = new ArrayList<>();
-        for(Tag tag : newPost.getTags()) {
+        for(Tags tag : newPost.getTags()) {
             tagContents.add(tag.getContents());
         }
         Assert.assertTrue(tagContents.contains(test1Tag.replaceAll("#","")));
@@ -72,8 +88,8 @@ public class TagServiceTest {
         //TODO fetch 하는법
         Post newPost = postService.findById(originalPost.getIdx());
         ArrayList<String> tagContents = new ArrayList<>();
-        for(Tag tag : newPost.getTags()) {
-            tagContents.add(tag.getContents());
+        for(Tags tags : newPost.getTags()) {
+            tagContents.add(tags.getContents());
         }
 
         Assert.assertFalse(tagContents.contains(test1Tag.replaceAll("#","")));

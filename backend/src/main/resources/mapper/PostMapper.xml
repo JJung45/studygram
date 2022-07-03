@@ -14,9 +14,9 @@
         <result column="content" property="content"/>
         <result column="created_date" property="createdDate"/>
         <result column="updated_date" property="updatedDate"/>
-        <collection property="tags" column="idx" javaType="java.util.ArrayList" ofType="com.studygram.domain.Tag" select="com.studygram.mapper.TagMapper.findTags" />
-        <collection property="likes" column="idx" javaType="java.util.ArrayList" ofType="com.studygram.domain.Like" select="com.studygram.mapper.LikeMapper.findLikes" />
-        <collection property="comments" column="idx" javaType="java.util.ArrayList" ofType="com.studygram.domain.Comment" select="com.studygram.mapper.CommentMapper.findComments" />
+        <collection property="tags" column="idx" javaType="java.util.List" ofType="com.studygram.domain.PostTag" select="com.studygram.mapper.PostTagMapper.findTags" />
+        <collection property="likes" column="idx" javaType="java.util.List" ofType="com.studygram.domain.Like" select="com.studygram.mapper.LikeMapper.findLikes" />
+        <collection property="comments" column="idx" javaType="java.util.List" ofType="com.studygram.domain.Comment" select="com.studygram.mapper.CommentMapper.findComments" />
     </resultMap>
 
     <select id="findById" resultMap="postResultMap">
