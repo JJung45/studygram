@@ -3,8 +3,8 @@ package com.studygram.service;
 
 import com.studygram.domain.Post;
 import com.studygram.domain.PostTag;
-import com.studygram.domain.Tags;
-import com.studygram.mapper.TagsMapper;
+import com.studygram.domain.Tag;
+import com.studygram.mapper.TagMapper;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,7 +34,7 @@ public class TagServiceTest {
     TagService tagService;
 
     @Autowired
-    TagsMapper tagMapper;
+    TagMapper tagMapper;
 
     @Autowired
     PostTagService postTagService;
@@ -54,19 +54,14 @@ public class TagServiceTest {
 
         //when
         tagService.saveTags(originalPost);
-
-        //debug
         Post newPost = postService.findById(originalPost.getIdx());
-        List<Tags> tags = newPost.getTags();
-
-        Tags test = tagMapper.findContent("rgrg");
-        List<PostTag> test2 = postTagService.findPostsByTag(test);
-        //debug
+        List<PostTag> postTags = newPost.getTags();
 
         //then
-        Assert.assertNotNull(tags);
+        Assert.assertNotNull(postTags);
         ArrayList<String> tagContents = new ArrayList<>();
-        for(Tags tag : newPost.getTags()) {
+        for(PostTag postTag : postTags) {
+            Tag tag = tagMapper.findTagById(postTag.getTagIdx());
             tagContents.add(tag.getContents());
         }
         Assert.assertTrue(tagContents.contains(test1Tag.replaceAll("#","")));
@@ -83,13 +78,14 @@ public class TagServiceTest {
         //when
         post.setContent("asdfsdf #update #hihi #post");
         tagService.updateTagsByPost(post);
+        Post newPost = postService.findById(originalPost.getIdx());
+        List<PostTag> postTags = newPost.getTags();
 
         //then
-        //TODO fetch 하는법
-        Post newPost = postService.findById(originalPost.getIdx());
         ArrayList<String> tagContents = new ArrayList<>();
-        for(Tags tags : newPost.getTags()) {
-            tagContents.add(tags.getContents());
+        for(PostTag postTag : postTags) {
+            Tag tag = tagMapper.findTagById(postTag.getTagIdx());
+            tagContents.add(tag.getContents());
         }
 
         Assert.assertFalse(tagContents.contains(test1Tag.replaceAll("#","")));

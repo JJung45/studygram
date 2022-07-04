@@ -1,6 +1,7 @@
 package com.studygram.service;
 
 import com.studygram.domain.Post;
+import com.studygram.domain.PostTag;
 import com.studygram.domain.Tag;
 import com.studygram.mapper.TagMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,31 +37,30 @@ public class TagService {
                     continue;
                 }
 
-                Tag tag = tagMapper.findContent(newTagContent);
-                if (tagMapper.findContent(newTagContent) == null) {
-                    Tag newTag = new Tag();
-                    newTag.setPostId(postIdx);
-                    newTag.setContents(newTagContent);
-                    tagMapper.save(tag);
-                    tag = newTag;
+                Tag tags = tagMapper.findContent(newTagContent);
+                if (tags == null) {
+                    tags = Tag
+                            .builder()
+                            .contents(newTagContent)
+                            .build();
+                    tagMapper.save(tags);
                 }
 
-                postTagService.saveTagPost(post, tag);
+                postTagService.saveTagPost(post, tags);
             }
         }
 
     }
 
     public void updateTagsByPost(Post post) {
-        tagMapper.deleteTagsByPost(post);
         postTagService.deleteTagsByPost(post);
         saveTags(post);
     }
 
     //검색(태그클릭)
-    public ArrayList<Post> findPostsByTag(String search) {
-        Tag tag = tagMapper.findContent(search);
-        return postTagService.findPostsByTag(tag);
+    public List<PostTag> findPostsByTag(String search) {
+        Tag tags = tagMapper.findContent(search);
+        return postTagService.findPostsByTag(tags);
     }
 
     //자동완성

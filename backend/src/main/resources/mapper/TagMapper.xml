@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.studygram.mapper.TagMapper">
     <insert id="save" parameterType="Tag">
-        insert into tag (contents, post_id)
-        values(#{contents}, #{postId})
+        insert into tag (contents)
+        values(#{contents})
         <selectKey resultType="int" keyProperty="idx" order="AFTER">
             SELECT IFNULL(MAX(tag.idx), 1) FROM tag
         </selectKey>
@@ -14,10 +14,10 @@
     <select id="findSimilarContent" parameterType="String" resultType="ArrayList">
         select * from tag where contents like '${search}'
     </select>
-    <select id="findTags" parameterType="Integer" resultType="Tag">
-        select * from tag where post_id = #{idx}
-    </select>
-    <delete id="deleteTagsByPost" parameterType="Post">
+    <delete id="deleteTagByPost" parameterType="Post">
         delete from tag where post_id = #{idx}
     </delete>
+    <select id="findTagById" parameterType="Integer" resultType="Tag">
+        select * from tag where idx = ${tagIdx}
+    </select>
 </mapper>
