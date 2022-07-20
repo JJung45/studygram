@@ -14,5 +14,5 @@ public interface PostTagMapper {
     void deleteTagsByPost(Post post);
     void save(@Param("post") Integer post, @Param("tag") Integer tag);
     List<PostTag> findTags(Post post);
-    List<PostTag> findPostsByTag(Tag tags);
+    List<PostTag> findPostTagsByTag(Tag tags);
 }

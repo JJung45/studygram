@@ -4,7 +4,9 @@ package com.studygram.service;
 import com.studygram.domain.Post;
 import com.studygram.domain.PostTag;
 import com.studygram.domain.Tag;
+import com.studygram.mapper.PostTagMapper;
 import com.studygram.mapper.TagMapper;
+import org.assertj.core.api.Assertions;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,6 +17,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.collection.IsIterableContainingInOrder.contains;
+import static org.junit.Assert.assertThat;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -97,10 +103,16 @@ public class TagServiceTest {
     @Test
     public void 검색시_해당_컨텐츠를_가진_태그의_연관된_게시물들을_모두_가져온다() {
         //given
+        tagService.saveTags(originalPost);
+        String tagContent = test2Tag.replaceAll("#","");
 
         //when
+        List<Post> list = tagService.findPostsByTag(tagContent);
 
         //then
+        for (Post post : list) {
+            assertThat(post.getContent(), containsString(tagContent));
+        }
     }
 
     @Test

@@ -41,4 +41,10 @@
     <select id="findPosts" parameterType="Integer" resultType="Post">
         select * from post where tag_id = #{idx}
     </select>
+    <select id="findByManyIds" parameterType="List" resultType="Post">
+        select * from post where idx in
+        <foreach collection="postTagIds" item="postTag" separator="," open="(" close=")">
+            #{postTag}
+        </foreach>
+    </select>
 </mapper>

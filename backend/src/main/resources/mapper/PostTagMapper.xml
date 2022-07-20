@@ -8,7 +8,7 @@
         insert into post_tag (post_idx, tag_idx)
         values(#{post}, #{tag})
     </insert>
-    <select id="findPostsByTags" parameterType="Tag" resultType="PostTag">
+    <select id="findPostTagsByTag" parameterType="Tag" resultType="PostTag">
         select * from post_tag where tag_idx = #{idx}
     </select>
     <select id="findTags" parameterType="Post" resultType="PostTag">

@@ -18,6 +18,9 @@ public class TagService {
     private TagMapper tagMapper;
 
     @Autowired
+    private PostService postService;
+
+    @Autowired
     private PostTagService postTagService;
 
     public void saveTags(Post post) {
@@ -58,9 +61,10 @@ public class TagService {
     }
 
     //검색(태그클릭)
-    public List<PostTag> findPostsByTag(String search) {
-        Tag tags = tagMapper.findContent(search);
-        return postTagService.findPostsByTag(tags);
+    public List<Post> findPostsByTag(String search) {
+        Tag tag = tagMapper.findContent(search);
+        List<PostTag> postTags = postTagService.findPostTagsByTag(tag);
+        return postService.findByManyIds(postTags);
     }
 
     //자동완성

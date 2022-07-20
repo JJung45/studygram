@@ -27,9 +27,9 @@ public class PostTagService {
         postTagMapper.save(post.getIdx(), tags.getIdx());
     }
 
-    public List<PostTag> findPostsByTag(Tag tags)
+    public List<PostTag> findPostTagsByTag(Tag tag)
     {
-        return postTagMapper.findPostsByTag(tags);
+        return postTagMapper.findPostTagsByTag(tag);
     }
 
 }
