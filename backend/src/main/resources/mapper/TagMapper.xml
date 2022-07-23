@@ -20,8 +20,4 @@
     <select id="findTagById" parameterType="Integer" resultType="Tag">
         select * from tag where idx = ${tagIdx}
     </select>
-
-    <select id="findAllTags" resultType="Tag">
-        select * from tag;
-    </select>
 </mapper>
