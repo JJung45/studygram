@@ -68,7 +68,7 @@ public class TagService {
     }
 
     //자동완성
-    public ArrayList<Tag> findTags(String search) {
+    public ArrayList<Tag> findSimilarContent(String search) {
         return tagMapper.findSimilarContent(search);
     }
 }

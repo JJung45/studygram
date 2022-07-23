@@ -9,15 +9,19 @@
         </selectKey>
     </insert>
     <select id="findContent" parameterType="String" resultType="Tag">
-        select * from tag where contents = '${search}'
+        select * from tag where contents = #{search}
     </select>
-    <select id="findSimilarContent" parameterType="String" resultType="ArrayList">
-        select * from tag where contents like '${search}'
+    <select id="findSimilarContent" parameterType="String" resultType="Tag">
+        select * from tag where contents like '%${search}%'
     </select>
     <delete id="deleteTagByPost" parameterType="Post">
         delete from tag where post_id = #{idx}
     </delete>
     <select id="findTagById" parameterType="Integer" resultType="Tag">
         select * from tag where idx = ${tagIdx}
+    </select>
+
+    <select id="findAllTags" resultType="Tag">
+        select * from tag;
     </select>
 </mapper>

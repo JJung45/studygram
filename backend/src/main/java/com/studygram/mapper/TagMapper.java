@@ -5,6 +5,7 @@ import com.studygram.domain.Tag;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
+import java.util.List;
 
 @Mapper
 @Repository
@@ -14,4 +15,6 @@ public interface TagMapper {
     Tag findContent(String search);
     ArrayList<Tag> findSimilarContent(String search);
     Tag findTagById(Integer tagIdx);
+
+    List<Tag> findAllTags();
 }

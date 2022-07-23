@@ -4,9 +4,7 @@ package com.studygram.service;
 import com.studygram.domain.Post;
 import com.studygram.domain.PostTag;
 import com.studygram.domain.Tag;
-import com.studygram.mapper.PostTagMapper;
 import com.studygram.mapper.TagMapper;
-import org.assertj.core.api.Assertions;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,7 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.collection.IsIterableContainingInOrder.contains;
 import static org.junit.Assert.assertThat;
 
 @SpringBootTest
@@ -118,9 +115,15 @@ public class TagServiceTest {
     @Test
     public void 검색시_유사한_컨텐츠를_가진_태그들을_모두_가져온다() {
         //given
+        tagService.saveTags(originalPost);
 
         //when
+        String findSearch = "하";
+        ArrayList<Tag> tags = tagService.findSimilarContent(findSearch);
 
         //then
+        for (Tag tag : tags) {
+            assertThat(tag.getContents(), containsString(findSearch));
+        }
     }
 }
