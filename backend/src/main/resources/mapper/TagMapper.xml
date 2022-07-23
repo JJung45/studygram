@@ -8,6 +8,23 @@
             SELECT IFNULL(MAX(tag.idx), 1) FROM tag
         </selectKey>
     </insert>
+    <select id="findTags" parameterType="Integer" resultType="Tag">
+        select * from tag where post_id = #{idx}
+    </select>
+    <select id="findTagsByPostId" parameterType="Integer" resultType="Tag">
+        select *
+        from tag
+        --             foreignKey 걸려있어서 굳이 필요 없을 듯
+        --                 left join post on post.idx = tag.post_id
+        where post_id = #{idx}
+    </select>
+    <select id="findTagsByCommentId" parameterType="Integer" resultType="Tag">
+        select *
+        from tag
+        --              foreignKey 걸려있어서 굳이 필요 없을 듯
+        --                  left join comment on comment.idx = tag.comment_id
+        where comment_id = #{idx}
+    </select>
     <select id="findContent" parameterType="String" resultType="Tag">
         select * from tag where contents = #{search}
     </select>

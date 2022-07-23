@@ -33,7 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
-@Transactional
+//@Transactional
 public class CommentServiceTest {
     @Autowired
     CommentService commentService;
@@ -66,23 +66,34 @@ public class CommentServiceTest {
     @Test
     public void 댓글작성() throws Exception {
         // given
-        comment = Comment.builder()
-                .postId(12)
-                .userId(20)
-                .content("test")
-                .build();
+        int i = 1;
+        while(i < 98){
+            Comment comment = Comment.builder()
+                    .postId(28)
+                    .userId(24)
+                    .content("testComment" + i)
+                    .build();
+
+            commentService.createComment(comment);
+            i++;
+        };
+//        comment = Comment.builder()
+//                .postId(28)
+//                .userId(24)
+//                .content("testComment")
+//                .build();
 
         // when & then
-        mockMvc.perform(post("/comment/save")
-                .content(objectMapper.writeValueAsString(comment))
-                .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk());
+//        mockMvc.perform(post("/comment/save")
+//                .content(objectMapper.writeValueAsString(comment))
+//                .contentType(MediaType.APPLICATION_JSON))
+//            .andExpect(status().isOk());
     }
 
     @Test
     public void 댓글조회() throws Exception{
         // given
-        int postId = 12;
+        int postId = 28;
 
         // when & then
 //       mockMvc.perform(get("/comment/" + postId))

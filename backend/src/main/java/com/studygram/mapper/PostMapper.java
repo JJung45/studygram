@@ -4,6 +4,8 @@ import com.studygram.domain.Post;
 import com.studygram.domain.PostTag;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.lang.Nullable;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -13,7 +15,7 @@ import java.util.List;
 public interface PostMapper {
     int save(Post post);
     Post findById(int id);
-    List<Post> findAll();
+    List<Post> findAll(@Param("limit") @Nullable Integer limit, @Param("offset") @Nullable Integer offset);
     List<PostTag> findPostTags(int postIdx);
     void update(Post post);
     void delete(Post post);
