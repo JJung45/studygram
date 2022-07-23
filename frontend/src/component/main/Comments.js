@@ -21,8 +21,9 @@ const Comments = () => {
   // const [content, setContent] = useState("");
   // 새로운 댓글
   const [newComment, setNewComment] = useState({
+    // commentId : '',
     postId : postId,
-    content: "",
+    // content: "",
     userId : 24,
   })
   // 선택된 댓글
@@ -50,6 +51,7 @@ const Comments = () => {
     }
     // 기존 commentList에 데이터를 덧붙임
     getCommentList().then((result) => setCommentList([...commentList, ...result]));
+    console.log(typeof commentList);
   }, [page])
 
   // 페이지 카운트는 컴포넌트가 마운트되고 딱 한번만 가져오면됨
@@ -72,15 +74,50 @@ const Comments = () => {
     }));
   }
 
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   console.log("state"+newComment);
+  //   addComment(newComment);
+
+  //   setNewComment({
+  //     ...comment,
+  //     content: '',
+  //   })
+  // }
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("state"+newComment);
-    addComment(newComment);
-  }
+    // addComment(newComment);
+    axios.post(`/comment/save/`, newComment)
+    .then(res => {
+      // console.log("ggggggg"+res.data);
+      newComment.commentId = res.data;
+
+
+      setNewComment(newComment);
+      console.log("jjj", newComment);
+      
+    const comlist = [...commentList];
+    comlist.push(newComment);
+    setCommentList(comlist);
+    // setCommentList(commentList.assign(newComment));
+
+    console.log('commentlist:', commentList);
+
+    // input 공백 만들기
+    setNewComment({
+      ...newComment,
+      content : "",
+    })
+    // setNewComment(newComment);
+    // // console.log('werler'+res.data);
+    // setCommentList(commentList.concat(newComment));
+    
+  })};
   // 댓글 추가하기, 댓글 추가하는 API는 인증 미들웨어가 설정되어 있으므로
   // HTTP HEADER에 jwt-token 정보를 보내는 interceptor 사용
   // const submit = useCallback(async () => {
-  //   setNewComment()
   // const comment = {
   //     postId: postId,
   //     // DB에 엔터가 먹힌 상태로 들어가므로 제대로 화면에 띄우기 위해 <br>로 치환
@@ -106,14 +143,22 @@ const Comments = () => {
     console.log("eddd"+newComment.content);
     setNewComment({
       content : e.target,
-    })
-
-    // setNewComment((preNewComment) => ({
-    //   ...preNewComment,
-    //   [name] : value,
-    // }));
+    });
   }
   
+  const changeContent = (id, input) => {
+    return setCommentList(commentList.map((comment) => {
+      if(comment.idx == id) {
+        return {
+          ...comment,
+          content: input,
+        };
+      }
+      return comment;
+    }))
+
+  }
+
   /*modal 관련 코드*/
   // 로그인 후 돌아올 수 있게 현재 경로 세팅
   const goLogin = () => {
@@ -132,7 +177,7 @@ const Comments = () => {
     // CommentApi.addComment(comment)
     axios.post(`/comment/save/`, comment)
     .then((res) => {
-        console.log("Add Comments: ", comment);
+        console.log("Add Comments: ", res.data);
     })
     .catch((err) => {
       console.log("Add Comment() Error!", err);
@@ -194,9 +239,9 @@ const Comments = () => {
             <div className="comment-username-date">
               <div className="comment-date">{item.createdDate}</div>
             </div>
+            <div>{item.idx}</div>
             <div className="comment-username">{item.username}</div>
-              <div className="comment-content" onClick={handleClick}>
-                { newComment.content ? <input type="text" value={item.content} onChange={handleChange} /> : item.content}</div>
+              <div className="comment-content" onClick={() => changeContent(item.idx, item.content)}>{item.content}</div>
             <button className="delete" onClick={()=>handleDelete(item.idx)}>삭제</button>
             <hr/>
           </div>
