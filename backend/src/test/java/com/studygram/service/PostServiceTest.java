@@ -16,7 +16,7 @@ import java.util.List;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-//@Transactional
+@Transactional
 public class PostServiceTest {
 
     private static final int userId = 24; //leehyeji
@@ -50,11 +50,6 @@ public class PostServiceTest {
         comment.setUserId(originalPost.getUserId());
         comment.setPostId(originalPost.getIdx());
         commentService.createComment(comment);
-
-        tag = new Tag();
-        tag.setContent("sdf");
-        tag.setPostId(originalPost.getIdx());
-        tagService.save(tag);
 
         like = new Like();
         like.setUserId(originalPost.getUserId());
@@ -114,8 +109,6 @@ public class PostServiceTest {
         //given
 
         //when
-        Post newPost = postService.findById(originalPost.getIdx());
-        Assert.assertNotNull(newPost);
         postService.delete(originalPost);
 
         //then
@@ -125,7 +118,7 @@ public class PostServiceTest {
     @Test
     public void 게시글_1개_조회() {
         // given
-        int postId = 28;
+        int postId = 12;
 
         Post newPost = postService.findById(postId);
         System.out.println(newPost.toString());

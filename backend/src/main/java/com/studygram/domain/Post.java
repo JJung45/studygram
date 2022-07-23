@@ -15,7 +15,7 @@ public class Post {
     int userId;
     String userName;
     String content;
-    List<Tag> tags;
+    List<PostTag> tags;
     List<Like> likes;
     List<Comment> comments;
     int likeCnt;
