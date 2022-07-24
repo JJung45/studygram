@@ -34,7 +34,7 @@
             order by post.idx desc
     </select>
     <select id="findAll" parameterType="Integer" resultMap="postResultMap">
-        select post.idx as idx, post.user_id as user_id, `user`.user_name as user_name, post.content as content, tag.contents, post.created_date as created_date, post.updated_date as updated_date from post
+        select post.idx as idx, post.user_id as user_id, `user`.user_name as user_name, post.content as content, tag.contents as tag, post.created_date as created_date, post.updated_date as updated_date from post
         left join `user` on post.user_id = `user`.idx
         left join post_tag on post_tag.post_idx = post.idx
         left join `like` on `like`.post_id = post.idx
