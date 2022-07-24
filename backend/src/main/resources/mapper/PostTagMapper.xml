@@ -11,7 +11,7 @@
     <select id="findPostTagsByTag" parameterType="Tag" resultType="PostTag">
         select * from post_tag where tag_idx = #{idx}
     </select>
-    <select id="findTags" parameterType="Post" resultType="PostTag">
-        select * from post_tag where post_idx = #{idx}
+    <select id="findTags" parameterType="Post" resultType="Tag">
+        select * from tag left join post_tag on tag.idx = post_tag.tag_idx where post_idx = #{idx}
     </select>
 </mapper>
