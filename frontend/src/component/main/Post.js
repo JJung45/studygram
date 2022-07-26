@@ -1,6 +1,8 @@
 import React from "react";
+import Parser from 'html-react-parser';
 
 const Post = ({ data }) => {
+
 
   return (
     <article>
@@ -72,7 +74,7 @@ const Post = ({ data }) => {
           <ul className="comments">
             <li>
               <span>
-                <span className="point-span userID">test2</span>{data.content}
+                <span className="point-span userID">test2</span>{Parser(data.content)}
               </span>
               <img
                 className="comment-heart"
