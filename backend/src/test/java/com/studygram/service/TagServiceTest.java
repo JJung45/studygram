@@ -104,7 +104,8 @@ public class TagServiceTest {
         String tagContent = test2Tag.replaceAll("#","");
 
         //when
-        List<Post> list = tagService.findPostsByTag(tagContent);
+        List<PostTag> postTags = tagService.findPostsByTag(tagContent);
+        List<Post> list = postService.findByManyIds(postTags);
 
         //then
         for (Post post : list) {
