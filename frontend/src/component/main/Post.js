@@ -1,4 +1,9 @@
 import React from "react";
+import {Link} from 'react-router-dom'
+import Comments from "./Comments";
+import PostComment from "./PostComment";
+
+// const onChange
 
 const Post = ({ data }) => {
 
@@ -11,7 +16,7 @@ const Post = ({ data }) => {
             src="https://cdn4.iconfinder.com/data/icons/48-bubbles/48/30.User-512.png"
             alt="minchoi님의 프로필 사진"
           />
-          <span className="userID main-id point-span">{data.userId}</span>
+          <span className="userID main-id point-span">{data.userName}</span>
         </div>
         <img
           className="icon-react icon-more"
@@ -59,45 +64,49 @@ const Post = ({ data }) => {
           />
           <p>
             <span className="point-span">test</span>님{" "}
-            <span className="point-span">외 2,412,751명</span>이 좋아합니다
+            <span className="point-span">외 {data.likeCnt}명</span>이 좋아합니다
           </p>
         </div>
         <div className="description">
           <p>
-            <span className="point-span userID">minchoi</span>
-            <span className="at-tag">@test @react</span> 🌱
+            <span className="point-span userID">{data.userName}</span>
+            <span className="at-tag">{data.content}</span> 🌱
           </p>
         </div>
-        <div className="comment-section">
-          <ul className="comments">
-            <li>
-              <span>
-                <span className="point-span userID">test2</span>{data.content}
-              </span>
-              <img
-                className="comment-heart"
-                src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/bearu/heart.png"
-                alt="하트"
-              />
-            </li>
-          </ul>
-          <div className="time-log">
+        {data.commentCnt != 0 &&
+        <Link to={"/comment?postId=" + data.idx} state={{data: data.idx}}>
+          <span>View all {data.commentCnt} comments </span>
+        </Link>
+        }
+        <div class="comment-section">
+          <div>
+            {data.comments?.map((comment) => (
+              <PostComment data={comment}></PostComment>
+            ))}
+          </div>
+          <div class="time-log">
             <span>32분 전</span>
           </div>
         </div>
       </div>
-      <div className="hl"></div>
-      <div className="comment">
+      <div class="hl"></div>
+      
+      {/* <Comments value={data.idx} /> */}
+      {/* <CommentComponent value={data.idx} /> */}
+      {/* <div class="comment"> */}
+        {/* <form class="comment-input">
         <input
           id="input-comment"
           className="input-comment"
           type="text"
           placeholder="댓글 달기..."
+          ref={commentRef}
         />
-        <button type="submit" className="submit-comment" disabled>
+        <button class="submit-comment" onclick={addComment}>
           게시
         </button>
-      </div>
+        </form> */}
+      {/* </div> */}
     </article>
   );
 };

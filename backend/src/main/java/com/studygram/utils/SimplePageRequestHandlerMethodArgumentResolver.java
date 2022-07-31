@@ -13,7 +13,7 @@ public class SimplePageRequestHandlerMethodArgumentResolver implements HandlerMe
 
     private static final String DEFAULT_LIMIT_PARAMETER = "limit";
 
-    private static final long DEFAULT_OFFSET = 0;
+    private static final int DEFAULT_OFFSET = 0;
 
     private static final int DEFAULT_LIMIT = 5;
 
@@ -31,11 +31,12 @@ public class SimplePageRequestHandlerMethodArgumentResolver implements HandlerMe
         String offsetString = webRequest.getParameter(offsetParameterName);
         String limitString = webRequest.getParameter(limitParameterName);
 
-        long offset = DEFAULT_OFFSET;
+
+        int offset = DEFAULT_OFFSET;
         int limit = DEFAULT_LIMIT;
 
         if(StringUtils.hasText(offsetString)) {
-            offset = Long.valueOf(offsetString);
+            offset = Integer.valueOf(offsetString);
             if(offset < 0 || offset > Long.MAX_VALUE) {
                 offset = DEFAULT_OFFSET;
             }
@@ -43,11 +44,11 @@ public class SimplePageRequestHandlerMethodArgumentResolver implements HandlerMe
 
         if(StringUtils.hasText(limitString)) {
             limit = Integer.valueOf(limitString);
-            if(limit < 1 || limit > 5) {
+            if(limit < 1 || limit > 15) {
                 limit = DEFAULT_LIMIT;
             }
         }
 
-        return new SimplePageRequest(offset, limit);
+        return new SimplePageRequest(limit, offset);
     }
 }

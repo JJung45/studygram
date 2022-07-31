@@ -24,7 +24,6 @@ public class CommentController {
     @GetMapping("")
     // url="localhost:8090/comment?postId=1
     public List<Comment> getCommentsListByPostId(@RequestParam("postId") int postId, SimplePageRequest pageRequest) {
-        // TODO 댓글 페이징 필요
         return commentService.getCommentsListByPostID(postId, pageRequest);
     }
 
@@ -32,6 +31,12 @@ public class CommentController {
 //     url="localhost:8090/comment/1
     public Comment getCommentByCommentId(@PathVariable int commentId) {
         return commentService.getCommentByCommentID(commentId);
+    }
+
+    @GetMapping("/count/{postId}")
+//     url="localhost:8090/comment/1
+    public int getCommentCntByPostId(@PathVariable int postId) {
+        return commentService.getCommentCntByPostID(postId);
     }
 
 

@@ -6,6 +6,7 @@ import { Route, Link, Routes } from "react-router-dom";
 import ForgetPasswordPage from "./pages/ForgetPasswordPage";
 import MyPage from "./pages/MyPage";
 import PostPage from "./pages/PostPage";
+import CommentPage from "./pages/CommentPage";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/oauth2/redirect" element={<MyPage />} />
         <Route path="/forgetpassword" element={<ForgetPasswordPage />} />
         <Route path="/post" element={<PostPage />} />
+        <Route path="/comment" element={<CommentPage />} />
       </Routes>
     </>
   );

@@ -33,6 +33,8 @@ public class CommentService {
 
     public Comment getCommentByCommentID(int commentId) { return commentMapper.findByCommentId(commentId);}
 
+    public int getCommentCntByPostID(int postId) { return commentMapper.getCommentCntByPostId(postId); }
+
     public void createComment(Comment comment) {
         // 1. Post 데이터 있는지 확인
         if(postService.findById(comment.getPostId()) == null) {
