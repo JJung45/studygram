@@ -18,12 +18,9 @@ public class TagService {
     private TagMapper tagMapper;
 
     @Autowired
-    private PostService postService;
-
-    @Autowired
     private PostTagService postTagService;
 
-    public void saveTags(Post post) {
+    public List<String> saveTags(Post post) {
         String content = post.getContent();
         String[] arr = content.split(" ");
         List<String> tagList = Arrays.stream(arr)
@@ -31,7 +28,6 @@ public class TagService {
                 .collect(Collectors.toList());
 
         // 게시물이 저장된 다음에 가져와야할듯!
-        int postIdx = post.getIdx();
         for(String tagContent : tagList) {
             String[] newTagList = tagContent.split("#");
 
@@ -53,6 +49,8 @@ public class TagService {
             }
         }
 
+        return tagList;
+
     }
 
     public void updateTagsByPost(Post post) {
@@ -61,10 +59,9 @@ public class TagService {
     }
 
     //검색(태그클릭)
-    public List<Post> findPostsByTag(String search) {
+    public List<PostTag> findPostsByTag(String search) {
         Tag tag = tagMapper.findContent(search);
-        List<PostTag> postTags = postTagService.findPostTagsByTag(tag);
-        return postService.findByManyIds(postTags);
+        return postTagService.findPostTagsByTag(tag);
     }
 
     //자동완성

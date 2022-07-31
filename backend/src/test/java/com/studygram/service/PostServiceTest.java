@@ -65,7 +65,7 @@ public class PostServiceTest {
     public void 게시판_작성() {
         //given
         Post post = new Post();
-        post.setContent("test2222");
+        post.setContent("test2222 #태그입니다");
         post.setUserId(userId);
 
         //when
