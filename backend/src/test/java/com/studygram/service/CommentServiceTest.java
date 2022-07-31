@@ -2,11 +2,13 @@ package com.studygram.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.studygram.common.SimplePageRequest;
 import com.studygram.controller.CommentController;
 import com.studygram.domain.AuthReqModel;
 import com.studygram.domain.Comment;
 import com.studygram.mapper.CommentMapper;
 import com.studygram.utils.StringUtil;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 //import org.junit.jupiter.api.Test;
@@ -102,6 +104,24 @@ public class CommentServiceTest {
                 .andDo(print())
                 .andReturn();
 
+    }
+
+    @Test
+    public void 댓글조회withPaging() throws Exception {
+        // given
+        int postId = 28;
+        int limit = 7;
+        int offset = 0;
+
+        List<Comment> commentList = commentService.getCommentsListByPostID(postId, new SimplePageRequest(limit, offset));
+        Assert.assertEquals(commentList.size(), 7);
+
+        // when & then
+//       mockMvc.perform(get("/comment/" + postId))
+//        mockMvc.perform(get("/comment?postId=" + postId + "&limit=" + limit))
+//                .andExpect(status().isOk())
+//                .andDo(print())
+//                .andReturn();
     }
 
     @Test
