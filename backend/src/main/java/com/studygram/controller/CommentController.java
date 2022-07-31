@@ -24,7 +24,6 @@ public class CommentController {
     @GetMapping("")
     // url="localhost:8090/comment?postId=1
     public List<Comment> getCommentsListByPostId(@RequestParam("postId") int postId, SimplePageRequest pageRequest) {
-        // TODO 댓글 페이징 필요
         return commentService.getCommentsListByPostID(postId, pageRequest);
     }
 
