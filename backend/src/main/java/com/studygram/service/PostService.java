@@ -1,13 +1,14 @@
 package com.studygram.service;
 
 import com.studygram.domain.Post;
+import com.studygram.domain.PostTag;
 import com.studygram.mapper.PostMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -35,5 +36,15 @@ public class PostService {
 
     public void delete(Post post) {
         postMapper.delete(post);
+    }
+
+    public List<Post> findByManyIds(List<PostTag> postTags) {
+
+        List<Integer> postTagIds = new ArrayList<Integer>();
+        for (PostTag postTag : postTags) {
+            postTagIds.add(postTag.getPostIdx());
+        }
+        return postMapper.findByManyIds(postTagIds);
+
     }
 }

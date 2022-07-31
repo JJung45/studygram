@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.studygram.mapper.PostTagMapper">
+    <delete id="deleteTagsByPost" parameterType="Post">
+        delete from post_tag where post_idx = #{idx}
+    </delete>
+    <insert id="save">
+        insert into post_tag (post_idx, tag_idx)
+        values(#{post}, #{tag})
+    </insert>
+    <select id="findPostTagsByTag" parameterType="Tag" resultType="PostTag">
+        select * from post_tag where tag_idx = #{idx}
+    </select>
+    <select id="findTags" parameterType="Post" resultType="PostTag">
+        select * from post_tag where post_idx = #{idx}
+    </select>
+</mapper>
