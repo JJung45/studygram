@@ -5,6 +5,8 @@ import PostComment from "./PostComment";
 
 // const onChange
 
+// const onChange
+
 const Post = ({ data }) => {
 
   return (
@@ -90,23 +92,21 @@ const Post = ({ data }) => {
         </div>
       </div>
       <div class="hl"></div>
-      
-      {/* <Comments value={data.idx} /> */}
-      {/* <CommentComponent value={data.idx} /> */}
-      {/* <div class="comment"> */}
-        {/* <form class="comment-input">
+      <div class="comment">
+        {/* <form onSubmit={CommentComponent.addComment}> */}
         <input
           id="input-comment"
           className="input-comment"
           type="text"
           placeholder="댓글 달기..."
-          ref={commentRef}
+          // value={comment}
+          // onChange={onChange}
         />
-        <button class="submit-comment" onclick={addComment}>
+        <button type="submit" class="submit-comment">
           게시
         </button>
-        </form> */}
-      {/* </div> */}
+        {/* </form> */}
+      </div>
     </article>
   );
 };

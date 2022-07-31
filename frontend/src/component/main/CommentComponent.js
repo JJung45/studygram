@@ -44,16 +44,10 @@ const CommentComponent = (props) => {
     setNewComment(e.target.value);
   }
 
-  const uploadComments = () => {
-    const {commentBox, comments} = this.state;
-    commentBox.push({ commentValue: comments});
-    this.setState({comments: ''});
-  }
-  
   const addComment = (comment) => {
     CommentApi.addComment(comment)
     .then((res) => {
-      setComments(res.data);
+      setComments({...res.data});
         console.log("Delete Comments: ", comments);
     })
     .catch((err) => {
