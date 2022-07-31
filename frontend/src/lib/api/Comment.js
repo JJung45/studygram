@@ -6,14 +6,23 @@ const prefix = "/comment";
 /**
  * 댓글을 전체 조회한다. (게시글 ID 기준)
  */
-const getComments = (postId) => client.get(`${prefix}`, {params: 
-    {postId: postId} 
+const getComments = ({postId, limit, offset}) => client.get(`${prefix}`, {params: 
+    {
+        postId: postId,
+        limit: limit,
+        offset: offset
+    } 
 });
 
 /**
  * 댓글을 조회한다. (댓글 ID 기준)
  */
 const getComment = ({commentId}) => client.get(`${prefix}/`, {commentId});
+
+/**
+ * 댓글 갯수를 조회한다. (게시글 ID 기준)
+ */
+const getCommentCnt = ({postId}) => client.get(`${prefix}/count/`, {postId});
 
 /**
  * 댓글을 저장한다.
@@ -31,4 +40,4 @@ const updateComment = ({comment}) => client.put(`${prefix}/update`, {comment});
 const deleteComment = ({commentId}) => client.delete(`${prefix}/delete/`, {commentId});
 
 
-export default {getComments, getComment, addComment, updateComment, deleteComment};
+export default {getComments, getComment, getCommentCnt, addComment, updateComment, deleteComment};
