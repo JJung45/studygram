@@ -32,4 +32,8 @@ public class LikeService {
     public Like findByPostUser(int postId, int userId) {
         return likeMapper.findByPostUser(postId, userId);
     }
+
+    public boolean hasLikedPost(int postId, int userId) {
+        return likeMapper.hasLikedPost(postId, userId);
+    }
 }

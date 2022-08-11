@@ -36,6 +36,11 @@
     <select id="findByPostUser" parameterType="Integer" resultType="Like">
         select * from `like` where post_id = #{postId} and user_id = #{userId}
     </select>
+    <select id="hasLikedPost" parameterType="Integer" resultType="boolean">
+        select IF(COUNT(*) = 1, 1, 0)
+            from `like`
+            where post_id = #{postId} and user_id = #{userId}
+    </select>
     <select id="countAll" resultType="int">
         SELECT COUNT(*) FROM `like`
     </select>
