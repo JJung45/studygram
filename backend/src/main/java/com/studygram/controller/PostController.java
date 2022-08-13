@@ -5,11 +5,8 @@ import com.studygram.domain.Post;
 import com.studygram.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -24,7 +21,7 @@ public class PostController {
     private PostService postService;
 
     @PostMapping(path = "/save")
-    public ApiResponse addPost(@RequestBody Post post) throws Exception{
+    public ApiResponse addPost(Post post) throws Exception{
         postService.save(post);
         return ApiResponse.success(HttpStatus.OK.name(), post);
     }

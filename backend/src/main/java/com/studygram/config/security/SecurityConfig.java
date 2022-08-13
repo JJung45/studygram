@@ -171,6 +171,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         corsConfig.setAllowCredentials(true);
         corsConfig.setMaxAge(corsConfig.getMaxAge());
 
+        corsConfig.addAllowedOrigin("http://localhost:3000");
+
         corsConfigSource.registerCorsConfiguration("/**", corsConfig);
         return corsConfigSource;
     }
