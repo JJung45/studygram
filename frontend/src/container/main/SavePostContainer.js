@@ -1,8 +1,14 @@
 import React, { useEffect } from "react";
-import SavePostComponent from "../../component/main/SavePostComponent";
+import SavePostComponent from "../../component/post/SavePostComponent";
+import TopComponent from "../../component/post/TopComponent";
 
 const SavePostContainer = () => {
-  return <SavePostComponent />;
+  return (
+    <>
+        <TopComponent />
+        <SavePostComponent />
+    </>
+  );
 };
 
 export default SavePostContainer;

@@ -1,0 +1,38 @@
+main {
+    width: 960px;
+    margin: 0 auto;
+    padding-top: 10px;
+    background-color: #fff;
+    border-radius: 3px;
+    border-right: 1px solid #dbdbdb;
+    border-left: 1px solid #dbdbdb;
+}
+
+.header {
+    display: flex;
+    justify-content: center;
+    margin: 0;
+}
+
+.header > div {
+    flex: 1;
+}
+
+.header > .arrow {
+    padding-left: 10px;
+    text-align: left;
+}
+
+.header > .center {
+    text-align: center;
+}
+
+.header > .check {
+    padding-right: 10px;
+    text-align: right;
+}
+
+img{
+    width: 20px;
+    height: 100%;
+}

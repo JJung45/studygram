@@ -35,11 +35,16 @@ const SavePostComponent = () => {
 
   return (
     <div>
-        <form name="savePost" method="post">
-            <input type="hidden" name="userId" value={userId}/>
-            <input name="content" onChange={(event) => setContent(event.target.value)}/>
-            <input type="submit" onClick={() => onClickSearch(post)}/>
-        </form>
+        <div>
+            <form name="savePost" method="post">
+                <input type="hidden" name="userId" value={userId}/>
+                <input name="content" onChange={(event) => setContent(event.target.value)}/>
+                <input type="submit" onClick={() => onClickSearch(post)}/>
+            </form>
+        </div>
+        <div>
+            photo
+        </div>
     </div>
   );
 };

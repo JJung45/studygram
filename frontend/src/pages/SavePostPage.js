@@ -1,7 +1,6 @@
 import React from "react";
-import NavContainer from "../container/main/NavContainer";
 import SavePostContainer from "../container/main/SavePostContainer";
-import AsideContainer from "../container/main/AsideContainer";
+import "../styles/savePost.css";
 
 const SavePostPage = () => {
   return (
