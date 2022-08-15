@@ -5,7 +5,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 // import {jwtUtils} from "../../lib/jwtUtils";
 // import api from "../utils/api";
-import CommentApi from "../../lib/api/Comment"
+import CommentApi from "../../lib/api/comment"
 import { useLocation, useNavigate } from "react-router-dom";
 // import DisabledByDefaultOutlinedIcon from "@mui/icons-material/DisabledByDefaultOutlined";
 // import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -21,7 +21,7 @@ const Comments = () => {
   // const [content, setContent] = useState("");
   // 새로운 댓글
   const [newComment, setNewComment] = useState({
-    // commentId : '',
+    commentId : '',
     postId: postId,
     content: "",
     userId: 24, // 나중에 Cookie 내 아이디 필요
@@ -52,15 +52,15 @@ const Comments = () => {
     getCommentList().then((result) =>
       setCommentList([...commentList, ...result])
     );
-    console.log(typeof commentList);
   }, [page]);
 
   // 페이지 카운트는 컴포넌트가 마운트되고 딱 한번만 가져오면됨
   useEffect(() => {
     // 댓글 전체 갯수 구하기
     const getTotalBoard = async () => {
-      const { data } = await axios.get(`/comment/count/${postId}`);
-      // const {data} = await CommentApi.getCommentCnt(postId);
+      // const { data } = await axios.get(`/comment/count/${postId}`);
+      const {data} = await CommentApi.getCommentCnt(postId);
+      console.log("data", data);
       return data;
     };
     // 페이지 카운트 구하기: (전체 comment 갯수) / (한 페이지 갯수) 결과 올림

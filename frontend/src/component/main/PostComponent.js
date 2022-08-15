@@ -22,36 +22,24 @@ const PostComponent = () => {
     },
   ];
 
-  const dummy2 = [
-    {
-      id: "minchoi2",
-      post: "",
-      comment: "",
-    },
-    {
-      id: "headilee2",
-      post: "",
-      comment: "",
-    },
-    {
-      id: "jhk2",
-      post: "",
-      comment: "",
-    },
-  ];
-
-  const [data, setData] = useState(dummy);
+  const [data, setData] = useState(null);
   const [hasMore, setHasMore] = useState(true);
-  // useEffect(() => {
-  //   nextData();
-  // }, []);
 
   const nextData = () => {
-    // PostApi.getPosts();
+    PostApi.getPosts()
+      .then(res => {
+        setData(res.data);
+        console.log("data:", res.data);
+      });
+    
   };
 
+  useEffect(() => {
+    nextData();
+  },[])
+
   return (
-    <div id="scrollArea" class="feeds">
+    <div id="scrollArea" className="feeds">
       <InfiniteScroll
         dataLength={data ? data.length : 1}
         next={nextData}

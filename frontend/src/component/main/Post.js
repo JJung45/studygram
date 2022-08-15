@@ -79,33 +79,18 @@ const Post = ({ data }) => {
           <span>View all {data.commentCnt} comments </span>
         </Link>
         }
-        <div class="comment-section">
+        <div className="comment-section">
           <div>
             {data.comments?.map((comment) => (
               <PostComment data={comment}></PostComment>
             ))}
           </div>
-          <div class="time-log">
+          <div className="time-log">
             <span>32분 전</span>
           </div>
         </div>
       </div>
-      <div class="hl"></div>
-      {/* <div class="comment">
-        <form onSubmit={CommentComponent.addComment}>
-        <input
-          id="input-comment"
-          className="input-comment"
-          type="text"
-          placeholder="댓글 달기..."
-          // value={comment}
-          // onChange={onChange}
-        />
-        <button type="submit" class="submit-comment">
-          게시
-        </button>
-        </form>
-      </div> */}
+      <div className="hl"></div>
     </article>
   );
 };
