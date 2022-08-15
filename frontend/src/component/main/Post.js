@@ -1,6 +1,5 @@
 import React from "react";
 import {Link} from 'react-router-dom'
-import Comments from "./Comments";
 import PostComment from "./PostComment";
 
 // const onChange
@@ -92,8 +91,8 @@ const Post = ({ data }) => {
         </div>
       </div>
       <div class="hl"></div>
-      <div class="comment">
-        {/* <form onSubmit={CommentComponent.addComment}> */}
+      {/* <div class="comment">
+        <form onSubmit={CommentComponent.addComment}>
         <input
           id="input-comment"
           className="input-comment"
@@ -105,8 +104,8 @@ const Post = ({ data }) => {
         <button type="submit" class="submit-comment">
           게시
         </button>
-        {/* </form> */}
-      </div>
+        </form>
+      </div> */}
     </article>
   );
 };

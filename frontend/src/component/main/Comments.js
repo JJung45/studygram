@@ -5,11 +5,11 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 // import {jwtUtils} from "../../lib/jwtUtils";
 // import api from "../utils/api";
-import CommentApi from "../../lib/api/comment";
+import CommentApi from "../../lib/api/Comment"
 import { useLocation, useNavigate } from "react-router-dom";
 // import DisabledByDefaultOutlinedIcon from "@mui/icons-material/DisabledByDefaultOutlined";
 // import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-// import "../../styles/comments.scss"
+// import "../../styles/Comment.scss"
 
 const Comments = () => {
   // 로그인 후 현재 경로로 돌아오기 위해 useLocation 사용
@@ -84,28 +84,7 @@ const Comments = () => {
       alert('내용을 입력하세요');
       return;
     }
-    // addComment(newComment);
-    axios.post(`/comment/save/`, newComment).then(() => {
-      const getCommentList = async () => {
-        const params = {
-          postId: postId,
-          limit: page,
-          offset: 0,
-        };
-        const { data } = await CommentApi.getComments(params);
-        console.log("commentList:" + data);
-        return data;
-      };
-      // 기존 commentList에 데이터를 덧붙임
-      getCommentList().then((result) => setCommentList(result));
-
-      setNewComment({
-        ...newComment,
-        content: "",
-      });
-      
-    });
-
+    addComment(newComment);
   };
   // 댓글 추가하기, 댓글 추가하는 API는 인증 미들웨어가 설정되어 있으므로
   // HTTP HEADER에 jwt-token 정보를 보내는 interceptor 사용
@@ -146,11 +125,25 @@ const Comments = () => {
 
   const addComment = (comment) => {
     // 얘를 쓰면 CORS 에러 난다..
-    // CommentApi.addComment(comment)
-    axios
-      .post(`/comment/save/`, comment)
-      .then((res) => {
-        console.log("Add Comments: ", res.data);
+    CommentApi.addComment(comment)
+      .then(() => {
+        const getCommentList = async () => {
+          const params = {
+            postId: postId,
+            limit: page,
+            offset: 0,
+          };
+          const { data } = await CommentApi.getComments(params);
+          console.log("commentList:" + data);
+          return data;
+        };
+         // 기존 commentList에 데이터를 덧붙임
+        getCommentList().then((result) => setCommentList(result));
+
+        setNewComment({
+          ...newComment,
+          content: "",
+        });
       })
       .catch((err) => {
         console.log("Add Comment() Error!", err);
@@ -158,26 +151,12 @@ const Comments = () => {
   };
 
   const deleteComment = (commentId) => {
-    // CommentApi.deleteComment(commentId)
-    axios
-      .delete(`/comment/delete/${commentId}`)
-      .then((res) => {
-        // setComments(res.data);
+    CommentApi.deleteComment(commentId)
+      .then(() => {
         console.log("Delete Comments: ", commentId);
       })
       .catch((err) => {
         console.log("deleteComment() Error!", err);
-      });
-  };
-
-  const editComment = (comment) => {
-    CommentApi.updateComment(comment)
-      .then((res) => {
-        //   setComments(res.data);
-        console.log("Update Comments: ", comment);
-      })
-      .catch((err) => {
-        console.log("editComment() Error!", err);
       });
   };
 
