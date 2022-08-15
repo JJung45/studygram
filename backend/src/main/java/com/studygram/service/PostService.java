@@ -39,6 +39,10 @@ public class PostService {
         return postMapper.findById(postId);
     }
 
+    public Post findByIds(int postId, int userId) {
+        return postMapper.findByIds(postId, userId);
+    }
+
     public List<Post> findAll(Integer limit, Integer offset) {
         return postMapper.findAll(limit, offset);
     }

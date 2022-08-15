@@ -139,6 +139,7 @@ public class PostServiceTest {
         likeService.save(like);
 
         // then
-        assertTrue(postService.findById(originalPost.getIdx()).isHasLiked());
+        assertTrue(postService.findByIds(originalPost.getIdx(), likedUserId).isHasLiked());
     }
 }
+
