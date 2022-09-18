@@ -1,16 +1,23 @@
 package com.studygram.domain;
 
+import lombok.*;
+
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Follow {
     int idx;
-    User fromUser;
-    User toUser;
+    int fromUserIdx;
+    int toUserIdx;
 
     @Override
     public String toString() {
         return "Follow{" +
                 "idx=" + idx +
-                ", fromUser=" + fromUser +
-                ", toUser=" + toUser +
+                ", fromUser=" + fromUserIdx +
+                ", toUser=" + toUserIdx +
                 '}';
     }
 }

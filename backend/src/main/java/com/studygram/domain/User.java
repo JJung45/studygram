@@ -5,6 +5,7 @@ import com.studygram.common.oauth.RoleType;
 import lombok.*;
 
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -22,6 +23,10 @@ public class User {
     ProviderType providerType;
     RoleType roleType;
     String profileImageUrl;
+    int followingCnt;
+    List<Integer> following;
+    int followersCnt;
+    List<Integer> followers;
     Date createdDate;
     Date lastLoginDate;
 
@@ -34,5 +39,27 @@ public class User {
         this.providerType = providerType;
         this.roleType = roleType;
         this.profileImageUrl = profileImageUrl;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "idx=" + idx +
+                ", userName='" + userName + '\'' +
+                ", fullName='" + fullName + '\'' +
+                ", passwd='" + passwd + '\'' +
+                ", phoneNum='" + phoneNum + '\'' +
+                ", emailId='" + emailId + '\'' +
+                ", clientId='" + clientId + '\'' +
+                ", providerType=" + providerType +
+                ", roleType=" + roleType +
+                ", profileImageUrl='" + profileImageUrl + '\'' +
+                ", followingCnt=" + followingCnt +
+                ", following=" + following +
+                ", followersCnt=" + followersCnt +
+                ", followers=" + followers +
+                ", createdDate=" + createdDate +
+                ", lastLoginDate=" + lastLoginDate +
+                '}';
     }
 }
