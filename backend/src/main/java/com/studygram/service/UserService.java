@@ -24,11 +24,10 @@ public class UserService {
     private UserMapper userMapper;
     @Autowired
     private FollowMapper followMapper;
-    @Autowired
-    private UserRefreshTokenMapper userRefreshTokenMapper;
 
     public User getUser(String userId) {
-        return userMapper.findByUserName(userId);
+        // 여기서 반환하는 userId = clientId(116224305006047574141)
+        return userMapper.findByClientId(userId);
     }
     public User getUserInfo(int userIdx) {
         User userInfo = userMapper.findByUserIdx(userIdx);

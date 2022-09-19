@@ -78,8 +78,8 @@ public class AuthController {
         if (userRefreshToken == null) {
             // 없는 경우 새로 등록
             userRefreshToken = new UserRefreshToken(clientId, refreshToken.getToken());
-            //userRefreshTokenMapper.saveAndFlush(userRefreshToken);
-            userRefreshTokenMapper.updateRefreshToken(userRefreshToken);
+            userRefreshTokenMapper.saveAndFlush(userRefreshToken);
+//            userRefreshTokenMapper.updateRefreshToken(userRefreshToken);
         } else {
             // DB에 refresh 토큰 업데이트
             userRefreshToken.setRefreshToken(refreshToken.getToken());
