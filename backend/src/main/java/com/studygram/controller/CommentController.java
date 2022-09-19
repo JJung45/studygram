@@ -7,6 +7,7 @@ import com.studygram.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.lang.Nullable;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -41,8 +42,8 @@ public class CommentController {
 
 
     @PostMapping("/save") // value ={,} 다중 맵핑 가능
-    public ApiResponse createComment(@RequestBody Comment comment) {
-        commentService.createComment(comment);
+    public ApiResponse createComment(@RequestBody Comment comment, Authentication authentication) {
+        commentService.createComment(comment, authentication);
         return ApiResponse.success(HttpStatus.OK.name(), null);
     }
 
