@@ -25,7 +25,7 @@ public class UserService {
     private UserRefreshTokenMapper userRefreshTokenMapper;
 
     public User getUser(String userId) {
-        return userMapper.findByUserName(userId);
+        return userMapper.findByClientId(userId);
     }
 
     public List<User> getAllUsers() {

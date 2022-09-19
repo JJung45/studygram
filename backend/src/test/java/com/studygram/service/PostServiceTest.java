@@ -11,12 +11,14 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-@Transactional
+//@Transactional
 public class PostServiceTest {
 
     private static final int userId = 24; //leehyeji
@@ -123,4 +125,21 @@ public class PostServiceTest {
         Post newPost = postService.findById(postId);
         System.out.println(newPost.toString());
     }
+
+    @Test
+    public void 좋아요_누른_게시글이_맞는지_확인() {
+        /// given
+        int likedUserId = 35;
+        Like like = Like.builder()
+                .userId(likedUserId)
+                .postId(originalPost.getIdx())
+                .build();
+
+        // when
+        likeService.save(like);
+
+        // then
+        assertTrue(postService.findByIds(originalPost.getIdx(), likedUserId).isHasLiked());
+    }
 }
+

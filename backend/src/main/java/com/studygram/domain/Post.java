@@ -19,6 +19,7 @@ public class Post {
     List<Like> likes;
     List<Comment> comments;
     int likeCnt;
+    boolean hasLiked;
     int commentCnt;
     Date createdDate;
     Date updatedDate;
