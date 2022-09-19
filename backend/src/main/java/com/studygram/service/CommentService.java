@@ -2,13 +2,17 @@ package com.studygram.service;
 
 import com.studygram.common.ApiResponse;
 import com.studygram.common.SimplePageRequest;
+import com.studygram.config.AppProperties;
 import com.studygram.domain.Comment;
 import com.studygram.domain.Tag;
+import com.studygram.domain.User;
 import com.studygram.mapper.CommentMapper;
 import com.studygram.utils.StringUtil;
 import com.studygram.utils.TimeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,6 +22,7 @@ import java.util.List;
 public class CommentService {
     private final CommentMapper commentMapper;
     private PostService postService;
+    private UserService userService;
 
     @Autowired
     public CommentService(CommentMapper commentMapper, PostService postService) {
@@ -35,7 +40,7 @@ public class CommentService {
 
     public int getCommentCntByPostID(int postId) { return commentMapper.getCommentCntByPostId(postId); }
 
-    public void createComment(Comment comment) {
+    public void createComment(Comment comment, Authentication authentication) {
         // 1. Post 데이터 있는지 확인
         if(postService.findById(comment.getPostId()) == null) {
             ApiResponse.fail();
@@ -54,6 +59,11 @@ public class CommentService {
              */
 
         }
+        // UserID 가져오기
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        User user = userService.getUser(userDetails.getUsername());
+        comment.setIdx(user.getIdx());
+        System.out.println("Comment Info: " + comment.toString());
         if(commentMapper.save(comment) < 0) {
             ApiResponse.fail();
         }
