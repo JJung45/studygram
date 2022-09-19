@@ -11,4 +11,43 @@
     <select id="findLikes" parameterType="Integer" resultType="Like">
         select * from `like` where post_id = #{idx}
     </select>
+    <select id="findLikesByPostId" parameterType="Integer" resultType="Like">
+        select `like`.idx, post_id, comment_id, like.user_id, `user`.user_name
+            from `like`
+                left join `user` on `like`.user_id = `user`.idx
+        where 1 = 1
+          and post_id = #{idx}
+    </select>
+
+    <select id="findLikesByCommentId" parameterType="Integer" resultType="Like">
+        select `like`.idx, post_id, comment_id, like.user_id, `user`.user_name
+        from `like`
+                 left join `user` on `like`.user_id = `user`.idx
+        where 1 = 1
+          and comment_id = #{idx}
+    </select>
+
+    <select id="findLikeCntByPostId" parameterType="Integer" resultType="Integer">
+        select count(*)
+            from `like`
+            where 1 = 1
+              and post_id = #{postId}
+    </select>
+    <select id="findByPostUser" parameterType="Integer" resultType="Like">
+        select * from `like` where post_id = #{postId} and user_id = #{userId}
+    </select>
+    <select id="hasLikedPost" parameterType="Integer" resultType="boolean">
+        select IF(COUNT(*) >= 1, 1, 0)
+            from `like`
+            where post_id = #{postId} and user_id = #{userId}
+    </select>
+    <select id="countAll" resultType="int">
+        SELECT COUNT(*) FROM `like`
+    </select>
+    <select id="randOneIdx" resultType="Like">
+        SELECT * FROM `like` p ORDER BY RAND() LIMIT 1;
+    </select>
+    <delete id="delete" parameterType="Like">
+        delete from `like` where idx = #{idx}
+    </delete>
 </mapper>

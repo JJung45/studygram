@@ -1,6 +1,13 @@
 import React from "react";
+import Parser from 'html-react-parser';
+import {Link} from 'react-router-dom'
+import Comments from "./Comments";
+import PostComment from "./PostComment";
+
+// const onChange
 
 const Post = ({ data }) => {
+
 
   return (
     <article>
@@ -11,7 +18,7 @@ const Post = ({ data }) => {
             src="https://cdn4.iconfinder.com/data/icons/48-bubbles/48/30.User-512.png"
             alt="minchoi님의 프로필 사진"
           />
-          <span className="userID main-id point-span">{data.userId}</span>
+          <span className="userID main-id point-span">{data.userName}</span>
         </div>
         <img
           className="icon-react icon-more"
@@ -59,20 +66,20 @@ const Post = ({ data }) => {
           />
           <p>
             <span className="point-span">test</span>님{" "}
-            <span className="point-span">외 2,412,751명</span>이 좋아합니다
+            <span className="point-span">외 {data.likeCnt}명</span>이 좋아합니다
           </p>
         </div>
         <div className="description">
           <p>
-            <span className="point-span userID">minchoi</span>
-            <span className="at-tag">@test @react</span> 🌱
+            <span className="point-span userID">{data.userName}</span>
+            <span className="at-tag">{data.content}</span> 🌱
           </p>
         </div>
         <div className="comment-section">
           <ul className="comments">
             <li>
               <span>
-                <span className="point-span userID">test2</span>{data.content}
+                <span className="point-span userID">test2</span>{Parser(data.content)}
               </span>
               <img
                 className="comment-heart"
@@ -86,18 +93,24 @@ const Post = ({ data }) => {
           </div>
         </div>
       </div>
-      <div className="hl"></div>
-      <div className="comment">
+      <div class="hl"></div>
+
+      {/* <Comments value={data.idx} /> */}
+      {/* <CommentComponent value={data.idx} /> */}
+      {/* <div class="comment"> */}
+        {/* <form class="comment-input">
         <input
           id="input-comment"
           className="input-comment"
           type="text"
           placeholder="댓글 달기..."
+          ref={commentRef}
         />
-        <button type="submit" className="submit-comment" disabled>
+        <button class="submit-comment" onclick={addComment}>
           게시
         </button>
-      </div>
+        </form> */}
+      {/* </div> */}
     </article>
   );
 };

@@ -5,30 +5,51 @@
         <id column="idx" property="idx"/>
         <result column="post_id" property="postId"/>
         <result column="user_id" property="userId"/>
+        <result column="user_name" property="userName"/>
         <result column="content" property="content"/>
         <result column="created_date" property="createdDate"/>
         <result column="updated_date" property="updatedDate"/>
-        <!-- collection 태그는 마지막 -->
+        <!-- collection Type은 마지막 -->
+        <!-- Tag Idx 컬럼값만 가져올때 사용
         <collection property="tags" column="post_id" javaType="java.util.ArrayList" ofType="com.studygram.domain.Tag" select="getTagListByPostId" />
+        -->
+        <collection property="tags" column="idx" javaType="java.util.ArrayList" ofType="com.studygram.domain.Tag" select="com.studygram.mapper.TagMapper.findTagsByCommentId" />
+        <collection property="likes" column="idx" javaType="java.util.ArrayList" ofType="com.studygram.domain.Like" select="com.studygram.mapper.LikeMapper.findLikesByCommentId" />
     </resultMap>
 
-    <select id="findByPostId" resultMap="commentResultMap">
-        select t1.idx as idx, t1.post_id as post_id, t2.idx as user_id, t1.content as content
+    <select id="findCommentsByPostId" resultMap="commentResultMap">
+        select t1.idx as idx, t1.post_id as post_id, t2.idx as user_id, t2.user_name, t1.content as content
+        from comment t1
+                 left join user t2 on t1.user_id = t2.idx
+        where 1 = 1
+          and t1.post_id = #{postId}
+        order by t1.idx desc
+        limit 3 offset 0
+    </select>
+    <select id="findCommentsByPostIdWithPaging" resultMap="commentResultMap">
+        select t1.idx as idx, t1.post_id as post_id, t2.idx as user_id, t2.user_name, t1.content as content
             from comment t1
                 left join user t2 on t1.user_id = t2.idx
             where 1 = 1
-              and t1.user_id = t2.idx
               and t1.post_id = #{postId}
         order by t1.idx desc
+        limit #{limit}
+        offset #{offset}
     </select>
     <select id="getTagListByPostId" resultType="com.studygram.domain.Tag">
         select *
             from tag
             where post_id = #{postId}
     </select>
-
     <select id="findByCommentId" resultType="Comment">
-        select * from comment where idx = #{commentId}
+        select t1.idx as idx, t1.post_id as post_id, t2.idx as user_id, t2.user_name, t1.content as content
+            from comment t1
+                 left join user t2 on t1.user_id = t2.idx
+        where t1.idx = #{commentId}
+    </select>
+    <select id="getCommentCntByPostId" resultType="int">
+        select count(*) from comment
+            where comment.post_id = #{postId}
     </select>
 
     <insert id="save" parameterType="Comment">
@@ -50,5 +71,12 @@
 
     <select id="findComments" parameterType="Integer" resultType="Comment">
         select * from comment where post_id = #{idx}
+    </select>
+
+    <select id="findCommentCntByPostId" parameterType="Integer" resultType="Integer">
+        select count(*)
+        from comment
+        where 1 = 1
+          and post_id = #{postId}
     </select>
 </mapper>

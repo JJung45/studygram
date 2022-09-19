@@ -11,15 +11,17 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-@Transactional
+//@Transactional
 public class PostServiceTest {
 
-    private static final int userId = 5;
+    private static final int userId = 24; //leehyeji
 
     @Autowired
     PostService postService;
@@ -51,17 +53,13 @@ public class PostServiceTest {
         comment.setPostId(originalPost.getIdx());
         commentService.createComment(comment);
 
-        tag = new Tag();
-        tag.setContent("sdf");
-        tag.setPostId(originalPost.getIdx());
-        tagService.save(tag);
-
         like = new Like();
         like.setUserId(originalPost.getUserId());
         like.setPostId(originalPost.getIdx());
         likeService.save(like);
 
-        List<Post> posts = postService.findAll();
+        // TODO 데이터가 100개 넘었을 때 문제 발생할듯
+        List<Post> posts = postService.findAll(100,1);
         postCount = posts.size();
     }
 
@@ -69,7 +67,7 @@ public class PostServiceTest {
     public void 게시판_작성() {
         //given
         Post post = new Post();
-        post.setContent("test");
+        post.setContent("test2222 #태그입니다");
         post.setUserId(userId);
 
         //when
@@ -84,12 +82,12 @@ public class PostServiceTest {
     public void 게시판_전체_조회() {
         //when
         Post post = new Post();
-        post.setContent("test");
+        post.setContent("test22");
         post.setUserId(userId);
         postService.save(post);
 
         //then
-        List<Post> nowPosts = postService.findAll();
+        List<Post> nowPosts = postService.findAll(100,1);
         Assert.assertEquals(nowPosts.size(), postCount + 1);
     }
 
@@ -113,11 +111,35 @@ public class PostServiceTest {
         //given
 
         //when
-        Post newPost = postService.findById(originalPost.getIdx());
-        Assert.assertNotNull(newPost);
         postService.delete(originalPost);
 
         //then
         Assert.assertNull(postService.findById(originalPost.getIdx()));
     }
+
+    @Test
+    public void 게시글_1개_조회() {
+        // given
+        int postId = 12;
+
+        Post newPost = postService.findById(postId);
+        System.out.println(newPost.toString());
+    }
+
+    @Test
+    public void 좋아요_누른_게시글이_맞는지_확인() {
+        /// given
+        int likedUserId = 35;
+        Like like = Like.builder()
+                .userId(likedUserId)
+                .postId(originalPost.getIdx())
+                .build();
+
+        // when
+        likeService.save(like);
+
+        // then
+        assertTrue(postService.findByIds(originalPost.getIdx(), likedUserId).isHasLiked());
+    }
 }
+

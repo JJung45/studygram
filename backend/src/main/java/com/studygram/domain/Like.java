@@ -12,7 +12,20 @@ import java.util.Date;
 public class Like {
     int idx;
     int postId;
+    int commentId;
     int userId;
+    String userName;
     Date createdDate;
+
+    @Override
+    public String toString() {
+        return "Like{" +
+                "idx=" + idx +
+                ", postId=" + postId +
+                ", commentId=" + commentId +
+                ", userId=" + userId +
+                ", createdDate=" + createdDate +
+                '}';
+    }
 }
 
