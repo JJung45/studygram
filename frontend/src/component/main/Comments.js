@@ -10,8 +10,10 @@ import { useLocation, useNavigate } from "react-router-dom";
 // import DisabledByDefaultOutlinedIcon from "@mui/icons-material/DisabledByDefaultOutlined";
 // import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 // import "../../styles/Comment.scss"
+import styled from "styled-components";
 
 const Comments = () => {
+  const tmp = process.env.REACT_APP_URL;
   // 로그인 후 현재 경로로 돌아오기 위해 useLocation 사용
   const location = useLocation();
   const navigate = useNavigate();
@@ -21,19 +23,29 @@ const Comments = () => {
   // const [content, setContent] = useState("");
   // 새로운 댓글
   const [newComment, setNewComment] = useState({
-    commentId : '',
+    // comment_id : '',
     postId: postId,
     content: "",
-    userId: 24, // 나중에 Cookie 내 아이디 필요
+    // user_id: 0,
   });
   // 선택된 댓글
   const [comment, setComment] = useState(0);
   //   const token = useSelector(state => state.Auth.token);
   // 현재 페이지, 전체 페이지 갯수
-  const [page, setPage] = useState(10);
+  const [page, setPage] = useState(0);
   const [pageCount, setPageCount] = useState(0);
   // modal이 보이는 여부 상태
   const [show, setShow] = useState(false);
+  const Button = styled.button`
+  border: none;
+  background: #fff;
+  border-radius: 15px;
+  padding: 7px;
+  width: 120px;
+  font-weight: 600;
+  color: #6b8eb3;
+  cursor: pointer;
+`;
 
   // 페이지에 해당하는 댓글 목록은 page 상태가 변경될 때마다 가져옴
   // 맨 처음 페이지가 1이므로 처음엔 1페이지에 해당하는 댓글을 가져온다
@@ -57,14 +69,24 @@ const Comments = () => {
   // 페이지 카운트는 컴포넌트가 마운트되고 딱 한번만 가져오면됨
   useEffect(() => {
     // 댓글 전체 갯수 구하기
-    const getTotalBoard = async () => {
-      // const { data } = await axios.get(`/comment/count/${postId}`);
-      const {data} = await CommentApi.getCommentCnt(postId);
-      console.log("data", data);
-      return data;
-    };
+    // const getTotalBoard = async () => {
+    //   const {data} = await axios.get(`http://localhost:8090/comment/count/${postId}`);
+    //   // const {data} = await CommentApi.getCommentCnt(postId);
+    //   // return data;
+    //   console.log("data: ", data);
+    //   setPageCount(Math.ceil(data / 5));
+    //   console.log("page:", page ,"pageCount", pageCount, "Math", Math.ceil(data / 5));
+
+    // }
+    axios.get(`http://localhost:8090/comment/count/${postId}`)
+    .then((result) => {
+      const data = result.data;
+      console.log(data);
+      setPageCount(Math.ceil(data / 5));
+      // console.log("page:", page ,"pageCount", pageCount, "Math", Math.ceil(data / 5));
+    })
     // 페이지 카운트 구하기: (전체 comment 갯수) / (한 페이지 갯수) 결과 올림
-    getTotalBoard().then((result) => setPageCount(Math.ceil(result / 5)));
+    // getTotalBoard().then((result) => setPageCount(Math.ceil(result / 5)));
   }, []);
 
   const handleChange = (e) => {
@@ -76,7 +98,7 @@ const Comments = () => {
     }));
   };
 
-
+  // CASE 1.
   const handleSubmit = (e) => {
     e.preventDefault();
     if(newComment.content == '')
@@ -86,6 +108,41 @@ const Comments = () => {
     }
     addComment(newComment);
   };
+
+  // CASE 2.
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   if(newComment.content == '') {
+  //     alert("댓글을 입력해주세요");
+  //     return;
+  //   }
+  //   console.log("state" + newComment);
+  //   axios.post(`/comment/save/`, newComment)
+  //   .then((res) => {
+  //     newComment.commentId = res.data;
+  //     setNewComment(newComment);
+  //     const getCommentList = async () => {
+  //       const params = {
+  //         postId: postId,
+  //         limit: page,
+  //         offset: 0,
+  //       };
+  //       const { data } = await CommentApi.getComments(params);
+  //       console.log("commentList:" + data);
+  //       return data;
+  //     };
+  //     // 기존 commentList에 데이터를 덧붙임
+  //     getCommentList().then((result) =>
+  //       setCommentList([...commentList, ...result])
+  //     );
+
+  //     // input 공백 만들기
+  //     setNewComment({
+  //       ...newComment,
+  //       content: "",
+  //     });
+  //   });
+  // };
   // 댓글 추가하기, 댓글 추가하는 API는 인증 미들웨어가 설정되어 있으므로
   // HTTP HEADER에 jwt-token 정보를 보내는 interceptor 사용
   // const submit = useCallback(async () => {
@@ -123,9 +180,39 @@ const Comments = () => {
   //     }
   //   }
 
-  const addComment = (comment) => {
-    // 얘를 쓰면 CORS 에러 난다..
-    CommentApi.addComment(comment)
+  const addComment = async(comment) => {
+    // Client 에 Token 담긴 axios 사용
+    await CommentApi.addComment({
+      postId: postId,
+      content: newComment.content
+    })
+    .then(() => {
+      const getCommentList = async () => {
+        const params = {
+          postId: postId,
+          limit: page,
+          offset: 0,
+        };
+        const { data } = await CommentApi.getComments(params);
+        console.log("commentList:" + data);
+        return data;
+      };
+       // 기존 commentList에 데이터를 덧붙임
+      getCommentList().then((result) => setCommentList(result));
+      
+
+      setNewComment({
+        ...newComment,
+        content: "",
+      });
+    })
+    .catch((err) => {
+      console.log("Add Comment() Error!", err);
+    });
+
+
+    /*
+    axios.post(`${tmp}/comment/save/`, comment)
       .then(() => {
         const getCommentList = async () => {
           const params = {
@@ -148,10 +235,12 @@ const Comments = () => {
       .catch((err) => {
         console.log("Add Comment() Error!", err);
       });
+    */
   };
 
   const deleteComment = (commentId) => {
-    CommentApi.deleteComment(commentId)
+    // CommentApi.deleteComment(commentId)
+    axios.delete(`http://localhost:8090/comment/delete/${commentId}`)
       .then(() => {
         console.log("Delete Comments: ", commentId);
       })
@@ -159,6 +248,29 @@ const Comments = () => {
         console.log("deleteComment() Error!", err);
       });
   };
+
+  // const getComment = useCallback(() => {
+  //   let params = {
+  //     count: 5,
+  //   };
+  //   if (nextId) {
+  //     params.next_id = nextId;
+  //   }
+  //   dispatch(getTimelineAction(params));
+  // }, [dispatch, nextId]);
+
+  // const onClickMoreButton = useCallback(() => {
+  //   if (!nextId) {
+  //     alert("모든 데이터를 조회했습니다.");
+  //   } else {
+  //     getComment();
+  //   }
+  // }, [nextId, getComment]);
+
+  const onClickMoreButton = useCallback(() => {
+     setPage(page + 1);
+  });
+
 
   return (
     <div className="comments-wrapper">
@@ -213,20 +325,17 @@ const Comments = () => {
         */
         page < pageCount && (
           <div
-            className="comments-footer"
-            onClick={() => {
-              setPage(page + 1);
-            }}
+            className="button_box"
+            style={{ textAlign: "center", margin: "20px" }}
           >
-            댓글 더보기
-            {/* <KeyboardArrowDownIcon/> */}
+            <Button onClick={onClickMoreButton}> + read more...</Button>
           </div>
         )
       }
 
-<div>
+    <div>
       {/* <TextField */}
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} method="post">
         <input id="postId" name="postId" value={newComment.postId || ""} hidden />
         <input
           className="comments-header-textarea"
