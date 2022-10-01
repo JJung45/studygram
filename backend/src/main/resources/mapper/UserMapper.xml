@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.studygram.mapper.UserMapper">
+    <select id="findByUserIdx" resultType="User">
+        select * from user where idx = #{idx}
+    </select>
     <select id="findByUserName" parameterType="String" resultType="User">
         select * from user where user_name=#{userName}
     </select>
@@ -27,4 +30,5 @@
             where client_id = #{clientId}
         return user_name;
     </update>
+
 </mapper>

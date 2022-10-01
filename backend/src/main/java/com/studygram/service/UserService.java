@@ -3,6 +3,7 @@ package com.studygram.service;
 import com.studygram.common.oauth.AuthTokenProvider;
 import com.studygram.config.AppProperties;
 import com.studygram.domain.User;
+import com.studygram.mapper.FollowMapper;
 import com.studygram.mapper.UserMapper;
 import com.studygram.mapper.UserRefreshTokenMapper;
 import lombok.RequiredArgsConstructor;
@@ -22,10 +23,19 @@ public class UserService {
     @Autowired
     private UserMapper userMapper;
     @Autowired
-    private UserRefreshTokenMapper userRefreshTokenMapper;
+    private FollowMapper followMapper;
 
     public User getUser(String userId) {
+        // 여기서 반환하는 userId = clientId(116224305006047574141)
         return userMapper.findByClientId(userId);
+    }
+    public User getUserInfo(int userIdx) {
+        User userInfo = userMapper.findByUserIdx(userIdx);
+        userInfo.setFollowingCnt(followMapper.countFollowings(userIdx));
+        userInfo.setFollowing(followMapper.getFollowings(userIdx));
+        userInfo.setFollowersCnt(followMapper.countFollowers(userIdx));
+        userInfo.setFollowers(followMapper.getFollowers(userIdx));
+        return userInfo;
     }
 
     public List<User> getAllUsers() {
