@@ -2,7 +2,6 @@ import React from "react";
 import axios from "axios";
 import "../../styles/Auth.css";
 import styled from "styled-components";
-import queryString from 'query-string';
 import { useLocation } from "react-router-dom";
 import setAuthorizationToken from "../../lib/api/setAuthorizationToken";
 import { AxiosContext } from "react-axios/lib/components/AxiosProvider";

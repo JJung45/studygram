@@ -5,7 +5,11 @@ const prefix = "/post";
 /**
  * 게시물을 저장한다.
  */
-const addPost = ({ post }) => client.post(`${prefix}/save`, { post });
+const addPost = (post) => client({
+  method : 'post',
+  url: `${prefix}/save`, 
+  data: post 
+});
 
 /**
  * 게시물을 수정한다.

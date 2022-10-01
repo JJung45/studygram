@@ -4,33 +4,25 @@ import axios from 'axios';
 
 const SavePostComponent = () => {
     const [id, setId] = useState('');
-    const [content, setContent] = useState('');
+    const [content, setContent] = useState();
     const [userId, setUserId] = useState(24);
     const [post, setPost] = useState({
-        "content" : content,
-        "userId"  : userId
+        "content" : "asdfsdfds",
+        "userId"  : 24
     });
 
     
-    const onClickSearch = (post) => {
-
-        console.log(post);
-
-        // axios({
-        //     method : 'post',
-        //     url : 'http://127.0.0.1:8090/post/save',
-        //     headers : {
-        //         'Content-Type' : 'application/json'
-        //     },
-        //     data : {
-        //        post
-        //     }
-        // }).then(function(response) {
-        //     console.log(response);
-        // }).catch(function(error){
-        //     console.log(error);
-        // })
-    };
+    const onClickSearch = async(post) => {
+        // Client 에 Token 담긴 axios 사용
+        await PostApi.addPost(post)
+        .then(() => {
+            document.location.href = 'http://localhost:3000/post'
+        })
+        .catch((err) => {
+          console.log("Add post Error!", err);
+        });
+    
+      };
 
 
   return (
