@@ -7,6 +7,7 @@ import ForgetPasswordPage from "./pages/ForgetPasswordPage";
 import MyPage from "./pages/MyPage";
 import PostPage from "./pages/PostPage";
 import SavePostPage from './pages/SavePostPage';
+import CommentPage from "./pages/CommentPage";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/forgetpassword" element={<ForgetPasswordPage />} />
         <Route path="/post" element={<PostPage />} />
         <Route path="/post/save" element={<SavePostPage />} />
+        <Route path="/comment" element={<CommentPage />} />
       </Routes>
     </>
   );

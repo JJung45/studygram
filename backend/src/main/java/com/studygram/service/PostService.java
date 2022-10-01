@@ -28,6 +28,7 @@ public class PostService {
     }
 
     public Post update(Post post) {
+        // TODO 댓글, 좋아요, 태그 연결해서 업데이트
         postMapper.update(post);
         return post;
     }

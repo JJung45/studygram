@@ -29,6 +29,7 @@ const PostComponent = () => {
     PostApi.getPosts()
       .then(res => {
         setData(res.data);
+        console.log("data:", res.data);
       });
     
   };
