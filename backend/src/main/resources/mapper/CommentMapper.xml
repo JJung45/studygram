@@ -5,6 +5,7 @@
         <id column="idx" property="idx"/>
         <result column="post_id" property="postId"/>
         <result column="user_id" property="userId"/>
+        <result column="user_name" property="userName"/>
         <result column="content" property="content"/>
         <result column="created_date" property="createdDate"/>
         <result column="updated_date" property="updatedDate"/>
@@ -48,7 +49,5 @@
         delete from comment where post_id = #{postId}
     </delete>
 
-    <select id="findComments" parameterType="Integer" resultType="Comment">
-        select * from comment where post_id = #{idx}
-    </select>
+
 </mapper>
