@@ -7,6 +7,7 @@ import com.studygram.domain.Comment;
 import com.studygram.domain.Tag;
 import com.studygram.domain.User;
 import com.studygram.mapper.CommentMapper;
+import com.studygram.mapper.UserMapper;
 import com.studygram.utils.StringUtil;
 import com.studygram.utils.TimeUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +22,9 @@ import java.util.List;
 @Slf4j
 public class CommentService {
     private final CommentMapper commentMapper;
+    @Autowired
     private PostService postService;
+    @Autowired
     private UserService userService;
 
     @Autowired
@@ -62,8 +65,8 @@ public class CommentService {
         // UserID 가져오기
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         User user = userService.getUser(userDetails.getUsername());
-        comment.setIdx(user.getIdx());
-        System.out.println("Comment Info: " + comment.toString());
+        comment.setUserId(user.getIdx());
+        comment.setUserName(user.getUserName());
         if(commentMapper.save(comment) < 0) {
             ApiResponse.fail();
         }
