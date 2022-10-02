@@ -13,7 +13,7 @@
         <!-- Tag Idx 컬럼값만 가져올때 사용
         <collection property="tags" column="post_id" javaType="java.util.ArrayList" ofType="com.studygram.domain.Tag" select="getTagListByPostId" />
         -->
-        <collection property="tags" column="idx" javaType="java.util.ArrayList" ofType="com.studygram.domain.Tag" select="com.studygram.mapper.TagMapper.findTagsByCommentId" />
+<!--        <collection property="tags" column="idx" javaType="java.util.ArrayList" ofType="com.studygram.domain.Tag" select="com.studygram.mapper.TagMapper.findTagsByCommentId" />-->
         <collection property="likes" column="idx" javaType="java.util.ArrayList" ofType="com.studygram.domain.Like" select="com.studygram.mapper.LikeMapper.findLikesByCommentId" />
     </resultMap>
 
@@ -36,11 +36,11 @@
         limit #{limit}
         offset #{offset}
     </select>
-    <select id="getTagListByPostId" resultType="com.studygram.domain.Tag">
-        select *
-            from tag
-            where post_id = #{postId}
-    </select>
+<!--    <select id="getTagListByPostId" resultType="com.studygram.domain.Tag">-->
+<!--        select *-->
+<!--            from tag-->
+<!--            where post_id = #{postId}-->
+<!--    </select>-->
     <select id="findByCommentId" resultType="Comment">
         select t1.idx as idx, t1.post_id as post_id, t2.idx as user_id, t2.user_name, t1.content as content
             from comment t1

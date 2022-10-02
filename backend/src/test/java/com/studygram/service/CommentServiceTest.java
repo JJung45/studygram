@@ -19,6 +19,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -26,6 +29,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.swing.tree.ExpandVetoException;
+import java.util.Collection;
 import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -66,17 +70,18 @@ public class CommentServiceTest {
 
 
     @Test
+    @WithMockUser
     public void 댓글작성() throws Exception {
         // given
         int i = 1;
         while(i < 98){
             Comment comment = Comment.builder()
-                    .postId(28)
-                    .userId(24)
+                    .postId(48)
+                    .userId(27)
                     .content("testComment" + i)
                     .build();
 
-            commentService.createComment(comment);
+            commentService.createComment(comment, null);
             i++;
         };
 //        comment = Comment.builder()

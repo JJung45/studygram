@@ -50,18 +50,19 @@ public class CommentService {
         }
 
         // 2. 댓글 내용에서 Tag 추출하고 Insert
+        /*
         String content = comment.getContent();
         List<String> tags = StringUtil.getTagsFromContent(content);
         for(String str : tags) {
             Tag tag = new Tag();
             tag.setContents(str);
-            /*
+
             if(tagService.save(tag) < 0) {
                 ApiResponse.fail();
             }
-             */
-
         }
+         */
+
         // UserID 가져오기
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         User user = userService.getUser(userDetails.getUsername());
