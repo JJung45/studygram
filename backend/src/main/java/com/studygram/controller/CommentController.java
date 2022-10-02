@@ -33,8 +33,8 @@ public class CommentController {
 
 
     @PostMapping("/save") // value ={,} 다중 맵핑 가능
-    public ApiResponse createComment(@RequestBody Comment comment) {
-        commentService.createComment(comment);
+    public ApiResponse createComment(@RequestBody Comment comment, Authentication authentication) {
+        commentService.createComment(comment, authentication);
         return ApiResponse.success(HttpStatus.OK.name(), null);
     }
 
