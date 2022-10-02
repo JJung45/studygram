@@ -2,13 +2,11 @@ package com.studygram.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.studygram.common.SimplePageRequest;
 import com.studygram.controller.CommentController;
 import com.studygram.domain.AuthReqModel;
 import com.studygram.domain.Comment;
 import com.studygram.mapper.CommentMapper;
 import com.studygram.utils.StringUtil;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 //import org.junit.jupiter.api.Test;
@@ -35,7 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
-//@Transactional
+@Transactional
 public class CommentServiceTest {
     @Autowired
     CommentService commentService;
@@ -68,34 +66,23 @@ public class CommentServiceTest {
     @Test
     public void 댓글작성() throws Exception {
         // given
-        int i = 1;
-        while(i < 98){
-            Comment comment = Comment.builder()
-                    .postId(28)
-                    .userId(24)
-                    .content("testComment" + i)
-                    .build();
-
-            commentService.createComment(comment);
-            i++;
-        };
-//        comment = Comment.builder()
-//                .postId(28)
-//                .userId(24)
-//                .content("testComment")
-//                .build();
+        comment = Comment.builder()
+                .postId(12)
+                .userId(20)
+                .content("test")
+                .build();
 
         // when & then
-//        mockMvc.perform(post("/comment/save")
-//                .content(objectMapper.writeValueAsString(comment))
-//                .contentType(MediaType.APPLICATION_JSON))
-//            .andExpect(status().isOk());
+        mockMvc.perform(post("/comment/save")
+                .content(objectMapper.writeValueAsString(comment))
+                .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk());
     }
 
     @Test
     public void 댓글조회() throws Exception{
         // given
-        int postId = 28;
+        int postId = 12;
 
         // when & then
 //       mockMvc.perform(get("/comment/" + postId))
@@ -104,24 +91,6 @@ public class CommentServiceTest {
                 .andDo(print())
                 .andReturn();
 
-    }
-
-    @Test
-    public void 댓글조회withPaging() throws Exception {
-        // given
-        int postId = 28;
-        int limit = 7;
-        int offset = 0;
-
-        List<Comment> commentList = commentService.getCommentsListByPostID(postId, new SimplePageRequest(limit, offset));
-        Assert.assertEquals(commentList.size(), 7);
-
-        // when & then
-//       mockMvc.perform(get("/comment/" + postId))
-//        mockMvc.perform(get("/comment?postId=" + postId + "&limit=" + limit))
-//                .andExpect(status().isOk())
-//                .andDo(print())
-//                .andReturn();
     }
 
     @Test

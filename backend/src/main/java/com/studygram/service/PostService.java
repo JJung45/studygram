@@ -6,10 +6,9 @@ import com.studygram.domain.Tag;
 import com.studygram.mapper.PostMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -48,21 +47,12 @@ public class PostService {
     }
 
     public Post update(Post post) {
+        // TODO 댓글, 좋아요, 태그 연결해서 업데이트
         postMapper.update(post);
         return post;
     }
 
     public void delete(Post post) {
         postMapper.delete(post);
-    }
-
-    public List<Post> findByManyIds(List<PostTag> postTags) {
-
-        List<Integer> postTagIds = new ArrayList<Integer>();
-        for (PostTag postTag : postTags) {
-            postTagIds.add(postTag.getPostIdx());
-        }
-        return postMapper.findByManyIds(postTagIds);
-
     }
 }

@@ -30,9 +30,7 @@ const AsideComponent = () => {
               />
               <div className="profile-text">
                 <span className="userID point-span">heaji</span>
-                <span className="sub-span">
-                  hakyeong님 외 2명이 팔로우합니다
-                </span>
+                <span className="sub-span">hakyeong님 외 2명이 팔로우합니다</span>
               </div>
             </div>
             <span className="btn-follow">팔로우</span>
