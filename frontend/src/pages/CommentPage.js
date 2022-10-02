@@ -1,14 +1,13 @@
-import React from 'react';
-import CommentComponent from '../component/main/CommentComponent';
-import Comments from '../component/main/Comments'
-
+import React from "react";
+import CommentContainer from "../container/main/CommentContainer";
+import "../styles/Post.css";
 
 const CommentPage = () => {
   return (
     <>
-        <Comments />
+      <CommentContainer/>
     </>
-)
-}
+  );
+};
 
 export default CommentPage;

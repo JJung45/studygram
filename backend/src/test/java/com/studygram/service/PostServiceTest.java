@@ -1,70 +1,33 @@
 package com.studygram.service;
 
-import com.studygram.domain.Comment;
-import com.studygram.domain.Like;
 import com.studygram.domain.Post;
-import com.studygram.domain.Tag;
-import org.junit.Test;
-import org.junit.Assert;
-import org.junit.Before;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
+// TODO 왜 spirngboottest intializationError가 날까..?
 @SpringBootTest
 @RunWith(SpringRunner.class)
 //@Transactional
 public class PostServiceTest {
 
-    private static final int userId = 24; //leehyeji
-
+    // TODO 왜 beforeeach는 안될까..?
     @Autowired
     PostService postService;
-    Post originalPost;
-    int postCount;
-
-    @Autowired
-    CommentService commentService;
-    Comment comment;
-
-    @Autowired
-    TagService tagService;
-    Tag tag;
-
-    @Autowired
-    LikeService likeService;
-    Like like;
-
-    @Before
-    public void beforeEach() {
-        originalPost = new Post();
-        originalPost.setContent("test");
-        originalPost.setUserId(userId);
-        postService.save(originalPost);
-
-        comment = new Comment();
-        comment.setContent("sdfsdf");
-        comment.setUserId(originalPost.getUserId());
-        comment.setPostId(originalPost.getIdx());
-        commentService.createComment(comment);
-
-        like = new Like();
-        like.setUserId(originalPost.getUserId());
-        like.setPostId(originalPost.getIdx());
-        likeService.save(like);
-
-        // TODO 데이터가 100개 넘었을 때 문제 발생할듯
-        List<Post> posts = postService.findAll(100,1);
-        postCount = posts.size();
-    }
 
     @Test
-    public void 게시판_작성() {
+    void 게시판_작성() {
         //given
         Post post = new Post();
         post.setContent("test2222 #태그입니다");
@@ -75,43 +38,76 @@ public class PostServiceTest {
 
         //then
         Post resPost = postService.findById(post.getIdx());
-        Assert.assertEquals(resPost.getIdx(), post.getIdx());
+        Assertions.assertEquals(resPost.getIdx(), post.getIdx());
     }
 
     @Test
-    public void 게시판_전체_조회() {
+    void 게시판_전체_조회() {
+        //given
+        List<Post> posts = postService.findAll();
+
         //when
         Post post = new Post();
-        post.setContent("test22");
-        post.setUserId(userId);
+        post.setCommentsId(1);
+        post.setContent("test");
+        post.setLikesId(1);
+        post.setTagsId(3);
+        post.setImageUrlId(4);
+        post.setUserId(35);
         postService.save(post);
 
+        Post post2 = new Post();
+        post2.setCommentsId(1);
+        post2.setContent("test");
+        post2.setLikesId(1);
+        post2.setTagsId(3);
+        post2.setImageUrlId(4);
+        post2.setUserId(35);
+        postService.save(post2);
+
         //then
-        List<Post> nowPosts = postService.findAll(100,1);
-        Assert.assertEquals(nowPosts.size(), postCount + 1);
+        List<Post> nowPosts = postService.findAll();
+        Assertions.assertEquals(nowPosts.size(), posts.size() + 2);
     }
 
     @Test
-    public void 게시판_업데이트() {
+    void 게시판_업데이트() {
         //given
-        Post updatedPost = postService.findById(originalPost.getIdx());
-        String beforeContent =updatedPost.getContent();
+        Post post = new Post();
+        post.setCommentsId(1);
+        post.setContent("test");
+        post.setLikesId(1);
+        post.setTagsId(3);
+        post.setImageUrlId(4);
+        post.setUserId(35);
+        postService.save(post);
 
         //when
+        Post updatedPost = postService.findById(post.getIdx());
         updatedPost.setContent("hihi");
         postService.update(updatedPost);
 
         //then
         Post updatePost = postService.findById(updatedPost.getIdx());
-        Assert.assertNotEquals(beforeContent,updatePost.getContent());
+        Assertions.assertEquals("hihi",updatePost.getContent());
     }
 
     @Test
-    public void 게시판_삭제() {
+    void 게시판_삭제() {
         //given
+        Post post = new Post();
+        post.setCommentsId(1);
+        post.setContent("deletetest");
+        post.setLikesId(1);
+        post.setTagsId(3);
+        post.setImageUrlId(4);
+        post.setUserId(35);
+        postService.save(post);
 
         //when
-        postService.delete(originalPost);
+        Post newPost = postService.findById(post.getIdx());
+        assertNotNull(newPost);
+        postService.delete(post);
 
         //then
         Assert.assertNull(postService.findById(originalPost.getIdx()));
