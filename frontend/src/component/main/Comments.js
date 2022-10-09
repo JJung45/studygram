@@ -5,7 +5,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 // import {jwtUtils} from "../../lib/jwtUtils";
 // import api from "../utils/api";
-import CommentApi from "../../lib/api/comment"
+import CommentApi from "../../lib/api/Comment";
 import { useLocation, useNavigate } from "react-router-dom";
 // import DisabledByDefaultOutlinedIcon from "@mui/icons-material/DisabledByDefaultOutlined";
 // import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -37,15 +37,15 @@ const Comments = () => {
   // modal이 보이는 여부 상태
   const [show, setShow] = useState(false);
   const Button = styled.button`
-  border: none;
-  background: #fff;
-  border-radius: 15px;
-  padding: 7px;
-  width: 120px;
-  font-weight: 600;
-  color: #6b8eb3;
-  cursor: pointer;
-`;
+    border: none;
+    background: #fff;
+    border-radius: 15px;
+    padding: 7px;
+    width: 120px;
+    font-weight: 600;
+    color: #6b8eb3;
+    cursor: pointer;
+  `;
 
   // 페이지에 해당하는 댓글 목록은 page 상태가 변경될 때마다 가져옴
   // 맨 처음 페이지가 1이므로 처음엔 1페이지에 해당하는 댓글을 가져온다
@@ -78,13 +78,14 @@ const Comments = () => {
     //   console.log("page:", page ,"pageCount", pageCount, "Math", Math.ceil(data / 5));
 
     // }
-    axios.get(`http://localhost:8090/comment/count/${postId}`)
-    .then((result) => {
-      const data = result.data;
-      console.log(data);
-      setPageCount(Math.ceil(data / 5));
-      // console.log("page:", page ,"pageCount", pageCount, "Math", Math.ceil(data / 5));
-    })
+    axios
+      .get(`http://localhost:8090/comment/count/${postId}`)
+      .then((result) => {
+        const data = result.data;
+        console.log(data);
+        setPageCount(Math.ceil(data / 5));
+        // console.log("page:", page ,"pageCount", pageCount, "Math", Math.ceil(data / 5));
+      });
     // 페이지 카운트 구하기: (전체 comment 갯수) / (한 페이지 갯수) 결과 올림
     // getTotalBoard().then((result) => setPageCount(Math.ceil(result / 5)));
   }, []);
@@ -101,9 +102,8 @@ const Comments = () => {
   // CASE 1.
   const handleSubmit = (e) => {
     e.preventDefault();
-    if(newComment.content == '')
-    {
-      alert('내용을 입력하세요');
+    if (newComment.content == "") {
+      alert("내용을 입력하세요");
       return;
     }
     addComment(newComment);
@@ -180,36 +180,34 @@ const Comments = () => {
   //     }
   //   }
 
-  const addComment = async(comment) => {
+  const addComment = async (comment) => {
     // Client 에 Token 담긴 axios 사용
     await CommentApi.addComment({
       postId: postId,
-      content: newComment.content
+      content: newComment.content,
     })
-    .then(() => {
-      const getCommentList = async () => {
-        const params = {
-          postId: postId,
-          limit: page,
-          offset: 0,
+      .then(() => {
+        const getCommentList = async () => {
+          const params = {
+            postId: postId,
+            limit: page,
+            offset: 0,
+          };
+          const { data } = await CommentApi.getComments(params);
+          console.log("commentList:" + data);
+          return data;
         };
-        const { data } = await CommentApi.getComments(params);
-        console.log("commentList:" + data);
-        return data;
-      };
-       // 기존 commentList에 데이터를 덧붙임
-      getCommentList().then((result) => setCommentList(result));
-      
+        // 기존 commentList에 데이터를 덧붙임
+        getCommentList().then((result) => setCommentList(result));
 
-      setNewComment({
-        ...newComment,
-        content: "",
+        setNewComment({
+          ...newComment,
+          content: "",
+        });
+      })
+      .catch((err) => {
+        console.log("Add Comment() Error!", err);
       });
-    })
-    .catch((err) => {
-      console.log("Add Comment() Error!", err);
-    });
-
 
     /*
     axios.post(`${tmp}/comment/save/`, comment)
@@ -226,7 +224,6 @@ const Comments = () => {
         };
          // 기존 commentList에 데이터를 덧붙임
         getCommentList().then((result) => setCommentList(result));
-
         setNewComment({
           ...newComment,
           content: "",
@@ -240,7 +237,8 @@ const Comments = () => {
 
   const deleteComment = (commentId) => {
     // CommentApi.deleteComment(commentId)
-    axios.delete(`http://localhost:8090/comment/delete/${commentId}`)
+    axios
+      .delete(`http://localhost:8090/comment/delete/${commentId}`)
       .then(() => {
         console.log("Delete Comments: ", commentId);
       })
@@ -268,9 +266,8 @@ const Comments = () => {
   // }, [nextId, getComment]);
 
   const onClickMoreButton = useCallback(() => {
-     setPage(page + 1);
+    setPage(page + 1);
   });
-
 
   return (
     <div className="comments-wrapper">
@@ -303,10 +300,13 @@ const Comments = () => {
             <div
               className="comment-content"
               // onClick={() => changeContent(item.idx, item.content)}
-              onClick={() => setNewComment({
-                commentId: item.idx,
-                content: item.content})}
-              >
+              onClick={() =>
+                setNewComment({
+                  commentId: item.idx,
+                  content: item.content,
+                })
+              }
+            >
               {item.content}
             </div>
             <button className="delete" onClick={() => handleDelete(item.idx)}>
@@ -333,20 +333,25 @@ const Comments = () => {
         )
       }
 
-    <div>
-      {/* <TextField */}
-      <form onSubmit={handleSubmit} method="post">
-        <input id="postId" name="postId" value={newComment.postId || ""} hidden />
-        <input
-          className="comments-header-textarea"
-          id="content"
-          name="content"
-          placeholder="댓글을 입력하세요"
-          value={newComment.content || ''}
-          onChange={handleChange}
-        />
-        <button type="submit">입력</button>
-      </form>
+      <div>
+        {/* <TextField */}
+        <form onSubmit={handleSubmit} method="post">
+          <input
+            id="postId"
+            name="postId"
+            value={newComment.postId || ""}
+            hidden
+          />
+          <input
+            className="comments-header-textarea"
+            id="content"
+            name="content"
+            placeholder="댓글을 입력하세요"
+            value={newComment.content || ""}
+            onChange={handleChange}
+          />
+          <button type="submit">입력</button>
+        </form>
       </div>
 
       {/*modal*/}
