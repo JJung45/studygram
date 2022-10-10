@@ -11,7 +11,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -19,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-@Transactional
+//@Transactional
 public class PostServiceTest {
 
     private static final int userId = 24; //leehyeji
@@ -52,7 +51,6 @@ public class PostServiceTest {
         comment.setContent("sdfsdf");
         comment.setUserId(originalPost.getUserId());
         comment.setPostId(originalPost.getIdx());
-        // 오류나서 임시 null 추가
         commentService.createComment(comment, null);
 
         like = new Like();
@@ -144,3 +142,4 @@ public class PostServiceTest {
         assertTrue(postService.findByIds(originalPost.getIdx(), likedUserId).isHasLiked());
     }
 }
+

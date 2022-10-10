@@ -2,11 +2,13 @@ package com.studygram.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.studygram.common.SimplePageRequest;
 import com.studygram.controller.CommentController;
 import com.studygram.domain.AuthReqModel;
 import com.studygram.domain.Comment;
 import com.studygram.mapper.CommentMapper;
 import com.studygram.utils.StringUtil;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 //import org.junit.jupiter.api.Test;
@@ -17,6 +19,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -24,6 +29,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.swing.tree.ExpandVetoException;
+import java.util.Collection;
 import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -33,7 +39,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
-@Transactional
+//@Transactional
 public class CommentServiceTest {
     @Autowired
     CommentService commentService;
@@ -64,25 +70,37 @@ public class CommentServiceTest {
 
 
     @Test
+    @WithMockUser
     public void 댓글작성() throws Exception {
         // given
-        comment = Comment.builder()
-                .postId(12)
-                .userId(20)
-                .content("test")
-                .build();
+        int i = 1;
+        while(i < 98){
+            Comment comment = Comment.builder()
+                    .postId(48)
+                    .userId(27)
+                    .content("testComment" + i)
+                    .build();
+
+            commentService.createComment(comment, null);
+            i++;
+        };
+//        comment = Comment.builder()
+//                .postId(28)
+//                .userId(24)
+//                .content("testComment")
+//                .build();
 
         // when & then
-        mockMvc.perform(post("/comment/save")
-                .content(objectMapper.writeValueAsString(comment))
-                .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isOk());
+//        mockMvc.perform(post("/comment/save")
+//                .content(objectMapper.writeValueAsString(comment))
+//                .contentType(MediaType.APPLICATION_JSON))
+//            .andExpect(status().isOk());
     }
 
     @Test
     public void 댓글조회() throws Exception{
         // given
-        int postId = 12;
+        int postId = 28;
 
         // when & then
 //       mockMvc.perform(get("/comment/" + postId))
@@ -91,6 +109,24 @@ public class CommentServiceTest {
                 .andDo(print())
                 .andReturn();
 
+    }
+
+    @Test
+    public void 댓글조회withPaging() throws Exception {
+        // given
+        int postId = 28;
+        int limit = 7;
+        int offset = 0;
+
+        List<Comment> commentList = commentService.getCommentsListByPostID(postId, new SimplePageRequest(limit, offset));
+        Assert.assertEquals(commentList.size(), 7);
+
+        // when & then
+//       mockMvc.perform(get("/comment/" + postId))
+//        mockMvc.perform(get("/comment?postId=" + postId + "&limit=" + limit))
+//                .andExpect(status().isOk())
+//                .andDo(print())
+//                .andReturn();
     }
 
     @Test

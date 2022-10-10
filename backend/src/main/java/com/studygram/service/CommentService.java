@@ -28,16 +28,16 @@ public class CommentService {
     private UserService userService;
 
     @Autowired
-    public CommentService(CommentMapper commentMapper) {
+    public CommentService(CommentMapper commentMapper, PostService postService) {
         this.commentMapper = commentMapper;
+        this.postService = postService;
     }
 
-    public List<Comment> getCommentsListByPostID(int postId, SimplePageRequest pageRequest) {
-        int limit = pageRequest.getLimit();
-        long offset = pageRequest.getOffset();
+    public List<Comment> getCommentsListByPostID(int postId, SimplePageRequest simplePageRequest) {
+        int limit = simplePageRequest.getLimit();
+        long offset = simplePageRequest.getOffset();
         return commentMapper.findCommentsByPostIdWithPaging(postId, limit, offset);
     }
-
 
     public Comment getCommentByCommentID(int commentId) { return commentMapper.findByCommentId(commentId);}
 
@@ -45,24 +45,24 @@ public class CommentService {
 
     public void createComment(Comment comment, Authentication authentication) {
         // 1. Post 데이터 있는지 확인
-//        if(postService.getPost(comment.getPostId()).isNull()) {
-//            ApiResponse.fail();
-//        }
+        if(postService.findById(comment.getPostId()) == null) {
+            ApiResponse.fail();
+        }
 
         // 2. 댓글 내용에서 Tag 추출하고 Insert
+        /*
         String content = comment.getContent();
         List<String> tags = StringUtil.getTagsFromContent(content);
         for(String str : tags) {
             Tag tag = new Tag();
-            tag.setCommentId(comment.getIdx());
-            tag.setContent(str);
-            /*
+            tag.setContents(str);
+
             if(tagService.save(tag) < 0) {
                 ApiResponse.fail();
             }
-             */
-
         }
+         */
+
         // UserID 가져오기
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         User user = userService.getUser(userDetails.getUsername());
@@ -102,14 +102,5 @@ public class CommentService {
         }
     }
 
-    public void deleteCommentsByPostId(int postId) {
-//        if(postMapper.deleteByPostID(postId) == null) {
-//            log.error("Not Found Post");
-//            ApiResponse.notFoundFail();
-//        }
-        if(commentMapper.deleteByPostId(postId) < 0) {
-            log.debug("Noting to Delete");
-        }
-    }
 
 }

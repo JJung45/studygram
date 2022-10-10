@@ -23,8 +23,8 @@ public class CommentController {
 
     @GetMapping("")
     // url="localhost:8090/comment?postId=1
-    public List<Comment> getCommentsListByPostId(@RequestParam("postId") int postId, SimplePageRequest pageRequest) {
-        return commentService.getCommentsListByPostID(postId, pageRequest);
+    public List<Comment> getCommentsListByPostId(@RequestParam int postId, SimplePageRequest simplePageRequest) {
+        return commentService.getCommentsListByPostID(postId, simplePageRequest);
     }
 
 //    @GetMapping("/{commentId}")
