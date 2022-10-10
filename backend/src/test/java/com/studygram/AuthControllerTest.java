@@ -50,7 +50,7 @@ public class AuthControllerTest {
     {
         // given
         user = User.builder()
-                .userName("leehyeji")
+                .userName("minchoi")
                 .passwd("1234")
                 .providerType(ProviderType.LOCAL)
                 .roleType(RoleType.USER)

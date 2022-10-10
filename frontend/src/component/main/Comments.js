@@ -1,17 +1,19 @@
-import React, {useCallback, useEffect, useState} from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 // import moment from 'moment';
 // import {Button, Dialog, DialogContent, IconButton, TextField} from "@mui/material";
-import {useSelector} from "react-redux";
+import { useSelector } from "react-redux";
 // import {jwtUtils} from "../../lib/jwtUtils";
 // import api from "../utils/api";
-import CommentApi from "../../lib/api/comment";
-import {useLocation, useNavigate} from "react-router-dom";
+import CommentApi from "../../lib/api/Comment";
+import { useLocation, useNavigate } from "react-router-dom";
 // import DisabledByDefaultOutlinedIcon from "@mui/icons-material/DisabledByDefaultOutlined";
 // import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-// import "../../styles/comments.scss"
+// import "../../styles/Comment.scss"
+import styled from "styled-components";
 
 const Comments = () => {
+  const tmp = process.env.REACT_APP_URL;
   // 로그인 후 현재 경로로 돌아오기 위해 useLocation 사용
   const location = useLocation();
   const navigate = useNavigate();
@@ -21,100 +23,126 @@ const Comments = () => {
   // const [content, setContent] = useState("");
   // 새로운 댓글
   const [newComment, setNewComment] = useState({
-    // commentId : '',
-    postId : postId,
-    // content: "",
-    userId : 24,
-  })
+    // comment_id : '',
+    postId: postId,
+    content: "",
+    // user_id: 0,
+  });
   // 선택된 댓글
   const [comment, setComment] = useState(0);
   //   const token = useSelector(state => state.Auth.token);
   // 현재 페이지, 전체 페이지 갯수
-  const [page, setPage] = useState(10);
+  const [page, setPage] = useState(0);
   const [pageCount, setPageCount] = useState(0);
   // modal이 보이는 여부 상태
   const [show, setShow] = useState(false);
+  const Button = styled.button`
+    border: none;
+    background: #fff;
+    border-radius: 15px;
+    padding: 7px;
+    width: 120px;
+    font-weight: 600;
+    color: #6b8eb3;
+    cursor: pointer;
+  `;
 
-  
   // 페이지에 해당하는 댓글 목록은 page 상태가 변경될 때마다 가져옴
   // 맨 처음 페이지가 1이므로 처음엔 1페이지에 해당하는 댓글을 가져온다
   useEffect(() => {
     const getCommentList = async () => {
       const params = {
-        postId : postId,
+        postId: postId,
         limit: page,
-        offset: 0
-      }
-      const {data} = await CommentApi.getComments(params);
-      console.log("commentList:"+data);
+        offset: 0,
+      };
+      const { data } = await CommentApi.getComments(params);
+      console.log("commentList:" + data);
       return data;
-    }
+    };
     // 기존 commentList에 데이터를 덧붙임
-    getCommentList().then((result) => setCommentList([...commentList, ...result]));
-    console.log(typeof commentList);
-  }, [page])
+    getCommentList().then((result) =>
+      setCommentList([...commentList, ...result])
+    );
+  }, [page]);
 
   // 페이지 카운트는 컴포넌트가 마운트되고 딱 한번만 가져오면됨
   useEffect(() => {
     // 댓글 전체 갯수 구하기
-    const getTotalBoard = async () => {
-      const {data} = await axios.get(`/comment/count/${postId}`);
-      // const {data} = await CommentApi.getCommentCnt(postId);
-      return data;
-    }
+    // const getTotalBoard = async () => {
+    //   const {data} = await axios.get(`http://localhost:8090/comment/count/${postId}`);
+    //   // const {data} = await CommentApi.getCommentCnt(postId);
+    //   // return data;
+    //   console.log("data: ", data);
+    //   setPageCount(Math.ceil(data / 5));
+    //   console.log("page:", page ,"pageCount", pageCount, "Math", Math.ceil(data / 5));
+
+    // }
+    axios
+      .get(`http://localhost:8090/comment/count/${postId}`)
+      .then((result) => {
+        const data = result.data;
+        console.log(data);
+        setPageCount(Math.ceil(data / 5));
+        // console.log("page:", page ,"pageCount", pageCount, "Math", Math.ceil(data / 5));
+      });
     // 페이지 카운트 구하기: (전체 comment 갯수) / (한 페이지 갯수) 결과 올림
-    getTotalBoard().then((result) => setPageCount(Math.ceil(result / 5)));
+    // getTotalBoard().then((result) => setPageCount(Math.ceil(result / 5)));
   }, []);
 
   const handleChange = (e) => {
-    const {name, value} = e.target;
+    const { name, value } = e.target;
+
     setNewComment((preNewComment) => ({
       ...preNewComment,
-      [name] : value,
+      [name]: value,
     }));
-  }
+  };
 
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   console.log("state"+newComment);
-  //   addComment(newComment);
-
-  //   setNewComment({
-  //     ...comment,
-  //     content: '',
-  //   })
-  // }
-
+  // CASE 1.
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("state"+newComment);
-    // addComment(newComment);
-    axios.post(`/comment/save/`, newComment)
-    .then(res => {
-      // console.log("ggggggg"+res.data);
-      newComment.commentId = res.data;
+    if (newComment.content == "") {
+      alert("내용을 입력하세요");
+      return;
+    }
+    addComment(newComment);
+  };
 
+  // CASE 2.
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   if(newComment.content == '') {
+  //     alert("댓글을 입력해주세요");
+  //     return;
+  //   }
+  //   console.log("state" + newComment);
+  //   axios.post(`/comment/save/`, newComment)
+  //   .then((res) => {
+  //     newComment.commentId = res.data;
+  //     setNewComment(newComment);
+  //     const getCommentList = async () => {
+  //       const params = {
+  //         postId: postId,
+  //         limit: page,
+  //         offset: 0,
+  //       };
+  //       const { data } = await CommentApi.getComments(params);
+  //       console.log("commentList:" + data);
+  //       return data;
+  //     };
+  //     // 기존 commentList에 데이터를 덧붙임
+  //     getCommentList().then((result) =>
+  //       setCommentList([...commentList, ...result])
+  //     );
 
-      setNewComment(newComment);
-      console.log("jjj", newComment);
-      
-    const comlist = [...commentList];
-    comlist.push(newComment);
-    setCommentList(comlist);
-    // setCommentList(commentList.assign(newComment));
-
-    console.log('commentlist:', commentList);
-
-    // input 공백 만들기
-    setNewComment({
-      ...newComment,
-      content : "",
-    })
-    // setNewComment(newComment);
-    // // console.log('werler'+res.data);
-    // setCommentList(commentList.concat(newComment));
-    
-  })};
+  //     // input 공백 만들기
+  //     setNewComment({
+  //       ...newComment,
+  //       content: "",
+  //     });
+  //   });
+  // };
   // 댓글 추가하기, 댓글 추가하는 API는 인증 미들웨어가 설정되어 있으므로
   // HTTP HEADER에 jwt-token 정보를 보내는 interceptor 사용
   // const submit = useCallback(async () => {
@@ -131,64 +159,87 @@ const Comments = () => {
   //   alert("댓글 등록 완료");
   //   window.location.reload();
   // }, [content]);
-  
+
   const handleDelete = (commentId) => {
     console.log("삭제될 comment:" + commentId);
-    const comments = commentList.filter((item)=>item.idx !== commentId);
+    const comments = commentList.filter((item) => item.idx !== commentId);
     setCommentList(comments);
     deleteComment(commentId);
-  }
-
-  const handleClick =(e) =>{
-    console.log("eddd"+newComment.content);
-    setNewComment({
-      content : e.target,
-    });
-  }
-  
-  const changeContent = (id, input) => {
-    return setCommentList(commentList.map((comment) => {
-      if(comment.idx == id) {
-        return {
-          ...comment,
-          content: input,
-        };
-      }
-      return comment;
-    }))
-
-  }
+  };
 
   /*modal 관련 코드*/
   // 로그인 후 돌아올 수 있게 현재 경로 세팅
   const goLogin = () => {
     setShow(false);
     navigate(`/login?redirectUrl=${location.pathname}`);
-  }
+  };
   // 로그인을 하지 않은 상태에서 댓글 입력 창을 클릭하면 Modal이 열림.
-//   const isLogin = () => {
-//     if (!jwtUtils.isAuth(token)) {
-//       setShow(true);
-//     }
-//   }
+  //   const isLogin = () => {
+  //     if (!jwtUtils.isAuth(token)) {
+  //       setShow(true);
+  //     }
+  //   }
 
-  const addComment = (comment) => {
-    // 얘를 쓰면 CORS 에러 난다..
-    // CommentApi.addComment(comment)
-    axios.post(`/comment/save/`, comment)
-    .then((res) => {
-        console.log("Add Comments: ", res.data);
+  const addComment = async (comment) => {
+    // Client 에 Token 담긴 axios 사용
+    await CommentApi.addComment({
+      postId: postId,
+      content: newComment.content,
     })
-    .catch((err) => {
-      console.log("Add Comment() Error!", err);
-    });
-  }
+      .then(() => {
+        const getCommentList = async () => {
+          const params = {
+            postId: postId,
+            limit: page,
+            offset: 0,
+          };
+          const { data } = await CommentApi.getComments(params);
+          console.log("commentList:" + data);
+          return data;
+        };
+        // 기존 commentList에 데이터를 덧붙임
+        getCommentList().then((result) => setCommentList(result));
+
+        setNewComment({
+          ...newComment,
+          content: "",
+        });
+      })
+      .catch((err) => {
+        console.log("Add Comment() Error!", err);
+      });
+
+    /*
+    axios.post(`${tmp}/comment/save/`, comment)
+      .then(() => {
+        const getCommentList = async () => {
+          const params = {
+            postId: postId,
+            limit: page,
+            offset: 0,
+          };
+          const { data } = await CommentApi.getComments(params);
+          console.log("commentList:" + data);
+          return data;
+        };
+         // 기존 commentList에 데이터를 덧붙임
+        getCommentList().then((result) => setCommentList(result));
+        setNewComment({
+          ...newComment,
+          content: "",
+        });
+      })
+      .catch((err) => {
+        console.log("Add Comment() Error!", err);
+      });
+    */
+  };
 
   const deleteComment = (commentId) => {
     // CommentApi.deleteComment(commentId)
-    axios.delete(`/comment/delete/${commentId}`)
-      .then((res) => {
-        // setComments(res.data);
+    axios
+      .delete(`http://localhost:8090/comment/delete/${commentId}`)
+      .then(() => {
         console.log("Delete Comments: ", commentId);
       })
       .catch((err) => {
@@ -196,26 +247,31 @@ const Comments = () => {
       });
   };
 
-  const editComment = (comment) => {
-    CommentApi.updateComment(comment)
-    .then((res) => {
-    //   setComments(res.data);
-      console.log("Update Comments: ", comment);
-    })
-    .catch((err) => {
-      console.log("editComment() Error!", err);
-    })
-  };
+  // const getComment = useCallback(() => {
+  //   let params = {
+  //     count: 5,
+  //   };
+  //   if (nextId) {
+  //     params.next_id = nextId;
+  //   }
+  //   dispatch(getTimelineAction(params));
+  // }, [dispatch, nextId]);
+
+  // const onClickMoreButton = useCallback(() => {
+  //   if (!nextId) {
+  //     alert("모든 데이터를 조회했습니다.");
+  //   } else {
+  //     getComment();
+  //   }
+  // }, [nextId, getComment]);
+
+  const onClickMoreButton = useCallback(() => {
+    setPage(page + 1);
+  });
 
   return (
     <div className="comments-wrapper">
       <div className="comments-header">
-        {/* <TextField */}
-        <form onSubmit={handleSubmit}>
-          <input id="postId" name="postId" value={newComment.postId} hidden/>
-          <input className="comments-header-textarea" id="content" name="content" value={newComment.content} onChange={handleChange}/>
-          <button type="submit">등록하기</button>
-        </form>
         {/* <input
           className="comments-header-textarea"
           maxRows={3}
@@ -241,9 +297,22 @@ const Comments = () => {
             </div>
             <div>{item.idx}</div>
             <div className="comment-username">{item.username}</div>
-              <div className="comment-content" onClick={() => changeContent(item.idx, item.content)}>{item.content}</div>
-            <button className="delete" onClick={()=>handleDelete(item.idx)}>삭제</button>
-            <hr/>
+            <div
+              className="comment-content"
+              // onClick={() => changeContent(item.idx, item.content)}
+              onClick={() =>
+                setNewComment({
+                  commentId: item.idx,
+                  content: item.content,
+                })
+              }
+            >
+              {item.content}
+            </div>
+            <button className="delete" onClick={() => handleDelete(item.idx)}>
+              삭제
+            </button>
+            <hr />
           </div>
         ))}
       </div>
@@ -255,17 +324,35 @@ const Comments = () => {
           현재 page가 4라면 버튼을 누르는 순간 page가 5가되어 마지막 페이지의 데이터를 가져온다.
         */
         page < pageCount && (
-          <div className="comments-footer"
-               onClick={() => {
-                 setPage(page + 1);
-               }}
+          <div
+            className="button_box"
+            style={{ textAlign: "center", margin: "20px" }}
           >
-            댓글 더보기
-            {/* <KeyboardArrowDownIcon/> */}
+            <Button onClick={onClickMoreButton}> + read more...</Button>
           </div>
         )
       }
 
+      <div>
+        {/* <TextField */}
+        <form onSubmit={handleSubmit} method="post">
+          <input
+            id="postId"
+            name="postId"
+            value={newComment.postId || ""}
+            hidden
+          />
+          <input
+            className="comments-header-textarea"
+            id="content"
+            name="content"
+            placeholder="댓글을 입력하세요"
+            value={newComment.content || ""}
+            onChange={handleChange}
+          />
+          <button type="submit">입력</button>
+        </form>
+      </div>
 
       {/*modal*/}
       {/* <Dialog open={show}>
@@ -302,5 +389,5 @@ const Comments = () => {
       </Dialog> */}
     </div>
   );
-}
+};
 export default Comments;

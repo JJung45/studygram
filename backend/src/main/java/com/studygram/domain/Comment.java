@@ -19,24 +19,9 @@ public class Comment {
     int idx;
     int postId;
     int userId;
-    String userName;
     String content;
     List<Tag> tags;
-    List<Like> likes;
+//    List<String> likes;
     Date createdDate;
     Date updatedDate;
-
-    @Override
-    public String toString() {
-        return "Comment{" +
-                "idx=" + idx +
-                ", postId=" + postId +
-                ", userId=" + userId +
-                ", userName='" + userName + '\'' +
-                ", content='" + content + '\'' +
-                ", tags=" + tags +
-                ", createdDate=" + createdDate +
-                ", updatedDate=" + updatedDate +
-                '}';
-    }
 }
