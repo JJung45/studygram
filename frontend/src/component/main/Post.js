@@ -1,4 +1,5 @@
 import React from "react";
+import Parser from 'html-react-parser';
 import {Link} from 'react-router-dom'
 import PostComment from "./PostComment";
 
@@ -7,6 +8,7 @@ import PostComment from "./PostComment";
 // const onChange
 
 const Post = ({ data }) => {
+
 
   return (
     <article>
