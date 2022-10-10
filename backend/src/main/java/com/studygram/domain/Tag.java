@@ -16,4 +16,3 @@ public class Tag {
     String content;
     Date createdDate;
 }
-

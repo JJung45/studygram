@@ -50,81 +50,81 @@ public class TagServiceTest {
         postService.save(originalPost);
     }
 
-    @Test
-    public void 게시물이_저장된후_게시물에_샵이_붙은_단어가_태그로_저장된다() {
-        //given
-        Assert.assertNull(originalPost.getTags());
-
-        //when
-        tagService.saveTags(originalPost);
-        Post newPost = postService.findById(originalPost.getIdx());
-        List<PostTag> postTags = newPost.getTags();
-
-        //then
-        Assert.assertNotNull(postTags);
-        ArrayList<String> tagContents = new ArrayList<>();
-        for(PostTag postTag : postTags) {
-            Tag tag = tagMapper.findTagById(postTag.getTagIdx());
-            tagContents.add(tag.getContents());
-        }
-        Assert.assertTrue(tagContents.contains(test1Tag.replaceAll("#","")));
-        Assert.assertTrue(tagContents.contains(test2Tag.replaceAll("#","")));
-        Assert.assertTrue(tagContents.contains(test3Tag.replaceAll("#","")));
-    }
-
-    @Test
-    public void 게시물이_업데이트된후_태그가_수정된다() {
-        //given
-        tagService.saveTags(originalPost);
-        Post post = postService.findById(originalPost.getIdx());
-
-        //when
-        post.setContent("asdfsdf #update #hihi #post");
-        tagService.updateTagsByPost(post);
-        Post newPost = postService.findById(originalPost.getIdx());
-        List<PostTag> postTags = newPost.getTags();
-
-        //then
-        ArrayList<String> tagContents = new ArrayList<>();
-        for(PostTag postTag : postTags) {
-            Tag tag = tagMapper.findTagById(postTag.getTagIdx());
-            tagContents.add(tag.getContents());
-        }
-
-        Assert.assertFalse(tagContents.contains(test1Tag.replaceAll("#","")));
-        Assert.assertFalse(tagContents.contains(test2Tag.replaceAll("#","")));
-        Assert.assertFalse(tagContents.contains(test3Tag.replaceAll("#","")));
-
-    }
-
-    @Test
-    public void 검색시_해당_컨텐츠를_가진_태그의_연관된_게시물들을_모두_가져온다() {
-        //given
-        tagService.saveTags(originalPost);
-        String tagContent = test2Tag.replaceAll("#","");
-
-        //when
-        List<PostTag> postTags = tagService.findPostsByTag(tagContent);
-        List<Post> list = postService.findByManyIds(postTags);
-
-        //then
-        for (Post post : list) {
-            assertThat(post.getContent(), containsString(tagContent));
-        }
-    }
-
-    @Test
-    public void 검색시_유사한_컨텐츠를_가진_태그들을_모두_가져온다() {
-        //given
-        tagService.saveTags(originalPost);
-
-        //when
-        String findSearch = "하";
-        ArrayList<Tag> tags = tagService.findSimilarContent(findSearch);
-
-        //then
-        for (Tag tag : tags) {
-            assertThat(tag.getContents(), containsString(findSearch));
-        }
-    }
+//    @Test
+//    public void 게시물이_저장된후_게시물에_샵이_붙은_단어가_태그로_저장된다() {
+//        //given
+//        Assert.assertNull(originalPost.getTags());
+//
+//        //when
+//        tagService.saveTags(originalPost);
+//        Post newPost = postService.findById(originalPost.getIdx());
+//        List<PostTag> postTags = newPost.getTags();
+//
+//        //then
+//        Assert.assertNotNull(postTags);
+//        ArrayList<String> tagContents = new ArrayList<>();
+//        for(PostTag postTag : postTags) {
+//            Tag tag = tagMapper.findTagById(postTag.getTagIdx());
+//            tagContents.add(tag.getContents());
+//        }
+//        Assert.assertTrue(tagContents.contains(test1Tag.replaceAll("#","")));
+//        Assert.assertTrue(tagContents.contains(test2Tag.replaceAll("#","")));
+//        Assert.assertTrue(tagContents.contains(test3Tag.replaceAll("#","")));
+//    }
+//
+//    @Test
+//    public void 게시물이_업데이트된후_태그가_수정된다() {
+//        //given
+//        tagService.saveTags(originalPost);
+//        Post post = postService.findById(originalPost.getIdx());
+//
+//        //when
+//        post.setContent("asdfsdf #update #hihi #post");
+//        tagService.updateTagsByPost(post);
+//        Post newPost = postService.findById(originalPost.getIdx());
+//        List<PostTag> postTags = newPost.getTags();
+//
+//        //then
+//        ArrayList<String> tagContents = new ArrayList<>();
+//        for(PostTag postTag : postTags) {
+//            Tag tag = tagMapper.findTagById(postTag.getTagIdx());
+//            tagContents.add(tag.getContents());
+//        }
+//
+//        Assert.assertFalse(tagContents.contains(test1Tag.replaceAll("#","")));
+//        Assert.assertFalse(tagContents.contains(test2Tag.replaceAll("#","")));
+//        Assert.assertFalse(tagContents.contains(test3Tag.replaceAll("#","")));
+//
+//    }
+//
+//    @Test
+//    public void 검색시_해당_컨텐츠를_가진_태그의_연관된_게시물들을_모두_가져온다() {
+//        //given
+//        tagService.saveTags(originalPost);
+//        String tagContent = test2Tag.replaceAll("#","");
+//
+//        //when
+//        List<PostTag> postTags = tagService.findPostsByTag(tagContent);
+//        List<Post> list = postService.findByManyIds(postTags);
+//
+//        //then
+//        for (Post post : list) {
+//            assertThat(post.getContent(), containsString(tagContent));
+//        }
+//    }
+//
+//    @Test
+//    public void 검색시_유사한_컨텐츠를_가진_태그들을_모두_가져온다() {
+//        //given
+//        tagService.saveTags(originalPost);
+//
+//        //when
+//        String findSearch = "하";
+//        ArrayList<Tag> tags = tagService.findSimilarContent(findSearch);
+//
+//        //then
+//        for (Tag tag : tags) {
+//            assertThat(tag.getContents(), containsString(findSearch));
+//        }
+//    }
 }
