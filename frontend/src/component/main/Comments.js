@@ -101,12 +101,12 @@ const Comments = () => {
   // CASE 1.
   const handleSubmit = (e) => {
     e.preventDefault();
-    if(newComment.content == '')
+    if(newComment.content === '')
     {
       alert('내용을 입력하세요');
       return;
     }
-    addComment(newComment);
+    addComment(newComment).then(r => console.log());
   };
 
   // CASE 2.
@@ -309,6 +309,7 @@ const Comments = () => {
               >
               {item.content}
             </div>
+            {/*삭제버튼 내 아이디 인것만 보이도록 하는것 필요*/}
             <button className="delete" onClick={() => handleDelete(item.idx)}>
               삭제
             </button>
