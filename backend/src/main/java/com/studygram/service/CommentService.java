@@ -32,9 +32,12 @@ public class CommentService {
         this.commentMapper = commentMapper;
     }
 
-    public List<Comment> getCommentsListByPostID(int postId) {
-        return commentMapper.findByPostId(postId);
+    public List<Comment> getCommentsListByPostID(int postId, SimplePageRequest pageRequest) {
+        int limit = pageRequest.getLimit();
+        long offset = pageRequest.getOffset();
+        return commentMapper.findCommentsByPostIdWithPaging(postId, limit, offset);
     }
+
 
     public Comment getCommentByCommentID(int commentId) { return commentMapper.findByCommentId(commentId);}
 

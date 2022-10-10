@@ -28,7 +28,6 @@ public class LikeService {
         return likeMapper.randOneIdx();
     }
 
-    // TODO 테스트 필요
     public Like findByPostUser(int postId, int userId) {
         return likeMapper.findByPostUser(postId, userId);
     }
