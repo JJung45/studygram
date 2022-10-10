@@ -1,6 +1,7 @@
 package com.studygram.controller;
 
 import com.studygram.common.ApiResponse;
+import com.studygram.common.SimplePageRequest;
 import com.studygram.domain.Comment;
 import com.studygram.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +23,8 @@ public class CommentController {
 
     @GetMapping("")
     // url="localhost:8090/comment?postId=1
-    public List<Comment> getCommentsListByPostId(@RequestParam int postId) {
-        return commentService.getCommentsListByPostID(postId);
+    public List<Comment> getCommentsListByPostId(@RequestParam int postId, SimplePageRequest simplePageRequest) {
+        return commentService.getCommentsListByPostID(postId, simplePageRequest);
     }
 
 //    @GetMapping("/{commentId}")

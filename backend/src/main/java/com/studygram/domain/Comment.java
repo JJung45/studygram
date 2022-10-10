@@ -19,6 +19,7 @@ public class Comment {
     int idx;
     int postId;
     int userId;
+    String userName;
     String content;
     List<Tag> tags;
 //    List<String> likes;
