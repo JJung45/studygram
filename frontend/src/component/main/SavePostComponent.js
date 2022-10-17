@@ -33,16 +33,16 @@ const SavePostComponent = () => {
   return (
     <div className="Write">
       <div>
-          <input type='text' id="title_txt" placeholder="제목"/>
+          <input name="title" type='text' id="title_txt" placeholder="제목"/>
       </div>
 
       <div>
-          <textarea id="content_txt" placeholder="내용을 입력하세요."></textarea>
+          <textarea name="content" id="content_txt" placeholder="내용을 입력하세요."></textarea>
       </div>
 
       <div>
         <div id='post_submit'>
-          <button> 포스트 등록 </button>
+          <button onClick={() => onClickSearch(post)}> 포스트 등록 </button>
         </div>
       </div>
     </div>
