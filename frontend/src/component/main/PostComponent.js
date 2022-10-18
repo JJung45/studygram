@@ -4,39 +4,18 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import PostApi from "../../lib/api/post";
 
 const PostComponent = () => {
-  const dummy = [
-    {
-      id: "minchoi",
-      post: "",
-      comment: "",
-    },
-    {
-      id: "headilee",
-      post: "",
-      comment: "",
-    },
-    {
-      id: "jhk_",
-      post: "",
-      comment: "",
-    },
-  ];
-
   const [data, setData] = useState(null);
   const [hasMore, setHasMore] = useState(true);
 
   const nextData = () => {
-    PostApi.getPosts()
-      .then(res => {
-        setData(res.data);
-        console.log("data:", res.data);
-      });
-    
+    PostApi.getPosts().then((res) => {
+      setData(res.data);
+    });
   };
 
   useEffect(() => {
     nextData();
-  },[])
+  }, []);
 
   return (
     <div id="scrollArea" className="feeds">
