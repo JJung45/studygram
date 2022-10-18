@@ -5,7 +5,8 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 // import {jwtUtils} from "../../lib/jwtUtils";
 // import api from "../utils/api";
-import CommentApi from "../../lib/api/comment"
+import commentAPI from "../../lib/api/comment"
+import authAPI from "../../lib/api/auth"
 import { useLocation, useNavigate } from "react-router-dom";
 // import DisabledByDefaultOutlinedIcon from "@mui/icons-material/DisabledByDefaultOutlined";
 // import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -18,15 +19,16 @@ const Comments = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const postId = location.state.data;
+  const userInfo = authAPI.getUserName().then((res)=>res.data);
+  console.log('userInfo:', userInfo);
   const [commentList, setCommentList] = useState([]);
   // 입력한 댓글 내용
   // const [content, setContent] = useState("");
   // 새로운 댓글
   const [newComment, setNewComment] = useState({
-    // comment_id : '',
     postId: postId,
     content: "",
-    // user_id: 0,
+    // userId: userInfo.userId;
   });
   // 선택된 댓글
   const [comment, setComment] = useState(0);
@@ -56,7 +58,7 @@ const Comments = () => {
         limit: page,
         offset: 0,
       };
-      const { data } = await CommentApi.getComments(params);
+      const { data } = await commentAPI.getComments(params);
       console.log("commentList:" + data);
       return data;
     };
@@ -71,7 +73,7 @@ const Comments = () => {
     // 댓글 전체 갯수 구하기
     // const getTotalBoard = async () => {
     //   const {data} = await axios.get(`http://localhost:8090/comment/count/${postId}`);
-    //   // const {data} = await CommentApi.getCommentCnt(postId);
+    //   // const {data} = await commentAPI.getCommentCnt(postId);
     //   // return data;
     //   console.log("data: ", data);
     //   setPageCount(Math.ceil(data / 5));
@@ -127,7 +129,7 @@ const Comments = () => {
   //         limit: page,
   //         offset: 0,
   //       };
-  //       const { data } = await CommentApi.getComments(params);
+  //       const { data } = await commentAPI.getComments(params);
   //       console.log("commentList:" + data);
   //       return data;
   //     };
@@ -182,7 +184,7 @@ const Comments = () => {
 
   const addComment = async(comment) => {
     // Client 에 Token 담긴 axios 사용
-    await CommentApi.addComment({
+    await commentAPI.addComment({
       postId: postId,
       content: newComment.content
     })
@@ -193,7 +195,7 @@ const Comments = () => {
           limit: page,
           offset: 0,
         };
-        const { data } = await CommentApi.getComments(params);
+        const { data } = await commentAPI.getComments(params);
         console.log("commentList:" + data);
         return data;
       };
@@ -220,7 +222,7 @@ const Comments = () => {
             limit: page,
             offset: 0,
           };
-          const { data } = await CommentApi.getComments(params);
+          const { data } = await commentAPI.getComments(params);
           console.log("commentList:" + data);
           return data;
         };
@@ -239,7 +241,7 @@ const Comments = () => {
   };
 
   const deleteComment = (commentId) => {
-    // CommentApi.deleteComment(commentId)
+    // commentAPI.deleteComment(commentId)
     axios.delete(`http://localhost:8090/comment/delete/${commentId}`)
       .then(() => {
         console.log("Delete Comments: ", commentId);

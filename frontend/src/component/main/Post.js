@@ -76,7 +76,7 @@ const Post = ({ data }) => {
             <span className="at-tag">{data.content}</span> 🌱
           </p>
         </div>
-        {data.commentCnt != 0 &&
+        {data.commentCnt !== 0 &&
         <Link to={"/comment?postId=" + data.idx} state={{data: data.idx}}>
           <span>View all {data.commentCnt} comments </span>
         </Link>

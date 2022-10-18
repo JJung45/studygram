@@ -10,9 +10,9 @@ const client = axios.create({
 // Set the AUTH token for any request
 client.interceptors.request.use(function (config) {
   const token = localStorage.getItem('jwtToken');
-  console.log('jwt:::'+token);
+  // console.log('jwt:::'+token);
   config.headers.Authorization =  token ? `Bearer ${token}` : '';
-  console.log('config' , config);
+  // console.log('config' , config);
   return config;
 });
 

@@ -1,7 +1,15 @@
-import React from "react";
+import React, {useState} from "react";
 import styled from "styled-components";
+import followAPI from '../../lib/api/follow';
 
 const AsideComponent = () => {
+  const follow = (toUserIdx) => {
+    // 추천된 user 정보만 가져오기
+    followAPI.follow({
+      toUserIdx: toUserIdx,
+    })
+  }
+
   return (
     <div className="main-right">
       <div className="myProfile">
@@ -29,11 +37,11 @@ const AsideComponent = () => {
                 alt="heaji님의 프로필 사진"
               />
               <div className="profile-text">
-                <span className="userID point-span">heaji</span>
+                <span className="userID point-span">hyeji</span>
                 <span className="sub-span">hakyeong님 외 2명이 팔로우합니다</span>
               </div>
             </div>
-            <span className="btn-follow">팔로우</span>
+            <button className="btn-follow" onClick={()=>follow('27')}>팔로우</button>
           </li>
           <li>
             <div className="recommend-friend-profile">

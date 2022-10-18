@@ -1,7 +1,6 @@
 import React from "react";
 
 const Comment = ({ data }) => {
-  console.log(data.userName);
   return (
     <ul className="comments">
       <li key={data.idx}>
