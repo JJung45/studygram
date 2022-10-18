@@ -1,7 +1,6 @@
 import axios from "axios";
 
 const client = axios.create({
-  Authorization : "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI5MjZEOTZDOTAwMzBERDU4NDI5RDI3NTFBQzFCREJCQyIsImV4cCI6MTY1MDU0NjM3Nn0.yNzBiddD8ZC44_NnIwckB1eHDDDu9FKIoJKStNkyR70",
   baseURL: process.env.REACT_APP_URL,
   headers: {
     'Content-Type': 'application/json',

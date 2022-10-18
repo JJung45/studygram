@@ -6,6 +6,7 @@ const SavePostComponent = () => {
     const [id, setId] = useState('');
     const [post, setPost] = useState({
         content : "",
+        title: ""
     });
 
     const handleChange = (e) => {
@@ -16,12 +17,19 @@ const SavePostComponent = () => {
           [name]: value,
         }));
       };
+
+    const onClickSearch = (e) => {
+      e.preventDefault();
+      addPost(post);      
+    };
     
-    const onClickSearch = async(post) => {
-        // Client 에 Token 담긴 axios 사용
-        await PostApi.addPost(post)
+    const addPost = async(post) => {
+        await PostApi.addPost({
+          title : post.title,
+          content: post.content
+        })
         .then(() => {
-            document.location.href = 'http://localhost:3000/post'
+            document.location.href = '/post'
         })
         .catch((err) => {
           console.log("Add post Error!", err);
@@ -31,21 +39,22 @@ const SavePostComponent = () => {
 
 
   return (
-    <div className="Write">
+    <form onSubmit={onClickSearch} method="post" className="Write">
       <div>
-          <input name="title" type='text' id="title_txt" placeholder="제목"/>
+          <input name="title" type='text' id="title_txt" placeholder="제목" onChange={handleChange}/>
       </div>
 
       <div>
-          <textarea name="content" id="content_txt" placeholder="내용을 입력하세요."></textarea>
+          <textarea name="content" id="content_txt" placeholder="내용을 입력하세요."
+          onChange={handleChange} />
       </div>
 
       <div>
         <div id='post_submit'>
-          <button onClick={() => onClickSearch(post)}> 포스트 등록 </button>
+          <button type="submit"> 포스트 등록 </button>
         </div>
       </div>
-    </div>
+    </form>
   );
 };
 
