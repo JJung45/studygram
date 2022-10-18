@@ -51,7 +51,7 @@ public class PostServiceTest {
         comment.setContent("sdfsdf");
         comment.setUserId(originalPost.getUserId());
         comment.setPostId(originalPost.getIdx());
-        commentService.createComment(comment, null);
+        commentService.createComment(comment);
 
         like = new Like();
         like.setUserId(originalPost.getUserId());

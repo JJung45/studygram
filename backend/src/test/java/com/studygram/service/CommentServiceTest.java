@@ -81,7 +81,7 @@ public class CommentServiceTest {
                     .content("testComment" + i)
                     .build();
 
-            commentService.createComment(comment, null);
+            commentService.createComment(comment);
             i++;
         };
 //        comment = Comment.builder()
