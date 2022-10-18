@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.core.Authentication;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
@@ -22,6 +23,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class PostServiceTest {
 
     private static final int userId = 24; //leehyeji
+
+    @Autowired
+    Authentication authentication;
 
     @Autowired
     PostService postService;
@@ -45,7 +49,7 @@ public class PostServiceTest {
         originalPost = new Post();
         originalPost.setContent("test");
         originalPost.setUserId(userId);
-        postService.save(originalPost);
+        postService.save(originalPost,authentication);
 
         comment = new Comment();
         comment.setContent("sdfsdf");
@@ -71,7 +75,7 @@ public class PostServiceTest {
         post.setUserId(userId);
 
         //when
-        postService.save(post);
+        postService.save(post,authentication);
 
         //then
         Post resPost = postService.findById(post.getIdx());
@@ -84,7 +88,7 @@ public class PostServiceTest {
         Post post = new Post();
         post.setContent("test22");
         post.setUserId(userId);
-        postService.save(post);
+        postService.save(post,authentication);
 
         //then
         List<Post> nowPosts = postService.findAll(100,1);
