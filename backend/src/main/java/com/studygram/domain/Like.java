@@ -14,7 +14,6 @@ public class Like {
     int postId;
     int commentId;
     int userId;
-    String userName;
     Date createdDate;
 
     @Override

@@ -1,14 +1,19 @@
 import React from "react";
-import Parser from 'html-react-parser';
-import {Link} from 'react-router-dom'
+import { Link } from "react-router-dom";
 import PostComment from "./PostComment";
-
-// const onChange
-
-// const onChange
+import LikeApi from "../../lib/api/like";
 
 const Post = ({ data }) => {
+  const deleteLike = (data) => {
+    LikeApi.cancle(data.idx);
+  };
 
+  const saveLike = (data) => {
+    const like = {
+      postId: data.idx,
+    };
+    LikeApi.save(like);
+  };
 
   return (
     <article>
@@ -36,11 +41,26 @@ const Post = ({ data }) => {
       </div>
       <div className="icons-react">
         <div className="icons-left">
-          <img
-            className="icon-react"
-            src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/bearu/heart.png"
-            alt="하트"
-          />
+          {!data.hasLiked && (
+            <img
+              className="icon-react"
+              src="https://www.iconfinder.com/icons/5172567/heart_like_love_icon"
+              alt="heart_like"
+              onClick={() => {
+                deleteLike(data);
+              }}
+            />
+          )}
+          {/* {!data.hasLiked && (
+            <img
+              className="icon-react"
+              src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/bearu/heart.png"
+              alt="heart_disLike"
+              onClick={() => {
+                saveLike(data);
+              }}
+            />
+          )} */}
           <img
             className="icon-react"
             src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/bearu/comment.png"
@@ -76,11 +96,11 @@ const Post = ({ data }) => {
             <span className="at-tag">{data.content}</span> 🌱
           </p>
         </div>
-        {data.commentCnt != 0 &&
-        <Link to={"/comment?postId=" + data.idx} state={{data: data.idx}}>
-          <span>View all {data.commentCnt} comments </span>
-        </Link>
-        }
+        {data.commentCnt != 0 && (
+          <Link to={"/comment?postId=" + data.idx} state={{ data: data.idx }}>
+            <span>View all {data.commentCnt} comments </span>
+          </Link>
+        )}
         <div className="comment-section">
           <div>
             {data.comments?.map((comment) => (

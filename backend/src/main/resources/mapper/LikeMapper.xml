@@ -48,6 +48,6 @@
         SELECT * FROM `like` p ORDER BY RAND() LIMIT 1;
     </select>
     <delete id="delete" parameterType="Like">
-        delete from `like` where idx = #{idx}
+        delete from `like` where post_id = #{postId} and user_id = #{userId}
     </delete>
 </mapper>
