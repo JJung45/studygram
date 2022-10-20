@@ -1,8 +1,7 @@
 package com.studygram.service;
 
 import com.studygram.domain.Post;
-import com.studygram.domain.PostTag;
-import com.studygram.domain.Tag;
+import com.studygram.domain.User;
 import com.studygram.mapper.PostMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +19,9 @@ public class PostService {
     @Autowired
     private TagService tagService;
 
+    @Autowired
+    private UserService userService;
+
     public int save(Post post) {
         postMapper.save(post);
         List<String> tagList = tagService.saveTags(post);
@@ -35,7 +37,8 @@ public class PostService {
     }
 
     public Post findById(int postId) {
-        return postMapper.findById(postId);
+        User user = userService.getUser();
+        return postMapper.findByIds(postId, user.getIdx());
     }
 
     public Post findByIds(int postId, int userId) {
@@ -43,7 +46,8 @@ public class PostService {
     }
 
     public List<Post> findAll(Integer limit, Integer offset) {
-        return postMapper.findAll(limit, offset);
+        User user = userService.getUser();
+        return postMapper.findAll(limit, offset, user.getIdx());
     }
 
     public Post update(Post post) {
