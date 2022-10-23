@@ -24,8 +24,12 @@ public class CommentController {
 
     @GetMapping("")
     // url="localhost:8090/comment?postId=1
-    public List<Comment> getCommentsListByPostId(@RequestParam int postId, SimplePageRequest simplePageRequest) {
-        return commentService.getCommentsListByPostID(postId, simplePageRequest);
+    public List<Comment> getCommentsListWithPaging(@RequestParam int postId, @RequestBody SimplePageRequest simplePageRequest) {
+        return commentService.getCommentsListWithPaging(postId, simplePageRequest);
+    }
+    @GetMapping("/list")
+    public List<Comment> getCommentsListByPostId(@RequestParam int postId) {
+        return commentService.getCommentsListByPostID(postId);
     }
 
     @GetMapping("/{commentId}")
