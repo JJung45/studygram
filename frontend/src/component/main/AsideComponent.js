@@ -1,13 +1,36 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import styled from "styled-components";
 import followAPI from '../../lib/api/follow';
 
 const AsideComponent = () => {
-  const follow = (toUserIdx) => {
+  const [isFollow, setIsFollow] = useState(false);
+  useEffect(() => {
+    // 팔로우 상태인지 판단
+    // 팔로우 상태 아니면 -> 파란색
+    // 팔로우 완료 -> 회색
+    const result = followAPI.chkFollow('27');
+    console.log('result:', result);
+    setIsFollow(result);
+  }, [0])
+
+  const followClick = (toUserIdx) => {
+    console.log('followingStat:', isFollow);
+    // setIsFollow(current => !current);
     // 추천된 user 정보만 가져오기
-    followAPI.follow({
-      toUserIdx: toUserIdx,
-    })
+
+    if(!isFollow) {
+      followAPI.follow({
+        toUserIdx: toUserIdx,
+      })
+          .then(() => setIsFollow(true))
+    }
+    else {
+      followAPI.unfollow({
+        toUserIdx: toUserIdx,
+      })
+          .then(() => setIsFollow(false))
+    }
+
   }
 
   return (
@@ -41,7 +64,9 @@ const AsideComponent = () => {
                 <span className="sub-span">hakyeong님 외 2명이 팔로우합니다</span>
               </div>
             </div>
-            <button className="btn-follow" onClick={()=>follow('27')}>팔로우</button>
+            <div style={{
+              color: isFollow ? 'gray' : '#0095f6'
+            }} className="btn-follow" onClick={() => followClick('27')}>팔로우</div>
           </li>
           <li>
             <div className="recommend-friend-profile">

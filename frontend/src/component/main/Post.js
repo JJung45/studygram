@@ -1,14 +1,9 @@
 import React from "react";
 import Parser from 'html-react-parser';
 import {Link} from 'react-router-dom'
-import PostComment from "./PostComment";
-
-// const onChange
-
-// const onChange
+import PostComment from "./PostCommentComponent";
 
 const Post = ({ data }) => {
-
 
   return (
     <article>

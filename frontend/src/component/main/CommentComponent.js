@@ -6,33 +6,26 @@ import { useSelector } from "react-redux";
 // import {jwtUtils} from "../../lib/jwtUtils";
 // import api from "../utils/api";
 import commentAPI from "../../lib/api/comment"
-import authAPI from "../../lib/api/auth"
 import { useLocation, useNavigate } from "react-router-dom";
 // import DisabledByDefaultOutlinedIcon from "@mui/icons-material/DisabledByDefaultOutlined";
 // import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 // import "../../styles/Comment.scss"
 import styled from "styled-components";
 
-const Comments = () => {
+const CommentComponent = () => {
   const tmp = process.env.REACT_APP_URL;
   // 로그인 후 현재 경로로 돌아오기 위해 useLocation 사용
   const location = useLocation();
   const navigate = useNavigate();
   const postId = location.state.data;
-  const userInfo = authAPI.getUserName().then((res)=>res.data);
-  console.log('userInfo:', userInfo);
   const [commentList, setCommentList] = useState([]);
-  // 입력한 댓글 내용
-  // const [content, setContent] = useState("");
   // 새로운 댓글
   const [newComment, setNewComment] = useState({
     postId: postId,
     content: "",
-    // userId: userInfo.userId;
   });
   // 선택된 댓글
   const [comment, setComment] = useState(0);
-  //   const token = useSelector(state => state.Auth.token);
   // 현재 페이지, 전체 페이지 갯수
   const [page, setPage] = useState(0);
   const [pageCount, setPageCount] = useState(0);
@@ -52,13 +45,18 @@ const Comments = () => {
   // 페이지에 해당하는 댓글 목록은 page 상태가 변경될 때마다 가져옴
   // 맨 처음 페이지가 1이므로 처음엔 1페이지에 해당하는 댓글을 가져온다
   useEffect(() => {
+    commentAPI.getCommentList(postId)
+        .then((result) =>{
+          setCommentList(result.data);
+        })
+
+    /*
     const getCommentList = async () => {
       const params = {
-        postId: postId,
         limit: page,
         offset: 0,
       };
-      const { data } = await commentAPI.getComments(params);
+      const { data } = await commentAPI.getComments(postId, params);
       console.log("commentList:" + data);
       return data;
     };
@@ -66,29 +64,20 @@ const Comments = () => {
     getCommentList().then((result) =>
       setCommentList([...commentList, ...result])
     );
+
+     */
   }, [page]);
 
   // 페이지 카운트는 컴포넌트가 마운트되고 딱 한번만 가져오면됨
   useEffect(() => {
     // 댓글 전체 갯수 구하기
-    // const getTotalBoard = async () => {
-    //   const {data} = await axios.get(`http://localhost:8090/comment/count/${postId}`);
-    //   // const {data} = await commentAPI.getCommentCnt(postId);
-    //   // return data;
-    //   console.log("data: ", data);
-    //   setPageCount(Math.ceil(data / 5));
-    //   console.log("page:", page ,"pageCount", pageCount, "Math", Math.ceil(data / 5));
-
-    // }
-    axios.get(`http://localhost:8090/comment/count/${postId}`)
-    .then((result) => {
-      const data = result.data;
-      console.log(data);
-      setPageCount(Math.ceil(data / 5));
-      // console.log("page:", page ,"pageCount", pageCount, "Math", Math.ceil(data / 5));
-    })
-    // 페이지 카운트 구하기: (전체 comment 갯수) / (한 페이지 갯수) 결과 올림
-    // getTotalBoard().then((result) => setPageCount(Math.ceil(result / 5)));
+    commentAPI.getCommentCnt(Number(postId))
+        .then((result) => {
+          const totalCnt = result.data;
+          // setPageCount(Math.ceil(totalCnt / 5));
+          setPageCount(Math.ceil(totalCnt / 1));
+          console.log("page:", page, "pageCount:", pageCount, "Math:", Math.ceil(totalCnt / 5));
+        })
   }, []);
 
   const handleChange = (e) => {
@@ -189,27 +178,29 @@ const Comments = () => {
       content: newComment.content
     })
     .then(() => {
+      commentAPI.getCommentList(postId)
+          .then((result) => setCommentList(result.data));
+      /*
       const getCommentList = async () => {
         const params = {
           postId: postId,
           limit: page,
           offset: 0,
         };
-        const { data } = await commentAPI.getComments(params);
+        const { data } = await commentAPI.getComments(postId, params);
         console.log("commentList:" + data);
         return data;
       };
-       // 기존 commentList에 데이터를 덧붙임
+       // 기존 댓글목록에 새로 등록한 댓글 붙이기
       getCommentList().then((result) => setCommentList(result));
-      
-
+      */
       setNewComment({
         ...newComment,
         content: "",
       });
     })
     .catch((err) => {
-      console.log("Add Comment() Error!", err);
+      console.log("Add New Comment Failed!", err);
     });
 
 
@@ -241,14 +232,13 @@ const Comments = () => {
   };
 
   const deleteComment = (commentId) => {
-    // commentAPI.deleteComment(commentId)
-    axios.delete(`http://localhost:8090/comment/delete/${commentId}`)
-      .then(() => {
-        console.log("Delete Comments: ", commentId);
-      })
-      .catch((err) => {
-        console.log("deleteComment() Error!", err);
-      });
+    commentAPI.deleteComment(commentId)
+        .then(() => {
+          console.log('Delete Comment(ID:'+commentId+')');
+        })
+        .catch((err) => {
+          console.log('Delete Comment Failed!', err);
+        })
   };
 
   // const getComment = useCallback(() => {
@@ -388,4 +378,4 @@ const Comments = () => {
     </div>
   );
 };
-export default Comments;
+export default CommentComponent;

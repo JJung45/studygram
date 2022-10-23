@@ -15,4 +15,9 @@ const unfollow = (follow) => client({
     url: `/unfollow`,
     data: follow,
 });
-export default {follow, unfollow};
+
+const chkFollow = (userIdx) => client({
+    method: 'get',
+    url: `/followChk?toUserIdx=${userIdx}`,
+});
+export default {follow, unfollow, chkFollow};
