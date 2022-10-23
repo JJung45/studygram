@@ -8,6 +8,7 @@ import com.studygram.mapper.UserMapper;
 import com.studygram.mapper.UserRefreshTokenMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -25,10 +26,15 @@ public class UserService {
     @Autowired
     private FollowMapper followMapper;
 
-    public User getUser(String userId) {
-        // 여기서 반환하는 userId = clientId(116224305006047574141)
-        return userMapper.findByClientId(userId);
+    public User getUser() {
+        org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return getUser(principal.getUsername());
     }
+
+    public User getUser(String clientId) {
+        return userMapper.findByClientId(clientId);
+    }
+
     public User getUserInfo(int userIdx) {
         User userInfo = userMapper.findByUserIdx(userIdx);
         userInfo.setFollowingCnt(followMapper.countFollowings(userIdx));

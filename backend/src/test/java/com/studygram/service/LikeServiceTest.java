@@ -57,7 +57,7 @@ public class LikeServiceTest {
         // 랜덤 제거
         // assertEqual 제거한 수 , likeCount-1
         Like deletedLike = likeService.randOneIdx();
-        likeService.delete(deletedLike);
+        likeService.delete(deletedLike.getPostId());
 
         int newLikeCount = likeService.countAll();
 
