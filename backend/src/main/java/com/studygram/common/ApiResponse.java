@@ -20,6 +20,7 @@ public class ApiResponse<T> {
     private final static String INVALID_ACCESS_TOKEN = "Invalid access token.";
     private final static String INVALID_REFRESH_TOKEN = "Invalid refresh token.";
     private final static String NOT_EXPIRED_TOKEN_YET = "Not expired token yet.";
+    private final static String ALREADY_FOLLOWED = "Already Followed";
 
     private final ApiResponseHeader header;
     private final Map<String, T> body;
@@ -49,5 +50,9 @@ public class ApiResponse<T> {
 
     public static <T> ApiResponse<T> notFoundFail() {
         return new ApiResponse(new ApiResponseHeader(FAILED, NOT_FOUND_MESSAGE), null);
+    }
+
+    public static <T> ApiResponse<T> alreadyFollowed() {
+        return new ApiResponse<>(new ApiResponseHeader(FAILED, ALREADY_FOLLOWED), null);
     }
 }

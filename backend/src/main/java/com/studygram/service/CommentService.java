@@ -13,6 +13,7 @@ import com.studygram.utils.TimeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -33,23 +34,26 @@ public class CommentService {
         this.postService = postService;
     }
 
-    public List<Comment> getCommentsListByPostID(int postId, SimplePageRequest simplePageRequest) {
+    public List<Comment> getCommentsListWithPaging(int postId, SimplePageRequest simplePageRequest) {
         int limit = simplePageRequest.getLimit();
         long offset = simplePageRequest.getOffset();
-        return commentMapper.findCommentsByPostIdWithPaging(postId, limit, offset);
+        return commentMapper.findCommentsWithPaging(postId, limit, offset);
+    }
+
+    public List<Comment> getCommentsListByPostID(int postId) {
+        return commentMapper.findCommentsByPostId(postId);
     }
 
     public Comment getCommentByCommentID(int commentId) { return commentMapper.findByCommentId(commentId);}
 
     public int getCommentCntByPostID(int postId) { return commentMapper.getCommentCntByPostId(postId); }
 
-    public void createComment(Comment comment, Authentication authentication) {
+    public void createComment(Comment comment) {
         // 1. Post 데이터 있는지 확인
         if(postService.findById(comment.getPostId()) == null) {
             ApiResponse.fail();
         }
 
-        // 2. 댓글 내용에서 Tag 추출하고 Insert
         /*
         String content = comment.getContent();
         List<String> tags = StringUtil.getTagsFromContent(content);
@@ -61,9 +65,11 @@ public class CommentService {
                 ApiResponse.fail();
             }
         }
-         */
+        */
 
         // UserID 가져오기
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        System.out.println("!!!!! Spring Authentication" + authentication.getPrincipal());
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         User user = userService.getUser(userDetails.getUsername());
         comment.setUserId(user.getIdx());
