@@ -5,15 +5,27 @@ import followAPI from '../../lib/api/follow';
 const AsideComponent = () => {
   const [isFollow, setIsFollow] = useState(false);
   useEffect(() => {
+    // 친구 추천 목록 API 추가
+
     // 팔로우 상태인지 판단
     // 팔로우 상태 아니면 -> 파란색
     // 팔로우 완료 -> 회색
-    const result = followAPI.chkFollow('27');
-    console.log('result:', result);
-    setIsFollow(result);
-  }, [0])
+    followCheck('27');
+  }, [])
+
+  const followCheck = (toUserIdx) => {
+    followAPI.chkFollow(toUserIdx)
+        .then((res) => {
+          console.log('rest', res);
+          if (res.data)
+            setIsFollow(true);
+          else
+            setIsFollow(false);
+        })
+  }
 
   const followClick = (toUserIdx) => {
+    followCheck('27');
     console.log('followingStat:', isFollow);
     // setIsFollow(current => !current);
     // 추천된 user 정보만 가져오기
@@ -25,9 +37,7 @@ const AsideComponent = () => {
           .then(() => setIsFollow(true))
     }
     else {
-      followAPI.unfollow({
-        toUserIdx: toUserIdx,
-      })
+      followAPI.unfollow(toUserIdx)
           .then(() => setIsFollow(false))
     }
 

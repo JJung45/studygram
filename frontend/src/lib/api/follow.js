@@ -10,10 +10,9 @@ const follow = (follow) => client({
     data: follow,
 });
 
-const unfollow = (follow) => client({
-    method: 'post',
-    url: `/unfollow`,
-    data: follow,
+const unfollow = (userIdx) => client({
+    method: 'delete',
+    url: `/unfollow?toUserIdx=${userIdx}`,
 });
 
 const chkFollow = (userIdx) => client({
