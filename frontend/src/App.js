@@ -19,6 +19,7 @@ function App() {
         <Route path="/forgetpassword" element={<ForgetPasswordPage />} />
         <Route path="/post/save" element={<SavePostPage />} />
         <Route path="/post" element={<PostPage />} />
+        <Route path="/post/:postId" element={<SavePostPage />} />
         <Route path="/comment" element={<CommentPage />} />
       </Routes>
     </>

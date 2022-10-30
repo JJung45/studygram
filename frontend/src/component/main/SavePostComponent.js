@@ -1,17 +1,24 @@
 import React, { useState, useEffect } from "react";
 import PostApi from "../../lib/api/post";
 import '../../styles/Write.css';
+import { useParams } from 'react-router-dom';
+
 
 const SavePostComponent = () => {
-    const [id, setId] = useState('');
+    const { postId } = useParams();
     const [post, setPost] = useState({
-        content : "",
-        title: ""
+        content : ""
+    });
+
+    useEffect(() => {
+      PostApi.getPost(postId).then(res => {
+        setPost(res.data);
+      })
     });
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-    
+
         setPost((preNewPost) => ({
           ...preNewPost,
           [name]: value,
@@ -25,7 +32,6 @@ const SavePostComponent = () => {
     
     const addPost = async(post) => {
         await PostApi.addPost({
-          title : post.title,
           content: post.content
         })
         .then(() => {
@@ -41,14 +47,9 @@ const SavePostComponent = () => {
   return (
     <form onSubmit={onClickSearch} method="post" className="Write">
       <div>
-          <input name="title" type='text' id="title_txt" placeholder="제목" onChange={handleChange}/>
-      </div>
-
-      <div>
           <textarea name="content" id="content_txt" placeholder="내용을 입력하세요."
-          onChange={handleChange} />
+          onChange={handleChange} value={post.content} />
       </div>
-
       <div>
         <div id='post_submit'>
           <button type="submit"> 포스트 등록 </button>
