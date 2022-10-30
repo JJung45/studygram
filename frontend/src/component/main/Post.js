@@ -1,14 +1,9 @@
 import React from "react";
 import Parser from 'html-react-parser';
 import {Link} from 'react-router-dom'
-import PostComment from "./PostComment";
-
-// const onChange
-
-// const onChange
+import PostComment from "./PostCommentComponent";
 
 const Post = ({ data }) => {
-
 
   return (
     <article>
@@ -76,7 +71,7 @@ const Post = ({ data }) => {
             <span className="at-tag">{data.content}</span> 🌱
           </p>
         </div>
-        {data.commentCnt != 0 &&
+        {data.commentCnt !== 0 &&
         <Link to={"/comment?postId=" + data.idx} state={{data: data.idx}}>
           <span>View all {data.commentCnt} comments </span>
         </Link>
