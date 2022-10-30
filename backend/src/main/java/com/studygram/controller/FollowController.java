@@ -28,10 +28,10 @@ public class FollowController {
             return ApiResponse.alreadyFollowed();
     }
 
-    @PostMapping("/unfollow")
-    public ApiResponse unfollow(@RequestBody Follow follow)
+    @DeleteMapping("/unfollow")
+    public ApiResponse unfollow(@RequestParam int toUserIdx)
     {
-        if(followService.unfollow(follow) > 0)
+        if(followService.unfollow(toUserIdx) > 0)
             return ApiResponse.success(HttpStatus.OK.name(), null);
         else
             return ApiResponse.fail();

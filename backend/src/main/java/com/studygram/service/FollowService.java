@@ -36,15 +36,18 @@ public class FollowService {
         return 0;
     }
 
-    public int unfollow(Follow follow)
+    public int unfollow(int toUserIdx)
     {
         int fromUserIdx = setMyIdx();
-        if(follow.getToUserIdx() == fromUserIdx)
-            return 0;
-        follow.setFromUserIdx(fromUserIdx);
-        if(userService.getUserInfo(follow.getToUserIdx()) == null)
+        if(toUserIdx == fromUserIdx)
             return 0;
 
+        if(userService.getUserInfo(toUserIdx) == null)
+            return 0;
+
+        Follow follow = new Follow();
+        follow.setToUserIdx(toUserIdx);
+        follow.setFromUserIdx(fromUserIdx);
         if(followMapper.getFollowInfo(follow) != null)
             return followMapper.saveUnfollow(follow);
 
