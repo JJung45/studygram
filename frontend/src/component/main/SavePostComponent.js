@@ -12,7 +12,9 @@ const SavePostComponent = () => {
 
     useEffect(() => {
       PostApi.getPost(postId).then(res => {
-        setPost(res.data);
+        setPost((res) => ({
+          content: res.data.content
+        }))
       })
     });
 
@@ -48,7 +50,7 @@ const SavePostComponent = () => {
     <form onSubmit={onClickSearch} method="post" className="Write">
       <div>
           <textarea name="content" id="content_txt" placeholder="내용을 입력하세요."
-          onChange={handleChange} value={post.content} />
+          onChange={handleChange} />
       </div>
       <div>
         <div id='post_submit'>
