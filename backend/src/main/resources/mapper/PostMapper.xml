@@ -37,7 +37,7 @@
 
     <select id="findByIds" parameterType="Integer" resultMap="postResultMap">
         select post.idx as idx, post.user_id as user_id, `user`.user_name as user_name, post.content as content, post.created_date as created_date, post.updated_date as updated_date,
-        (select if(count(*) >= 1, 1, 0)
+        (select if(count(*) = 1, 1, 0)
         from `like`
         where post_id = #{postId} AND user_id = #{userId}) AS has_liked
         from post

@@ -25,8 +25,8 @@ const Post = ({ data }) => {
   };
 
   const reloadPost = async (postId) => {
-    const newPost = await PostApi.getPost(postId).then(() => {
-      setPost(newPost);
+    const newPost = await PostApi.getPost(postId).then((result) => {
+      setPost(result.data);
     });
   };
 
