@@ -1,5 +1,4 @@
 import React from "react";
-import Parser from 'html-react-parser';
 import {Link} from 'react-router-dom'
 import PostComment from "./PostCommentComponent";
 
@@ -22,6 +21,7 @@ const Post = ({ data }) => {
           alt="more"
         />
       </header>
+    <Link to={"/post/" + data.idx} state={data}>
       <div className="main-image">
         <img
           src="https://cdn.pixabay.com/photo/2016/01/05/17/51/maltese-1123016_1280.jpg"
@@ -29,6 +29,7 @@ const Post = ({ data }) => {
           className="mainPic"
         />
       </div>
+      </Link>
       <div className="icons-react">
         <div className="icons-left">
           <img
@@ -67,8 +68,8 @@ const Post = ({ data }) => {
         </div>
         <div className="description">
           <p>
-            <span className="point-span userID">{data.userName}</span>
-            <span className="at-tag">{data.content}</span> 🌱
+            <span className="point-span userID">{data.userName ?? "anoymous"}</span>
+            <span className="at-tag">{data.content}</span>
           </p>
         </div>
         {data.commentCnt !== 0 &&

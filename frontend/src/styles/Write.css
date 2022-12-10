@@ -1,15 +1,13 @@
-.Write {
-    padding: 20px;
-    padding-left: 30px;
-}
-
 .Write div {
     margin-top: 30px;
     margin-left: 50px;
 }
 
+.Write input {
+    background-color: rgba(var(--b3f,250,250,250),1);
+}
+
 #title_txt {
-    width: 91%;
     padding-bottom: 30px;
     border: none;
     font-size: 22px;
@@ -20,10 +18,9 @@
 #title_txt:focus { outline : none; }
 
 #content_txt {
-    width: 91%;
+    width: 100%;
     resize: none;
     border: none;
-    height: 500px
 }
 
 #content_txt:focus { outline : none; }
