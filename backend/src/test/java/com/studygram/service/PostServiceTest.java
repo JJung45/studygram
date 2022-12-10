@@ -49,7 +49,7 @@ public class PostServiceTest {
         originalPost = new Post();
         originalPost.setContent("test");
         originalPost.setUserId(userId);
-        postService.save(originalPost,authentication);
+        postService.save(originalPost);
 
         comment = new Comment();
         comment.setContent("sdfsdf");
@@ -75,7 +75,7 @@ public class PostServiceTest {
         post.setUserId(userId);
 
         //when
-        postService.save(post,authentication);
+        postService.save(post);
 
         //then
         Post resPost = postService.findById(post.getIdx());
@@ -88,7 +88,7 @@ public class PostServiceTest {
         Post post = new Post();
         post.setContent("test22");
         post.setUserId(userId);
-        postService.save(post,authentication);
+        postService.save(post);
 
         //then
         List<Post> nowPosts = postService.findAll(100,1);
