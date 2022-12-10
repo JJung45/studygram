@@ -1,7 +1,10 @@
 import React from "react";
+import axios from "axios";
 import "../../styles/Auth.css";
 import styled from "styled-components";
-
+import { useLocation } from "react-router-dom";
+import setAuthorizationToken from "../../lib/api/setAuthorizationToken";
+import { AxiosContext } from "react-axios/lib/components/AxiosProvider";
 
 const InputBox = styled.div`
   margin: auto 40px 6px;
@@ -26,7 +29,18 @@ const Input = styled.input`
   }
 `;
 
-const MyPageComponent = ({ }) => {
+const MyPageComponent = ({}) => {
+  const search = useLocation().search;
+  const token = new URLSearchParams(search).get("token");
+  console.log(token);
+  if (token) {
+    const userObj = { token: token };
+    // window.localStorage.setItem('jwtToken', JSON.stringify(userObj));
+    // setAuthorizationToken(token);
+    window.localStorage.setItem("jwtToken", token);
+    console.log("localStorage: " + localStorage.getItem("jwtToken"));
+  }
+
   return (
     <div className="article">
       <div className="content">
@@ -36,8 +50,6 @@ const MyPageComponent = ({ }) => {
         <a href="/logout">로그아웃</a>
       </div>
     </div>
-
-    
   );
 };
 

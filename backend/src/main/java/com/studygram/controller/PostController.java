@@ -58,7 +58,7 @@ public class PostController {
         if(offset == null) {
             offset = OFFSET;
         }
-        
+
         return postService.findAll(limit, offset);
     }
 

@@ -5,7 +5,7 @@
         insert into follow (from_user, to_user)
             values(#{fromUserIdx}, #{toUserIdx})
     </insert>
-    <delete id="saveUnfollow">
+    <delete id="saveUnfollow" parameterType="Follow">
         delete from follow
             where from_user = #{fromUserIdx} and to_user = #{toUserIdx}
     </delete>

@@ -1,13 +1,19 @@
 import React from "react";
-import Parser from 'html-react-parser';
-import {Link} from 'react-router-dom'
-import Comments from "./Comments";
+import { Link } from "react-router-dom";
 import PostComment from "./PostComment";
-
-// const onChange
+import LikeApi from "../../lib/api/like";
 
 const Post = ({ data }) => {
+  const deleteLike = (data) => {
+    LikeApi.cancle(data.idx);
+  };
 
+  const saveLike = (data) => {
+    const like = {
+      postId: data.idx,
+    };
+    LikeApi.save(like);
+  };
 
   return (
     <article>
@@ -35,11 +41,26 @@ const Post = ({ data }) => {
       </div>
       <div className="icons-react">
         <div className="icons-left">
-          <img
-            className="icon-react"
-            src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/bearu/heart.png"
-            alt="하트"
-          />
+          {!data.hasLiked && (
+            <img
+              className="icon-react"
+              src="https://www.iconfinder.com/icons/5172567/heart_like_love_icon"
+              alt="heart_like"
+              onClick={() => {
+                deleteLike(data);
+              }}
+            />
+          )}
+          {/* {!data.hasLiked && (
+            <img
+              className="icon-react"
+              src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/bearu/heart.png"
+              alt="heart_disLike"
+              onClick={() => {
+                saveLike(data);
+              }}
+            />
+          )} */}
           <img
             className="icon-react"
             src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/bearu/comment.png"
@@ -75,42 +96,23 @@ const Post = ({ data }) => {
             <span className="at-tag">{data.content}</span> 🌱
           </p>
         </div>
+        {data.commentCnt != 0 && (
+          <Link to={"/comment?postId=" + data.idx} state={{ data: data.idx }}>
+            <span>View all {data.commentCnt} comments </span>
+          </Link>
+        )}
         <div className="comment-section">
-          <ul className="comments">
-            <li>
-              <span>
-                <span className="point-span userID">test2</span>{Parser(data.content)}
-              </span>
-              <img
-                className="comment-heart"
-                src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/bearu/heart.png"
-                alt="하트"
-              />
-            </li>
-          </ul>
+          <div>
+            {data.comments?.map((comment) => (
+              <PostComment data={comment}></PostComment>
+            ))}
+          </div>
           <div className="time-log">
             <span>32분 전</span>
           </div>
         </div>
       </div>
-      <div class="hl"></div>
-
-      {/* <Comments value={data.idx} /> */}
-      {/* <CommentComponent value={data.idx} /> */}
-      {/* <div class="comment"> */}
-        {/* <form class="comment-input">
-        <input
-          id="input-comment"
-          className="input-comment"
-          type="text"
-          placeholder="댓글 달기..."
-          ref={commentRef}
-        />
-        <button class="submit-comment" onclick={addComment}>
-          게시
-        </button>
-        </form> */}
-      {/* </div> */}
+      <div className="hl"></div>
     </article>
   );
 };
