@@ -1,13 +1,10 @@
 package com.studygram.service;
 
-import com.studygram.domain.Post;
-import com.studygram.domain.PostTag;
-import com.studygram.domain.Tag;
-import com.studygram.domain.User;
+import com.studygram.domain.*;
 import com.studygram.mapper.PostMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.lang.Nullable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -33,8 +30,8 @@ public class PostService {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         String clientID = userDetails.getUsername();
         User user = userService.getClientId(clientID);
-
         post.setUserId(user.getIdx());
+
         postMapper.save(post);
         List<String> tagList = tagService.saveTags(post);
 
