@@ -30,6 +30,25 @@ const Post = ({ data }) => {
     });
   };
 
+  const likeMessage = (post) => {
+    const topLiker = post.topLiker;
+    const likeCnt = post.likeCnt;
+
+    if (topLiker == null) {
+      return ``;
+    } else if (topLiker != null && likeCnt == 1) {
+      return `${topLiker}님이 좋아합니다`;
+    } else {
+      return `${topLiker}님 외 ${likeCnt - 1}명이 좋아합니다`;
+    }
+  };
+
+  const likeUsers = async (post) => {
+    const users = await LikeApi.users(post.idx).then((result) => {
+      console.log(result);
+    });
+  };
+
   return (
     <article>
       <header>
@@ -98,11 +117,14 @@ const Post = ({ data }) => {
             src="https://cdn4.iconfinder.com/data/icons/48-bubbles/48/30.User-512.png"
             alt="test님의 프로필 사진"
           />
-          <p>
-            <span className="point-span">test</span>님{" "}
-            <span className="point-span">외 {post.likeCnt}명</span>이 좋아합니다
-          </p>
         </div>
+        <p
+          onClick={() => {
+            likeUsers(post);
+          }}
+        >
+          {likeMessage(post)}
+        </p>
         <div className="description">
           <p>
             <span className="point-span userID">{post.userName}</span>

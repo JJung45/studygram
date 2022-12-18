@@ -20,6 +20,7 @@ public class Post {
     List<Comment> comments;
     int likeCnt;
     boolean hasLiked;
+    String topLiker;
     int commentCnt;
     Date createdDate;
     Date updatedDate;

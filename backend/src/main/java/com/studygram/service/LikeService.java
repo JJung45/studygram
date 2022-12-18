@@ -6,6 +6,8 @@ import com.studygram.mapper.LikeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class LikeService {
 
@@ -41,5 +43,9 @@ public class LikeService {
 
     public boolean hasLikedPost(int postId, int userId) {
         return likeMapper.hasLikedPost(postId, userId);
+    }
+
+    public List<User> getLikers(int postId) {
+        return likeMapper.findLikesByPostId(postId);
     }
 }
