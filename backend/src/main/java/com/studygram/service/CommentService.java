@@ -2,13 +2,9 @@ package com.studygram.service;
 
 import com.studygram.common.ApiResponse;
 import com.studygram.common.SimplePageRequest;
-import com.studygram.config.AppProperties;
 import com.studygram.domain.Comment;
-import com.studygram.domain.Tag;
 import com.studygram.domain.User;
 import com.studygram.mapper.CommentMapper;
-import com.studygram.mapper.UserMapper;
-import com.studygram.utils.StringUtil;
 import com.studygram.utils.TimeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,16 +32,16 @@ public class CommentService {
     public List<Comment> getCommentsListByPostID(int postId, SimplePageRequest simplePageRequest) {
         int limit = simplePageRequest.getLimit();
         long offset = simplePageRequest.getOffset();
-        return commentMapper.findCommentsByPostIdWithPaging(postId, limit, offset);
+        return commentMapper.findCommentsByPostIdxWithPaging(postId, limit, offset);
     }
 
-    public Comment getCommentByCommentID(int commentId) { return commentMapper.findByCommentId(commentId);}
+    public Comment getCommentByCommentID(int commentId) { return commentMapper.findByCommentIdx(commentId);}
 
-    public int getCommentCntByPostID(int postId) { return commentMapper.getCommentCntByPostId(postId); }
+    public int getCommentCntByPostID(int postId) { return commentMapper.getCommentCntByPostIdx(postId); }
 
     public void createComment(Comment comment, Authentication authentication) {
         // 1. Post 데이터 있는지 확인
-        if(postService.findById(comment.getPostId()) == null) {
+        if(postService.findById(comment.getPostIdx()) == null) {
             ApiResponse.fail();
         }
 
@@ -66,7 +62,7 @@ public class CommentService {
         // UserID 가져오기
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         User user = userService.getUser(userDetails.getUsername());
-        comment.setUserId(user.getIdx());
+        comment.setUserIdx(user.getIdx());
         comment.setUserName(user.getUserName());
         if(commentMapper.save(comment) < 0) {
             ApiResponse.fail();
@@ -75,7 +71,7 @@ public class CommentService {
     }
 
     public void updateComment(Comment comment) {
-        Comment originComment = commentMapper.findByCommentId(comment.getIdx());
+        Comment originComment = commentMapper.findByCommentIdx(comment.getIdx());
         if (originComment == null) {
             log.error("Can't find Comment!");
             ApiResponse.notFoundFail(); // return 예외처리?
@@ -92,12 +88,12 @@ public class CommentService {
     }
 
     public void deleteCommentByCommentId(int commentId) {
-        if(commentMapper.findByCommentId(commentId) == null) {
+        if(commentMapper.findByCommentIdx(commentId) == null) {
             log.error("Can't find Comment!");
             ApiResponse.notFoundFail();
         }
 
-        if(commentMapper.deleteByCommentId(commentId) < 0) {
+        if(commentMapper.deleteByCommentIdx(commentId) < 0) {
             ApiResponse.fail();
         }
     }

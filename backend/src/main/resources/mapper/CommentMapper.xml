@@ -3,80 +3,76 @@
 <mapper namespace="com.studygram.mapper.CommentMapper">
     <resultMap id="commentResultMap" type="com.studygram.domain.Comment">
         <id column="idx" property="idx"/>
-        <result column="post_id" property="postId"/>
-        <result column="user_id" property="userId"/>
+        <result column="post_idx" property="postIdx"/>
+        <result column="user_idx" property="userIdx"/>
         <result column="user_name" property="userName"/>
         <result column="content" property="content"/>
         <result column="created_date" property="createdDate"/>
         <result column="updated_date" property="updatedDate"/>
         <!-- collection Type은 마지막 -->
         <!-- Tag Idx 컬럼값만 가져올때 사용
-        <collection property="tags" column="post_id" javaType="java.util.ArrayList" ofType="com.studygram.domain.Tag" select="getTagListByPostId" />
+        <collection property="tags" column="post_idx" javaType="java.util.ArrayList" ofType="com.studygram.domain.Tag" select="getTagListByPostId" />
         -->
-<!--        <collection property="tags" column="idx" javaType="java.util.ArrayList" ofType="com.studygram.domain.Tag" select="com.studygram.mapper.TagMapper.findTagsByCommentId" />-->
-        <collection property="likes" column="idx" javaType="java.util.ArrayList" ofType="com.studygram.domain.Like" select="com.studygram.mapper.LikeMapper.findLikesByCommentId" />
+<!--        <collection property="tags" column="idx" javaType="java.util.ArrayList" ofType="com.studygram.domain.Tag" select="com.studygram.mapper.TagMapper.findTagsByCommentIdx" />-->
+        <collection property="likes" column="idx" javaType="java.util.ArrayList" ofType="com.studygram.domain.Like" select="com.studygram.mapper.LikeMapper.findLikesByCommentIdx" />
     </resultMap>
 
-    <select id="findCommentsByPostId" resultMap="commentResultMap">
-        select t1.idx as idx, t1.post_id as post_id, t2.idx as user_id, t2.user_name, t1.content as content
+    <select id="findCommentsByPostIdx" resultMap="commentResultMap">
+        select t1.idx as idx, t1.post_idx as post_idx, t2.idx as user_idx, t2.user_name, t1.content as content
         from comment t1
-                 left join user t2 on t1.user_id = t2.idx
+                 left join user t2 on t1.user_idx = t2.idx
         where 1 = 1
-          and t1.post_id = #{postId}
+          and t1.post_idx = #{postIdx}
         order by t1.idx desc
         limit 3 offset 0
     </select>
-    <select id="findCommentsByPostIdWithPaging" resultMap="commentResultMap">
-        select t1.idx as idx, t1.post_id as post_id, t2.idx as user_id, t2.user_name, t1.content as content
+    <select id="findCommentsByPostIdxWithPaging" resultMap="commentResultMap">
+        select t1.idx as idx, t1.post_idx as post_idx, t2.idx as user_idx, t2.user_name, t1.content as content
             from comment t1
-                left join user t2 on t1.user_id = t2.idx
+                left join user t2 on t1.user_idx = t2.idx
             where 1 = 1
-              and t1.post_id = #{postId}
+              and t1.post_idx = #{postIdx}
         order by t1.idx desc
         limit #{limit}
         offset #{offset}
     </select>
-<!--    <select id="getTagListByPostId" resultType="com.studygram.domain.Tag">-->
-<!--        select *-->
-<!--            from tag-->
-<!--            where post_id = #{postId}-->
-<!--    </select>-->
-    <select id="findByCommentId" resultType="Comment">
-        select t1.idx as idx, t1.post_id as post_id, t2.idx as user_id, t2.user_name, t1.content as content
+
+    <select id="findByCommentIdx" resultType="Comment">
+        select t1.idx as idx, t1.post_idx as post_idx, t2.idx as user_idx, t2.user_name, t1.content as content
             from comment t1
-                 left join user t2 on t1.user_id = t2.idx
-        where t1.idx = #{commentId}
+                 left join user t2 on t1.user_idx = t2.idx
+        where t1.idx = #{commentIdx}
     </select>
-    <select id="getCommentCntByPostId" resultType="int">
+    <select id="getCommentCntByPostIdx" resultType="int">
         select count(*) from comment
-            where comment.post_id = #{postId}
+            where comment.post_idx = #{postIdx}
     </select>
 
     <insert id="save" parameterType="Comment">
-        insert into comment(post_id, user_id, content)
-            values (#{postId}, #{userId}, #{content})
+        insert into comment(post_idx, user_idx, content)
+            values (#{postIdx}, #{userIdx}, #{content})
     </insert>
 
     <update id="update" parameterType="Comment">
         update comment set content = #{content}, updated_date = #{updatedDate}
-        where post_id = #{postId}
+        where post_idx = #{postIdx}
     </update>
 
     <delete id="deleteByCommentId">
-        delete from comment where idx = #{commentId}
+        delete from comment where idx = #{commentIdx}
     </delete>
-    <delete id="deleteByPostId">
-        delete from comment where post_id = #{postId}
+    <delete id="deleteByPostIdx">
+        delete from comment where post_idx = #{postIdx}
     </delete>
 
     <select id="findComments" parameterType="Integer" resultType="Comment">
-        select * from comment where post_id = #{idx}
+        select * from comment where post_idx = #{idx}
     </select>
 
-    <select id="findCommentCntByPostId" parameterType="Integer" resultType="Integer">
+    <select id="findCommentCntByPostIdx" parameterType="Integer" resultType="Integer">
         select count(*)
         from comment
         where 1 = 1
-          and post_id = #{postId}
+          and post_idx = #{postIdx}
     </select>
 </mapper>

@@ -89,7 +89,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         );
 
         // DB 저장
-        UserRefreshToken userRefreshToken = userRefreshTokenMapper.findByUserId(userInfo.getId());
+        UserRefreshToken userRefreshToken = userRefreshTokenMapper.findByClientId(userInfo.getId());
         if (userRefreshToken != null) {
             userRefreshToken.setRefreshToken(refreshToken.getToken());
         } else {

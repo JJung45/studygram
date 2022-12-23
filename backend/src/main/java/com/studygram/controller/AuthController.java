@@ -74,7 +74,7 @@ public class AuthController {
         );
 
         // userId refresh token 으로 DB 확인
-        UserRefreshToken userRefreshToken = userRefreshTokenMapper.findByUserId(clientId);
+        UserRefreshToken userRefreshToken = userRefreshTokenMapper.findByClientId(clientId);
         if (userRefreshToken == null) {
             // 없는 경우 새로 등록
             userRefreshToken = new UserRefreshToken(clientId, refreshToken.getToken());
@@ -107,7 +107,7 @@ public class AuthController {
             return ApiResponse.notExpiredTokenYet();
         }
 
-        String userId = claims.getSubject();
+        String clientId = claims.getSubject();
         RoleType roleType = RoleType.of(claims.get("role", String.class));
 
         // refresh token
@@ -120,15 +120,15 @@ public class AuthController {
             return ApiResponse.invalidRefreshToken();
         }
 
-        // userId refresh token 으로 DB 확인
-        UserRefreshToken userRefreshToken = userRefreshTokenMapper.findByUserIdAndRefreshToken(userId, refreshToken);
+        // clientId refresh token 으로 DB 확인
+        UserRefreshToken userRefreshToken = userRefreshTokenMapper.findByClientIdAndRefreshToken(clientId, refreshToken);
         if (userRefreshToken == null) {
             return ApiResponse.invalidRefreshToken();
         }
 
         Date now = new Date();
         AuthToken newAccessToken = tokenProvider.createAuthToken(
-                userId,
+                clientId,
                 roleType.getCode(),
                 new Date(now.getTime() + appProperties.getAuth().getTokenExpiry())
         );
