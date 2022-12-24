@@ -12,14 +12,14 @@ import java.util.List;
 @NoArgsConstructor
 public class Post {
     int idx;
-    int userId;
+    int userIdx;
     String userName;
     String content;
     List<PostTag> tags;
     List<Like> likes;
-    List<Comment> comments;
     int likeCnt;
     boolean hasLiked;
+    List<Comment> comments;
     int commentCnt;
     Date createdDate;
     Date updatedDate;
@@ -28,7 +28,7 @@ public class Post {
     public String toString() {
         return "Post{" +
                 "idx=" + idx +
-                ", userId=" + userId +
+                ", userId=" + userIdx +
                 ", userName='" + userName + '\'' +
                 ", content='" + content + '\'' +
                 ", tags=" + tags +
