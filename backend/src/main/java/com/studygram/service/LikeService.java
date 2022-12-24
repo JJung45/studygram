@@ -17,7 +17,7 @@ public class LikeService {
 
     public int save(Like like) {
         User user = userService.getUser();
-        like.setUserId(user.getIdx());
+        like.setUserIdx(user.getIdx());
         return likeMapper.save(like);
     }
 
@@ -27,7 +27,7 @@ public class LikeService {
 
     public void delete(int postId) {
         User user = userService.getUser();
-        Like like = Like.builder().userId(user.getIdx()).postId(postId).build();
+        Like like = Like.builder().userIdx(user.getIdx()).postIdx(postId).build();
         likeMapper.delete(like);
     }
 

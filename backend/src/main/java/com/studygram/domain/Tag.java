@@ -11,8 +11,8 @@ import java.util.Date;
 @NoArgsConstructor
 public class Tag {
     int idx;
-    int postId;
-    int commentId;
-    String contents;
+    int postIdx;
+    int commentIdx;
+    String content;
     Date createdDate;
 }

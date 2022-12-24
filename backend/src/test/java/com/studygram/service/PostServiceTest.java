@@ -42,18 +42,18 @@ public class PostServiceTest {
     public void beforeEach() {
         originalPost = new Post();
         originalPost.setContent("test");
-        originalPost.setUserId(userId);
+        originalPost.setUserIdx(userId);
         postService.save(originalPost);
 
         comment = new Comment();
         comment.setContent("sdfsdf");
-        comment.setUserId(originalPost.getUserId());
-        comment.setPostId(originalPost.getIdx());
+        comment.setUserIdx(originalPost.getUserIdx());
+        comment.setPostIdx(originalPost.getIdx());
         commentService.createComment(comment);
 
         like = new Like();
-        like.setUserId(originalPost.getUserId());
-        like.setPostId(originalPost.getIdx());
+        like.setUserIdx(originalPost.getUserIdx());
+        like.setPostIdx(originalPost.getIdx());
         likeService.save(like);
 
         // TODO 데이터가 100개 넘었을 때 문제 발생할듯
@@ -67,7 +67,7 @@ public class PostServiceTest {
         //given
         Post post = new Post();
         post.setContent("test2222 #태그입니다");
-        post.setUserId(userId);
+        post.setUserIdx(userId);
 
         List<Attachment> attachments = new ArrayList<>();
         attachments.add(new Attachment());
@@ -86,7 +86,7 @@ public class PostServiceTest {
         //when
         Post post = new Post();
         post.setContent("test22");
-        post.setUserId(userId);
+        post.setUserIdx(userId);
         postService.save(post);
 
         //then
@@ -134,8 +134,8 @@ public class PostServiceTest {
         /// given
         int likedUserId = 35;
         Like like = Like.builder()
-                .userId(likedUserId)
-                .postId(originalPost.getIdx())
+                .userIdx(likedUserId)
+                .postIdx(originalPost.getIdx())
                 .build();
 
         // when

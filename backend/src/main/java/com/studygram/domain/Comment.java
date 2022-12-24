@@ -17,10 +17,10 @@ import java.util.List;
 @NoArgsConstructor
 public class Comment {
     int idx;
-    int postId;
-    int userId;
-    String userName;
+    int userIdx;
+    int postIdx;
     String content;
+    String userName;
     List<Tag> tags;
     List<Like> likes;
     Date createdDate;
@@ -30,8 +30,8 @@ public class Comment {
     public String toString() {
         return "Comment{" +
                 "idx=" + idx +
-                ", postId=" + postId +
-                ", userId=" + userId +
+                ", postId=" + postIdx +
+                ", userId=" + userIdx +
                 ", userName='" + userName + '\'' +
                 ", content='" + content + '\'' +
                 ", tags=" + tags +

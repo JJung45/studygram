@@ -11,18 +11,18 @@ import java.util.Date;
 @NoArgsConstructor
 public class Like {
     int idx;
-    int postId;
-    int commentId;
-    int userId;
+    int postIdx;
+    int commentIdx;
+    int userIdx;
     Date createdDate;
 
     @Override
     public String toString() {
         return "Like{" +
                 "idx=" + idx +
-                ", postId=" + postId +
-                ", commentId=" + commentId +
-                ", userId=" + userId +
+                ", postId=" + postIdx +
+                ", commentId=" + commentIdx +
+                ", userId=" + userIdx +
                 ", createdDate=" + createdDate +
                 '}';
     }
