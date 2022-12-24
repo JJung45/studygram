@@ -17,6 +17,7 @@ public interface LikeMapper {
     int countAll();
     Like randOneIdx();
     List<User> findLikesByPostId(int postId);
+    List<Like> findLikesByCommentIdx(int commentIdx);
     List<Like> findLikesByCommentId(int commentId);
     int findLikesCntByPostId(int postId);
 }

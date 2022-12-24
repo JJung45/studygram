@@ -17,7 +17,7 @@ public abstract class OAuth2UserInfo {
 
     public abstract String getName(); // User Table에서 full_name 항목
 
-    public abstract String getEmail(); // User Table에서 emailId 항목
+    public abstract String getEmail(); // User Table에서 emailAddr 항목
 
     public abstract String getImageUrl();
 }

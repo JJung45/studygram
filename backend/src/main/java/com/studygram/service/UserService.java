@@ -44,6 +44,10 @@ public class UserService {
         return userInfo;
     }
 
+    public User getClientId(String clientId) {
+        return userMapper.findByClientId(clientId);
+    }
+
     public List<User> getAllUsers() {
         return userMapper.selectAll();
     }

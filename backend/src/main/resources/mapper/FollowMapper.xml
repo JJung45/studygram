@@ -2,32 +2,32 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.studygram.mapper.FollowMapper">
     <insert id="saveFollow" parameterType="Follow">
-        insert into follow (from_user, to_user)
+        insert into follow (from_user_idx, to_user_idx)
             values(#{fromUserIdx}, #{toUserIdx})
     </insert>
-    <delete id="saveUnfollow">
+    <delete id="saveUnfollow" parameterType="Follow">
         delete from follow
-            where from_user = #{fromUserIdx} and to_user = #{toUserIdx}
+            where from_user_idx = #{fromUserIdx} and to_user_idx = #{toUserIdx}
     </delete>
     <select id="getFollowInfo" parameterType="Follow" resultType="Follow">
         select * from follow
-            where from_user = #{fromUserIdx} and to_user = #{toUserIdx}
+            where from_user_idx = #{fromUserIdx} and to_user_idx = #{toUserIdx}
     </select>
     <select id="countFollowers" resultType="int">
         select count(*) from follow
-            where to_user = #{userIdx}
+            where to_user_idx = #{userIdx}
     </select>
     <select id="countFollowings" resultType="int">
         select count(*) from follow
-            where from_user = #{userIdx}
+            where from_user_idx = #{userIdx}
     </select>
     <select id="getFollowers" resultType="Integer">
         select count(*) from follow
-            where to_user = #{userIdx}
+            where to_user_idx = #{userIdx}
     </select>
     <select id="getFollowings" resultType="Integer">
         select count(*) from follow
-        where from_user = #{userIdx}
+        where from_user_idx = #{userIdx}
     </select>
 
 </mapper>

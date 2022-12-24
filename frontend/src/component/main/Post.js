@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import PostComment from "./PostComment";
+
 import PostApi from "../../lib/api/post";
 import LikeApi from "../../lib/api/like";
+
+import PostComment from "./PostCommentComponent";
 
 const Post = ({ data }) => {
   const [post, setPost] = useState(data);
@@ -66,6 +68,7 @@ const Post = ({ data }) => {
           alt="more"
         />
       </header>
+    <Link to={"/post/" + data.idx} state={data}>
       <div className="main-image">
         <img
           src="https://cdn.pixabay.com/photo/2016/01/05/17/51/maltese-1123016_1280.jpg"
@@ -73,6 +76,7 @@ const Post = ({ data }) => {
           className="mainPic"
         />
       </div>
+      </Link>
       <div className="icons-react">
         <div className="icons-left">
           {!post.hasLiked && (
@@ -127,15 +131,15 @@ const Post = ({ data }) => {
         </p>
         <div className="description">
           <p>
-            <span className="point-span userID">{post.userName}</span>
-            <span className="at-tag">{post.content}</span> 🌱
+            <span className="point-span userID">{data.userName ?? "anoymous"}</span>
+            <span className="at-tag">{data.content}</span>
           </p>
         </div>
-        {post.commentCnt != 0 && (
-          <Link to={"/comment?postId=" + post.idx} state={{ data: post.idx }}>
-            <span>View all {post.commentCnt} comments </span>
-          </Link>
-        )}
+        {data.commentCnt !== 0 &&
+        <Link to={"/comment?postId=" + data.idx} state={{data: data.idx}}>
+          <span>View all {data.commentCnt} comments </span>
+        </Link>
+        }
         <div className="comment-section">
           <div>
             {post.comments?.map((comment) => (

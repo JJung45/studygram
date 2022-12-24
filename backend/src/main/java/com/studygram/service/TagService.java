@@ -40,7 +40,7 @@ public class TagService {
                 if (tags == null) {
                     tags = Tag
                             .builder()
-                            .content(newTagContent)
+                            .contents(newTagContent)
                             .build();
                     tagMapper.save(tags);
                 }
