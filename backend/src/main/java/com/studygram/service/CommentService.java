@@ -9,6 +9,7 @@ import com.studygram.utils.TimeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -29,17 +30,21 @@ public class CommentService {
         this.postService = postService;
     }
 
-    public List<Comment> getCommentsListByPostID(int postId, SimplePageRequest simplePageRequest) {
+    public List<Comment> getCommentsListWithPaging(int postId, SimplePageRequest simplePageRequest) {
         int limit = simplePageRequest.getLimit();
         long offset = simplePageRequest.getOffset();
-        return commentMapper.findCommentsByPostIdxWithPaging(postId, limit, offset);
+        return commentMapper.findCommentsWithPaging(postId, limit, offset);
+    }
+
+    public List<Comment> getCommentsListByPostID(int postId) {
+        return commentMapper.findCommentsByPostId(postId);
     }
 
     public Comment getCommentByCommentID(int commentId) { return commentMapper.findByCommentIdx(commentId);}
 
     public int getCommentCntByPostID(int postId) { return commentMapper.getCommentCntByPostIdx(postId); }
 
-    public void createComment(Comment comment, Authentication authentication) {
+    public void createComment(Comment comment) {
         // 1. Post 데이터 있는지 확인
         if(postService.findById(comment.getPostIdx()) == null) {
             ApiResponse.fail();
@@ -60,6 +65,7 @@ public class CommentService {
          */
 
         // UserID 가져오기
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         User user = userService.getUser(userDetails.getUsername());
         comment.setUserIdx(user.getIdx());

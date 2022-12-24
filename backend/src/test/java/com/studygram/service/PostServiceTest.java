@@ -1,17 +1,16 @@
 package com.studygram.service;
 
-import com.studygram.domain.Comment;
-import com.studygram.domain.Like;
-import com.studygram.domain.Post;
-import com.studygram.domain.Tag;
+import com.studygram.domain.*;
 import org.junit.Test;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -22,7 +21,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class PostServiceTest {
 
     private static final int userId = 24; //leehyeji
-
     @Autowired
     PostService postService;
     Post originalPost;
@@ -51,7 +49,7 @@ public class PostServiceTest {
         comment.setContent("sdfsdf");
         comment.setUserIdx(originalPost.getUserIdx());
         comment.setPostIdx(originalPost.getIdx());
-        commentService.createComment(comment, null);
+        commentService.createComment(comment);
 
         like = new Like();
         like.setUserIdx(originalPost.getUserIdx());
@@ -64,11 +62,16 @@ public class PostServiceTest {
     }
 
     @Test
+    @WithMockUser(username = "112260294914450981060")
     public void 게시판_작성() {
         //given
         Post post = new Post();
         post.setContent("test2222 #태그입니다");
         post.setUserIdx(userId);
+
+        List<Attachment> attachments = new ArrayList<>();
+        attachments.add(new Attachment());
+        post.setAttachedFiles(attachments);
 
         //when
         postService.save(post);

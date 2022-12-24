@@ -74,7 +74,7 @@ public class CommentServiceTest {
                     .content("testComment" + i)
                     .build();
 
-            commentService.createComment(comment, null);
+            commentService.createComment(comment);
             i++;
         };
 //        comment = Comment.builder()
@@ -111,7 +111,7 @@ public class CommentServiceTest {
         int limit = 7;
         int offset = 0;
 
-        List<Comment> commentList = commentService.getCommentsListByPostID(postId, new SimplePageRequest(limit, offset));
+        List<Comment> commentList = commentService.getCommentsListByPostID(postId);
         Assert.assertEquals(commentList.size(), 7);
 
         // when & then
