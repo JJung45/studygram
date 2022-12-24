@@ -1,7 +1,17 @@
-import React from "react";
-import styled from "styled-components";
+import React, {useState} from "react";
+import SavePostModal from "./SavePostModal";
 
-const NavComponent = ({ form, onChange, onSubmit }) => {
+const NavComponent = () => {
+    // useState를 사용하여 open상태를 변경한다. (open일때 true로 만들어 열리는 방식)
+    const [modalOpen, setModalOpen] = useState(false);
+
+    const openModal = () => {
+      setModalOpen(true);
+    };
+    const closeModal = () => {
+      setModalOpen(false);
+    };
+ 
   return (
     <nav>
       <div className="nav-container">
@@ -26,10 +36,13 @@ const NavComponent = ({ form, onChange, onSubmit }) => {
             src="https://cdn3.iconfinder.com/data/icons/email-133/32/Email_paper_air_plane_airplane_send_message-512.png"
             alt="direct-message"
           />
-          <img
-            src="https://cdn2.iconfinder.com/data/icons/font-awesome/1792/plus-square-o-512.png"
-            alt="plus"
-          />
+          <button onClick={openModal}>
+            <img
+              src="https://cdn2.iconfinder.com/data/icons/font-awesome/1792/plus-square-o-512.png"
+              alt="plus"
+            />
+          </button>
+          <SavePostModal open={modalOpen} close={closeModal} header="Create new post" />
           <img
             src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/bearu/explore.png"
             alt="search"

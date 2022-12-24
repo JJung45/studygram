@@ -35,6 +35,7 @@ nav {
   justify-content: center;
   background-color: white;
   border-bottom: 1px solid #dbdbdb;
+  z-index: 999;
 }
 .nav-container {
   max-width: 1000px;
