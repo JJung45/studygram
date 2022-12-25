@@ -22,12 +22,12 @@ public class Post {
     List<Like> likes;
     int likeCnt;
     boolean hasLiked;
+    String topLiker;
     List<Comment> comments;
     int commentCnt;
+
     List<Attachment> attachedFiles;
-
     List<MultipartFile> imageFiles;
-
     List<MultipartFile> generalFiles;
 
     Date createdDate;

@@ -30,7 +30,7 @@ public class PostService {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         String clientID = userDetails.getUsername();
         User user = userService.getClientId(clientID);
-        post.setUserId(user.getIdx());
+        post.setUserIdx(user.getIdx());
 
         postMapper.save(post);
         List<String> tagList = tagService.saveTags(post);
@@ -46,7 +46,8 @@ public class PostService {
     }
 
     public Post findById(int postId) {
-        return postMapper.findById(postId);
+        User user = userService.getUser();
+        return postMapper.findByIds(postId, user.getIdx());
     }
 
     public Post findByIds(int postId, int userId) {
@@ -54,7 +55,8 @@ public class PostService {
     }
 
     public List<Post> findAll(Integer limit, Integer offset) {
-        return postMapper.findAll(limit, offset);
+        User user = userService.getUser();
+        return postMapper.findAll(limit, offset, user.getIdx());
     }
 
     public Post update(Post post) {

@@ -2,6 +2,7 @@ package com.studygram.service;
 
 import com.studygram.domain.Like;
 import com.studygram.domain.Post;
+import com.studygram.domain.User;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,6 +12,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
@@ -78,5 +82,18 @@ public class LikeServiceTest {
 
         // then
         assertTrue(likeService.hasLikedPost(originalPost.getIdx(), likedUserId));
+    }
+
+    @Test
+    public void 좋아요_목록_확인()
+    {
+        // given
+        int postId = 21;
+
+        // when
+        List<User> users = likeService.getLikers(21);
+
+        // then
+        assertEquals(users.size(), 2);
     }
 }

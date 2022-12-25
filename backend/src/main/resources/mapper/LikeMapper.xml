@@ -50,4 +50,11 @@
     <delete id="delete" parameterType="Like">
         delete from `like` where post_idx = #{postId} and user_idx = #{userId}
     </delete>
+    <select id="findLikesByPostId" resultType="User">
+        SELECT
+            `user`.idx, `user`.user_name,  `user`.full_name
+        FROM `like`
+        LEFT JOIN `user` ON `like`.user_id = `user`.idx
+        WHERE post_idx = #{postId}
+    </select>
 </mapper>

@@ -1,6 +1,7 @@
 package com.studygram.mapper;
 
 import com.studygram.domain.Like;
+import com.studygram.domain.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -15,7 +16,7 @@ public interface LikeMapper {
     boolean hasLikedPost(@Param("postId") int postId, @Param("userId") int userId);
     int countAll();
     Like randOneIdx();
-    List<Like> findLikesByPostId(int postId);
+    List<User> findLikesByPostId(int postId);
     List<Like> findLikesByCommentIdx(int commentIdx);
     int findLikesCntByPostId(int postId);
 }

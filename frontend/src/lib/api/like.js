@@ -20,4 +20,13 @@ const cancle = (postId) =>
     url: `${prefix}/${postId}`,
   });
 
-export default { save, cancle };
+/**
+ * 좋아요 누른 회원들을 불러온다.
+ */
+const users = (postId) =>
+  client({
+    method: "get",
+    url: `${prefix}/${postId}`,
+  });
+
+export default { save, cancle, users };
