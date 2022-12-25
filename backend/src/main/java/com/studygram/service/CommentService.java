@@ -33,11 +33,11 @@ public class CommentService {
     public List<Comment> getCommentsListWithPaging(int postId, SimplePageRequest simplePageRequest) {
         int limit = simplePageRequest.getLimit();
         long offset = simplePageRequest.getOffset();
-        return commentMapper.findCommentsWithPaging(postId, limit, offset);
+        return commentMapper.findCommentsByPostIdxWithPaging(postId, limit, offset);
     }
 
     public List<Comment> getCommentsListByPostID(int postId) {
-        return commentMapper.findCommentsByPostId(postId);
+        return commentMapper.findCommentsByPostIdx(postId);
     }
 
     public Comment getCommentByCommentID(int commentId) { return commentMapper.findByCommentIdx(commentId);}
