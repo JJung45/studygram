@@ -1,7 +1,6 @@
 package com.studygram.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.studygram.common.SimplePageRequest;
 import com.studygram.controller.CommentController;
 import com.studygram.domain.AuthReqModel;
 import com.studygram.domain.Comment;
@@ -111,7 +110,7 @@ public class CommentServiceTest {
         int limit = 7;
         int offset = 0;
 
-        List<Comment> commentList = commentService.getCommentsListByPostID(postId);
+        List<Comment> commentList = commentService.getCommentsListByPostId(postId);
         Assert.assertEquals(commentList.size(), 7);
 
         // when & then

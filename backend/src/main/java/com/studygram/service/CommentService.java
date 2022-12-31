@@ -30,19 +30,19 @@ public class CommentService {
         this.postService = postService;
     }
 
+    public List<Comment> getCommentsListByPostId(int postId) {
+        return commentMapper.findCommentsByPostIdx(postId);
+    }
+
     public List<Comment> getCommentsListWithPaging(int postId, SimplePageRequest simplePageRequest) {
         int limit = simplePageRequest.getLimit();
         long offset = simplePageRequest.getOffset();
         return commentMapper.findCommentsByPostIdxWithPaging(postId, limit, offset);
     }
 
-    public List<Comment> getCommentsListByPostID(int postId) {
-        return commentMapper.findCommentsByPostIdx(postId);
-    }
+    public Comment getCommentByCommentId(int commentId) { return commentMapper.findByCommentIdx(commentId);}
 
-    public Comment getCommentByCommentID(int commentId) { return commentMapper.findByCommentIdx(commentId);}
-
-    public int getCommentCntByPostID(int postId) { return commentMapper.getCommentCntByPostIdx(postId); }
+    public int getCommentCntByPostId(int postId) { return commentMapper.getCommentCntByPostIdx(postId); }
 
     public void createComment(Comment comment) {
         // 1. Post 데이터 있는지 확인
@@ -50,8 +50,8 @@ public class CommentService {
             ApiResponse.fail();
         }
 
-        // 2. 댓글 내용에서 Tag 추출하고 Insert
         /*
+            2. 댓글 내용에서 Tag 추출하고 Insert
         String content = comment.getContent();
         List<String> tags = StringUtil.getTagsFromContent(content);
         for(String str : tags) {
@@ -62,7 +62,7 @@ public class CommentService {
                 ApiResponse.fail();
             }
         }
-         */
+        */
 
         // UserID 가져오기
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
