@@ -12,11 +12,11 @@ import java.util.List;
 public interface LikeMapper {
     int save(Like like);
     void delete(Like like);
-    Like findByPostUser(@Param("postId")int postId, @Param("userId")int userId);
-    boolean hasLikedPost(@Param("postId") int postId, @Param("userId") int userId);
+    Like findByPostUser(@Param("postIdx")int postIdx, @Param("userIdx")int userIdx);
+    boolean hasLikedPost(@Param("postIdx") int postIdx, @Param("userIdx") int userIdx);
     int countAll();
     Like randOneIdx();
-    List<User> findLikesByPostId(int postId);
+    List<User> findLikesByPostId(int postIdx);
     List<Like> findLikesByCommentIdx(int commentIdx);
-    int findLikesCntByPostId(int postId);
+    int findLikesCntByPostId(int postIdx);
 }
