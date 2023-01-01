@@ -1,6 +1,5 @@
 package com.studygram.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.studygram.common.SimplePageRequest;
 import com.studygram.controller.CommentController;
@@ -19,17 +18,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.swing.tree.ExpandVetoException;
-import java.util.Collection;
 import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -76,12 +69,12 @@ public class CommentServiceTest {
         int i = 1;
         while(i < 98){
             Comment comment = Comment.builder()
-                    .postId(48)
-                    .userId(27)
+                    .postIdx(48)
+                    .userIdx(27)
                     .content("testComment" + i)
                     .build();
 
-            commentService.createComment(comment, null);
+            commentService.createComment(comment);
             i++;
         };
 //        comment = Comment.builder()
@@ -118,7 +111,7 @@ public class CommentServiceTest {
         int limit = 7;
         int offset = 0;
 
-        List<Comment> commentList = commentService.getCommentsListByPostID(postId, new SimplePageRequest(limit, offset));
+        List<Comment> commentList = commentService.getCommentsListByPostID(postId);
         Assert.assertEquals(commentList.size(), 7);
 
         // when & then
@@ -134,8 +127,8 @@ public class CommentServiceTest {
         // given
         comment = Comment.builder()
                 .idx(2)
-                .postId(12)
-                .userId(20)
+                .postIdx(12)
+                .userIdx(20)
                 .content("updateTEST")
                 .build();
         // when & then

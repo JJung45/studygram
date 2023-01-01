@@ -2,16 +2,19 @@ package com.studygram.service;
 
 import com.studygram.domain.Like;
 import com.studygram.domain.Post;
+import com.studygram.domain.User;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
@@ -33,7 +36,7 @@ public class LikeServiceTest {
     public void before() {
         originalPost = new Post();
         originalPost.setContent("test");
-        originalPost.setUserId(userId);
+        originalPost.setUserIdx(userId);
         postService.save(originalPost);
 
         // TODO likeservice count 제작
@@ -43,8 +46,8 @@ public class LikeServiceTest {
     @Test
     public void 좋아요_저장() {
         Like like = new Like();
-        like.setUserId(originalPost.getUserId());
-        like.setPostId(originalPost.getIdx());
+        like.setUserIdx(originalPost.getUserIdx());
+        like.setPostIdx(originalPost.getIdx());
         likeService.save(like);
 
         int newLikeCount = likeService.countAll();
@@ -57,7 +60,7 @@ public class LikeServiceTest {
         // 랜덤 제거
         // assertEqual 제거한 수 , likeCount-1
         Like deletedLike = likeService.randOneIdx();
-        likeService.delete(deletedLike);
+        likeService.delete(deletedLike.getPostIdx());
 
         int newLikeCount = likeService.countAll();
 
@@ -70,8 +73,8 @@ public class LikeServiceTest {
         // given
         int likedUserId = 35;
         Like like = Like.builder()
-                .userId(likedUserId)
-                .postId(originalPost.getIdx())
+                .userIdx(likedUserId)
+                .postIdx(originalPost.getIdx())
                 .build();
 
         // when
@@ -79,5 +82,18 @@ public class LikeServiceTest {
 
         // then
         assertTrue(likeService.hasLikedPost(originalPost.getIdx(), likedUserId));
+    }
+
+    @Test
+    public void 좋아요_목록_확인()
+    {
+        // given
+        int postId = 21;
+
+        // when
+        List<User> users = likeService.getLikers(21);
+
+        // then
+        assertEquals(users.size(), 2);
     }
 }

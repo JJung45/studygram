@@ -1,17 +1,23 @@
 package com.studygram.controller;
 
 import com.studygram.common.ApiResponse;
+import com.studygram.domain.Attachment;
+import com.studygram.domain.AttachmentType;
 import com.studygram.domain.Post;
+import com.studygram.service.AttachmentService;
 import com.studygram.service.PostService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
+@Slf4j
 @RestController
 @RequestMapping("/post")
 public class PostController {
@@ -23,9 +29,13 @@ public class PostController {
     @Autowired
     private PostService postService;
 
+    @Autowired
+    private AttachmentService attachmentService;
+
     @PostMapping(path = "/save")
     public ApiResponse addPost(@RequestBody Post post) throws Exception{
-        postService.save(post);
+        Post postWithAttachment = createPostAttachment(post);
+        postService.save(postWithAttachment);
         return ApiResponse.success(HttpStatus.OK.name(), post);
     }
 
@@ -59,6 +69,20 @@ public class PostController {
         }
 
         return postService.findAll(limit, offset);
+    }
+
+    private Post createPostAttachment(Post post)
+    {
+        try {
+            Map<AttachmentType, List<MultipartFile>> files = attachmentService.getAttachmentTypeListMap(post.getImageFiles(), post.getGeneralFiles());
+            List<Attachment> attachments = attachmentService.saveAttachments(files);
+            attachments.stream()
+                    .forEach(attachment -> post.setAttachedFiles(attachments));
+
+            return post;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

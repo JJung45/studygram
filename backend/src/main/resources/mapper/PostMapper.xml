@@ -2,19 +2,20 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.studygram.mapper.PostMapper">
     <insert id="save" parameterType="Post">
-        insert into post (user_id, image_url_id, content, likes_id, tags_id, comments_id)
-            values(#{userId}, #{imageUrlId}, #{content}, #{likesId}, #{tagsId}, #{commentsId})
+        insert into post (user_idx, content)
+            values(#{userIdx}, #{content})
         <selectKey resultType="int" keyProperty="idx" order="AFTER">
             SELECT IFNULL(MAX(post.idx), 1) FROM post
         </selectKey>
     </insert>
     <resultMap id="postResultMap" type="com.studygram.domain.Post">
         <id column="idx" property="idx"/>
-        <result column="user_id" property="userId"/>
+        <result column="user_idx" property="userIdx"/>
         <result column="content" property="content"/>
         <result column="created_date" property="createdDate"/>
         <result column="updated_date" property="updatedDate"/>
         <result column="has_liked" property="hasLiked"></result>
+        <result column="top_liker" property="topLiker"></result>
         <collection property="tags" column="idx" javaType="java.util.ArrayList" ofType="com.studygram.domain.PostTag" select="com.studygram.mapper.PostTagMapper.findTags" />
         <collection property="likes" column="idx" javaType="java.util.ArrayList" ofType="com.studygram.domain.Like" select="com.studygram.mapper.LikeMapper.findLikes" />
         <collection property="likeCnt" column="idx" select="com.studygram.mapper.LikeMapper.findLikeCntByPostId"/>
@@ -23,12 +24,12 @@
     </resultMap>
 
     <select id="findById" parameterType="Integer" resultMap="postResultMap">
-        select post.idx as idx, post.user_id as user_id, `user`.user_name as user_name, post.content as content, post.created_date as created_date, post.updated_date as updated_date
+        select post.idx as idx, post.user_idx as user_idx, `user`.user_name as user_name, post.content as content, post.created_date as created_date, post.updated_date as updated_date
             from post
-                left join `user` on post.user_id = `user`.idx
+                left join `user` on post.user_idx = `user`.idx
                 left join post_tag on post_tag.post_idx = post.idx
-                left join `like` on `like`.post_id = post.idx
-                left join comment on comment.post_id = post.idx
+                left join `like` on `like`.post_idx = post.idx
+                left join comment on comment.post_idx = post.idx
             where 1 = 1
               and post.idx = #{idx}
             group by post.idx
@@ -36,15 +37,18 @@
     </select>
 
     <select id="findByIds" parameterType="Integer" resultMap="postResultMap">
-        select post.idx as idx, post.user_id as user_id, `user`.user_name as user_name, post.content as content, post.created_date as created_date, post.updated_date as updated_date,
+        select post.idx as idx, post.user_idx as user_idx, `user`.user_name as user_name, post.content as content, post.created_date as created_date, post.updated_date as updated_date,
         (select if(count(*) >= 1, 1, 0)
         from `like`
-        where post_id = #{postId} AND user_id = #{userId}) AS has_liked
+        where post_idx = #{postId} AND user_idx = #{userId}) AS has_liked
+        (SELECT `user`.user_name
+        FROM `like`
+        WHERE post_id = post.idx LIMIT 1 OFFSET 0) AS top_liker
         from post
-        left join `user` on post.user_id = `user`.idx
+        left join `user` on post.user_idx = `user`.idx
         left join post_tag on post_tag.post_idx = post.idx
-        left join `like` on `like`.post_id = post.idx
-        left join comment on comment.post_id = post.idx
+        left join `like` on `like`.post_idx = post.idx
+        left join comment on comment.post_idx = post.idx
         where 1 = 1
         and post.idx = #{postId}
         group by post.idx
@@ -52,12 +56,18 @@
     </select>
 
     <select id="findAll" parameterType="Integer" resultMap="postResultMap">
-        select post.idx as idx, post.user_id as user_id, `user`.user_name as user_name, post.content as content, post.created_date as created_date, post.updated_date as updated_date from post
-
-        left join `user` on post.user_id = `user`.idx
+        select post.idx as idx, post.user_idx as user_idx, `user`.user_name as user_name, post.content as content, post.created_date as created_date, post.updated_date as updated_date
+        (SELECT IF(COUNT(*) = 1, 1, 0)
+        FROM `like`
+        WHERE user_id = #{userId} AND post_id = post.idx) AS has_liked,
+        (SELECT `user`.user_name
+        FROM `like`
+        WHERE post_id = post.idx LIMIT 1 OFFSET 0) AS top_liker
+        from post
+        left join `user` on post.user_idx = `user`.idx
         left join post_tag on post_tag.post_idx = post.idx
-        left join `like` on `like`.post_id = post.idx
-        left join comment on comment.post_id = post.idx
+        left join `like` on `like`.post_idx = post.idx
+        left join comment on comment.post_idx = post.idx
         group by post.idx
         limit #{limit} offset #{offset}
     </select>

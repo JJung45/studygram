@@ -12,13 +12,13 @@
         select * from user where client_id=#{clientId}
     </select>
 
-    <select id="findByEmailId" parameterType="String" resultType="User">
-        select * from user where email_id=#{emailId}
+    <select id="findByEmailAddr" parameterType="String" resultType="User">
+        select * from user where email_addr=#{emailAddr}
     </select>
 
     <insert id="save" parameterType="User">
-        insert into user (user_name, full_name, passwd, phone_num, email_id, client_id, provider_type, role_type, profile_image_url)
-            values(#{userName}, #{fullName}, #{passwd}, #{phoneNum}, #{emailId}, #{clientId}, #{providerType}, #{roleType}, #{profileImageUrl})
+        insert into user (user_name, full_name, passwd, phone_num, email_addr, client_id, provider_type, role_type, profile_image_url)
+            values(#{userName}, #{fullName}, #{passwd}, #{phoneNum}, #{emailAddr}, #{clientId}, #{providerType}, #{roleType}, #{profileImageUrl})
     </insert>
 
     <select id="selectAll" resultType="User">
