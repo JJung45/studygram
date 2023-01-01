@@ -17,7 +17,7 @@ import static org.junit.Assert.assertThat;
 @Transactional
 public class TagServiceTest {
 
-    private static final int userId = 5;
+    private static final int userIdx = 5;
     private static final String test1Tag = "#rgrg";
     private static final String test2Tag = "#하이루";
     private static final String test3Tag = "#안hi";
@@ -39,7 +39,7 @@ public class TagServiceTest {
     public void beforeEach() {
         originalPost = new Post();
         originalPost.setContent("testassdfdsfsfsfs " + test1Tag + test2Tag + test3Tag);
-        originalPost.setUserIdx(userId);
+        originalPost.setUserIdx(userIdx);
         postService.save(originalPost);
     }
 

@@ -96,8 +96,8 @@ public class CommentServiceTest {
         int postId = 28;
 
         // when & then
-//       mockMvc.perform(get("/comment/" + postId))
-       mockMvc.perform(get("/comment?postId=" + postId))
+//       mockMvc.perform(get("/comment/" + postIdx))
+       mockMvc.perform(get("/comment?postId=" + postIdx))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andReturn();
@@ -111,11 +111,11 @@ public class CommentServiceTest {
         int limit = 7;
         int offset = 0;
 
-        List<Comment> commentList = commentService.getCommentsListByPostID(postId);
+        List<Comment> commentList = commentService.getCommentsListByPostID(postIdx);
         Assert.assertEquals(commentList.size(), 7);
 
         // when & then
-//       mockMvc.perform(get("/comment/" + postId))
+//       mockMvc.perform(get("/comment/" + postIdx))
 //        mockMvc.perform(get("/comment?postId=" + postId + "&limit=" + limit))
 //                .andExpect(status().isOk())
 //                .andDo(print())
@@ -144,7 +144,7 @@ public class CommentServiceTest {
         int commentId = 4;
 
         // when & then
-        mockMvc.perform(delete("/comment/delete/"+commentId))
+        mockMvc.perform(delete("/comment/delete/"+commentIdx))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andReturn();

@@ -23,13 +23,13 @@ public class LikeController {
         return ApiResponse.success(HttpStatus.OK.name(), like);
     }
 
-    @DeleteMapping(path = "/{postId}")
-    public void cancle(@PathVariable(name = "postId") int postId) {
-        likeService.delete(postId);
+    @DeleteMapping(path = "/{postIdx}")
+    public void cancle(@PathVariable(name = "postIdx") int postIdx) {
+        likeService.delete(postIdx);
     }
 
-    @GetMapping(path = "/{postId}")
-    public List<User> getLikers(@PathVariable(name = "postId") int postId) {
-        return likeService.getLikers(postId);
+    @GetMapping(path = "/{postIdx}")
+    public List<User> getLikers(@PathVariable(name = "postIdx") int postIdx) {
+        return likeService.getLikers(postIdx);
     }
 }

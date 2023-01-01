@@ -27,9 +27,9 @@ public class LikeService {
         return likeMapper.countAll();
     }
 
-    public void delete(int postId) {
+    public void delete(int postIdx) {
         User user = userService.getUser();
-        Like like = Like.builder().userIdx(user.getIdx()).postIdx(postId).build();
+        Like like = Like.builder().userIdx(user.getIdx()).postIdx(postIdx).build();
         likeMapper.delete(like);
     }
 
@@ -37,15 +37,15 @@ public class LikeService {
         return likeMapper.randOneIdx();
     }
 
-    public Like findByPostUser(int postId, int userId) {
-        return likeMapper.findByPostUser(postId, userId);
+    public Like findByPostUser(int postIdx, int userIdx) {
+        return likeMapper.findByPostUser(postIdx, userIdx);
     }
 
-    public boolean hasLikedPost(int postId, int userId) {
-        return likeMapper.hasLikedPost(postId, userId);
+    public boolean hasLikedPost(int postIdx, int userIdx) {
+        return likeMapper.hasLikedPost(postIdx, userIdx);
     }
 
-    public List<User> getLikers(int postId) {
-        return likeMapper.findLikesByPostId(postId);
+    public List<User> getLikers(int postIdx) {
+        return likeMapper.findLikesByPostId(postIdx);
     }
 }

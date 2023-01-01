@@ -45,13 +45,13 @@ public class PostService {
         return post.getIdx();
     }
 
-    public Post findById(int postId) {
+    public Post findById(int postIdx) {
         User user = userService.getUser();
-        return postMapper.findByIds(postId, user.getIdx());
+        return postMapper.findByIds(postIdx, user.getIdx());
     }
 
-    public Post findByIds(int postId, int userId) {
-        return postMapper.findByIds(postId, userId);
+    public Post findByIds(int postIdx, int userIdx) {
+        return postMapper.findByIds(postIdx, userIdx);
     }
 
     public List<Post> findAll(Integer limit, Integer offset) {

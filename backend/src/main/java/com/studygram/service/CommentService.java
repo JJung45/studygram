@@ -30,19 +30,19 @@ public class CommentService {
         this.postService = postService;
     }
 
-    public List<Comment> getCommentsListWithPaging(int postId, SimplePageRequest simplePageRequest) {
+    public List<Comment> getCommentsListWithPaging(int postIdx, SimplePageRequest simplePageRequest) {
         int limit = simplePageRequest.getLimit();
         long offset = simplePageRequest.getOffset();
-        return commentMapper.findCommentsByPostIdxWithPaging(postId, limit, offset);
+        return commentMapper.findCommentsByPostIdxWithPaging(postIdx, limit, offset);
     }
 
-    public List<Comment> getCommentsListByPostID(int postId) {
-        return commentMapper.findCommentsByPostIdx(postId);
+    public List<Comment> getCommentsListByPostID(int postIdx) {
+        return commentMapper.findCommentsByPostIdx(postIdx);
     }
 
-    public Comment getCommentByCommentID(int commentId) { return commentMapper.findByCommentIdx(commentId);}
+    public Comment getCommentByCommentID(int commentIdx) { return commentMapper.findByCommentIdx(commentIdx);}
 
-    public int getCommentCntByPostID(int postId) { return commentMapper.getCommentCntByPostIdx(postId); }
+    public int getCommentCntByPostID(int postIdx) { return commentMapper.getCommentCntByPostIdx(postIdx); }
 
     public void createComment(Comment comment) {
         // 1. Post 데이터 있는지 확인
@@ -93,13 +93,13 @@ public class CommentService {
 
     }
 
-    public void deleteCommentByCommentId(int commentId) {
-        if(commentMapper.findByCommentIdx(commentId) == null) {
+    public void deleteCommentByCommentId(int commentIdx) {
+        if(commentMapper.findByCommentIdx(commentIdx) == null) {
             log.error("Can't find Comment!");
             ApiResponse.notFoundFail();
         }
 
-        if(commentMapper.deleteByCommentIdx(commentId) < 0) {
+        if(commentMapper.deleteByCommentIdx(commentIdx) < 0) {
             ApiResponse.fail();
         }
     }
