@@ -14,19 +14,19 @@ const save = (like) =>
 /**
  * 좋아요 취소한다.
  */
-const cancle = (postId) =>
+const cancle = (postIdx) =>
   client({
     method: "delete",
-    url: `${prefix}/${postId}`,
+    url: `${prefix}/${postIdx}`,
   });
 
 /**
  * 좋아요 누른 회원들을 불러온다.
  */
-const users = (postId) =>
+const users = (postIdx) =>
   client({
     method: "get",
-    url: `${prefix}/${postId}`,
+    url: `${prefix}/${postIdx}`,
   });
 
 export default { save, cancle, users };

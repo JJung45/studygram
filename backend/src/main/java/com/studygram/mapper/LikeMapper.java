@@ -16,7 +16,7 @@ public interface LikeMapper {
     boolean hasLikedPost(@Param("postIdx") int postIdx, @Param("userIdx") int userIdx);
     int countAll();
     Like randOneIdx();
-    List<User> findLikesByPostId(int postIdx);
+    List<User> findLikersByPostIdx(int postIdx);
     List<Like> findLikesByCommentIdx(int commentIdx);
-    int findLikesCntByPostId(int postIdx);
+    int findLikesCntByPostIdx(int postIdx);
 }
