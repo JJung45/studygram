@@ -5,9 +5,12 @@ import PostApi from "../../lib/api/post";
 import LikeApi from "../../lib/api/like";
 
 import PostComment from "./PostCommentComponent";
+import LikeModal from "./LikeModal";
 
 const Post = ({ data }) => {
   const [post, setPost] = useState(data);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [likers, setLikers] = useState(null);
 
   const deleteLike = (data) => {
     const postIdx = data.idx;
@@ -45,10 +48,14 @@ const Post = ({ data }) => {
     }
   };
 
-  const likeUsers = async (post) => {
-    const users = await LikeApi.users(post.idx).then((result) => {
-      console.log(result);
+  const openModal = async (post) => {
+    setModalOpen(true);
+    await LikeApi.users(post.idx).then((likers) => {
+      setLikers(likers);
     });
+  };
+  const closeModal = () => {
+    setModalOpen(false);
   };
 
   return (
@@ -123,12 +130,18 @@ const Post = ({ data }) => {
           />
         </div>
         <p
-          onClick={() => {
-            likeUsers(post);
+          onClick={(event) => {
+            openModal(post, event);
           }}
         >
           {likeMessage(post)}
         </p>
+        <LikeModal
+          open={modalOpen}
+          close={closeModal}
+          header="좋아요"
+          likers={likers}
+        ></LikeModal>
         <div className="description">
           <p>
             <span className="point-span userID">

@@ -46,6 +46,6 @@ public class LikeService {
     }
 
     public List<User> getLikers(int postIdx) {
-        return likeMapper.findLikesByPostId(postIdx);
+        return likeMapper.findLikersByPostIdx(postIdx);
     }
 }
