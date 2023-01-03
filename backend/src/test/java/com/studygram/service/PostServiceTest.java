@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 //@Transactional
 public class PostServiceTest {
 
-    private static final int userId = 24; //leehyeji
+    private static final int userIdx = 24; //leehyeji
     @Autowired
     PostService postService;
     Post originalPost;
@@ -42,7 +42,7 @@ public class PostServiceTest {
     public void beforeEach() {
         originalPost = new Post();
         originalPost.setContent("test");
-        originalPost.setUserIdx(userId);
+        originalPost.setUserIdx(userIdx);
         postService.save(originalPost);
 
         comment = new Comment();
@@ -62,12 +62,12 @@ public class PostServiceTest {
     }
 
     @Test
-    @WithMockUser(username = "112260294914450981060")
+    @WithMockUser(username = "108915067662391092609")
     public void 게시판_작성() {
         //given
         Post post = new Post();
         post.setContent("test2222 #태그입니다");
-        post.setUserIdx(userId);
+        post.setUserIdx(userIdx);
 
         List<Attachment> attachments = new ArrayList<>();
         attachments.add(new Attachment());
@@ -86,7 +86,7 @@ public class PostServiceTest {
         //when
         Post post = new Post();
         post.setContent("test22");
-        post.setUserIdx(userId);
+        post.setUserIdx(userIdx);
         postService.save(post);
 
         //then
@@ -123,18 +123,18 @@ public class PostServiceTest {
     @Test
     public void 게시글_1개_조회() {
         // given
-        int postId = 12;
+        int postIdx = 12;
 
-        Post newPost = postService.findById(postId);
+        Post newPost = postService.findById(postIdx);
         System.out.println(newPost.toString());
     }
 
     @Test
     public void 좋아요_누른_게시글이_맞는지_확인() {
         /// given
-        int likedUserId = 35;
+        int likeduserIdx = 35;
         Like like = Like.builder()
-                .userIdx(likedUserId)
+                .userIdx(likeduserIdx)
                 .postIdx(originalPost.getIdx())
                 .build();
 
@@ -142,7 +142,7 @@ public class PostServiceTest {
         likeService.save(like);
 
         // then
-        assertTrue(postService.findByIds(originalPost.getIdx(), likedUserId).isHasLiked());
+        assertTrue(postService.findByIds(originalPost.getIdx(), likeduserIdx).isHasLiked());
     }
 }
 

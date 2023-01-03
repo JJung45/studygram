@@ -15,8 +15,8 @@ import java.util.List;
 public interface PostMapper {
     int save(Post post);
     Post findById(int id);
-    Post findByIds(@Param("postId") Integer postId, @Param("userId") Integer userId);
-    List<Post> findAll(@Param("limit") @Nullable Integer limit, @Param("offset") @Nullable Integer offset, @Param("userId") Integer userId);
+    Post findByIds(@Param("postIdx") Integer postIdx, @Param("userIdx") Integer userIdx);
+    List<Post> findAll(@Param("limit") @Nullable Integer limit, @Param("offset") @Nullable Integer offset, @Param("userIdx") Integer userIdx);
     List<PostTag> findPostTags(int postIdx);
     void update(Post post);
     void delete(Post post);

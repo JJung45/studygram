@@ -39,22 +39,22 @@ public class PostController {
         return ApiResponse.success(HttpStatus.OK.name(), post);
     }
 
-    // TODO @PathVariable(name="postId")?
-    @PutMapping(path = "/{postId}")
-    public ApiResponse updatePost(@PathVariable(name="postId") @RequestBody Post post) throws Exception{
+    // TODO @PathVariable(name="postIdx")?
+    @PutMapping(path = "/{postIdx}")
+    public ApiResponse updatePost(@PathVariable(name="postIdx") @RequestBody Post post) throws Exception{
         Post newPost = postService.update(post);
         return ApiResponse.success(HttpStatus.OK.name(), newPost);
     }
 
-    @DeleteMapping(path="/{postId}")
-    public void deletePost(@PathVariable(name="postId") int postId) throws Exception {
-        Post post = postService.findById(postId);
+    @DeleteMapping(path="/{postIdx}")
+    public void deletePost(@PathVariable(name="postIdx") int postIdx) throws Exception {
+        Post post = postService.findById(postIdx);
         postService.delete(post);
     }
 
-    @GetMapping(path="/{postId}")
-    public Post getPost(@PathVariable(name = "postId") int postId) throws Exception{
-        return postService.findById(postId);
+    @GetMapping(path="/{postIdx}")
+    public Post getPost(@PathVariable(name = "postIdx") int postIdx) throws Exception{
+        return postService.findById(postIdx);
     }
 
     @GetMapping(path = "/")
