@@ -18,7 +18,7 @@
         <result column="top_liker" property="topLiker"></result>
         <collection property="tags" column="idx" javaType="java.util.ArrayList" ofType="com.studygram.domain.PostTag" select="com.studygram.mapper.PostTagMapper.findTags" />
         <collection property="likes" column="idx" javaType="java.util.ArrayList" ofType="com.studygram.domain.Like" select="com.studygram.mapper.LikeMapper.findLikes" />
-        <collection property="likeCnt" column="idx" select="com.studygram.mapper.LikeMapper.findLikeCntBypostIdx"/>
+        <collection property="likeCnt" column="idx" select="com.studygram.mapper.LikeMapper.findLikesCntByPostIdx"/>
         <collection property="comments" column="idx" javaType="java.util.List" ofType="com.studygram.domain.Comment" select="com.studygram.mapper.CommentMapper.findComments" />
         <collection property="commentCnt" column="idx" select="com.studygram.mapper.CommentMapper.findCommentCntByPostIdx"/>
     </resultMap>
@@ -41,9 +41,10 @@
         (select if(count(*) = 1, 1, 0)
         from `like`
         where post_idx = #{postIdx} AND user_idx = #{userIdx}) AS has_liked,
-        (SELECT `user`.user_name
+        (SELECT user_name
         FROM `like`
-        WHERE post_idx = post.idx LIMIT 1 OFFSET 0) AS top_liker
+        LEFT JOIN `user` ON like.user_idx = `user`.idx
+        WHERE post_idx = 1 LIMIT 1 OFFSET 0) AS top_liker
         from post
         left join `user` on post.user_idx = `user`.idx
         left join post_tag on post_tag.post_idx = post.idx
