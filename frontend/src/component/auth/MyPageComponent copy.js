@@ -24,50 +24,38 @@ const MyPageComponent = ({}) => {
   };
   return (
     <div>
-      <div className="container">
-        <div className="profile">
-          <div className="profile-image">
-            <img
-              src="https://cdn4.iconfinder.com/data/icons/48-bubbles/48/30.User-512.png"
-              alt=""
-            />
-          </div>
-
-          <div className="profile-user-settings">
-            <h1 className="profile-user-name">minchoi</h1>
-            <button className="profile-edit-btn">Edit Profile</button>
-            <button aria-label="profile settings">
-              <img
-                className="profile-settings-btn"
-                src="https://cdn4.iconfinder.com/data/icons/glyphs/24/icons_settings-1024.png"
-              />
-            </button>
-          </div>
-
-          <div className="profile-stats">
-            <ul>
-              <li>
-                <span className="profile-stat-count">164</span> posts
-              </li>
-              <li>
-                <span className="profile-stat-count">188</span> followers
-              </li>
-              <li>
-                <span className="profile-stat-count">206</span> following
-              </li>
-            </ul>
-          </div>
-
-          <div className="profile-bio">
+      <div className="myPage">
+        <div className="left-box">
+          <img
+            className="pic"
+            src="https://cdn4.iconfinder.com/data/icons/48-bubbles/48/30.User-512.png"
+            alt="minchoi 프로필 사진"
+          />
+        </div>
+        <section>
+          <div className="profile-box">
             <p>
-              <span className="profile-real-name">민경</span>
-              <br />
-              신사인사!
+              <span className="id">minguinsta</span>
+              <button className="edit-btn">프로필 편집</button>
             </p>
           </div>
-        </div>
+          <p className="numbers">
+            <span className="title">게시물</span>
+            <span className="value">36</span>
+            <span className="title">팔로워</span>
+            <span className="value">154</span>
+            <span className="title">팔로우</span>
+            <span className="value">156</span>
+          </p>
+          <div className="intro">
+            <p>
+              민경
+              <br />
+              <span>min</span>
+            </p>
+          </div>
+        </section>
       </div>
-
       <div className="story">
         <div className="story-box">
           <img
@@ -102,11 +90,13 @@ const MyPageComponent = ({}) => {
               setType(statusType.BOARD);
             }}
           >
-            <img
-              className="icon-react"
-              src="https://cdn1.iconfinder.com/data/icons/bootstrap-vol-3/16/grid-3x3-512.png"
-            ></img>
-            <span>게시물</span>
+            <span>
+              <img
+                className="icon-react"
+                src="https://cdn1.iconfinder.com/data/icons/bootstrap-vol-3/16/grid-3x3-512.png"
+              ></img>
+              <span>게시판</span>
+            </span>
           </div>
           <div
             className="sub"
