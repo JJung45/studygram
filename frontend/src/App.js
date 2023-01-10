@@ -7,6 +7,7 @@ import ForgetPasswordPage from "./pages/ForgetPasswordPage";
 import MyPage from "./pages/MyPage";
 import PostPage from "./pages/PostPage";
 import CommentPage from "./pages/CommentPage";
+import RedirectPage from "./pages/RedirectPage";
 
 function App() {
   return (
@@ -14,10 +15,11 @@ function App() {
       <Routes>
         <Route path="/" exact={true} element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/oauth2/redirect" element={<MyPage />} />
+        <Route path="/oauth2/redirect" element={<RedirectPage />} />
         <Route path="/forgetpassword" element={<ForgetPasswordPage />} />
         <Route path="/post" element={<PostPage />} />
         <Route path="/comment" element={<CommentPage />} />
+        <Route path="/myPage" element={<MyPage />} />
       </Routes>
     </>
   );
