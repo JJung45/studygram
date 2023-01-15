@@ -78,23 +78,24 @@ button {
 .modal > section > form > main > .file > .imageSelect > input{
   height: 100%;
   width: 100%;
+  opacity: 0;
 }
 .modal > section > form > main > .file input::file-selector-button {
   display: none;
 }
-.modal > section > form > main > .post_content >textarea{
+.modal > section > form > main > .postContent >textarea{
   height: 85%;
 }
-.modal > section > form > main > .post_content >.myProfile{
+.modal > section > form > main > .postContent >.myProfile{
   height: 20px;
   padding: 0;
 }
-.modal > section > form > main > .post_content > .myProfile >img{
+.modal > section > form > main > .postContent > .myProfile >img{
   width: 30px;
   height: 30px;
   margin: 0;
 }
-.modal > section > form > main > .post_content > .myProfile > div{
+.modal > section > form > main > .postContent > .myProfile > div{
   margin-left: 10px;
 }
 .modal > section > form > main > div {
