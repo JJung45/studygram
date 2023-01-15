@@ -1,9 +1,9 @@
 button {
-    border: 0;
-    order: 0;
-    background: white;
-    height: 22px;
-    cursor: pointer;
+  border: 0;
+  order: 0;
+  background: white;
+  height: 22px;
+  cursor: pointer;
 }
 
 .modal {
@@ -30,6 +30,9 @@ button {
   /* 팝업이 열릴때 스르륵 열리는 효과 */
   animation: modal-show 0.3s;
   overflow: hidden;
+}
+.modal > section.like {
+  width: 30%;
 }
 .modal > section > header {
   position: relative;
@@ -62,6 +65,9 @@ button {
 .modal > section > form > main > .file {
   border-right: 1px solid #dee2e6;
   padding: 0;
+}
+.modal > section > form > main > textarea {
+  height: 100%;
 }
 .modal > section > form > main > .file > .imageSelect, .deleteBtn{ 
   padding-left: 16px;
@@ -117,6 +123,11 @@ button {
   /* 팝업이 열릴때 스르륵 열리는 효과 */
   animation: modal-bg-show 0.3s;
 }
+.follow-button {
+  color: white;
+  background: #3897f0;
+}
+
 @keyframes modal-show {
   from {
     opacity: 0;

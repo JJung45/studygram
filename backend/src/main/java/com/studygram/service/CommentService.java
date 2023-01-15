@@ -2,17 +2,14 @@ package com.studygram.service;
 
 import com.studygram.common.ApiResponse;
 import com.studygram.common.SimplePageRequest;
-import com.studygram.config.AppProperties;
 import com.studygram.domain.Comment;
-import com.studygram.domain.Tag;
 import com.studygram.domain.User;
 import com.studygram.mapper.CommentMapper;
-import com.studygram.mapper.UserMapper;
-import com.studygram.utils.StringUtil;
 import com.studygram.utils.TimeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -28,42 +25,50 @@ public class CommentService {
     private UserService userService;
 
     @Autowired
-    public CommentService(CommentMapper commentMapper) {
+    public CommentService(CommentMapper commentMapper, PostService postService) {
         this.commentMapper = commentMapper;
+        this.postService = postService;
     }
 
-    public List<Comment> getCommentsListByPostID(int postId) {
-        return commentMapper.findByPostId(postId);
+    public List<Comment> getCommentsListWithPaging(int postIdx, SimplePageRequest simplePageRequest) {
+        int limit = simplePageRequest.getLimit();
+        long offset = simplePageRequest.getOffset();
+        return commentMapper.findCommentsByPostIdxWithPaging(postIdx, limit, offset);
     }
 
-    public Comment getCommentByCommentID(int commentId) { return commentMapper.findByCommentId(commentId);}
+    public List<Comment> getCommentsListByPostID(int postIdx) {
+        return commentMapper.findCommentsByPostIdx(postIdx);
+    }
 
-    public int getCommentCntByPostID(int postId) { return commentMapper.getCommentCntByPostId(postId); }
+    public Comment getCommentByCommentID(int commentIdx) { return commentMapper.findByCommentIdx(commentIdx);}
 
-    public void createComment(Comment comment, Authentication authentication) {
+    public int getCommentCntByPostID(int postIdx) { return commentMapper.getCommentCntByPostIdx(postIdx); }
+
+    public void createComment(Comment comment) {
         // 1. Post 데이터 있는지 확인
-//        if(postService.getPost(comment.getPostId()).isNull()) {
-//            ApiResponse.fail();
-//        }
+        if(postService.findById(comment.getPostIdx()) == null) {
+            ApiResponse.fail();
+        }
 
         // 2. 댓글 내용에서 Tag 추출하고 Insert
+        /*
         String content = comment.getContent();
         List<String> tags = StringUtil.getTagsFromContent(content);
         for(String str : tags) {
             Tag tag = new Tag();
-            tag.setCommentId(comment.getIdx());
-            tag.setContent(str);
-            /*
+            tag.setContents(str);
+
             if(tagService.save(tag) < 0) {
                 ApiResponse.fail();
             }
-             */
-
         }
+         */
+
         // UserID 가져오기
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         User user = userService.getUser(userDetails.getUsername());
-        comment.setUserId(user.getIdx());
+        comment.setUserIdx(user.getIdx());
         comment.setUserName(user.getUserName());
         if(commentMapper.save(comment) < 0) {
             ApiResponse.fail();
@@ -72,7 +77,7 @@ public class CommentService {
     }
 
     public void updateComment(Comment comment) {
-        Comment originComment = commentMapper.findByCommentId(comment.getIdx());
+        Comment originComment = commentMapper.findByCommentIdx(comment.getIdx());
         if (originComment == null) {
             log.error("Can't find Comment!");
             ApiResponse.notFoundFail(); // return 예외처리?
@@ -88,25 +93,16 @@ public class CommentService {
 
     }
 
-    public void deleteCommentByCommentId(int commentId) {
-        if(commentMapper.findByCommentId(commentId) == null) {
+    public void deleteCommentByCommentId(int commentIdx) {
+        if(commentMapper.findByCommentIdx(commentIdx) == null) {
             log.error("Can't find Comment!");
             ApiResponse.notFoundFail();
         }
 
-        if(commentMapper.deleteByCommentId(commentId) < 0) {
+        if(commentMapper.deleteByCommentIdx(commentIdx) < 0) {
             ApiResponse.fail();
         }
     }
 
-    public void deleteCommentsByPostId(int postId) {
-//        if(postMapper.deleteByPostID(postId) == null) {
-//            log.error("Not Found Post");
-//            ApiResponse.notFoundFail();
-//        }
-        if(commentMapper.deleteByPostId(postId) < 0) {
-            log.debug("Noting to Delete");
-        }
-    }
 
 }

@@ -58,7 +58,7 @@ public class FollowServiceTest {
     public void 팔로잉() throws Exception {
         //given
         follow = Follow.builder()
-                .fromUserIdx(24)
+//                .fromUserIdx(24)
                 .toUserIdx(23)
                 .build();
 

@@ -1,8 +1,8 @@
 package com.studygram.mapper;
 
 import com.studygram.domain.Comment;
-import com.studygram.domain.Tag;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -10,11 +10,13 @@ import java.util.List;
 @Mapper
 @Repository
 public interface CommentMapper {
-    List<Comment> findByPostId(int postId);
-//    List<Tag> getTagListByPostId(int postId);
-    Comment findByCommentId(int commentId);
+    List<Comment> findCommentsByPostIdx(int postIdx);
+    List<Comment> findCommentsByPostIdxWithPaging(@Param("postIdx") int postIdx, @Param("limit") int limit, @Param("offset") long offset);
+    Comment findByCommentIdx(int commentIdx);
+    int getCommentCntByPostIdx(int postIdx);
     int save(Comment comment);
     int update(Comment comment);
-    int deleteByCommentId(int commentId);
-    int deleteByPostId(int postId);
+    int deleteByCommentIdx(int commentIdx);
+    int deleteByPostIdx(int postIdx);
+    int findCommentCntByPostIdx(int postIdx);
 }

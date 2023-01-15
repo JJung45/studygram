@@ -24,16 +24,22 @@ public class FollowController {
         if(followService.follow(follow) > 0)
             return ApiResponse.success(HttpStatus.OK.name(), null);
         else
-            return ApiResponse.fail();
+//            return ApiResponse.fail();
+            return ApiResponse.alreadyFollowed();
     }
 
-    @PostMapping("/unfollow")
-    public ApiResponse unfollow(@RequestBody Follow follow)
+    @DeleteMapping("/unfollow")
+    public ApiResponse unfollow(@RequestParam int toUserIdx)
     {
-        if(followService.unfollow(follow) > 0)
+        if(followService.unfollow(toUserIdx) > 0)
             return ApiResponse.success(HttpStatus.OK.name(), null);
         else
             return ApiResponse.fail();
+    }
+
+    @GetMapping("/followChk")
+    public boolean checkFollow(@RequestParam int toUserIdx) {
+        return followService.checkFollow(toUserIdx);
     }
 
 

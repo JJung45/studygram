@@ -66,13 +66,12 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     private User createUser(OAuth2UserInfo userInfo, ProviderType providerType) {
         LocalDateTime now = LocalDateTime.now();
-        System.out.println("!!!!!!!!!!!"+userInfo.getName()+","+userInfo.getId()+","+userInfo.getEmail()+","+userInfo.getImageUrl());
-        String emailId = userInfo.getEmail();
-        int index = emailId.indexOf("@");
+        String emailAddr = userInfo.getEmail();
+        int index = emailAddr.indexOf("@");
         if(index == -1)
             throw new IllegalArgumentException("Invalid Email ID.");
 
-        String userName = emailId.substring(0, index);
+        String userName = emailAddr.substring(0, index);
         // user_name 중복검사 (이미 Provider Type은 검사)
         User savedUser = userMapper.findByUserName(userName);
         if(savedUser != null) {
@@ -82,7 +81,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         User user = new User(
                 userName, // user_name -> full_name 기준으로 임의로 작성
                 userInfo.getName(), // full_name
-                userInfo.getEmail(), // email_id
+                userInfo.getEmail(), // email_addr
                 userInfo.getId(),
                 providerType,
                 RoleType.USER,

@@ -1,11 +1,13 @@
 package com.studygram.service;
 
-import com.studygram.domain.Post;
-import com.studygram.domain.PostTag;
-import com.studygram.domain.Tag;
+import com.studygram.domain.*;
 import com.studygram.mapper.PostMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,8 +22,14 @@ public class PostService {
     @Autowired
     private TagService tagService;
 
-    public int save(Post post) {
+    @Autowired
+    private UserService userService;
+
+    public Post save(Post post) {
+        User user = userService.getUser();
+        post.setUserIdx(user.getIdx());
         postMapper.save(post);
+
         List<String> tagList = tagService.saveTags(post);
 
         for(String tagContent : tagList) {
@@ -31,19 +39,21 @@ public class PostService {
             postMapper.update(post);
         }
 
-        return post.getIdx();
+        return post;
     }
 
-    public Post findById(int postId) {
-        return postMapper.findById(postId);
+    public Post findById(int postIdx) {
+        User user = userService.getUser();
+        return postMapper.findByIds(postIdx, user.getIdx());
     }
 
-    public Post findByIds(int postId, int userId) {
-        return postMapper.findByIds(postId, userId);
+    public Post findByIds(int postIdx, int userIdx) {
+        return postMapper.findByIds(postIdx, userIdx);
     }
 
     public List<Post> findAll(Integer limit, Integer offset) {
-        return postMapper.findAll(limit, offset);
+        User user = userService.getUser();
+        return postMapper.findAll(limit, offset, user.getIdx());
     }
 
     public Post update(Post post) {

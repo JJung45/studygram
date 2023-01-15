@@ -12,7 +12,7 @@ public interface UserMapper {
     User findByUserIdx(int idx);
     User findByUserName(String userName);
     User findByClientId(String clientId);
-    User findByEmailId(String emailId);
+    User findByEmailAddr(String emailAddr);
     int save(User user);
     int updateUser(User user);
     List<User> selectAll();

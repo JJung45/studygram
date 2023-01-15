@@ -1,58 +1,148 @@
-import React from "react";
-import axios from "axios";
-import "../../styles/Auth.css";
-import styled from "styled-components";
-import queryString from 'query-string';
-import { useLocation } from "react-router-dom";
-import setAuthorizationToken from "../../lib/api/setAuthorizationToken";
-import { AxiosContext } from "react-axios/lib/components/AxiosProvider";
+import React, { useState, useEffect } from "react";
 
-
-const InputBox = styled.div`
-  margin: auto 40px 6px;
-`;
-const Input = styled.input`
-  height: 36px;
-  border: 1px solid #efefef;
-  border-radius: 3px;
-  background-color: #fafafa;
-  width: 100%;
-  font-size: 12px;
-  margin: 0;
-  padding: 9px 0 7px 8px;
-  outline: none;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  box-sizing: border-box;
-
-  #name:focus,
-  #password:focus {
-    border-color: #bbb;
-  }
-`;
+import BoardComponent from "./BoardComponent";
+import SavedComponent from "./SavedComponent";
+import TagComponent from "./TagComponent";
 
 const MyPageComponent = ({}) => {
-  const search = useLocation().search;
-  const token = new URLSearchParams(search).get("token");
-  console.log(token);
-  if(token) {
-    const userObj = { token: token };
-    // window.localStorage.setItem('jwtToken', JSON.stringify(userObj));
-    // setAuthorizationToken(token);
-    window.localStorage.setItem('jwtToken', token);
-    console.log("localStorage: "+localStorage.getItem('jwtToken'));
-  }
-
+  const statusType = {
+    BOARD: "board",
+    SAVED: "saved",
+    TAG: "tag",
+  };
+  const [type, setType] = useState(statusType.BOARD);
+  const setComponentByType = () => {
+    if (type === statusType.BOARD) {
+      return <BoardComponent></BoardComponent>;
+    } else if (type === statusType.SAVED) {
+      return <SavedComponent></SavedComponent>;
+    } else if (type === statusType.TAG) {
+      return <TagComponent></TagComponent>;
+    } else {
+      return <BoardComponent></BoardComponent>;
+    }
+  };
   return (
-    <div className="article">
-      <div className="content">
-        <h1>로그인 완료</h1>
+    <div>
+      <div className="container">
+        <div className="profile">
+          <div className="profile-image">
+            <img
+              src="https://cdn4.iconfinder.com/data/icons/48-bubbles/48/30.User-512.png"
+              alt=""
+            />
+          </div>
+
+          <div className="profile-user-settings">
+            <h1 className="profile-user-name">minchoi</h1>
+            <button className="profile-edit-btn">Edit Profile</button>
+            <button aria-label="profile settings">
+              <img
+                className="profile-settings-btn"
+                src="https://cdn4.iconfinder.com/data/icons/glyphs/24/icons_settings-1024.png"
+              />
+            </button>
+          </div>
+
+          <div className="profile-stats">
+            <ul>
+              <li>
+                <span className="profile-stat-count">164</span> posts
+              </li>
+              <li>
+                <span className="profile-stat-count">188</span> followers
+              </li>
+              <li>
+                <span className="profile-stat-count">206</span> following
+              </li>
+            </ul>
+          </div>
+
+          <div className="profile-bio">
+            <p>
+              <span className="profile-real-name">민경</span>
+              <br />
+              신사인사!
+            </p>
+          </div>
+        </div>
       </div>
-      <div>
-        <a href="/logout">로그아웃</a>
+
+      <div className="story">
+        <div className="story-box">
+          <img
+            className="pic"
+            src="https://cdn.pixabay.com/photo/2016/01/05/17/51/maltese-1123016_1280.jpg"
+            alt="pre-story"
+          ></img>
+          <p>멍</p>
+        </div>
+        <div className="story-box">
+          <img
+            className="pic"
+            src="https://cdn.pixabay.com/photo/2016/01/05/17/51/maltese-1123016_1280.jpg"
+            alt="pre-story"
+          ></img>
+          <p>멍</p>
+        </div>
+        <div className="story-box">
+          <img
+            className="pic"
+            src="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-ios7-plus-empty-512.png"
+            alt="pre-story"
+          ></img>
+          <p>신규</p>
+        </div>
+      </div>
+      <div className="feed">
+        <div className="feed-header">
+          <div
+            className="sub"
+            onClick={(event) => {
+              setType(statusType.BOARD);
+            }}
+          >
+            <img
+              className="icon-react"
+              src="https://cdn1.iconfinder.com/data/icons/bootstrap-vol-3/16/grid-3x3-512.png"
+            ></img>
+            <span>게시물</span>
+          </div>
+          <div
+            className="sub"
+            onClick={(event) => {
+              setType(statusType.SAVED);
+            }}
+          >
+            <span>
+              <img
+                className="icon-react"
+                src="https://cdn0.iconfinder.com/data/icons/ui-interface-6/24/bookmark-512.png"
+              ></img>
+              <span>저장됨</span>
+            </span>
+          </div>
+          <div
+            className="sub"
+            onClick={(event) => {
+              setType(statusType.TAG);
+            }}
+          >
+            <span>
+              <img
+                className="icon-react"
+                src="https://cdn0.iconfinder.com/data/icons/phosphor-light-vol-5/256/user-square-light-512.png"
+              ></img>
+              <span>태그됨</span>
+            </span>
+          </div>
+        </div>
+        <div className="main-box">
+          <div>{setComponentByType()}</div>
+        </div>
       </div>
     </div>
   );
-};;
+};
 
 export default MyPageComponent;
