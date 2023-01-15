@@ -5,29 +5,32 @@ import PostApi from "../../lib/api/post";
 import LikeApi from "../../lib/api/like";
 
 import PostComment from "./PostCommentComponent";
+import LikeModal from "./LikeModal";
 
 const Post = ({ data }) => {
   const [post, setPost] = useState(data);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [likers, setLikers] = useState(null);
 
   const deleteLike = (data) => {
-    const postId = data.idx;
-    const cancle = LikeApi.cancle(postId).then(() => {
-      reloadPost(postId);
+    const postIdx = data.idx;
+    const cancle = LikeApi.cancle(postIdx).then(() => {
+      reloadPost(postIdx);
     });
   };
 
   const saveLike = async (data) => {
-    const postId = data.idx;
+    const postIdx = data.idx;
     const like = {
-      postId: postId,
+      postIdx: postIdx,
     };
     const save = await LikeApi.save(like).then(() => {
-      reloadPost(postId);
+      reloadPost(postIdx);
     });
   };
 
-  const reloadPost = async (postId) => {
-    const newPost = await PostApi.getPost(postId).then((result) => {
+  const reloadPost = async (postIdx) => {
+    const newPost = await PostApi.getPost(postIdx).then((result) => {
       setPost(result.data);
     });
   };
@@ -45,10 +48,14 @@ const Post = ({ data }) => {
     }
   };
 
-  const likeUsers = async (post) => {
-    const users = await LikeApi.users(post.idx).then((result) => {
-      console.log(result);
+  const openModal = async (post) => {
+    setModalOpen(true);
+    await LikeApi.users(post.idx).then((likers) => {
+      setLikers(likers);
     });
+  };
+  const closeModal = () => {
+    setModalOpen(false);
   };
 
   return (
@@ -68,14 +75,14 @@ const Post = ({ data }) => {
           alt="more"
         />
       </header>
-    <Link to={"/post/" + data.idx} state={data}>
-      <div className="main-image">
-        <img
-          src="https://cdn.pixabay.com/photo/2016/01/05/17/51/maltese-1123016_1280.jpg"
-          alt="minchoi님의 피드 사진"
-          className="mainPic"
-        />
-      </div>
+      <Link to={"/post/" + data.idx} state={data}>
+        <div className="main-image">
+          <img
+            src="https://cdn.pixabay.com/photo/2016/01/05/17/51/maltese-1123016_1280.jpg"
+            alt="minchoi님의 피드 사진"
+            className="mainPic"
+          />
+        </div>
       </Link>
       <div className="icons-react">
         <div className="icons-left">
@@ -123,23 +130,31 @@ const Post = ({ data }) => {
           />
         </div>
         <p
-          onClick={() => {
-            likeUsers(post);
+          onClick={(event) => {
+            openModal(post, event);
           }}
         >
           {likeMessage(post)}
         </p>
+        <LikeModal
+          open={modalOpen}
+          close={closeModal}
+          header="좋아요"
+          likers={likers}
+        ></LikeModal>
         <div className="description">
           <p>
-            <span className="point-span userID">{data.userName ?? "anoymous"}</span>
+            <span className="point-span userID">
+              {data.userName ?? "anoymous"}
+            </span>
             <span className="at-tag">{data.content}</span>
           </p>
         </div>
-        {data.commentCnt !== 0 &&
-        <Link to={"/comment?postId=" + data.idx} state={{data: data.idx}}>
-          <span>View all {data.commentCnt} comments </span>
-        </Link>
-        }
+        {data.commentCnt !== 0 && (
+          <Link to={"/comment?postId=" + data.idx} state={{ data: data.idx }}>
+            <span>View all {data.commentCnt} comments </span>
+          </Link>
+        )}
         <div className="comment-section">
           <div>
             {post.comments?.map((comment) => (

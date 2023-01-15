@@ -11,7 +11,7 @@
     <select id="findTags" parameterType="Integer" resultType="Tag">
         select * from tag where post_idx = #{idx}
     </select>
-    <select id="findTagsByPostId" parameterType="Integer" resultType="Tag">
+    <select id="findTagsBypostIdx" parameterType="Integer" resultType="Tag">
         select *
         from tag
         --             foreignKey 걸려있어서 굳이 필요 없을 듯

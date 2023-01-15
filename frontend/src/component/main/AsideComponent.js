@@ -1,6 +1,7 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import followAPI from '../../lib/api/follow';
+import followAPI from "../../lib/api/follow";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const AsideComponent = () => {
   const [isFollow, setIsFollow] = useState(false);
@@ -10,49 +11,48 @@ const AsideComponent = () => {
     // 팔로우 상태인지 판단
     // 팔로우 상태 아니면 -> 파란색
     // 팔로우 완료 -> 회색
-    followCheck('27');
-  }, [])
+    followCheck("27");
+  }, []);
 
   const followCheck = (toUserIdx) => {
-    followAPI.chkFollow(toUserIdx)
-        .then((res) => {
-          console.log('rest', res);
-          if (res.data)
-            setIsFollow(true);
-          else
-            setIsFollow(false);
-        })
-  }
+    followAPI.chkFollow(toUserIdx).then((res) => {
+      console.log("rest", res);
+      if (res.data) setIsFollow(true);
+      else setIsFollow(false);
+    });
+  };
 
   const followClick = (toUserIdx) => {
-    followCheck('27');
-    console.log('followingStat:', isFollow);
+    followCheck("27");
+    console.log("followingStat:", isFollow);
     // setIsFollow(current => !current);
     // 추천된 user 정보만 가져오기
 
-    if(!isFollow) {
-      followAPI.follow({
-        toUserIdx: toUserIdx,
-      })
-          .then(() => setIsFollow(true))
+    if (!isFollow) {
+      followAPI
+        .follow({
+          toUserIdx: toUserIdx,
+        })
+        .then(() => setIsFollow(true));
+    } else {
+      followAPI.unfollow(toUserIdx).then(() => setIsFollow(false));
     }
-    else {
-      followAPI.unfollow(toUserIdx)
-          .then(() => setIsFollow(false))
-    }
-
-  }
+  };
 
   return (
     <div className="main-right">
       <div className="myProfile">
-        <img
-          className="pic"
-          src="https://cdn4.iconfinder.com/data/icons/48-bubbles/48/30.User-512.png"
-          alt="minchoi 프로필 사진"
-        />
+        <a href="/myPage">
+          <img
+            className="pic"
+            src="https://cdn4.iconfinder.com/data/icons/48-bubbles/48/30.User-512.png"
+            alt="minchoi 프로필 사진"
+          />
+        </a>
         <div>
-          <span className="userID point-span">minchoi</span>
+          <span className="userID point-span">
+            <a href="/myPage">minchoi</a>
+          </span>
           <span className="sub-span">Minkyeong Choi</span>
         </div>
       </div>
@@ -71,12 +71,20 @@ const AsideComponent = () => {
               />
               <div className="profile-text">
                 <span className="userID point-span">hyeji</span>
-                <span className="sub-span">hakyeong님 외 2명이 팔로우합니다</span>
+                <span className="sub-span">
+                  hakyeong님 외 2명이 팔로우합니다
+                </span>
               </div>
             </div>
-            <div style={{
-              color: isFollow ? 'gray' : '#0095f6'
-            }} className="btn-follow" onClick={() => followClick('27')}>팔로우</div>
+            <div
+              style={{
+                color: isFollow ? "gray" : "#0095f6",
+              }}
+              className="btn-follow"
+              onClick={() => followClick("27")}
+            >
+              팔로우
+            </div>
           </li>
           <li>
             <div className="recommend-friend-profile">

@@ -92,11 +92,11 @@ public class CommentServiceTest {
     @Test
     public void 댓글조회() throws Exception{
         // given
-        int postId = 28;
+        int postIdx = 28;
 
         // when & then
-//       mockMvc.perform(get("/comment/" + postId))
-       mockMvc.perform(get("/comment?postId=" + postId))
+//       mockMvc.perform(get("/comment/" + postIdx))
+       mockMvc.perform(get("/comment?postId=" + postIdx))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andReturn();
@@ -106,15 +106,15 @@ public class CommentServiceTest {
     @Test
     public void 댓글조회withPaging() throws Exception {
         // given
-        int postId = 28;
+        int postIdx = 28;
         int limit = 7;
         int offset = 0;
 
-        List<Comment> commentList = commentService.getCommentsListByPostId(postId);
+        List<Comment> commentList = commentService.getCommentsListByPostId(postIdx);
         Assert.assertEquals(commentList.size(), 7);
 
         // when & then
-//       mockMvc.perform(get("/comment/" + postId))
+//       mockMvc.perform(get("/comment/" + postIdx))
 //        mockMvc.perform(get("/comment?postId=" + postId + "&limit=" + limit))
 //                .andExpect(status().isOk())
 //                .andDo(print())
@@ -140,10 +140,10 @@ public class CommentServiceTest {
     @Test
     public void 댓글삭제() throws Exception {
         // given
-        int commentId = 4;
+        int commentIdx = 4;
 
         // when & then
-        mockMvc.perform(delete("/comment/delete/"+commentId))
+        mockMvc.perform(delete("/comment/delete/"+commentIdx))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andReturn();

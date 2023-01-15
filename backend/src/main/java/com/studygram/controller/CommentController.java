@@ -22,24 +22,24 @@ public class CommentController {
 
     @GetMapping("")
     // url="localhost:8090/comment?postId=1
-    public List<Comment> getCommentsListWithPaging(@RequestParam int postId, @RequestBody SimplePageRequest simplePageRequest) {
-        return commentService.getCommentsListWithPaging(postId, simplePageRequest);
+    public List<Comment> getCommentsListWithPaging(@RequestParam int postIdx, @RequestBody SimplePageRequest simplePageRequest) {
+        return commentService.getCommentsListWithPaging(postIdx, simplePageRequest);
     }
     @GetMapping("/list")
-    public List<Comment> getCommentsListByPostId(@RequestParam int postId) {
-        return commentService.getCommentsListByPostId(postId);
+    public List<Comment> getCommentsListByPostId(@RequestParam int postIdx) {
+        return commentService.getCommentsListByPostId(postIdx);
     }
 
-    @GetMapping("/{commentId}")
+    @GetMapping("/{commentIdx}")
     // url="localhost:8090/comment/1
-    public Comment getCommentByCommentId(@PathVariable int commentId) {
-        return commentService.getCommentByCommentId(commentId);
+    public Comment getCommentByCommentId(@PathVariable int commentIdx) {
+        return commentService.getCommentByCommentId(commentIdx);
     }
 
-    @GetMapping("/count/{postId}")
+    @GetMapping("/count/{postIdx}")
     // url="localhost:8090/comment/1
-    public int getCommentCntByPostId(@PathVariable int postId) {
-        return commentService.getCommentCntByPostId(postId);
+    public int getCommentCntByPostId(@PathVariable int postIdx) {
+        return commentService.getCommentCntByPostId(postIdx);
     }
 
    @PostMapping("/save") // value ={,} 다중 맵핑 가능
@@ -55,9 +55,9 @@ public class CommentController {
 
     }
 
-    @DeleteMapping("/delete/{commentId}")
-    // url="localhost:8090/comment/delete/{commentId}
-    public void deleteCommentByCommentId(@PathVariable("commentId") int commentId) {
-        commentService.deleteCommentByCommentId(commentId);
+    @DeleteMapping("/delete/{commentIdx}")
+    // url="localhost:8090/comment/delete/{commentIdx}
+    public void deleteCommentByCommentId(@PathVariable("commentId") int commentIdx) {
+        commentService.deleteCommentByCommentId(commentIdx);
     }
 }

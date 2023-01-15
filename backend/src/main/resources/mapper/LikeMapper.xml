@@ -11,8 +11,7 @@
     <select id="findLikes" parameterType="Integer" resultType="Like">
         select * from `like` where post_idx = #{idx}
     </select>
-
-    <select id="findLikesByCommentId" parameterType="Integer" resultType="Like">
+    <select id="findLikesByCommentIdx" parameterType="Integer" resultType="Like">
         select `like`.idx, post_idx, comment_idx, like.user_idx, `user`.user_name
         from `like`
                  left join `user` on `like`.user_idx = `user`.idx
@@ -20,7 +19,7 @@
           and comment_idx = #{commentIdx}
     </select>
 
-    <select id="findLikeCntByPostId" parameterType="Integer" resultType="Integer">
+    <select id="findLikesCntByPostIdx" parameterType="Integer" resultType="Integer">
         select count(*)
             from `like`
             where 1 = 1
@@ -43,11 +42,11 @@
     <delete id="delete" parameterType="Like">
         delete from `like` where post_idx = #{postIdx} and user_idx = #{userIdx}
     </delete>
-    <select id="findLikesByPostId" resultType="User">
+    <select id="findLikersByPostIdx" resultType="User">
         SELECT
-            `user`.idx, `user`.user_name,  `user`.full_name
+            `user`.idx, `user`.user_name,  `user`.full_name, `user`.profile_image_url
         FROM `like`
-        LEFT JOIN `user` ON `like`.user_id = `user`.idx
+        LEFT JOIN `user` ON `like`.user_idx = `user`.idx
         WHERE post_idx = #{postIdx}
     </select>
 </mapper>
