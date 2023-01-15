@@ -12,38 +12,38 @@ const SavePostModal = (props) => {
           content : ""
       });
       const [fileImage, setFileImage] = useState("");
+      const [imgBase64, setImgBase64] = useState("");
       
-      const saveFileImage = (event: React.ChangeEvent<HTMLInputElement>) =>{
-        setFileImage(URL.createObjectURL(event.target.files[0]));
-      };
-
-      const deleteFileImage = () =>{
-        URL.revokeObjectURL(fileImage);
-        setFileImage("");
-      };
+      const saveFileImage = (event: any) => {
+        setFileImage(event.target.files[0]);
+        let reader = new FileReader();
+        reader.readAsDataURL(event.target.files[0]);
+        reader.onload = () => {
+            setImgBase64(reader.result);
+        }
+      }
   
       const handleChange = (e) => {
           const { name, value } = e.target;
-  
+
           setPost((preNewPost) => ({
             ...preNewPost,
             [name]: value,
           }));
         };
   
-      const onClickSearch = (e) => {
+      const onClickWrite = (e) => {
         e.preventDefault();
         addPost(post);      
       };
       
       const addPost = async(post) => {
+          let formData = new FormData();
 
-          const share = JSON.stringify({
-            content: post.content,
-            fileImage : fileImage
-          });
+          formData.append("fileImage", fileImage);
+          formData.append("content", post.content);
 
-          await PostApi.addPost(share)
+          await PostApi.addPost(formData)
           .then(() => {
               document.location.href = '/post'
           })
@@ -51,13 +51,13 @@ const SavePostModal = (props) => {
             console.log("Add post Error!", err);
           });
       
-        };  
+      };  
   
       return (
         <div className={open ? 'openModal modal' : 'modal'}>
           {open ? (
             <section>
-              <form onSubmit={onClickSearch} method="post" className="Write"  enctype="multipart/form-data">
+              <form onSubmit={onClickWrite} method="post" className="Write"  encType="multipart/form-data">
               <header>
                 {header}
                 <button className="close" onClick={close}>
@@ -66,31 +66,27 @@ const SavePostModal = (props) => {
               </header>
               <main>
                   <div className="file">
-                    <div className="imageSelect" style={
-                      fileImage ? { position: "absolute",width: "33%", height: "66% "} : {alignItems: "center",
-                      justifyContent: "center", height: "100%"}} >
+                    <div className="imageSelect" style={{alignItems: "center", justifyContent: "center", height: "100%"}} >
                       <input
                           name="fileImage"
                           type="file"
                           accept="image/*"
+                          id="fileImage"
                           onChange={saveFileImage} multiple/>
                     </div>
                     <div style={{ height: "100%", paddingTop: "0"}}>
                       {fileImage && 
-                      (<div style={{ backgroundImage: "url("+fileImage+")", backgroundRepeat: "no-repeat", backgroundSize : "cover", height : "100%"}}>
-                                         
-                                        </div>)                                            
-                          }
+                      (<div style={{ backgroundImage: "url("+imgBase64+")", backgroundRepeat: "no-repeat", backgroundSize : "cover", height : "100%"}}></div>)}
                     </div>
                   </div>
-                  <div className="post_content">
+                  <div className="postContent">
                     <div className="myProfile">
                         <img className="pic" src="https://cdn4.iconfinder.com/data/icons/48-bubbles/48/30.User-512.png" alt="minchoi 프로필 사진" />
                         <div>
                           <span className="userID point-span">minchoi</span>
                         </div>
                     </div>
-                    <textarea name="content" id="content_txt" placeholder="내용을 입력하세요."
+                    <textarea name="content" id="contentTxt" placeholder="내용을 입력하세요."
                       onChange={handleChange} />
                   </div>
               </main>
