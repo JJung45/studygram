@@ -78,6 +78,7 @@ button {
 .modal > section > form > main > .file > .imageSelect > input{
   height: 100%;
   width: 100%;
+  opacity: 0;
 }
 .modal > section > form > main > .file input::file-selector-button {
   display: none;
