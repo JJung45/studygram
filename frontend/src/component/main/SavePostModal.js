@@ -12,14 +12,6 @@ const SavePostModal = (props) => {
           content : ""
       });
       const [fileImage, setFileImage] = useState("");
-  
-      useEffect(() => {
-        PostApi.getPost(postId).then(res => {
-          setPost((res) => ({
-            content: res.data.content
-          }))
-        })
-      });
       
       const saveFileImage = (event: React.ChangeEvent<HTMLInputElement>) =>{
         setFileImage(URL.createObjectURL(event.target.files[0]));
@@ -45,9 +37,13 @@ const SavePostModal = (props) => {
       };
       
       const addPost = async(post) => {
-          await PostApi.addPost({
-            content: post.content
-          })
+
+          const share = JSON.stringify({
+            content: post.content,
+            fileImage : fileImage
+          });
+
+          await PostApi.addPost(share)
           .then(() => {
               document.location.href = '/post'
           })
@@ -61,7 +57,7 @@ const SavePostModal = (props) => {
         <div className={open ? 'openModal modal' : 'modal'}>
           {open ? (
             <section>
-              <form onSubmit={onClickSearch} method="post" className="Write">
+              <form onSubmit={onClickSearch} method="post" className="Write"  enctype="multipart/form-data">
               <header>
                 {header}
                 <button className="close" onClick={close}>
@@ -74,10 +70,10 @@ const SavePostModal = (props) => {
                       fileImage ? { position: "absolute",width: "33%", height: "66% "} : {alignItems: "center",
                       justifyContent: "center", height: "100%"}} >
                       <input
-                          name="imggeUpload"
+                          name="fileImage"
                           type="file"
                           accept="image/*"
-                          onChange={saveFileImage} />
+                          onChange={saveFileImage} multiple/>
                     </div>
                     <div style={{ height: "100%", paddingTop: "0"}}>
                       {fileImage && 
@@ -88,10 +84,10 @@ const SavePostModal = (props) => {
                     </div>
                   </div>
                   <div className="post_content">
-                    <div class="myProfile">
-                        <img class="pic" src="https://cdn4.iconfinder.com/data/icons/48-bubbles/48/30.User-512.png" alt="minchoi 프로필 사진" />
+                    <div className="myProfile">
+                        <img className="pic" src="https://cdn4.iconfinder.com/data/icons/48-bubbles/48/30.User-512.png" alt="minchoi 프로필 사진" />
                         <div>
-                          <span class="userID point-span">minchoi</span>
+                          <span className="userID point-span">minchoi</span>
                         </div>
                     </div>
                     <textarea name="content" id="content_txt" placeholder="내용을 입력하세요."
