@@ -27,9 +27,6 @@ public class Post {
     List<Comment> comments;
     int commentCnt;
 
-    List<Attachment> attachedFiles;
-    File fileImage;
-
     Date createdDate;
     Date updatedDate;
 
