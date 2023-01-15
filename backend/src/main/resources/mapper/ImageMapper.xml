@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.studygram.mapper.ImageMapper">
+    <insert id="save" parameterType="Image">
+        insert into image (original_file_name, store_path, post_idx)
+            values(#{originalFilename}, #{storePath}, #{post.idx})
+    </insert>
+</mapper>
