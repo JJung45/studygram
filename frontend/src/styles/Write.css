@@ -8,13 +8,13 @@
 
 #title_txt:focus { outline : none; }
 
-#content_txt {
+#contentTxt {
     width: 95%;
     resize: none;
     border: none;
 }
 
-#content_txt:focus { outline : none; }
+#contentTxt:focus { outline : none; }
 
 #post_submit {
     text-align: center;
