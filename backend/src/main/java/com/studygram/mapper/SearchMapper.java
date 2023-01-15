@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface SearchMapper {
     // Top -> Post
-    List<Integer> searchPostList(String keyword);
+    List<Post> searchPostList(String keyword);
     List<Tag> searchTagList(String keyword);
-    List<Integer> searchAccountList(String keyword);
+    List<User> searchAccountList(String keyword);
 }

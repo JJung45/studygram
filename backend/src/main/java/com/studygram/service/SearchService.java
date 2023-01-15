@@ -6,6 +6,7 @@ import com.studygram.mapper.LikeMapper;
 import com.studygram.mapper.PostMapper;
 import com.studygram.mapper.SearchMapper;
 import com.studygram.mapper.UserMapper;
+import com.studygram.utils.ApiKorToRoman;
 import com.studygram.utils.ListComparator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,10 +31,10 @@ public class SearchService {
     public List<?> search(String keyword, int type){
         switch(type) {
             case 1: {
-                // Top Post => 우선순위 : Like & Comment Count순
-                // 방법은 2가지
-                // 첫번째 : 키워드 포함한 게시글을 좋아요 순으로 정렬해서 조회하기(쿼리로 한방에 .. 어려움)
-                // 두번째 : 특정 키워드로 게시글 분류 -> 게시글 다시 조회 -> 좋아요 순으로 정렬(sort사용)
+                // 첫번째 : 키워드 포함한 게시글을 좋아요 순으로 정렬해서 조회하기(쿼리정렬 이용)
+                return searchMapper.searchPostList(keyword);
+                // 두번째 : 특정 키워드로 게시글 분류 -> 게시글 다시 조회 -> 좋아요 순으로 정렬(sort 이용)
+                /*
                 ArrayList<Post> postList = new ArrayList<>();
                 List<Integer> pIdxList = searchMapper.searchPostList(keyword);
                 for(int idx : pIdxList) {
@@ -42,9 +43,17 @@ public class SearchService {
                 // Like 수로 정렬
                 Collections.sort(postList, new ListComparator());
                 return postList;
+                 */
             }
             case 2: {
                 // Accounts => 우선순위 : Followers
+                // keyword 영어인 경우 로마자로 변경
+                ApiKorToRoman api = new ApiKorToRoman();
+                api.convertLang(keyword);
+                return null;
+//                return searchMapper.searchAccountList(keyword);
+                // 2번째 방법
+                /*
                 ArrayList<User> userList = new ArrayList<>();
                 List<Integer> uIdxList = searchMapper.searchAccountList(keyword);
                 for(int idx : uIdxList)
@@ -53,6 +62,7 @@ public class SearchService {
                 // Follower 수로 정렬
                 Collections.sort(userList, new ListComparator());
                 return userList;
+                 */
             }
             case 3: {
                 // Tag

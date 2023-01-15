@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,6 +45,7 @@ public class LikeServiceTest {
     }
 
     @Test
+    @WithMockUser(username = "113944364581653272465")
     public void 좋아요_저장() {
         Like like = new Like();
         like.setUserIdx(originalPost.getUserIdx());
