@@ -11,8 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -74,7 +74,7 @@ public class PostController {
     private Post createPostAttachment(Post post)
     {
         try {
-            Map<AttachmentType, List<MultipartFile>> files = attachmentService.getAttachmentTypeListMap(post.getImageFiles(), post.getGeneralFiles());
+            Map<AttachmentType, File> files = attachmentService.getAttachmentTypeListMap(post.getFileImage());
             List<Attachment> attachments = attachmentService.saveAttachments(files);
             attachments.stream()
                     .forEach(attachment -> post.setAttachedFiles(attachments));

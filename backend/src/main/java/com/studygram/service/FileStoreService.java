@@ -2,28 +2,24 @@ package com.studygram.service;
 
 import com.studygram.domain.Attachment;
 import com.studygram.domain.AttachmentType;
-import org.springframework.web.multipart.MultipartFile;
-
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import org.springframework.beans.factory.annotation.Value;
 
+@Service
+@RequiredArgsConstructor
 public class FileStoreService {
     @Value("${file.dir}")
     private String fileDirPath;
-
-    private String extractExt(String originalFilename) {
-        int idx = originalFilename.lastIndexOf(".");
-        return originalFilename.substring(idx);
-    }
-
     private String createStoreFilename(String originalFilename) {
         String uuid = UUID.randomUUID().toString();
-        String ext = extractExt(originalFilename);
-        return uuid + ext;
+        return uuid + "_" + originalFilename;
     }
 
     public String createPath(String storeFilename, AttachmentType attachmentType) {
@@ -31,15 +27,13 @@ public class FileStoreService {
         return fileDirPath+viaPath+storeFilename;
     }
 
-    public Attachment storeFile(MultipartFile multipartFile, AttachmentType attachmentType) throws IOException {
-        if (multipartFile.isEmpty()) {
-            return null;
-        }
+    public Attachment storeFile(File file, AttachmentType attachmentType) throws IOException {
 
-        String originalFilename = multipartFile.getOriginalFilename();
+        String originalFilename = file.getName();
         String storeFilename = createStoreFilename(originalFilename);
         try {
-            multipartFile.transferTo(new File(createPath(storeFilename, attachmentType)));
+            FileOutputStream fos = new FileOutputStream(file);
+            fos.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -52,14 +46,9 @@ public class FileStoreService {
 
     }
 
-    public List<Attachment> storeFiles(List<MultipartFile> multipartFiles, AttachmentType attachmentType) throws IOException {
+    public List<Attachment> storeFiles(File image, AttachmentType attachmentType) throws IOException {
         List<Attachment> attachments = new ArrayList<>();
-        for (MultipartFile multipartFile : multipartFiles) {
-            if (!multipartFile.isEmpty()) {
-                attachments.add(storeFile(multipartFile, attachmentType));
-            }
-        }
-
+        attachments.add(storeFile(image, attachmentType));
         return attachments;
     }
 

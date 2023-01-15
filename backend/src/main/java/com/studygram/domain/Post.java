@@ -4,6 +4,7 @@ import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -27,8 +28,7 @@ public class Post {
     int commentCnt;
 
     List<Attachment> attachedFiles;
-    List<MultipartFile> imageFiles;
-    List<MultipartFile> generalFiles;
+    File fileImage;
 
     Date createdDate;
     Date updatedDate;
