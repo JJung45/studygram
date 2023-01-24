@@ -17,14 +17,37 @@
           and tag.content like concat('%', #{keyword}, '%')
         order by case
                      when tag.content = #{keyword} then 0
-                     when tag.content = #{keyword}+'%' then 1
-                     when tag.content = '%'+#{keyword}+'%' then 2
-                     when tag.content = '%'+#{keyword} then 3
+                     when tag.content = #{keyword} +'%' then 1
+                     when tag.content = '%'+ #{keyword} +'%' then 2
+                     when tag.content = '%'+ #{keyword} then 3
                      else 4 end
     </select>
 
     <select id="searchAccountList" parameterType="String" resultType="User">
-
-    <if test=""></if>
+        select *
+        from user
+        where 1 = 1
+            and user.user_name like concat('%', #{originKeyword}, '%')
+            or user.profile_msg like concat('%', #{originKeyword}, '%')
+            or user.full_name like concat('%', #{originKeyword}, '%')
+        <if test="newKeyword != null">
+            or user.user_name like concat('%', #{newKeyword}, '%')
+            or user.profile_msg like concat('%', #{newKeyword}, '%')
+            or user.full_name like concat('%', #{newKeyword}, '%')
+        </if>
+        order by case
+            when user.user_name = #{originKeyword} then 0
+            <if test="newKeyword != null">
+                when user.user_name = #{newKeyword} then 1
+            </if>
+            when user.profile_msg = #{originKeyword} then 2
+            <if test="newKeyword != null">
+                when user.profile_msg = #{newKeyword} then 3
+            </if>
+            when user.full_name = #{originKeyword} then 4
+            <if test="newKeyword != null">
+                when user.full_name = #{newKeyword} then 5
+            </if>
+        else 6 end
     </select>
 </mapper>

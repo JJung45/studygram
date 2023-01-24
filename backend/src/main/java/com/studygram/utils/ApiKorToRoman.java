@@ -1,5 +1,10 @@
 package com.studygram.utils;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -14,8 +19,33 @@ public class ApiKorToRoman {
     private String clientId = "pkKJhJjNV9d03_Rivs_1";
     private String clientSecret = "qCPUQknrYV";
 
-    public void convertLang(String keyword) {
-        String text = null;
+    public String getKeyword(String jsonResponse) throws ParseException {
+        /* Example
+        {"aResult":[{"sFirstName":"\ud64d","aItems":[{"name":"Hong Gildong","score":"99"},{"name":"Hong Kildong","score":"96"}, ...]}
+         */
+        String keyword = null;
+        JSONParser jsonParser = new JSONParser();
+        // String -> Object parsing
+        Object object = jsonParser.parse(jsonResponse);
+        // Object -> JSONObject parsing
+        JSONObject jsonObject = (JSONObject) object;
+        // JSONObject -> JSONArray
+        JSONArray jsonArray = (JSONArray) jsonObject.get("aResult");
+        if(jsonArray.size() > 0) {
+            JSONObject jsonObject1 = (JSONObject) jsonArray.get(0);
+            JSONArray jsonArray1 = (JSONArray) jsonObject1.get("aItems");
+            if(jsonArray1.size() > 0) {
+                JSONObject jsonObject2 = (JSONObject) jsonArray1.get(0);
+                String tmp = (String)jsonObject2.get("name");
+                keyword = tmp.replace(" ", "_");
+            }
+        }
+
+        return keyword;
+    }
+
+    public String convertLang(String keyword) throws ParseException {
+        String text = keyword;
         try{
             text = URLEncoder.encode(text, "UTF-8");
         } catch(UnsupportedEncodingException e) {
@@ -28,8 +58,8 @@ public class ApiKorToRoman {
         requestHeaders.put("X-Naver-Client-Secret", clientSecret);
         String responseBody = get(apiURL,requestHeaders);
 
-        System.out.println("네이버 한글인명로마변환 API 결과" +responseBody);
-
+        System.out.println("네이버 한글인명로마변환 API 결과 " +responseBody);
+        return getKeyword(responseBody);
     }
 
     private static String get(String apiUrl, Map<String, String> requestHeaders){

@@ -8,6 +8,7 @@ import com.studygram.mapper.SearchMapper;
 import com.studygram.mapper.UserMapper;
 import com.studygram.utils.ApiKorToRoman;
 import com.studygram.utils.ListComparator;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Pattern;
 
 @Service
 public class SearchService {
@@ -28,7 +30,7 @@ public class SearchService {
     // 검색
     // 1. 기본으로 검색하면 프로필 메시지 & account 에서 검색
     // 2. 검색 누르면 세분화 -> 게시글, 태그, 계정
-    public List<?> search(String keyword, int type){
+    public List<?> search(String keyword, int type) throws ParseException {
         switch(type) {
             case 1: {
                 // 첫번째 : 키워드 포함한 게시글을 좋아요 순으로 정렬해서 조회하기(쿼리정렬 이용)
@@ -46,12 +48,18 @@ public class SearchService {
                  */
             }
             case 2: {
-                // Accounts => 우선순위 : Followers
-                // keyword 영어인 경우 로마자로 변경
-                ApiKorToRoman api = new ApiKorToRoman();
-                api.convertLang(keyword);
-                return null;
-//                return searchMapper.searchAccountList(keyword);
+                // Accounts
+                String tmp = null;
+                if(Pattern.matches("^[ㄱ-ㅎ가-힣]*$", keyword)) {
+                    // 한글 포함
+                    // keyword 한글인 경우 영어 로마자로 변경
+                    ApiKorToRoman api = new ApiKorToRoman();
+                    tmp = api.convertLang(keyword);
+                }
+                else {
+                    System.out.println("한글인명(" + keyword + ") 영문자 변환 없음");
+                }
+                return searchMapper.searchAccountList(keyword, tmp);
                 // 2번째 방법
                 /*
                 ArrayList<User> userList = new ArrayList<>();
@@ -69,6 +77,7 @@ public class SearchService {
                 return searchMapper.searchTagList(keyword);
             }
             default: {
+                System.out.println("잘못된 검색 타입");
                 break;
             }
         }

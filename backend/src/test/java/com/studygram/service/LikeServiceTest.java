@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @Transactional
 public class LikeServiceTest {
 
-    private static final int userId = 5;
+    private static final int userIdx = 5;
 
     @Autowired
     PostService postService;
@@ -73,7 +73,7 @@ public class LikeServiceTest {
     public void 좋아요_누른_게시글이_맞는지_확인()
     {
         // given
-        int likedUserId = 35;
+        int likeduserIdx = 35;
         Like like = Like.builder()
                 .userIdx(likeduserIdx)
                 .postIdx(originalPost.getIdx())

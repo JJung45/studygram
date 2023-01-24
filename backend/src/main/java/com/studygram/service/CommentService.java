@@ -42,7 +42,7 @@ public class CommentService {
 
     public Comment getCommentByCommentId(int commentIdx) { return commentMapper.findByCommentIdx(commentIdx);}
 
-    public int getCommentCntByPostID(int postIdx) { return commentMapper.getCommentCntByPostIdx(postIdx); }
+    public int getCommentCntByPostId(int postIdx) { return commentMapper.getCommentCntByPostIdx(postIdx); }
 
     public void createComment(Comment comment) {
         // 1. Post 데이터 있는지 확인
