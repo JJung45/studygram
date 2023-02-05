@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,6 +82,19 @@ public class PostServiceTest {
         Assert.assertEquals(resPost.getIdx(), post.getIdx());
     }
 
+    @Test
+    @Transactional
+    @WithMockUser(username = "108915067662391092609")
+    public void 게시판_특정인물_조회() {
+        // given
+        Post post = Post.builder().content("특정인물 조회").build();
+        postService.save(post);
+
+        List<Post> posts = postService.findByClientId();
+
+        Assert.assertTrue(posts.stream().anyMatch((p) -> "특정인물 조회".equals(p.getContent())));
+
+    }
     @Test
     public void 게시판_전체_조회() {
         //when

@@ -5,8 +5,12 @@ import com.studygram.common.oauth.ProviderType;
 import com.studygram.common.oauth.RoleType;
 import com.studygram.controller.AuthController;
 import com.studygram.domain.AuthReqModel;
+import com.studygram.domain.Follow;
 import com.studygram.domain.User;
 
+import com.studygram.service.FollowService;
+import com.studygram.service.UserService;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -17,9 +21,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -33,6 +39,12 @@ public class AuthControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @Autowired
+    UserService userService;
+
+    @Autowired
+    FollowService followService;
 
     AutoCloseable openMocks;
 
@@ -73,5 +85,27 @@ public class AuthControllerTest {
                         .content(objectMapper.writeValueAsString(authReqModel))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("로그인한 사용자 정보")
+    @WithMockUser(username = "108915067662391092609")
+//    @Transactional
+    public void userInfo() throws Exception {
+        // given
+        Follow follow1 = Follow.builder().fromUserIdx(1).toUserIdx(2).build();
+        Follow follow2 = Follow.builder().fromUserIdx(3).toUserIdx(2).build();
+        Follow follow3 = Follow.builder().fromUserIdx(2).toUserIdx(1).build();
+
+        followService.testFollow(follow1);
+        followService.testFollow(follow2);
+        followService.testFollow(follow3);
+
+        // when
+        User user = userService.getUserInfo("minchoi9509");
+
+        // then
+        Assert.assertEquals(2, user.getFollowersCnt());
+        Assert.assertEquals(1, user.getFollowingCnt());
     }
 }

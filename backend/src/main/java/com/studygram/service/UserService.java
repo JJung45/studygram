@@ -5,7 +5,6 @@ import com.studygram.config.AppProperties;
 import com.studygram.domain.User;
 import com.studygram.mapper.FollowMapper;
 import com.studygram.mapper.UserMapper;
-import com.studygram.mapper.UserRefreshTokenMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -33,6 +32,15 @@ public class UserService {
 
     public User getUser(String clientId) {
         return userMapper.findByClientId(clientId);
+    }
+
+    public User getUserInfo() {
+        org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return userMapper.findInfoByClientId(principal.getUsername());
+    }
+
+    public User getUserInfo(String userName) {
+        return userMapper.findInfoByUserName(userName);
     }
 
     public User getUserInfo(int userIdx) {

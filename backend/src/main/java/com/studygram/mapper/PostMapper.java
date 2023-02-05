@@ -16,9 +16,12 @@ public interface PostMapper {
     int save(Post post);
     Post findById(int id);
     Post findByIds(@Param("postIdx") Integer postIdx, @Param("userIdx") Integer userIdx);
+    List<Post> findByClientId(@Param("clientId") String clientId);
+    List<Post> findByUserName(@Param("userName") String userName);
     List<Post> findAll(@Param("limit") @Nullable Integer limit, @Param("offset") @Nullable Integer offset, @Param("userIdx") Integer userIdx);
     List<PostTag> findPostTags(int postIdx);
     void update(Post post);
     void delete(Post post);
     List<Post> findByManyIds(@Param("postTagIds") List<Integer> postTagIds);
+    int countPostsByUserName(String userName);
 }
