@@ -77,6 +77,7 @@ button {
 }
 .modal > section > form > main > .file > .imageSelect {
   position: relative;
+  padding: 0;
 }
 .modal > section > form > main > .file > .imageSelect > input{
   position: absolute;
