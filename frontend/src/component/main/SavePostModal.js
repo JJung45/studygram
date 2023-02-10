@@ -66,16 +66,14 @@ const SavePostModal = (props) => {
               </header>
               <main>
                   <div className="file">
-                    <div className="imageSelect" style={{alignItems: "center", justifyContent: "center", height: "100%"}} >
+                    <div className="imageSelect" style={{ alignItems: "center", justifyContent: "center", height: "100%"}} >
                       <input
                           name="fileImage"
                           type="file"
                           accept="image/*"
                           id="fileImage"
-                          onChange={saveFileImage} multiple/>
-                    </div>
-                    <div style={{ height: "100%", paddingTop: "0"}}>
-                      {fileImage && 
+                          onChange={saveFileImage} multiple />
+                      {imgBase64 && 
                       (<div style={{ backgroundImage: "url("+imgBase64+")", backgroundRepeat: "no-repeat", backgroundSize : "cover", height : "100%"}}></div>)}
                     </div>
                   </div>
@@ -92,6 +90,7 @@ const SavePostModal = (props) => {
               </main>
               <footer>
               <button type="submit"> Post </button>
+              
               </footer>
               </form>
             </section>
