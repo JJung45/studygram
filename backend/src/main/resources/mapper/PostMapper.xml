@@ -104,6 +104,7 @@
         LEFT JOIN `like` ON `like`.post_idx = post.idx
         LEFT JOIN comment ON comment.post_idx = post.idx
         GROUP BY post.idx
+        ORDER BY post.idx DESC;
     </select>
     <update id="update" parameterType="Post">
         update post set content =#{content} where idx = #{idx}
