@@ -7,7 +7,7 @@ import com.studygram.domain.OAuth2UserInfoFactory;
 import com.studygram.domain.User;
 import com.studygram.exception.OAuthProviderMissMatchException;
 import com.studygram.mapper.UserMapper;
-import com.studygram.utils.RandomStringGenerator;
+import com.studygram.utils.StringUtil;
 import com.studygram.utils.UserPrincipal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,23 +66,22 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     private User createUser(OAuth2UserInfo userInfo, ProviderType providerType) {
         LocalDateTime now = LocalDateTime.now();
-        System.out.println("!!!!!!!!!!!"+userInfo.getName()+","+userInfo.getId()+","+userInfo.getEmail()+","+userInfo.getImageUrl());
-        String emailId = userInfo.getEmail();
-        int index = emailId.indexOf("@");
+        String emailAddr = userInfo.getEmail();
+        int index = emailAddr.indexOf("@");
         if(index == -1)
             throw new IllegalArgumentException("Invalid Email ID.");
 
-        String userName = emailId.substring(0, index);
+        String userName = emailAddr.substring(0, index);
         // user_name 중복검사 (이미 Provider Type은 검사)
         User savedUser = userMapper.findByUserName(userName);
         if(savedUser != null) {
-            userName += RandomStringGenerator.getRandomString(3);
+            userName += StringUtil.getRandomString(3);
         }
 
         User user = new User(
                 userName, // user_name -> full_name 기준으로 임의로 작성
                 userInfo.getName(), // full_name
-                userInfo.getEmail(), // email_id
+                userInfo.getEmail(), // email_addr
                 userInfo.getId(),
                 providerType,
                 RoleType.USER,

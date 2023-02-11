@@ -16,6 +16,7 @@ import com.studygram.utils.TokenAccessDeniedHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -71,9 +72,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                     .authorizeRequests()
                     .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-                    .antMatchers("/api/**").permitAll()
+                    .antMatchers("/api/**", "/comment/**", "/post/**", "/follow", "/unfollow", "/followChk", "/users/*").permitAll()
                     .antMatchers("/api/**/admin/**").hasAnyAuthority(RoleType.ADMIN.getCode())
-                    .anyRequest().authenticated()
+                    .anyRequest().authenticated() // 모든 요청에 대해 인증 필요
                 .and()
                     .oauth2Login()
                     .authorizationEndpoint()
@@ -98,6 +99,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                    .logoutSuccessHandler(logoutSuccessHandler()) // 로그아웃 성공 후 핸들러
 
         http.addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+
+
     }
 
     /*
@@ -163,10 +166,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         UrlBasedCorsConfigurationSource corsConfigSource = new UrlBasedCorsConfigurationSource();
 
         CorsConfiguration corsConfig = new CorsConfiguration();
+        corsConfig.setAllowCredentials(true);
         corsConfig.setAllowedHeaders(Arrays.asList(corsProperties.getAllowedHeaders().split(",")));
         corsConfig.setAllowedMethods(Arrays.asList(corsProperties.getAllowedMethods().split(",")));
         corsConfig.setAllowedOrigins(Arrays.asList(corsProperties.getAllowedOrigins().split(",")));
-        corsConfig.setAllowCredentials(true);
         corsConfig.setMaxAge(corsConfig.getMaxAge());
 
         corsConfigSource.registerCorsConfiguration("/**", corsConfig);

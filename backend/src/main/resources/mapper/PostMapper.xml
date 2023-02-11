@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.studygram.mapper.PostMapper">
+    <insert id="save" parameterType="Post">
+        insert into post (user_idx, content)
+            values(#{userIdx}, #{content})
+        <selectKey resultType="int" keyProperty="idx" order="AFTER">
+            SELECT IFNULL(MAX(post.idx), 1) FROM post
+        </selectKey>
+    </insert>
+    <resultMap id="postResultMap" type="com.studygram.domain.Post">
+        <id column="idx" property="idx"/>
+        <result column="user_idx" property="userIdx"/>
+        <result column="content" property="content"/>
+        <result column="created_date" property="createdDate"/>
+        <result column="updated_date" property="updatedDate"/>
+        <result column="has_liked" property="hasLiked"></result>
+        <result column="top_liker" property="topLiker"></result>
+        <collection property="tags" column="idx" javaType="java.util.ArrayList" ofType="com.studygram.domain.PostTag" select="com.studygram.mapper.PostTagMapper.findTags" />
+        <collection property="likes" column="idx" javaType="java.util.ArrayList" ofType="com.studygram.domain.Like" select="com.studygram.mapper.LikeMapper.findLikes" />
+        <collection property="likeCnt" column="idx" select="com.studygram.mapper.LikeMapper.findLikesCntByPostIdx"/>
+        <collection property="comments" column="idx" javaType="java.util.List" ofType="com.studygram.domain.Comment" select="com.studygram.mapper.CommentMapper.findComments" />
+        <collection property="commentCnt" column="idx" select="com.studygram.mapper.CommentMapper.findCommentCntByPostIdx"/>
+    </resultMap>
+
+    <select id="findById" parameterType="Integer" resultMap="postResultMap">
+        select post.idx as idx, post.user_idx as user_idx, `user`.user_name as user_name, post.content as content, post.created_date as created_date, post.updated_date as updated_date
+            from post
+                left join `user` on post.user_idx = `user`.idx
+                left join post_tag on post_tag.post_idx = post.idx
+                left join `like` on `like`.post_idx = post.idx
+                left join comment on comment.post_idx = post.idx
+            where 1 = 1
+              and post.idx = #{idx}
+            group by post.idx
+            order by post.idx desc
+    </select>
+
+    <select id="findByIds" parameterType="Integer" resultMap="postResultMap">
+        select post.idx as idx, post.user_idx as user_idx, `user`.user_name as user_name, post.content as content, post.created_date as created_date, post.updated_date as updated_date,
+        (select if(count(*) = 1, 1, 0)
+        from `like`
+        where post_idx = #{postIdx} AND user_idx = #{userIdx}) AS has_liked,
+        (SELECT user_name
+        FROM `like`
+        LEFT JOIN `user` ON like.user_idx = `user`.idx
+        WHERE post_idx = 1 LIMIT 1 OFFSET 0) AS top_liker
+        from post
+        left join `user` on post.user_idx = `user`.idx
+        left join post_tag on post_tag.post_idx = post.idx
+        left join `like` on `like`.post_idx = post.idx
+        left join comment on comment.post_idx = post.idx
+        where 1 = 1
+        and post.idx = #{postIdx}
+        group by post.idx
+        order by post.idx desc
+    </select>
+
+    <select id="findByClientId" parameterType="String" resultMap="postResultMap">
+        SELECT post.idx AS idx, post.user_idx AS user_idx, `user`.user_name AS user_name, post.content AS content, post.created_date AS created_date, post.updated_date AS updated_date,
+        (SELECT IF(COUNT(*) = 1, 1, 0)
+        FROM `like`
+        WHERE user_idx = 2 AND post_idx = post.idx) AS has_liked,
+        (SELECT `user`.user_name
+        FROM `like`
+        WHERE post_idx = post.idx LIMIT 1 OFFSET 0) AS top_liker
+        FROM post
+        LEFT JOIN `user` ON post.user_idx = `user`.idx
+        LEFT JOIN post_tag ON post_tag.post_idx = post.idx
+        LEFT JOIN `like` ON `like`.post_idx = post.idx
+        LEFT JOIN comment ON comment.post_idx = post.idx
+        WHERE `user`.client_id = #{clientId}
+        GROUP BY post.idx
+    </select>
+
+    <select id="findByUserName" parameterType="String" resultMap="postResultMap">
+        SELECT post.idx AS idx, post.user_idx AS user_idx, `user`.user_name AS user_name, post.content AS content, post.created_date AS created_date, post.updated_date AS updated_date,
+        (SELECT IF(COUNT(*) = 1, 1, 0)
+        FROM `like`
+        WHERE user_idx = 2 AND post_idx = post.idx) AS has_liked,
+        (SELECT `user`.user_name
+        FROM `like`
+        WHERE post_idx = post.idx LIMIT 1 OFFSET 0) AS top_liker
+        FROM post
+        LEFT JOIN `user` ON post.user_idx = `user`.idx
+        LEFT JOIN post_tag ON post_tag.post_idx = post.idx
+        LEFT JOIN `like` ON `like`.post_idx = post.idx
+        LEFT JOIN comment ON comment.post_idx = post.idx
+        WHERE `user`.user_name = #{userName}
+        GROUP BY post.idx
+    </select>
+
+    <select id="findAll" parameterType="Integer" resultMap="postResultMap">
+        SELECT post.idx AS idx, post.user_idx AS user_idx, `user`.user_name AS user_name, post.content AS content, post.created_date AS created_date, post.updated_date AS updated_date,
+            (SELECT IF(COUNT(*) = 1, 1, 0)
+            FROM `like`
+            WHERE user_idx = 2 AND post_idx = post.idx) AS has_liked,
+            (SELECT `user`.user_name
+            FROM `like`
+            WHERE post_idx = post.idx LIMIT 1 OFFSET 0) AS top_liker
+        FROM post
+        LEFT JOIN `user` ON post.user_idx = `user`.idx
+        LEFT JOIN post_tag ON post_tag.post_idx = post.idx
+        LEFT JOIN `like` ON `like`.post_idx = post.idx
+        LEFT JOIN comment ON comment.post_idx = post.idx
+        GROUP BY post.idx
+        ORDER BY post.idx DESC;
+    </select>
+    <update id="update" parameterType="Post">
+        update post set content =#{content} where idx = #{idx}
+    </update>
+    <delete id="delete" parameterType="Post">
+        delete from post where idx = #{idx}
+    </delete>
+    <select id="countPostsByUserName" parameterType="String" resultType="Integer">
+        SELECT count(*) FROM post WHERE user_idx = (SELECT idx FROM `user` WHERE user_name=#{userName})
+    </select>
+
+    <select id="countPostsByClientId" parameterType="String" resultType="Integer">
+        SELECT count(*) FROM post WHERE user_idx = (SELECT idx FROM `user` WHERE client_id=#{clientId})
+    </select>
+</mapper>

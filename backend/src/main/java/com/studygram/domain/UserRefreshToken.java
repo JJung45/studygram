@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import net.minidev.json.annotate.JsonIgnore;
 
 @Getter
 @Setter
@@ -12,11 +11,11 @@ import net.minidev.json.annotate.JsonIgnore;
 @AllArgsConstructor // 모든 필드를 파라미터로 받는 생성자 생성
 public class UserRefreshToken {
     private long refreshTokenSeq;
-    private String userId;
+    private String clientId;
     private String refreshToken;
 
-    public UserRefreshToken(String userId, String refreshToken) {
-        this.userId = userId;
+    public UserRefreshToken(String clientId, String refreshToken) {
+        this.clientId = clientId;
         this.refreshToken = refreshToken;
     }
 
