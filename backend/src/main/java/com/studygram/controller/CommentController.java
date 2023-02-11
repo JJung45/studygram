@@ -4,10 +4,8 @@ import com.studygram.common.ApiResponse;
 import com.studygram.common.SimplePageRequest;
 import com.studygram.domain.Comment;
 import com.studygram.service.CommentService;
-import jdk.nashorn.internal.objects.annotations.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

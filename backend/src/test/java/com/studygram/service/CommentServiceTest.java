@@ -93,7 +93,7 @@ public class CommentServiceTest {
     @Test
     public void 댓글조회() throws Exception{
         // given
-        int postId = 28;
+        int postIdx = 28;
 
         // when & then
 //       mockMvc.perform(get("/comment/" + postIdx))
@@ -107,7 +107,7 @@ public class CommentServiceTest {
     @Test
     public void 댓글조회withPaging() throws Exception {
         // given
-        int postId = 28;
+        int postIdx = 28;
         int limit = 7;
         int offset = 0;
 
@@ -141,7 +141,7 @@ public class CommentServiceTest {
     @Test
     public void 댓글삭제() throws Exception {
         // given
-        int commentId = 4;
+        int commentIdx = 4;
 
         // when & then
         mockMvc.perform(delete("/comment/delete/"+commentIdx))

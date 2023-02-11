@@ -51,6 +51,15 @@ public class PostService {
         return postMapper.findByIds(postIdx, userIdx);
     }
 
+    public List<Post> findByClientId() {
+        User user = userService.getUser();
+        return postMapper.findByClientId(user.getClientId());
+    }
+
+    public List<Post> findByUserName(String userName) {
+        return postMapper.findByUserName(userName);
+    }
+
     public List<Post> findAll(Integer limit, Integer offset) {
         User user = userService.getUser();
         return postMapper.findAll(limit, offset, user.getIdx());
