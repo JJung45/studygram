@@ -26,6 +26,7 @@ public class Post {
     String topLiker;
     List<Comment> comments;
     int commentCnt;
+    String storePath;
 
     Date createdDate;
     Date updatedDate;
