@@ -2,7 +2,9 @@ import React, { useState, useEffect  } from 'react';
 import "../../styles/modal.css";
 import '../../styles/Write.css';
 import PostApi from "../../lib/api/post";
+import UserApi from "../../lib/api/user";
 import { useParams } from 'react-router-dom';
+import { useLocation } from "react-router-dom";
 
 const SavePostModal = (props) => {
       // 열기, 닫기, 모달 헤더 텍스트를 부모로부터 받아옴
@@ -13,6 +15,13 @@ const SavePostModal = (props) => {
       });
       const [fileImage, setFileImage] = useState("");
       const [imgBase64, setImgBase64] = useState("");
+
+      const pathname = useLocation().pathname;
+      const [user, setUser] = useState(async () => {
+        await UserApi.myInfo().then((res) => {
+          setUser(res.data.body.user);
+        });
+      });
       
       const saveFileImage = (event: any) => {
         setFileImage(event.target.files[0]);
@@ -66,24 +75,22 @@ const SavePostModal = (props) => {
               </header>
               <main>
                   <div className="file">
-                    <div className="imageSelect" style={{alignItems: "center", justifyContent: "center", height: "100%"}} >
+                    <div className="imageSelect" style={{ alignItems: "center", justifyContent: "center", height: "100%"}} >
                       <input
                           name="fileImage"
                           type="file"
                           accept="image/*"
                           id="fileImage"
-                          onChange={saveFileImage} multiple/>
-                    </div>
-                    <div style={{ height: "100%", paddingTop: "0"}}>
-                      {fileImage && 
+                          onChange={saveFileImage} multiple />
+                      {imgBase64 && 
                       (<div style={{ backgroundImage: "url("+imgBase64+")", backgroundRepeat: "no-repeat", backgroundSize : "cover", height : "100%"}}></div>)}
                     </div>
                   </div>
                   <div className="postContent">
                     <div className="myProfile">
-                        <img className="pic" src="https://cdn4.iconfinder.com/data/icons/48-bubbles/48/30.User-512.png" alt="minchoi 프로필 사진" />
+                        <img src={user.profileImageUrl} alt="" />
                         <div>
-                          <span className="userID point-span">minchoi</span>
+                          <h1 className="profile-user-name">{user.userName}</h1>
                         </div>
                     </div>
                     <textarea name="content" id="contentTxt" placeholder="내용을 입력하세요."
@@ -92,6 +99,7 @@ const SavePostModal = (props) => {
               </main>
               <footer>
               <button type="submit"> Post </button>
+              
               </footer>
               </form>
             </section>
