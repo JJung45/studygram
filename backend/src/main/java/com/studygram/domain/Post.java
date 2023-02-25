@@ -18,6 +18,7 @@ public class Post {
     int idx;
     int userIdx;
     String userName;
+    String profileImageUrl;
     String content;
     List<PostTag> tags;
     List<Like> likes;
