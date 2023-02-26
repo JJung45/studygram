@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import followAPI from "../../lib/api/follow";
+import UserApi from "../../lib/api/user";
 import { Navigate, useNavigate } from "react-router-dom";
 
 const AsideComponent = () => {
@@ -39,21 +40,23 @@ const AsideComponent = () => {
     }
   };
 
+  const [user, setUser] = useState(async () => {
+    await UserApi.myInfo().then((res) => {
+      setUser(res.data.body.user);
+    });
+  });
+
   return (
     <div className="main-right">
       <div className="myProfile">
-        <a href="/myPage">
-          <img
-            className="pic"
-            src="https://cdn4.iconfinder.com/data/icons/48-bubbles/48/30.User-512.png"
-            alt="minchoi 프로필 사진"
-          />
+        <a href={`/${user.userName}/`}>
+          <img className="pic" src={user.profileImageUrl} alt="프로필 사진" />
         </a>
         <div>
           <span className="userID point-span">
-            <a href="/myPage">minchoi</a>
+            <a href={`/${user.userName}/`}>{user.userName}</a>
           </span>
-          <span className="sub-span">Minkyeong Choi</span>
+          <span className="sub-span">{user.fullName}</span>
         </div>
       </div>
       <div className="section-recommend">

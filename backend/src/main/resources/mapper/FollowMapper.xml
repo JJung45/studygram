@@ -17,9 +17,21 @@
         select count(*) from follow
             where to_user_idx = #{userIdx}
     </select>
+    <select id="countFollowersByUserName" parameterType="String" resultType="Integer">
+        SELECT count(*) FROM follow WHERE from_user_idx = (SELECT idx FROM `user` WHERE user_name=#{userName})
+    </select>
+    <select id="countFollowersByClientId" parameterType="String" resultType="Integer">
+        SELECT count(*) FROM follow WHERE from_user_idx = (SELECT idx FROM `user` WHERE client_id=#{clientId})
+    </select>
     <select id="countFollowings" resultType="int">
         select count(*) from follow
             where from_user_idx = #{userIdx}
+    </select>
+    <select id="countFollowingsByUserName" parameterType="String" resultType="Integer">
+        SELECT count(*) FROM follow WHERE to_user_idx = (SELECT idx FROM `user` WHERE user_name=#{userName})
+    </select>
+    <select id="countFollowingsByClientId" parameterType="String" resultType="Integer">
+        SELECT count(*) FROM follow WHERE to_user_idx = (SELECT idx FROM `user` WHERE client_id=#{clientId})
     </select>
     <select id="getFollowers" resultType="Integer">
         select count(*) from follow
