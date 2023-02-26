@@ -15,9 +15,9 @@
         <result column="public_type" property="publicType"/>
         <result column="created_date" property="createdDate"/>
         <result column="last_login_date" property="lastLoginDate" />
-        <collection property="postCnt" column="idx" select="com.studygram.mapper.PostMapper.countPostsByUserName"/>
-        <collection property="followingCnt" column="idx" select="com.studygram.mapper.FollowMapper.countFollowingsByUserName"/>
-        <collection property="followersCnt" column="idx" select="com.studygram.mapper.FollowMapper.countFollowersByUserName"/>
+        <collection property="postCnt" column="user_name" select="com.studygram.mapper.PostMapper.countPostsByUserName"/>
+        <collection property="followingCnt" column="user_name" select="com.studygram.mapper.FollowMapper.countFollowingsByUserName"/>
+        <collection property="followersCnt" column="user_name" select="com.studygram.mapper.FollowMapper.countFollowersByUserName"/>
     </resultMap>
 
     <resultMap id="UserResultMapClientId" type="com.studygram.domain.User">
