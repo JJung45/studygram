@@ -54,6 +54,14 @@ public class FollowService {
         return 0;
     }
 
+    public int testFollow(Follow follow)
+    {
+        if(followMapper.getFollowInfo(follow) == null) {
+            return followMapper.saveFollow(follow);
+        }
+        return 0;
+    }
+
     public boolean checkFollow(int toUserIdx)
     {
         int fromUserIdx = setMyIdx();

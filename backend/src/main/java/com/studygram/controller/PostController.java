@@ -68,4 +68,17 @@ public class PostController {
         return postService.findAll(limit, offset);
     }
 
+    @GetMapping(path = "/myPage/{userName}")
+    public List<Post> getPostsByClientId(@PathVariable(name="userName") String userName, @RequestParam @Nullable Integer limit, @RequestParam @Nullable Integer offset) {
+        if(limit == null) {
+            limit = LIMIT;
+        }
+
+        if(offset == null) {
+            offset = OFFSET;
+        }
+
+        return postService.findByUserName(userName);
+    }
+
 }

@@ -29,6 +29,7 @@ public class User {
     List<Integer> following;
     int followersCnt;
     List<Integer> followers;
+    int postCnt;
     // 검색 기록 List
     List<String> searchList;
     // 계정 공개 / 비공개
@@ -64,6 +65,7 @@ public class User {
                 ", following=" + following +
                 ", followersCnt=" + followersCnt +
                 ", followers=" + followers +
+                ", postCnt=" + postCnt +
                 ", createdDate=" + createdDate +
                 ", lastLoginDate=" + lastLoginDate +
                 '}';

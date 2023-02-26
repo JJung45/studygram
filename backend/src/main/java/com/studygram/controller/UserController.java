@@ -9,6 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,5 +35,15 @@ public class UserController {
         return user.getUserName();
     }
 
+    @GetMapping("/info")
+    public ApiResponse getUserInfo() {
+        User user = userService.getUserInfo();
+        return ApiResponse.success("user", user);
+    }
 
+    @GetMapping("/{userName}/info")
+    public ApiResponse getUserInfoByUserName(@PathVariable(name = "userName") String userName) {
+        User user = userService.getUserInfo(userName);
+        return ApiResponse.success("user", user);
+    }
 }

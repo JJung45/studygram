@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 import BoardComponent from "./BoardComponent";
 import SavedComponent from "./SavedComponent";
 import TagComponent from "./TagComponent";
+
+import UserApi from "../../lib/api/user";
 
 const MyPageComponent = ({}) => {
   const statusType = {
@@ -10,7 +13,14 @@ const MyPageComponent = ({}) => {
     SAVED: "saved",
     TAG: "tag",
   };
+  const pathname = useLocation().pathname;
   const [type, setType] = useState(statusType.BOARD);
+  const [user, setUser] = useState(async () => {
+    await UserApi.userInfo(pathname.split("/")[1]).then((res) => {
+      setUser(res.data.body.user);
+    });
+  });
+
   const setComponentByType = () => {
     if (type === statusType.BOARD) {
       return <BoardComponent></BoardComponent>;
@@ -27,19 +37,16 @@ const MyPageComponent = ({}) => {
       <div className="container">
         <div className="profile">
           <div className="profile-image">
-            <img
-              src="https://cdn4.iconfinder.com/data/icons/48-bubbles/48/30.User-512.png"
-              alt=""
-            />
+            <img src={user.profileImageUrl} alt="" />
           </div>
 
           <div className="profile-user-settings">
-            <h1 className="profile-user-name">minchoi</h1>
+            <h1 className="profile-user-name">{user.userName}</h1>
             <button className="profile-edit-btn">Edit Profile</button>
             <button aria-label="profile settings">
               <img
                 className="profile-settings-btn"
-                src="https://cdn4.iconfinder.com/data/icons/glyphs/24/icons_settings-1024.png"
+                src="https://cdn4.iconfinder.com/data/icons/glyphs/24/icons_settings-512.png"
               />
             </button>
           </div>
@@ -47,20 +54,22 @@ const MyPageComponent = ({}) => {
           <div className="profile-stats">
             <ul>
               <li>
-                <span className="profile-stat-count">164</span> posts
+                <span className="profile-stat-count">{user.postCnt}</span> posts
               </li>
               <li>
-                <span className="profile-stat-count">188</span> followers
+                <span className="profile-stat-count">{user.followersCnt}</span>{" "}
+                followers
               </li>
               <li>
-                <span className="profile-stat-count">206</span> following
+                <span className="profile-stat-count">{user.followingCnt}</span>{" "}
+                following
               </li>
             </ul>
           </div>
 
           <div className="profile-bio">
             <p>
-              <span className="profile-real-name">민경</span>
+              <span className="profile-real-name">{user.fullName}</span>
               <br />
               신사인사!
             </p>
