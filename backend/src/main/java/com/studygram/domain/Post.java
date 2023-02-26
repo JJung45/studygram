@@ -18,6 +18,7 @@ public class Post {
     int idx;
     int userIdx;
     String userName;
+    String profileImageUrl;
     String content;
     List<PostTag> tags;
     List<Like> likes;
@@ -26,6 +27,7 @@ public class Post {
     String topLiker;
     List<Comment> comments;
     int commentCnt;
+    String storePath;
 
     Date createdDate;
     Date updatedDate;
