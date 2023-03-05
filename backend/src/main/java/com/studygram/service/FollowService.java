@@ -73,4 +73,12 @@ public class FollowService {
         String clientID = userDetails.getUsername();
         return userService.getUser(clientID).getIdx();
     }
+
+    public int suggestAccounts(int userIdx) {
+        // TODO
+        // 내 친구의 친구 (겹치는 친구 많을수록,..?)
+        // 나는 팔로우 안했는데 걔는 날 팔로우해 ? 고맙다-> 우선순위 1등
+        // 3개 정도 뽑아주고, 정렬....... 우선순위 안되면 가나다 순으로 ..
+        return 0;
+    }
 }

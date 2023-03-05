@@ -23,7 +23,7 @@ public class SearchServiceTest {
 
     @Before
     public void before() {
-        keyword = "i95";
+        keyword = "test";
     }
 
     @Test

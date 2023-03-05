@@ -42,6 +42,12 @@ public class FollowController {
         return followService.checkFollow(toUserIdx);
     }
 
-
+    @GetMapping("/suggestions")
+    public ApiResponse suggestions(@RequestParam int userIdx)
+    {
+        // 계정추천
+        followService.suggestAccounts(userIdx);
+        return ApiResponse.fail();
+    }
 
 }
