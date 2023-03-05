@@ -14,7 +14,9 @@ public interface FollowMapper {
     int saveUnfollow(Follow follow);
     Follow getFollowInfo(Follow follow);
     int countFollowers(int userIdx);
+    int countFollowersByUserName(String userName);
     int countFollowings(int userIdx);
+    int countFollowingsByUserName(String userName);
     List<Integer> getFollowers(int userIdx);
     List<Integer> getFollowings(int userIdx);
     List<User> getSuggestions(int userIdx);

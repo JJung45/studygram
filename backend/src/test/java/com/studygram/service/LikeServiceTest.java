@@ -9,7 +9,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,7 +44,6 @@ public class LikeServiceTest {
     }
 
     @Test
-    @WithMockUser(username = "113944364581653272465")
     public void 좋아요_저장() {
         Like like = new Like();
         like.setUserIdx(originalPost.getUserIdx());
@@ -73,9 +71,9 @@ public class LikeServiceTest {
     public void 좋아요_누른_게시글이_맞는지_확인()
     {
         // given
-        int likeduserIdx = 35;
+        int likedUserIdx = 35;
         Like like = Like.builder()
-                .userIdx(likeduserIdx)
+                .userIdx(likedUserIdx)
                 .postIdx(originalPost.getIdx())
                 .build();
 
@@ -83,7 +81,7 @@ public class LikeServiceTest {
         likeService.save(like);
 
         // then
-        assertTrue(likeService.hasLikedPost(originalPost.getIdx(), likeduserIdx));
+        assertTrue(likeService.hasLikedPost(originalPost.getIdx(), likedUserIdx));
     }
 
     @Test

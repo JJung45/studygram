@@ -64,10 +64,12 @@ const Post = ({ data }) => {
         <div className="profile-of-article">
           <img
             className="img-profile pic"
-            src="https://cdn4.iconfinder.com/data/icons/48-bubbles/48/30.User-512.png"
-            alt="minchoi님의 프로필 사진"
+            src={post.profileImageUrl}
+            alt={post.userName + "님의 프로필 사진"}
           />
-          <span className="userID main-id point-span">{post.userName}</span>
+          <span className="userID main-id point-span">
+            <a href={`/${post.userName}/`}>{post.userName}</a>
+          </span>
         </div>
         <img
           className="icon-react icon-more"
@@ -78,8 +80,8 @@ const Post = ({ data }) => {
       <Link to={"/post/" + data.idx} state={data}>
         <div className="main-image">
           <img
-            src="https://cdn.pixabay.com/photo/2016/01/05/17/51/maltese-1123016_1280.jpg"
-            alt="minchoi님의 피드 사진"
+            src={post.storePath}
+            alt={post.userName + "님의 피드 사진"}
             className="mainPic"
           />
         </div>
