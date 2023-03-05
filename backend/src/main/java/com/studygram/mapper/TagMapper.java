@@ -12,8 +12,8 @@ import java.util.List;
 @Repository
 public interface TagMapper {
     int save(Tag tag);
-    List<Tag> findTagsByPostId(int postId);
-    List<Tag> findTagsByCommentId(int commentId);
+    List<Tag> findTagsByPostId(int postIdx);
+    List<Tag> findTagsByCommentId(int commentIdx);
     void deleteTagsByPost(Post post);
     Tag findContent(String search);
     ArrayList<Tag> findSimilarContent(String search);

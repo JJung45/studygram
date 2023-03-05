@@ -36,7 +36,7 @@ public class LikeServiceTest {
     public void before() {
         originalPost = new Post();
         originalPost.setContent("test");
-        originalPost.setUserIdx(userId);
+        originalPost.setUserIdx(userIdx);
         postService.save(originalPost);
 
         // TODO likeservice count 제작
@@ -73,7 +73,7 @@ public class LikeServiceTest {
         // given
         int likedUserId = 35;
         Like like = Like.builder()
-                .userIdx(likedUserId)
+                .userIdx(likeduserIdx)
                 .postIdx(originalPost.getIdx())
                 .build();
 
@@ -81,7 +81,7 @@ public class LikeServiceTest {
         likeService.save(like);
 
         // then
-        assertTrue(likeService.hasLikedPost(originalPost.getIdx(), likedUserId));
+        assertTrue(likeService.hasLikedPost(originalPost.getIdx(), likeduserIdx));
     }
 
     @Test

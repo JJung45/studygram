@@ -25,14 +25,11 @@ public class PostService {
     @Autowired
     private UserService userService;
 
-    public int save(Post post) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        String clientID = userDetails.getUsername();
-        User user = userService.getClientId(clientID);
+    public Post save(Post post) {
+        User user = userService.getUser();
         post.setUserIdx(user.getIdx());
-
         postMapper.save(post);
+
         List<String> tagList = tagService.saveTags(post);
 
         for(String tagContent : tagList) {
@@ -42,16 +39,16 @@ public class PostService {
             postMapper.update(post);
         }
 
-        return post.getIdx();
+        return post;
     }
 
-    public Post findById(int postId) {
+    public Post findById(int postIdx) {
         User user = userService.getUser();
-        return postMapper.findByIds(postId, user.getIdx());
+        return postMapper.findByIds(postIdx, user.getIdx());
     }
 
-    public Post findByIds(int postId, int userId) {
-        return postMapper.findByIds(postId, userId);
+    public Post findByIds(int postIdx, int userIdx) {
+        return postMapper.findByIds(postIdx, userIdx);
     }
 
     public List<Post> findAll(Integer limit, Integer offset) {

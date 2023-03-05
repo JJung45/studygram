@@ -11,7 +11,7 @@
         <result column="updated_date" property="updatedDate"/>
         <!-- collection Type은 마지막 -->
         <!-- Tag Idx 컬럼값만 가져올때 사용
-        <collection property="tags" column="post_idx" javaType="java.util.ArrayList" ofType="com.studygram.domain.Tag" select="getTagListByPostId" />
+        <collection property="tags" column="post_idx" javaType="java.util.ArrayList" ofType="com.studygram.domain.Tag" select="getTagListBypostIdx" />
         -->
 <!--        <collection property="tags" column="idx" javaType="java.util.ArrayList" ofType="com.studygram.domain.Tag" select="com.studygram.mapper.TagMapper.findTagsByCommentIdx" />-->
         <collection property="likes" column="idx" javaType="java.util.ArrayList" ofType="com.studygram.domain.Like" select="com.studygram.mapper.LikeMapper.findLikesByCommentIdx" />
@@ -73,6 +73,6 @@
         select count(*)
         from comment
         where 1 = 1
-          and post_idx = #{postIdx}
+          and post_idx = #{idx}
     </select>
 </mapper>

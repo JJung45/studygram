@@ -3,7 +3,7 @@
 <mapper namespace="com.studygram.mapper.LikeMapper">
     <insert id="save" parameterType="Like">
         insert into `like` (post_idx, user_idx)
-        values(#{postId}, #{userId})
+        values(#{postIdx}, #{userIdx})
         <selectKey resultType="int" keyProperty="idx" order="AFTER">
             SELECT IFNULL(MAX(like.idx), 1) FROM `like`
         </selectKey>
@@ -11,15 +11,7 @@
     <select id="findLikes" parameterType="Integer" resultType="Like">
         select * from `like` where post_idx = #{idx}
     </select>
-    <select id="findLikesByPostId" parameterType="Integer" resultType="Like">
-        select `like`.idx, post_idx, comment_idx, like.user_idx, `user`.user_name
-            from `like`
-                left join `user` on `like`.user_idx = `user`.idx
-        where 1 = 1
-          and post_idx = #{idx}
-    </select>
-
-    <select id="findLikesByCommentId" parameterType="Integer" resultType="Like">
+    <select id="findLikesByCommentIdx" parameterType="Integer" resultType="Like">
         select `like`.idx, post_idx, comment_idx, like.user_idx, `user`.user_name
         from `like`
                  left join `user` on `like`.user_idx = `user`.idx
@@ -27,19 +19,19 @@
           and comment_idx = #{commentIdx}
     </select>
 
-    <select id="findLikeCntByPostId" parameterType="Integer" resultType="Integer">
+    <select id="findLikesCntByPostIdx" parameterType="Integer" resultType="Integer">
         select count(*)
             from `like`
             where 1 = 1
-              and post_idx = #{postId}
+              and post_idx = #{postIdx}
     </select>
     <select id="findByPostUser" parameterType="Integer" resultType="Like">
-        select * from `like` where post_idx = #{postId} and user_idx = #{userId}
+        select * from `like` where post_idx = #{postIdx} and user_idx = #{userIdx}
     </select>
     <select id="hasLikedPost" parameterType="Integer" resultType="boolean">
         select IF(COUNT(*) >= 1, 1, 0)
             from `like`
-            where post_idx = #{postId} and user_idx = #{userId}
+            where post_idx = #{postIdx} and user_idx = #{userIdx}
     </select>
     <select id="countAll" resultType="int">
         SELECT COUNT(*) FROM `like`
@@ -48,13 +40,13 @@
         SELECT * FROM `like` p ORDER BY RAND() LIMIT 1;
     </select>
     <delete id="delete" parameterType="Like">
-        delete from `like` where post_idx = #{postId} and user_idx = #{userId}
+        delete from `like` where post_idx = #{postIdx} and user_idx = #{userIdx}
     </delete>
-    <select id="findLikesByPostId" resultType="User">
+    <select id="findLikersByPostIdx" resultType="User">
         SELECT
-            `user`.idx, `user`.user_name,  `user`.full_name
+            `user`.idx, `user`.user_name,  `user`.full_name, `user`.profile_image_url
         FROM `like`
-        LEFT JOIN `user` ON `like`.user_id = `user`.idx
-        WHERE post_idx = #{postId}
+        LEFT JOIN `user` ON `like`.user_idx = `user`.idx
+        WHERE post_idx = #{postIdx}
     </select>
 </mapper>
