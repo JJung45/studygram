@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import SavePostModal from "./SavePostModal";
+import SearchBoxComponent from "./SearchBoxComponent";
 
 const NavComponent = () => {
     // useState를 사용하여 open상태를 변경한다. (open일때 true로 만들어 열리는 방식)
@@ -21,12 +22,13 @@ const NavComponent = () => {
             alt="logo_img"
           />
         </div>
-        <input
-          id="searchInput"
-          type="search"
-          className="input-search"
-          placeholder="검색"
-        />
+        {/*<input*/}
+        {/*  id="searchInput"*/}
+        {/*  type="search"*/}
+        {/*  className="input-search"*/}
+        {/*  placeholder="검색"*/}
+        {/*/>*/}
+          <SearchBoxComponent/>
         <div className="nav-2">
           <img
             src="https://cdn4.iconfinder.com/data/icons/pictype-free-vector-icons/16/home-512.png"
