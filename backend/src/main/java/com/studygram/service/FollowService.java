@@ -9,6 +9,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class FollowService {
     @Autowired
@@ -82,11 +84,13 @@ public class FollowService {
         return userService.getUser(clientID).getIdx();
     }
 
-    public int suggestAccounts(int userIdx) {
+    public List<User> suggestAccounts(int userIdx) {
         // TODO
-        // 내 친구의 친구 (겹치는 친구 많을수록,..?)
+        // 내 친구의 친구 (겹치는 친구 많을수록,..?) -> 넘 어려분데?
+        // 내가 팔로우하고 있는 친구의 친구
         // 나는 팔로우 안했는데 걔는 날 팔로우해 ? 고맙다-> 우선순위 1등
         // 3개 정도 뽑아주고, 정렬....... 우선순위 안되면 가나다 순으로 ..
-        return 0;
+        // 페이징 필요할듯;; -> 일단은 5개 뽑기
+        return followMapper.getSuggestions(userIdx);
     }
 }

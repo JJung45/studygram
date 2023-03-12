@@ -42,14 +42,20 @@
         where from_user_idx = #{userIdx}
     </select>
     <select id="getSuggestions" resultType="User">
-        // 내 친구의 친구 (겹치는 친구 많을수록,..?)
-        // 나는 팔로우 안했는데 걔는 날 팔로우해 ? 고맙다-> 우선순위 1등
-        // 3개 정도 뽑아주고, 정렬....... 우선순위 안되면 가나다 순으로
-            select
-                from user
-            where
-                order by user.full_name
-                limit 3;
+        select *
+        from user
+        where idx in (select from_user_idx
+                      from follow
+                      where to_user_idx = #{userIdx}
+                        and from_user_idx not in (select to_user_idx from follow where from_user_idx = #{userIdx})
+                      union distinct
+                      select to_user_idx
+                      from follow
+                      where from_user_idx in (select to_user_idx from follow where from_user_idx = #{userIdx})
+                        and to_user_idx not in (select to_user_idx from follow where from_user_idx = #{userIdx})
+                        and to_user_idx != #{userIdx})
+--         group by idx
+        limit 5
     </select>
 
 </mapper>
