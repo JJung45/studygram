@@ -9,10 +9,12 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserRefreshTokenMapper {
     // userId 값에 user_name 또는 email_idx 또는 phone_num 가 들어올 수 있음.
+    Integer findUserIdxByClientId(String clientId);
     UserRefreshToken findByClientId(String clientId);
     UserRefreshToken findByClientIdAndRefreshToken(@Param("clientId")String clientId, @Param("refreshToken")String refreshToken);
 
     int updateRefreshToken(UserRefreshToken userRefreshToken);
 
     int saveAndFlush(UserRefreshToken userRefreshToken);
+
 }
