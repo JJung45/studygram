@@ -15,15 +15,4 @@ public class Tag {
     int commentIdx;
     String content;
     Date createdDate;
-
-    @Override
-    public String toString() {
-        return "Tag{" +
-                "idx=" + idx +
-                ", postIdx=" + postIdx +
-                ", commentIdx=" + commentIdx +
-                ", content='" + content + '\'' +
-                ", createdDate=" + createdDate +
-                '}';
-    }
 }

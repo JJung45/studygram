@@ -41,21 +41,5 @@
         select count(*) from follow
         where from_user_idx = #{userIdx}
     </select>
-    <select id="getSuggestions" resultType="User">
-        select *
-        from user
-        where idx in (select from_user_idx
-                      from follow
-                      where to_user_idx = #{userIdx}
-                        and from_user_idx not in (select to_user_idx from follow where from_user_idx = #{userIdx})
-                      union distinct
-                      select to_user_idx
-                      from follow
-                      where from_user_idx in (select to_user_idx from follow where from_user_idx = #{userIdx})
-                        and to_user_idx not in (select to_user_idx from follow where from_user_idx = #{userIdx})
-                        and to_user_idx != #{userIdx})
---         group by idx
-        limit 5
-    </select>
 
 </mapper>

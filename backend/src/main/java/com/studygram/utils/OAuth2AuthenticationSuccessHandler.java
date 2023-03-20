@@ -104,7 +104,6 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
 
         return UriComponentsBuilder.fromUriString(targetUrl)
                 .queryParam("token", accessToken.getToken())
-                .queryParam("userIdx", userRefreshTokenMapper.findUserIdxByClientId(userInfo.getId()))
                 .build().toUriString();
     }
 
