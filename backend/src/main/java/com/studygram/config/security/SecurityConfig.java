@@ -72,7 +72,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                     .authorizeRequests()
                     .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-                    .antMatchers("/api/**", "/comment/**", "/post/**", "/follow", "/unfollow", "/followChk", "/users/*").permitAll()
+                    .antMatchers("/api/**", "/comment/**", "/post/**", "/follow", "/unfollow", "/followChk", "/users/*", "/search").permitAll()
                     .antMatchers("/api/**/admin/**").hasAnyAuthority(RoleType.ADMIN.getCode())
                     .anyRequest().authenticated() // 모든 요청에 대해 인증 필요
                 .and()

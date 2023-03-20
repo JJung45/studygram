@@ -1,6 +1,7 @@
 package com.studygram.mapper;
 
 import com.studygram.domain.Follow;
+import com.studygram.domain.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -18,4 +19,5 @@ public interface FollowMapper {
     int countFollowingsByUserName(String userName);
     List<Integer> getFollowers(int userIdx);
     List<Integer> getFollowings(int userIdx);
+    List<User> getSuggestions(int userIdx);
 }

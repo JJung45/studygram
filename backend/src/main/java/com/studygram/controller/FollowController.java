@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @RestController
 public class FollowController {
@@ -42,6 +43,11 @@ public class FollowController {
         return followService.checkFollow(toUserIdx);
     }
 
-
+    @GetMapping("/suggestions")
+    public List<User> suggestions(@RequestParam int userIdx)
+    {
+        // 계정추천
+        return followService.suggestAccounts(userIdx);
+    }
 
 }

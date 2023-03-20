@@ -27,19 +27,19 @@ public class CommentController {
     }
     @GetMapping("/list")
     public List<Comment> getCommentsListByPostId(@RequestParam int postIdx) {
-        return commentService.getCommentsListByPostID(postIdx);
+        return commentService.getCommentsListByPostId(postIdx);
     }
 
     @GetMapping("/{commentIdx}")
     // url="localhost:8090/comment/1
     public Comment getCommentByCommentId(@PathVariable int commentIdx) {
-        return commentService.getCommentByCommentID(commentIdx);
+        return commentService.getCommentByCommentId(commentIdx);
     }
 
     @GetMapping("/count/{postIdx}")
     // url="localhost:8090/comment/1
     public int getCommentCntByPostId(@PathVariable int postIdx) {
-        return commentService.getCommentCntByPostID(postIdx);
+        return commentService.getCommentCntByPostId(postIdx);
     }
 
    @PostMapping("/save") // value ={,} 다중 맵핑 가능
