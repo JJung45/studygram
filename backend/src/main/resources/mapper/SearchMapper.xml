@@ -1,53 +1,26 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.studygram.mapper.SearchMapper">
-    <select id="searchPostList" parameterType="String" resultType="Post">
-        select *
-        from post
-        where 1 = 1
-          and post.content like concat('%', #{keyword}, '%')
-          and post.user_idx in (select user.idx from user where public_type = 'Y')
-        order by (select count(*) from `like` where post_idx = post.idx) desc
+    <select id="searchPostList" parameterType="String" resultType="integer">
+      select idx from post
+          where 1 = 1
+            and post.content CONCAT('%', #{keyword}, '%')
+            and post.idx in (select user.idx
+                             from user
+                            where public_type = 'Y')
     </select>
 
     <select id="searchTagList" parameterType="String" resultType="Tag">
-        select *
-        from tag
-        where 1 = 1
-          and tag.content like concat('%', #{keyword}, '%')
-        order by case
-                     when tag.content = #{keyword} then 0
-                     when tag.content = #{keyword} +'%' then 1
-                     when tag.content = '%'+ #{keyword} +'%' then 2
-                     when tag.content = '%'+ #{keyword} then 3
-                     else 4 end
+        select * from tag
+            where 1 = 1
+              and content like CONCAT('%', #{keyword}, '%')
     </select>
 
-    <select id="searchAccountList" parameterType="String" resultType="User">
-        select *
-        from user
-        where 1 = 1
-            and user.user_name like concat('%', #{originKeyword}, '%')
-            or user.profile_msg like concat('%', #{originKeyword}, '%')
-            or user.full_name like concat('%', #{originKeyword}, '%')
-        <if test="newKeyword != null">
-            or user.user_name like concat('%', #{newKeyword}, '%')
-            or user.profile_msg like concat('%', #{newKeyword}, '%')
-            or user.full_name like concat('%', #{newKeyword}, '%')
-        </if>
-        order by case
-            when user.user_name = #{originKeyword} then 0
-            <if test="newKeyword != null">
-                when user.user_name = #{newKeyword} then 1
-            </if>
-            when user.profile_msg = #{originKeyword} then 2
-            <if test="newKeyword != null">
-                when user.profile_msg = #{newKeyword} then 3
-            </if>
-            when user.full_name = #{originKeyword} then 4
-            <if test="newKeyword != null">
-                when user.full_name = #{newKeyword} then 5
-            </if>
-        else 6 end
+    <select id="searchAccountList" parameterType="String" resultType="Integer">
+        select idx from user
+         where 1 = 1
+            and public_type = 'Y'
+            and profile_msg like CONCAT('%', #{keyword}, '%')
+            or uer_name like CONCAT('%', #{keyword}, '%')
     </select>
 </mapper>

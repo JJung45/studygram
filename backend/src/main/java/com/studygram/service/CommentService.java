@@ -36,13 +36,13 @@ public class CommentService {
         return commentMapper.findCommentsByPostIdxWithPaging(postIdx, limit, offset);
     }
 
-    public List<Comment> getCommentsListByPostId(int postIdx) {
+    public List<Comment> getCommentsListByPostID(int postIdx) {
         return commentMapper.findCommentsByPostIdx(postIdx);
     }
 
-    public Comment getCommentByCommentId(int commentIdx) { return commentMapper.findByCommentIdx(commentIdx);}
+    public Comment getCommentByCommentID(int commentIdx) { return commentMapper.findByCommentIdx(commentIdx);}
 
-    public int getCommentCntByPostId(int postIdx) { return commentMapper.getCommentCntByPostIdx(postIdx); }
+    public int getCommentCntByPostID(int postIdx) { return commentMapper.getCommentCntByPostIdx(postIdx); }
 
     public void createComment(Comment comment) {
         // 1. Post 데이터 있는지 확인
@@ -50,8 +50,8 @@ public class CommentService {
             ApiResponse.fail();
         }
 
+        // 2. 댓글 내용에서 Tag 추출하고 Insert
         /*
-            2. 댓글 내용에서 Tag 추출하고 Insert
         String content = comment.getContent();
         List<String> tags = StringUtil.getTagsFromContent(content);
         for(String str : tags) {
@@ -62,7 +62,7 @@ public class CommentService {
                 ApiResponse.fail();
             }
         }
-        */
+         */
 
         // UserID 가져오기
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

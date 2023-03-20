@@ -43,4 +43,3 @@ out/
 ### 계정 및 인증 제외 ###
 /src/main/resources/application-oauth.properties
 /src/main/resources/application-mybatis.properties
-/src/main/resources/application-s3.properties
