@@ -298,10 +298,14 @@ button.submit-comment:focus {
 .myProfile img {
   width: 56px;
   height: 56px;
+  border-radius: 40px;
 }
 .myProfile div {
   display: inline-block;
   margin-left: 14px;
+}
+.myProfile h1 {
+  font-size: 15px;
 }
 .myProfile div span {
   display: block;

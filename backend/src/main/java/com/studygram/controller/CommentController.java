@@ -4,10 +4,8 @@ import com.studygram.common.ApiResponse;
 import com.studygram.common.SimplePageRequest;
 import com.studygram.domain.Comment;
 import com.studygram.service.CommentService;
-import jdk.nashorn.internal.objects.annotations.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,19 +27,19 @@ public class CommentController {
     }
     @GetMapping("/list")
     public List<Comment> getCommentsListByPostId(@RequestParam int postIdx) {
-        return commentService.getCommentsListByPostID(postIdx);
+        return commentService.getCommentsListByPostId(postIdx);
     }
 
     @GetMapping("/{commentIdx}")
     // url="localhost:8090/comment/1
     public Comment getCommentByCommentId(@PathVariable int commentIdx) {
-        return commentService.getCommentByCommentID(commentIdx);
+        return commentService.getCommentByCommentId(commentIdx);
     }
 
     @GetMapping("/count/{postIdx}")
     // url="localhost:8090/comment/1
     public int getCommentCntByPostId(@PathVariable int postIdx) {
-        return commentService.getCommentCntByPostID(postIdx);
+        return commentService.getCommentCntByPostId(postIdx);
     }
 
    @PostMapping("/save") // value ={,} 다중 맵핑 가능

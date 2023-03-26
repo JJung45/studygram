@@ -1,7 +1,6 @@
 package com.studygram.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.studygram.common.SimplePageRequest;
 import com.studygram.controller.CommentController;
 import com.studygram.domain.AuthReqModel;
 import com.studygram.domain.Comment;
@@ -93,7 +92,7 @@ public class CommentServiceTest {
     @Test
     public void 댓글조회() throws Exception{
         // given
-        int postId = 28;
+        int postIdx = 28;
 
         // when & then
 //       mockMvc.perform(get("/comment/" + postIdx))
@@ -107,11 +106,11 @@ public class CommentServiceTest {
     @Test
     public void 댓글조회withPaging() throws Exception {
         // given
-        int postId = 28;
+        int postIdx = 28;
         int limit = 7;
         int offset = 0;
 
-        List<Comment> commentList = commentService.getCommentsListByPostID(postIdx);
+        List<Comment> commentList = commentService.getCommentsListByPostId(postIdx);
         Assert.assertEquals(commentList.size(), 7);
 
         // when & then
@@ -141,7 +140,7 @@ public class CommentServiceTest {
     @Test
     public void 댓글삭제() throws Exception {
         // given
-        int commentId = 4;
+        int commentIdx = 4;
 
         // when & then
         mockMvc.perform(delete("/comment/delete/"+commentIdx))

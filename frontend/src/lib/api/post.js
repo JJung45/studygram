@@ -5,12 +5,12 @@ const prefix = "/post";
 /**
  * 게시물을 저장한다.
  */
-const addPost = (post) => client({
-  method: 'post',
-  url: `${prefix}/save`,
-  data: post,
-});
-
+const addPost = (post) =>
+  client({
+    method: "post",
+    url: `${prefix}/save`,
+    data: post,
+  });
 
 /**
  * 게시물을 수정한다.
@@ -26,15 +26,28 @@ const deletePost = ({ postId }) => client.delete(`${prefix}`, { postId });
 /**
  * 게시물을 조회한다.
  */
- const getPost = (postID) =>
- client({
-   method: "get",
-   url: `${prefix}/${postID}`,
- });
+const getPost = (postID) =>
+  client({
+    method: "get",
+    url: `${prefix}/${postID}`,
+  });
 
 /**
  * 게시물을 전체 조회한다.
  */
 const getPosts = () => client.get(`${prefix}/`);
 
-export default { addPost, updatePost, deletePost, getPost, getPosts };
+/**
+ * 특정 인물의 게시물을 조회한다.
+ */
+const getPostsByUserName = (userName) =>
+  client.get(`${prefix}/myPage/${userName}`);
+
+export default {
+  addPost,
+  updatePost,
+  deletePost,
+  getPost,
+  getPosts,
+  getPostsByUserName,
+};

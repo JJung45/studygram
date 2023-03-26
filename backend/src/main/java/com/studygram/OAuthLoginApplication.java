@@ -13,6 +13,10 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 })
 public class OAuthLoginApplication {
 
+    static {
+        System.setProperty("com.amazonaws.sdk.disableEc2Metadata", "true");
+    }
+
     public static void main(String[] args) {
         SpringApplication.run(OAuthLoginApplication.class, args);
     }

@@ -6,7 +6,9 @@ import com.studygram.mapper.LikeMapper;
 import com.studygram.mapper.PostMapper;
 import com.studygram.mapper.SearchMapper;
 import com.studygram.mapper.UserMapper;
+import com.studygram.utils.ApiKorToRoman;
 import com.studygram.utils.ListComparator;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Pattern;
 
 @Service
 public class SearchService {
@@ -27,13 +30,13 @@ public class SearchService {
     // 검색
     // 1. 기본으로 검색하면 프로필 메시지 & account 에서 검색
     // 2. 검색 누르면 세분화 -> 게시글, 태그, 계정
-    public List<?> search(String keyword, int type){
+    public List<?> search(String keyword, int type) throws ParseException {
         switch(type) {
             case 1: {
-                // Top Post => 우선순위 : Like & Comment Count순
-                // 방법은 2가지
-                // 첫번째 : 키워드 포함한 게시글을 좋아요 순으로 정렬해서 조회하기(쿼리로 한방에 .. 어려움)
-                // 두번째 : 특정 키워드로 게시글 분류 -> 게시글 다시 조회 -> 좋아요 순으로 정렬(sort사용)
+                // 첫번째 : 키워드 포함한 게시글을 좋아요 순으로 정렬해서 조회하기(쿼리정렬 이용)
+                return searchMapper.searchPostList(keyword);
+                // 두번째 : 특정 키워드로 게시글 분류 -> 게시글 다시 조회 -> 좋아요 순으로 정렬(sort 이용)
+                /*
                 ArrayList<Post> postList = new ArrayList<>();
                 List<Integer> pIdxList = searchMapper.searchPostList(keyword);
                 for(int idx : pIdxList) {
@@ -42,9 +45,23 @@ public class SearchService {
                 // Like 수로 정렬
                 Collections.sort(postList, new ListComparator());
                 return postList;
+                 */
             }
             case 2: {
-                // Accounts => 우선순위 : Followers
+                // Accounts
+                String tmp = null;
+                if(Pattern.matches("^[ㄱ-ㅎ가-힣]*$", keyword)) {
+                    // 한글 포함
+                    // keyword 한글인 경우 영어 로마자로 변경
+                    ApiKorToRoman api = new ApiKorToRoman();
+                    tmp = api.convertLang(keyword);
+                }
+                else {
+                    System.out.println("한글인명(" + keyword + ") 영문자 변환 없음");
+                }
+                return searchMapper.searchAccountList(keyword, tmp);
+                // 2번째 방법
+                /*
                 ArrayList<User> userList = new ArrayList<>();
                 List<Integer> uIdxList = searchMapper.searchAccountList(keyword);
                 for(int idx : uIdxList)
@@ -53,12 +70,14 @@ public class SearchService {
                 // Follower 수로 정렬
                 Collections.sort(userList, new ListComparator());
                 return userList;
+                 */
             }
             case 3: {
                 // Tag
                 return searchMapper.searchTagList(keyword);
             }
             default: {
+                System.out.println("잘못된 검색 타입");
                 break;
             }
         }

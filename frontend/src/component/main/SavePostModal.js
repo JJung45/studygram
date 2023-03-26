@@ -2,7 +2,9 @@ import React, { useState, useEffect  } from 'react';
 import "../../styles/modal.css";
 import '../../styles/Write.css';
 import PostApi from "../../lib/api/post";
+import UserApi from "../../lib/api/user";
 import { useParams } from 'react-router-dom';
+import { useLocation } from "react-router-dom";
 
 const SavePostModal = (props) => {
       // 열기, 닫기, 모달 헤더 텍스트를 부모로부터 받아옴
@@ -13,6 +15,13 @@ const SavePostModal = (props) => {
       });
       const [fileImage, setFileImage] = useState("");
       const [imgBase64, setImgBase64] = useState("");
+
+      const pathname = useLocation().pathname;
+      const [user, setUser] = useState(async () => {
+        await UserApi.myInfo().then((res) => {
+          setUser(res.data.body.user);
+        });
+      });
       
       const saveFileImage = (event: any) => {
         setFileImage(event.target.files[0]);
@@ -79,9 +88,9 @@ const SavePostModal = (props) => {
                   </div>
                   <div className="postContent">
                     <div className="myProfile">
-                        <img className="pic" src="https://cdn4.iconfinder.com/data/icons/48-bubbles/48/30.User-512.png" alt="minchoi 프로필 사진" />
+                        <img src={user.profileImageUrl} alt="" />
                         <div>
-                          <span className="userID point-span">minchoi</span>
+                          <h1 className="profile-user-name">{user.userName}</h1>
                         </div>
                     </div>
                     <textarea name="content" id="contentTxt" placeholder="내용을 입력하세요."
