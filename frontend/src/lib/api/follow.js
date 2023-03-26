@@ -19,4 +19,9 @@ const chkFollow = (userIdx) => client({
     method: 'get',
     url: `/followChk?toUserIdx=${userIdx}`,
 });
-export default {follow, unfollow, chkFollow};
+
+const getSuggestions = (userIdx) => client({
+    method: 'get',
+    url: `/suggestions?userIdx=${userIdx}`,
+})
+export default {follow, unfollow, chkFollow, getSuggestions};
