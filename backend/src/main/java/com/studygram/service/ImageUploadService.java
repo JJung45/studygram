@@ -25,7 +25,10 @@ public class ImageUploadService {
 
         Image newImage = new Image();
         newImage.setOriginalFilename(fileDetail.getPath());
-        newImage.setStorePath(imageUrl);
+
+        String imageNewUrl = imageUrl.replace("https", "http");
+        newImage.setStorePath(imageNewUrl);
+
         newImage.setCreatedDate(new Date());
         newImage.setPost(post);
 

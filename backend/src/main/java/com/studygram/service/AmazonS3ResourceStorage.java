@@ -19,6 +19,7 @@ public class AmazonS3ResourceStorage {
     private final AmazonS3Client amazonS3Client;
 
     public String store(String fullPath, MultipartFile multipartFile) {
+        //TODO 로컬에 저장하지 않고 바로 저장할 수 있도록 개선필요
         File file = new File(MultipartUtil.getLocalHomeDirectory(), fullPath);
         try {
             multipartFile.transferTo(file);
