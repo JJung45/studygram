@@ -69,13 +69,14 @@ button {
 .modal > section > form > main > textarea {
   height: 100%;
 }
-.modal > section > form > main > .file > .imageSelect, .deleteBtn{ 
+.modal > section > form > main > .file > .imageSelect,
+.deleteBtn {
   padding-left: 16px;
 }
-.modal > section > form > main > .file > div{
+.modal > section > form > main > .file > div {
   padding-top: 25px;
 }
-.modal > section > form > main > .file > .imageSelect > input{
+.modal > section > form > main > .file > .imageSelect > input {
   height: 100%;
   width: 100%;
   opacity: 0;
@@ -83,19 +84,19 @@ button {
 .modal > section > form > main > .file input::file-selector-button {
   display: none;
 }
-.modal > section > form > main > .postContent >textarea{
+.modal > section > form > main > .postContent > textarea {
   height: 85%;
 }
-.modal > section > form > main > .postContent >.myProfile{
+.modal > section > form > main > .postContent > .myProfile {
   height: 20px;
   padding: 0;
 }
-.modal > section > form > main > .postContent > .myProfile >img{
+.modal > section > form > main > .postContent > .myProfile > img {
   width: 30px;
   height: 30px;
   margin: 0;
 }
-.modal > section > form > main > .postContent > .myProfile > div{
+.modal > section > form > main > .postContent > .myProfile > div {
   margin-left: 10px;
 }
 .modal > section > form > main > div {
@@ -126,6 +127,18 @@ button {
 .follow-button {
   color: white;
   background: #3897f0;
+}
+
+.postModal {
+  display: flex;
+}
+
+.postModal > .file {
+  flex-grow: 1;
+}
+
+.postModal > .postContent {
+  flex-grow: 1;
 }
 
 @keyframes modal-show {
