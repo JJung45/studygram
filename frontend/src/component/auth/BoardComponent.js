@@ -44,7 +44,7 @@ const BoardComponent = () => {
               }}
             >
               <img
-                src="https://cdn.pixabay.com/photo/2016/01/17/10/02/dog-1144641_1280.jpg"
+                src={post.storePath ?? "https://cdn.pixabay.com/photo/2016/01/05/17/51/maltese-1123016_1280.jpg"}
                 className="gallery-image"
                 alt=""
               />

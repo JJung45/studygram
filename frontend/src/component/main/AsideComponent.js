@@ -1,44 +1,43 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import styled from "styled-components";
 import followAPI from "../../lib/api/follow";
+import Suggestions from "./Suggestions";
 import UserApi from "../../lib/api/user";
-import { Navigate, useNavigate } from "react-router-dom";
 
 const AsideComponent = () => {
-  const [isFollow, setIsFollow] = useState(false);
-  useEffect(() => {
-    // 친구 추천 목록 API 추가
+    // header에서 가져옴
+    const userIdx = window.localStorage.getItem("userIdx");
+    const [suggestions, setSuggestions] = useState([]);
+    const [activeBtnArr, setActiveBtnArr] = useState(Array(suggestions.length).fill(false));
 
-    // 팔로우 상태인지 판단
-    // 팔로우 상태 아니면 -> 파란색
-    // 팔로우 완료 -> 회색
-    followCheck("27");
-  }, []);
+    useEffect(() => {
+        followAPI.getSuggestions(userIdx)
+            .then((result) => {
+                setSuggestions(result.data)
+                console.log('추천 목록:', result.data);
 
-  const followCheck = (toUserIdx) => {
-    followAPI.chkFollow(toUserIdx).then((res) => {
-      console.log("rest", res);
-      if (res.data) setIsFollow(true);
-      else setIsFollow(false);
-    });
-  };
+                result.data.map((i) => followCheck(i.idx));
+            });
 
-  const followClick = (toUserIdx) => {
-    followCheck("27");
-    console.log("followingStat:", isFollow);
-    // setIsFollow(current => !current);
-    // 추천된 user 정보만 가져오기
+    }, []);
 
-    if (!isFollow) {
-      followAPI
-        .follow({
-          toUserIdx: toUserIdx,
-        })
-        .then(() => setIsFollow(true));
-    } else {
-      followAPI.unfollow(toUserIdx).then(() => setIsFollow(false));
-    }
-  };
+
+    const followCheck = (toUserIdx) => {
+        followAPI.chkFollow(toUserIdx).then((res) => {
+            return res.data;
+        });
+    };
+
+    const followClick = async (toUserIdx, arrIdx) => {
+        console.log('배열 인덱스:', arrIdx, ', user아이디: ', toUserIdx);
+        // setIsFollow(activeBtnArr[arrIdx]);
+        if (!followCheck(toUserIdx)) {
+            await followAPI.follow(toUserIdx);
+            activeBtnArr[arrIdx] = true;
+        } else {
+            await followAPI.unfollow(toUserIdx);
+        }
+    };
 
   const [user, setUser] = useState(async () => {
     await UserApi.myInfo().then((res) => {
@@ -56,70 +55,30 @@ const AsideComponent = () => {
           <span className="userID point-span">
             <a href={`/${user.userName}/`}>{user.userName}</a>
           </span>
-          <span className="sub-span">{user.fullName}</span>
+            <span className="sub-span">{user.fullName}</span>
+          </div>
+        </div>
+        <div className="section-recommend">
+          <div className="menu-title">
+            <span className="sub-title">회원님을 위한 추천</span>
+            <span className="find-more">모두 보기</span>
+          </div>
+          <ul className="recommend-list">
+            {suggestions.map((ele, index) => (
+                <Suggestions
+                    key={index}
+                    arrIdx={index}
+                    // isFollow={isFollow[index]}
+                    isFollow={activeBtnArr[index]}
+                    followClick={followClick}
+                    eleIdx={ele.idx}
+                    eleName={ele.username}
+                    eleImg={ele.profileImageUrl}
+                />
+            ))}
+          </ul>
         </div>
       </div>
-      <div className="section-recommend">
-        <div className="menu-title">
-          <span className="sub-title">회원님을 위한 추천</span>
-          <span className="find-more">모두 보기</span>
-        </div>
-        <ul className="recommend-list">
-          <li>
-            <div className="recommend-friend-profile">
-              <img
-                className="img-profile"
-                src="https://cdn4.iconfinder.com/data/icons/48-bubbles/48/30.User-512.png"
-                alt="heaji님의 프로필 사진"
-              />
-              <div className="profile-text">
-                <span className="userID point-span">hyeji</span>
-                <span className="sub-span">
-                  hakyeong님 외 2명이 팔로우합니다
-                </span>
-              </div>
-            </div>
-            <div
-              style={{
-                color: isFollow ? "gray" : "#0095f6",
-              }}
-              className="btn-follow"
-              onClick={() => followClick("27")}
-            >
-              팔로우
-            </div>
-          </li>
-          <li>
-            <div className="recommend-friend-profile">
-              <img
-                className="img-profile"
-                src="https://cdn4.iconfinder.com/data/icons/48-bubbles/48/30.User-512.png"
-                alt="_jeongjaehyun님의 프로필 사진"
-              />
-              <div className="profile-text">
-                <span className="userID point-span">hakyeong</span>
-                <span className="sub-span">heaji님이 팔로우합니다</span>
-              </div>
-            </div>
-            <span className="btn-follow">팔로우</span>
-          </li>
-          <li>
-            <div className="recommend-friend-profile">
-              <img
-                className="img-profile"
-                src="https://cdn4.iconfinder.com/data/icons/48-bubbles/48/30.User-512.png"
-                alt="leehi_hi님의 프로필 사진"
-              />
-              <div className="profile-text">
-                <span className="userID point-span">test_test</span>
-                <span className="sub-span">heaji님 외 5명이 팔로우합...</span>
-              </div>
-            </div>
-            <span className="btn-follow">팔로우</span>
-          </li>
-        </ul>
-      </div>
-    </div>
   );
 };
 

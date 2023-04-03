@@ -76,7 +76,13 @@ button {
 .modal > section > form > main > .file > div {
   padding-top: 25px;
 }
-.modal > section > form > main > .file > .imageSelect > input {
+
+.modal > section > form > main > .file > .imageSelect {
+  position: relative;
+  padding: 0;
+}
+.modal > section > form > main > .file > .imageSelect > input{
+  position: absolute;
   height: 100%;
   width: 100%;
   opacity: 0;
