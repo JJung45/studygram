@@ -56,9 +56,6 @@ const SavePostModal = (props) => {
           .then(() => {
               document.location.href = '/post'
           })
-          .catch((err) => {
-            console.log("Add post Error!", err);
-          });
       
       };  
   
