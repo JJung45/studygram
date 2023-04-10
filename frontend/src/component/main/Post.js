@@ -7,6 +7,8 @@ import LikeApi from "../../lib/api/like";
 import PostComment from "./PostCommentComponent";
 import LikeModal from "./LikeModal";
 
+import moment from "moment";
+
 const Post = ({ data }) => {
   const [post, setPost] = useState(data);
   const [modalOpen, setModalOpen] = useState(false);
@@ -57,6 +59,21 @@ const Post = ({ data }) => {
   const closeModal = () => {
     setModalOpen(false);
   };
+
+  
+ const getTimeDifference = (post) => {
+    const diffInMinutes =  moment().diff(moment(post.createdDate), "minutes");
+    const diffInHours =  moment().diff(moment(post.createdDate), "hours");
+    const diffInDays =  moment().diff(moment(post.createdDate), "days");
+    const humanizedTimeDiff =
+      diffInMinutes < 60
+        ? `${diffInMinutes}분 전`
+        : diffInHours >= 24
+        ? `${diffInDays}일 전`
+        : `${diffInHours}시간 전`;
+
+    return humanizedTimeDiff;
+  }
 
   return (
     <article>
@@ -164,7 +181,7 @@ const Post = ({ data }) => {
             ))}
           </div>
           <div className="time-log">
-            <span>32분 전</span>
+            <span>{ getTimeDifference(post) }</span>
           </div>
         </div>
       </div>
