@@ -93,6 +93,21 @@
     outline: none;
     white-space: nowrap;
   }
+
+  .btn-oauth {
+    text-align: center;
+    background: #3897f0;
+    border:1px solid #3897f0;
+    text-decoration: none;
+    color:#fff;
+    border-radius:3px;
+    font-weight:600;
+    font-size: 14px;
+    height: 28px;
+    line-height: 26px;
+    outline: none;
+    white-space: nowrap;
+  }
   
   .forgot, .forgot:active, .forgot:hover, .forgot:visited {
     font-size:12px;
