@@ -25,15 +25,12 @@ public class PostController {
     @Autowired
     private PostService postService;
 
-    @Autowired
-    private ImageUploadService imageUploadService;
-
     @PostMapping(path = "/save")
     public ApiResponse addPost(HttpServletRequest request,
                                @RequestParam(value="fileImage") MultipartFile file, Post post) throws Exception{
-        Post newPost = postService.save(post);
-        imageUploadService.createPostImage(newPost, file);
-        return ApiResponse.success(HttpStatus.OK.name(), post);
+        // @RequestParam(value="fileImage") MultipartFile file -> 파일 하나만 가능
+        Post newPost = postService.save(post, file);
+        return ApiResponse.success(HttpStatus.OK.name(), newPost);
     }
 
     // TODO @PathVariable(name="postIdx")?
