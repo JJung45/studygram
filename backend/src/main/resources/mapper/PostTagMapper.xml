@@ -14,4 +14,29 @@
     <select id="findTags" parameterType="Post" resultType="Tag">
         select * from tag left join post_tag on tag.idx = post_tag.tag_idx where post_idx = #{idx}
     </select>
+
+    <resultMap id="postTagResultMap" type="com.studygram.domain.Post">
+        <id column="idx" property="idx"/>
+        <collection property="storePath" column="idx" select="com.studygram.mapper.ImageMapper.getStoredImagePathByPostIdx"/>
+        <collection property="likeCnt" column="idx" select="com.studygram.mapper.LikeMapper.findLikesCntByPostIdx"/>
+        <collection property="commentCnt" column="idx" select="com.studygram.mapper.CommentMapper.findCommentCntByPostIdx"/>
+    </resultMap>
+    <select id="findPostsByTagIdx" parameterType="Integer" resultMap="postTagResultMap">
+        select p.idx
+        from post_tag pt, post p, `like` li
+        where pt.tag_idx = #{idx}
+          and pt.post_idx = p.idx
+          and p.post_idx = li.post_idx
+        group by pt.post_idx
+        order by
+        <if test="ordering == 0">
+            -- 좋아요 순 정렬
+            likeCnt desc
+        </if>
+        <if test="ordering == 1">
+            -- 최신 순 정렬
+            p.created_date desc
+        </if>
+    </select>
+
 </mapper>

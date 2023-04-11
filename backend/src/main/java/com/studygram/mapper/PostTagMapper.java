@@ -5,6 +5,7 @@ import com.studygram.domain.PostTag;
 import com.studygram.domain.Tag;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.jmx.export.annotation.ManagedOperationParameter;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 
@@ -15,4 +16,6 @@ public interface PostTagMapper {
     void save(@Param("post") Integer post, @Param("tag") Integer tag);
     List<PostTag> findTags(Post post);
     List<PostTag> findPostTagsByTag(Tag tags);
+
+    List<Post> findPostsByTagIdx(@Param("tagIdx") int tagIdx, @Param("orderinng") int ordering);
 }

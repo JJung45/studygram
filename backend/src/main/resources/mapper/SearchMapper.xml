@@ -11,43 +11,48 @@
     </select>
 
     <select id="searchTagList" parameterType="String" resultType="Tag">
-        select *
-        from tag
+        select t.idx, t.content, count(pt.post_idx) as post_cnt
+        from tag t
+           left outer join post_tag pt on t.idx = pt.idx
         where 1 = 1
-          and tag.content like concat('%', #{keyword}, '%')
+          and t.content like concat('%', #{keyword}, '%')
+        group by t.idx
         order by case
-                     when tag.content = #{keyword} then 0
-                     when tag.content = #{keyword} +'%' then 1
-                     when tag.content = '%'+ #{keyword} +'%' then 2
-                     when tag.content = '%'+ #{keyword} then 3
+                     when t.content = #{keyword} then 0
+                     when t.content = #{keyword} +'%' then 1
+                     when t.content = '%'+ #{keyword} +'%' then 2
+                     when t.content = '%'+ #{keyword} then 3
                      else 4 end
     </select>
 
     <select id="searchAccountList" parameterType="String" resultType="User">
-        select *
-        from user
+        select u.idx, u.user_name, u.profile_msg, u.full_name, count(fl.idx) as followers_cnt
+        from user u
+            left outer join follow fl on u.idx = fl.to_user_idx
         where 1 = 1
-            and user.user_name like concat('%', #{originKeyword}, '%')
-            or user.profile_msg like concat('%', #{originKeyword}, '%')
-            or user.full_name like concat('%', #{originKeyword}, '%')
+            and u.user_name like concat('%', #{originKeyword}, '%')
+            or u.profile_msg like concat('%', #{originKeyword}, '%')
+            or u.full_name like concat('%', #{originKeyword}, '%')
         <if test="newKeyword != null">
-            or user.user_name like concat('%', #{newKeyword}, '%')
-            or user.profile_msg like concat('%', #{newKeyword}, '%')
-            or user.full_name like concat('%', #{newKeyword}, '%')
+            or u.user_name like concat('%', #{newKeyword}, '%')
+            or u.profile_msg like concat('%', #{newKeyword}, '%')
+            or u.full_name like concat('%', #{newKeyword}, '%')
         </if>
+        group by u.idx
         order by case
-            when user.user_name = #{originKeyword} then 0
+            when u.user_name = #{originKeyword} then 0
             <if test="newKeyword != null">
-                when user.user_name = #{newKeyword} then 1
+                when u.user_name = #{newKeyword} then 1
             </if>
-            when user.profile_msg = #{originKeyword} then 2
+            when u.profile_msg = #{originKeyword} then 2
             <if test="newKeyword != null">
-                when user.profile_msg = #{newKeyword} then 3
+                when u.profile_msg = #{newKeyword} then 3
             </if>
-            when user.full_name = #{originKeyword} then 4
+            when u.full_name = #{originKeyword} then 4
             <if test="newKeyword != null">
-                when user.full_name = #{newKeyword} then 5
+                when u.full_name = #{newKeyword} then 5
             </if>
         else 6 end
     </select>
+
 </mapper>

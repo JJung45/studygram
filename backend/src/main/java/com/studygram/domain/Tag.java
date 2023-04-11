@@ -14,6 +14,7 @@ public class Tag {
     int postIdx;
     int commentIdx;
     String content;
+    int postCnt;
     Date createdDate;
 
     @Override
@@ -23,6 +24,7 @@ public class Tag {
                 ", postIdx=" + postIdx +
                 ", commentIdx=" + commentIdx +
                 ", content='" + content + '\'' +
+                ", postCnt='" + postCnt + '\'' +
                 ", createdDate=" + createdDate +
                 '}';
     }

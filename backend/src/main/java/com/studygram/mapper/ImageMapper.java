@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ImageMapper {
     Long save(Image image);
+
+    String getStoredImagePathByPostIdx(int postIdx);
 }

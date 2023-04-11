@@ -1,6 +1,8 @@
 package com.studygram.service;
 
 import com.studygram.domain.Post;
+import com.studygram.domain.SearchResultObject;
+import com.studygram.domain.Tag;
 import com.studygram.domain.User;
 import com.studygram.mapper.LikeMapper;
 import com.studygram.mapper.PostMapper;
@@ -30,8 +32,10 @@ public class SearchService {
     // 검색
     // 1. 기본으로 검색하면 프로필 메시지 & account 에서 검색
     // 2. 검색 누르면 세분화 -> 게시글, 태그, 계정
+    // 수정 -> 검색하면 태그 + 계정 검색결과로 조회
+    // 선택한 태그로 다시 게시물 검색
     public List<?> search(String keyword, int type) throws ParseException {
-        switch(type) {
+        switch (type) {
             case 1: {
                 // 첫번째 : 키워드 포함한 게시글을 좋아요 순으로 정렬해서 조회하기(쿼리정렬 이용)
                 return searchMapper.searchPostList(keyword);
@@ -50,13 +54,12 @@ public class SearchService {
             case 2: {
                 // Accounts
                 String tmp = null;
-                if(Pattern.matches("^[ㄱ-ㅎ가-힣]*$", keyword)) {
+                if (Pattern.matches("^[ㄱ-ㅎ가-힣]*$", keyword)) {
                     // 한글 포함
                     // keyword 한글인 경우 영어 로마자로 변경
                     ApiKorToRoman api = new ApiKorToRoman();
                     tmp = api.convertLang(keyword);
-                }
-                else {
+                } else {
                     System.out.println("한글인명(" + keyword + ") 영문자 변환 없음");
                 }
                 return searchMapper.searchAccountList(keyword, tmp);
@@ -76,12 +79,35 @@ public class SearchService {
                 // Tag
                 return searchMapper.searchTagList(keyword);
             }
+            case 4: {
+
+            }
             default: {
                 System.out.println("잘못된 검색 타입");
                 break;
             }
         }
         return null;
+    }
+
+    public SearchResultObject search(String keyword) throws ParseException {
+        SearchResultObject searchResultObject = new SearchResultObject();
+        List<Tag> tags = searchMapper.searchTagList(keyword);
+
+        String tmp = null;
+        if (Pattern.matches("^[ㄱ-ㅎ가-힣]*$", keyword)) {
+            // 한글 포함
+            // keyword 한글인 경우 영어 로마자로 변경
+            ApiKorToRoman api = new ApiKorToRoman();
+            tmp = api.convertLang(keyword);
+        } else {
+            System.out.println("한글인명(" + keyword + ") 영문자 변환 없음");
+        }
+        List<User> users = searchMapper.searchAccountList(keyword, tmp);
+
+        searchResultObject.setTagList(searchMapper.searchTagList(keyword));
+        searchResultObject.setUserList(searchMapper.searchAccountList(keyword, tmp));
+        return searchResultObject;
     }
 
 }
