@@ -1,18 +1,24 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useState,
+  forwardRef,
+  useImperativeHandle,
+} from "react";
 import axios from "axios";
 // import moment from 'moment';
 // import {Button, Dialog, DialogContent, IconButton, TextField} from "@mui/material";
 import { useSelector } from "react-redux";
 // import {jwtUtils} from "../../lib/jwtUtils";
 // import api from "../utils/api";
-import commentAPI from "../../lib/api/comment"
+import commentAPI from "../../lib/api/comment";
 import { useLocation, useNavigate } from "react-router-dom";
 // import DisabledByDefaultOutlinedIcon from "@mui/icons-material/DisabledByDefaultOutlined";
 // import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 // import "../../styles/Comment.scss"
 import styled from "styled-components";
 
-const CommentComponent = () => {
+const CommentComponent = forwardRef((props, ref) => {
   const tmp = process.env.REACT_APP_URL;
   // 로그인 후 현재 경로로 돌아오기 위해 useLocation 사용
   const location = useLocation();
@@ -32,23 +38,28 @@ const CommentComponent = () => {
   // modal이 보이는 여부 상태
   const [show, setShow] = useState(false);
   const Button = styled.button`
-  border: none;
-  background: #fff;
-  border-radius: 15px;
-  padding: 7px;
-  width: 120px;
-  font-weight: 600;
-  color: #6b8eb3;
-  cursor: pointer;
-`;
+    border: none;
+    background: #fff;
+    border-radius: 15px;
+    padding: 7px;
+    width: 120px;
+    font-weight: 600;
+    color: #6b8eb3;
+    cursor: pointer;
+  `;
+  useImperativeHandle(ref, () => ({
+    // 부모에서 사용하고 싶었던 함수
+    showAlert() {
+      console.log("parent...");
+    },
+  }));
 
   // 페이지에 해당하는 댓글 목록은 page 상태가 변경될 때마다 가져옴
   // 맨 처음 페이지가 1이므로 처음엔 1페이지에 해당하는 댓글을 가져온다
   useEffect(() => {
-    commentAPI.getCommentList(postId)
-        .then((result) =>{
-          setCommentList(result.data);
-        })
+    commentAPI.getCommentList(postId).then((result) => {
+      setCommentList(result.data);
+    });
 
     /*
     const getCommentList = async () => {
@@ -71,13 +82,19 @@ const CommentComponent = () => {
   // 페이지 카운트는 컴포넌트가 마운트되고 딱 한번만 가져오면됨
   useEffect(() => {
     // 댓글 전체 갯수 구하기
-    commentAPI.getCommentCnt(Number(postId))
-        .then((result) => {
-          const totalCnt = result.data;
-          // setPageCount(Math.ceil(totalCnt / 5));
-          setPageCount(Math.ceil(totalCnt / 1));
-          console.log("page:", page, "pageCount:", pageCount, "Math:", Math.ceil(totalCnt / 5));
-        })
+    commentAPI.getCommentCnt(Number(postId)).then((result) => {
+      const totalCnt = result.data;
+      // setPageCount(Math.ceil(totalCnt / 5));
+      setPageCount(Math.ceil(totalCnt / 1));
+      console.log(
+        "page:",
+        page,
+        "pageCount:",
+        pageCount,
+        "Math:",
+        Math.ceil(totalCnt / 5)
+      );
+    });
   }, []);
 
   const handleChange = (e) => {
@@ -92,12 +109,11 @@ const CommentComponent = () => {
   // CASE 1.
   const handleSubmit = (e) => {
     e.preventDefault();
-    if(newComment.content === '')
-    {
-      alert('내용을 입력하세요');
+    if (newComment.content === "") {
+      alert("내용을 입력하세요");
       return;
     }
-    addComment(newComment).then(r => console.log());
+    addComment(newComment).then((r) => console.log());
   };
 
   // CASE 2.
@@ -171,16 +187,18 @@ const CommentComponent = () => {
   //     }
   //   }
 
-  const addComment = async(comment) => {
+  const addComment = async (comment) => {
     // Client 에 Token 담긴 axios 사용
-    await commentAPI.addComment({
-      postId: postId,
-      content: newComment.content
-    })
-    .then(() => {
-      commentAPI.getCommentList(postId)
+    await commentAPI
+      .addComment({
+        postId: postId,
+        content: newComment.content,
+      })
+      .then(() => {
+        commentAPI
+          .getCommentList(postId)
           .then((result) => setCommentList(result.data));
-      /*
+        /*
       const getCommentList = async () => {
         const params = {
           postId: postId,
@@ -194,15 +212,14 @@ const CommentComponent = () => {
        // 기존 댓글목록에 새로 등록한 댓글 붙이기
       getCommentList().then((result) => setCommentList(result));
       */
-      setNewComment({
-        ...newComment,
-        content: "",
+        setNewComment({
+          ...newComment,
+          content: "",
+        });
+      })
+      .catch((err) => {
+        console.log("Add New Comment Failed!", err);
       });
-    })
-    .catch((err) => {
-      console.log("Add New Comment Failed!", err);
-    });
-
 
     /*
     axios.post(`${tmp}/comment/save/`, comment)
@@ -232,13 +249,14 @@ const CommentComponent = () => {
   };
 
   const deleteComment = (commentId) => {
-    commentAPI.deleteComment(commentId)
-        .then(() => {
-          console.log('Delete Comment(ID:'+commentId+')');
-        })
-        .catch((err) => {
-          console.log('Delete Comment Failed!', err);
-        })
+    commentAPI
+      .deleteComment(commentId)
+      .then(() => {
+        console.log("Delete Comment(ID:" + commentId + ")");
+      })
+      .catch((err) => {
+        console.log("Delete Comment Failed!", err);
+      });
   };
 
   // const getComment = useCallback(() => {
@@ -260,9 +278,8 @@ const CommentComponent = () => {
   // }, [nextId, getComment]);
 
   const onClickMoreButton = useCallback(() => {
-     setPage(page + 1);
+    setPage(page + 1);
   });
-
 
   return (
     <div className="comments-wrapper">
@@ -295,10 +312,13 @@ const CommentComponent = () => {
             <div
               className="comment-content"
               // onClick={() => changeContent(item.idx, item.content)}
-              onClick={() => setNewComment({
-                commentId: item.idx,
-                content: item.content})}
-              >
+              onClick={() =>
+                setNewComment({
+                  commentId: item.idx,
+                  content: item.content,
+                })
+              }
+            >
               {item.content}
             </div>
             {/*삭제버튼 내 아이디 인것만 보이도록 하는것 필요*/}
@@ -326,20 +346,25 @@ const CommentComponent = () => {
         )
       }
 
-    <div>
-      {/* <TextField */}
-      <form onSubmit={handleSubmit} method="post">
-        <input id="postId" name="postId" value={newComment.postId || ""} hidden />
-        <input
-          className="comments-header-textarea"
-          id="content"
-          name="content"
-          placeholder="댓글을 입력하세요"
-          value={newComment.content || ''}
-          onChange={handleChange}
-        />
-        <button type="submit">입력</button>
-      </form>
+      <div>
+        {/* <TextField */}
+        <form onSubmit={handleSubmit} method="post">
+          <input
+            id="postId"
+            name="postId"
+            value={newComment.postId || ""}
+            hidden
+          />
+          <input
+            className="comments-header-textarea"
+            id="content"
+            name="content"
+            placeholder="댓글을 입력하세요"
+            value={newComment.content || ""}
+            onChange={handleChange}
+          />
+          <button type="submit">입력</button>
+        </form>
       </div>
 
       {/*modal*/}
@@ -377,5 +402,5 @@ const CommentComponent = () => {
       </Dialog> */}
     </div>
   );
-};
+});
 export default CommentComponent;

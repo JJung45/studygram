@@ -8,7 +8,6 @@ const RedirectPage = () => {
   const userIdx = urlSearchParams.get("userIdx");
   const navigate = useNavigate();
   if (token) {
-    console.log(token);
     window.localStorage.setItem("jwtToken", token);
     window.localStorage.setItem("userIdx", userIdx);
     return <Navigate to="/post" />;
