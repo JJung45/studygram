@@ -44,7 +44,7 @@ public class PostServiceTest {
         originalPost = new Post();
         originalPost.setContent("test");
         originalPost.setUserIdx(userIdx);
-        postService.save(originalPost);
+//        postService.save(originalPost);
 
         comment = new Comment();
         comment.setContent("sdfsdf");
@@ -71,7 +71,7 @@ public class PostServiceTest {
         post.setUserIdx(userIdx);
 
         //when
-        postService.save(post);
+//        postService.save(post);
 
         //then
         Post resPost = postService.findById(post.getIdx());
@@ -84,7 +84,7 @@ public class PostServiceTest {
     public void 게시판_특정인물_조회() {
         // given
         Post post = Post.builder().content("특정인물 조회").build();
-        postService.save(post);
+//        postService.save(post);
 
         List<Post> posts = postService.findByClientId();
 
@@ -97,7 +97,7 @@ public class PostServiceTest {
         Post post = new Post();
         post.setContent("test22");
         post.setUserIdx(userIdx);
-        postService.save(post);
+//        postService.save(post);
 
         //then
         List<Post> nowPosts = postService.findAll(100,1);

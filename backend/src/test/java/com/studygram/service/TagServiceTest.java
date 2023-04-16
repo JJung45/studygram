@@ -40,7 +40,7 @@ public class TagServiceTest {
         originalPost = new Post();
         originalPost.setContent("testassdfdsfsfsfs " + test1Tag + test2Tag + test3Tag);
         originalPost.setUserIdx(userIdx);
-        postService.save(originalPost);
+//        postService.save(originalPost);
     }
 
 //    @Test

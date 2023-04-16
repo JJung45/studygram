@@ -37,7 +37,7 @@ public class LikeServiceTest {
         originalPost = new Post();
         originalPost.setContent("test");
         originalPost.setUserIdx(userIdx);
-        postService.save(originalPost);
+//        postService.save(originalPost);
 
         // TODO likeservice count 제작
         likeCount = likeService.countAll();
