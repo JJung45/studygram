@@ -61,7 +61,7 @@ public class PostService {
     }
 
     public List<Post> findAll(Integer limit, Integer offset) {
-        User user = userService.getUser();
+        User user = userService.getUser(); // TODO 해야함
         return postMapper.findAll(limit, offset, user.getIdx());
     }
 
