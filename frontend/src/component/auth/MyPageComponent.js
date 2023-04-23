@@ -42,7 +42,7 @@ const MyPageComponent = ({}) => {
 
           <div className="profile-user-settings">
             <h1 className="profile-user-name">{user.userName}</h1>
-            <button className="profile-edit-btn">Edit Profile</button>
+            <button className="profile-edit-btn">프로필 편집</button>
             <button aria-label="profile settings">
               <img
                 className="profile-settings-btn"
@@ -71,7 +71,7 @@ const MyPageComponent = ({}) => {
             <p>
               <span className="profile-real-name">{user.fullName}</span>
               <br />
-              신사인사!
+              {user.profileMsg}
             </p>
           </div>
         </div>
