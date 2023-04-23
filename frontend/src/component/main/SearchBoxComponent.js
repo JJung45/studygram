@@ -24,7 +24,7 @@ const SearchBoxComponent = () => {
             searchAPI.search(keyword, 2)
                 .then((res) => {
                     console.log('검색결과: ', res.data.body.searchList);
-                    const resultList = res.data.body.searchList;
+                    const resultList = res.data.body.searchList.userList;
                     setSearchList(resultList);
                 });
         }
