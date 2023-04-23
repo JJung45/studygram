@@ -9,7 +9,6 @@
         select store_path
             from image
         where post_idx = #{postIdx}
-
     </select>
 
 </mapper>

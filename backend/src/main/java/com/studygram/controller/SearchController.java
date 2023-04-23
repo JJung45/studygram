@@ -4,6 +4,7 @@ import com.studygram.common.ApiResponse;
 import com.studygram.mapper.SearchMapper;
 import com.studygram.service.PostTagService;
 import com.studygram.service.SearchService;
+import lombok.RequiredArgsConstructor;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,11 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/search")
 public class SearchController {
-    @Autowired
     private SearchService searchService;
-    @Autowired
     private PostTagService postTagService;
 
     @GetMapping(path="")
@@ -29,7 +29,7 @@ public class SearchController {
         return ApiResponse.success("searchList", searchService.search(keyword));
     }
 
-    @GetMapping(path="")
+    @GetMapping(path="/post")
     public ApiResponse getPostsByTagIdx(@RequestParam int tagIdx, @RequestParam int ordering) {
         return ApiResponse.success("postList", postTagService.findPostByTagIdx(tagIdx, ordering));
     }
