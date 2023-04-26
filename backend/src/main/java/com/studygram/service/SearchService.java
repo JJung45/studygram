@@ -37,21 +37,6 @@ public class SearchService {
     public List<?> search(String keyword, int type) throws ParseException {
         switch (type) {
             case 1: {
-                // 첫번째 : 키워드 포함한 게시글을 좋아요 순으로 정렬해서 조회하기(쿼리정렬 이용)
-                return searchMapper.searchPostList(keyword);
-                // 두번째 : 특정 키워드로 게시글 분류 -> 게시글 다시 조회 -> 좋아요 순으로 정렬(sort 이용)
-                /*
-                ArrayList<Post> postList = new ArrayList<>();
-                List<Integer> pIdxList = searchMapper.searchPostList(keyword);
-                for(int idx : pIdxList) {
-                    postList.add(postMapper.findById(idx));
-                }
-                // Like 수로 정렬
-                Collections.sort(postList, new ListComparator());
-                return postList;
-                 */
-            }
-            case 2: {
                 // Accounts
                 String tmp = null;
                 if (Pattern.matches("^[ㄱ-ㅎ가-힣]*$", keyword)) {
@@ -75,12 +60,9 @@ public class SearchService {
                 return userList;
                  */
             }
-            case 3: {
+            case 2: {
                 // Tag
                 return searchMapper.searchTagList(keyword);
-            }
-            case 4: {
-
             }
             default: {
                 System.out.println("잘못된 검색 타입");

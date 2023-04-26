@@ -18,14 +18,18 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/search")
 public class SearchController {
+    @Autowired
     private SearchService searchService;
+    @Autowired
     private PostTagService postTagService;
 
-    @GetMapping(path="")
+    @GetMapping(path="/v1")
+    public ApiResponse getKeyword(@RequestParam String keyword, @RequestParam int type) throws ParseException {
+        return ApiResponse.success("searchList", searchService.search(keyword, type));
+    }
+
+    @GetMapping(path="/v2")
     public ApiResponse getKeyword(@RequestParam String keyword) throws ParseException {
-//    public ApiResponse getKeyword(@RequestParam String keyword, @RequestParam int type) throws ParseException {
-//        List<?> searchList = searchService.search(keyword, type);
-//        return ApiResponse.success("searchList", searchList);
         return ApiResponse.success("searchList", searchService.search(keyword));
     }
 
