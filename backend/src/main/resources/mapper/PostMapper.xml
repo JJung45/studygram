@@ -82,11 +82,11 @@
 
     <select id="findAll" parameterType="Integer" resultMap="postResultMap">
         SELECT post.idx AS idx, post.content AS content, post.created_date AS created_date, post.updated_date AS updated_date, image.store_path AS store_path
-        <if test="userIdx != null">
             ,`user`.profile_image_url
             ,`user`.user_name AS user_name
-            ,post.user_idx AS user_idx,
-            (SELECT IF(COUNT(*) = 1, 1, 0)
+            ,post.user_idx AS user_idx
+        <if test="userIdx != null">
+            ,(SELECT IF(COUNT(*) = 1, 1, 0)
             FROM `like`
             WHERE user_idx = #{userIdx} AND post_idx = post.idx) AS has_liked,
             (SELECT `user`.user_name
@@ -94,9 +94,7 @@
             WHERE post_idx = post.idx LIMIT 1 OFFSET 0) AS top_liker
         </if>
         FROM post
-        <if test="userIdx != null">
-            INNER JOIN `user` ON post.user_idx = `user`.idx
-        </if>
+        INNER JOIN `user` ON post.user_idx = `user`.idx
         LEFT JOIN image ON post.idx = image.post_idx  <!-- TODO store_path 후, inner join 으로 변경 -->
         ORDER BY post.idx DESC;
     </select>
