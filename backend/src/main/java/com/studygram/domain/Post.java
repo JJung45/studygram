@@ -15,35 +15,34 @@ import java.util.Map;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Post {
+
     int idx;
+
     int userIdx;
+
     String userName;
+
     String profileImageUrl;
+
     String content;
+
     List<PostTag> tags;
+
     List<Like> likes;
+
     int likeCnt;
+
     boolean hasLiked;
+
     String topLiker;
+
     List<Comment> comments;
+
     int commentCnt;
+
     String storePath;
 
     Date createdDate;
-    Date updatedDate;
 
-    @Override
-    public String toString() {
-        return "Post{" +
-                "idx=" + idx +
-                ", userId=" + userIdx +
-                ", userName='" + userName + '\'' +
-                ", content='" + content + '\'' +
-                ", tags=" + tags +
-                ", likes=" + likes +
-                ", comments=" + comments +
-                ", createdDate=" + createdDate +
-                ", updatedDate=" + updatedDate +
-                '}';
-    }
+    Date updatedDate;
 }

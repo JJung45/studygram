@@ -66,7 +66,8 @@ public class PostService {
 
     public List<Post> findAll(Integer limit, Integer offset) {
         User user = userService.getUser();
-        return postMapper.findAll(limit, offset, user.getIdx());
+        Integer userIdx = (user == null ? null : user.getIdx());
+        return postMapper.findAll(limit, offset, userIdx);
     }
 
     public Post update(Post post) {
