@@ -4,7 +4,7 @@ const prefix = "/search";
 
 const search = (keyword, type) => client({
     method: 'get',
-    url: `${prefix}/v1?keyword=${keyword}&type=${type}`,
+    url: `${prefix}?keyword=${keyword}&type=${type}`,
 });
 
 const searchBoth = (keyword) => client({
