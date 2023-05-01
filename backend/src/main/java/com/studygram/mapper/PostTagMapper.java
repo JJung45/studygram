@@ -17,5 +17,5 @@ public interface PostTagMapper {
     List<PostTag> findTags(Post post);
     List<PostTag> findPostTagsByTag(Tag tags);
 
-    List<Post> findPostsByTagIdx(@Param("tagIdx") int tagIdx, @Param("orderinng") int ordering);
+    List<Post> findPostsByTagIdx(@Param("tagIdx") int tagIdx, @Param("ordering") int ordering);
 }

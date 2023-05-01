@@ -17,16 +17,18 @@
 
     <resultMap id="postTagResultMap" type="com.studygram.domain.Post">
         <id column="idx" property="idx"/>
-        <collection property="storePath" column="idx" select="com.studygram.mapper.ImageMapper.getStoredImagePathByPostIdx"/>
-        <collection property="likeCnt" column="idx" select="com.studygram.mapper.LikeMapper.findLikesCntByPostIdx"/>
-        <collection property="commentCnt" column="idx" select="com.studygram.mapper.CommentMapper.findCommentCntByPostIdx"/>
+<!--        <result column="user_idx" property="userIdx"/>-->
+<!--        <result column="user_name" property="userName"/>-->
+<!--        <result column="created_date" property="createdDate"/>-->
+        <collection property="storePath" column="idx" javaType="String" ofType="String" select="com.studygram.mapper.ImageMapper.getStoredImagePathByPostIdx"/>
+<!--        <collection property="commentCnt" column="idx" select="com.studygram.mapper.CommentMapper.findCommentCntByPostIdx"/>-->
     </resultMap>
     <select id="findPostsByTagIdx" parameterType="Integer" resultMap="postTagResultMap">
-        select p.idx
+        select p.idx, count(li.idx) likeCnt
         from post_tag pt, post p, `like` li
-        where pt.tag_idx = #{idx}
+        where pt.tag_idx = #{tagIdx}
           and pt.post_idx = p.idx
-          and p.post_idx = li.post_idx
+          and p.idx = li.post_idx
         group by pt.post_idx
         order by
         <if test="ordering == 0">
