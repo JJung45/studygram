@@ -14,6 +14,7 @@ public class Like {
     int postIdx;
     int commentIdx;
     int userIdx;
+    int postUserIdx;
     Date createdDate;
 
     @Override
@@ -23,6 +24,7 @@ public class Like {
                 ", postId=" + postIdx +
                 ", commentId=" + commentIdx +
                 ", userId=" + userIdx +
+                ", postUserId=" + postUserIdx +
                 ", createdDate=" + createdDate +
                 '}';
     }

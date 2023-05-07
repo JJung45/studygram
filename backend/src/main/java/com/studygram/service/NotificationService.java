@@ -1,30 +1,42 @@
 package com.studygram.service;
 
+import com.studygram.domain.Notification;
 import com.studygram.domain.NotificationType;
 import com.studygram.domain.User;
+import com.studygram.mapper.NotificationMapper;
 import com.studygram.repository.EmitterRepository;
-import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.io.IOException;
 import java.util.Map;
 
-@RequiredArgsConstructor
+@Service
 public class NotificationService {
 
     private final EmitterRepository emitterRepository;
 
+    private final NotificationMapper notificationMapper;
+
+    private final UserService userService;
+
+    public NotificationService(EmitterRepository emitterRepository, NotificationMapper notificationMapper, UserService userService) {
+        this.emitterRepository = emitterRepository;
+        this.notificationMapper = notificationMapper;
+        this.userService = userService;
+    }
+
 //    private final UserService userService;
 
     public SseEmitter subscribe(int userIdx) {
-        SseEmitter emitter = emitterRepository.save(userIdx, new SseEmitter());
+        SseEmitter emitter = emitterRepository.save(userIdx, new SseEmitter(60 * 1000L));
 
         // 시간이 만료된 경우 자동으로 레포지토리에서 삭제 가능하도록 하는 콜백
         emitter.onCompletion(() -> emitterRepository.deleteById(userIdx));
         emitter.onTimeout(() -> emitterRepository.deleteById(userIdx));
 
         // 처음부터 데이터 안보내면 503 에러 발생함으로 더미 데이터를 보낸다.
-        sendNotification(emitter, userIdx, "dummy data " + System.currentTimeMillis());
+        sendNotification(emitter, userIdx, "dummy");
 
         return emitter;
     }
@@ -37,9 +49,35 @@ public class NotificationService {
         }
     }
 
-    public void send(User receiver, NotificationType notificationType) {
-        // TODO 알람 디비 저장
-        Map<Integer, SseEmitter> emitters = emitterRepository.findAllEmitterStartWithByUserIdx(receiver.getIdx());
-        emitters.forEach((emmiterId, emmiter) -> sendNotification(emmiter, emmiterId, notificationType.getMessage()));
+    public void send(int toUserIdx, int fromUserIdx, NotificationType notificationType) {
+        Notification notification = Notification
+                .builder()
+                .toUserIdx(toUserIdx)
+                .fromUserIdx(fromUserIdx)
+                .isRead(false)
+                .notificationType(notificationType.getType())
+                .build();
+        notificationMapper.save(notification);
+        Map<Integer, SseEmitter> emitters = emitterRepository.findAllEmitterStartWithByUserIdx(toUserIdx);
+        emitters.forEach((emmiterId, emmiter) ->
+                sendNotification(emmiter, emmiterId, getMessage(notification))
+        );
+    }
+
+    private String getMessage(Notification notification) {
+        User fromUserInfo = userService.getUserInfo(notification.getFromUserIdx());
+        return fromUserInfo.getUserName() + "님이 " + getNotificationTypeMessage(notification.getNotificationType());
+    }
+
+    private String getNotificationTypeMessage(String type) {
+        if ("좋아요".equals(type)) {
+            return NotificationType.LIKE.getMessage();
+        } else if ("팔로우".equals(type)) {
+            return NotificationType.FOLLOW.getMessage();
+        } else if ("덧글".equals(type)) {
+            return NotificationType.COMMENT.getMessage();
+        } else {
+            return NotificationType.DUMMY.getMessage();
+        }
     }
 }

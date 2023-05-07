@@ -39,6 +39,7 @@ dependencies {
 	testImplementation 'io.rest-assured:rest-assured:3.0.3'
 
 	testImplementation('org.springframework.boot:spring-boot-starter-oauth2-client')
+	testImplementation('org.mybatis.spring.boot:mybatis-spring-boot-starter-test:2.1.3')
 
 }
 

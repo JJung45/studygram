@@ -24,6 +24,7 @@ const Post = ({ data }) => {
   const saveLike = async (data) => {
     const postIdx = data.idx;
     const like = {
+      postUserIdx: data.userIdx,
       postIdx: postIdx,
     };
     const save = await LikeApi.save(like).then(() => {
@@ -60,11 +61,10 @@ const Post = ({ data }) => {
     setModalOpen(false);
   };
 
-  
- const getTimeDifference = (post) => {
-    const diffInMinutes =  moment().diff(moment(post.createdDate), "minutes");
-    const diffInHours =  moment().diff(moment(post.createdDate), "hours");
-    const diffInDays =  moment().diff(moment(post.createdDate), "days");
+  const getTimeDifference = (post) => {
+    const diffInMinutes = moment().diff(moment(post.createdDate), "minutes");
+    const diffInHours = moment().diff(moment(post.createdDate), "hours");
+    const diffInDays = moment().diff(moment(post.createdDate), "days");
     const humanizedTimeDiff =
       diffInMinutes < 60
         ? `${diffInMinutes}분 전`
@@ -73,7 +73,7 @@ const Post = ({ data }) => {
         : `${diffInHours}시간 전`;
 
     return humanizedTimeDiff;
-  }
+  };
 
   return (
     <article>
@@ -181,7 +181,7 @@ const Post = ({ data }) => {
             ))}
           </div>
           <div className="time-log">
-            <span>{ getTimeDifference(post) }</span>
+            <span>{getTimeDifference(post)}</span>
           </div>
         </div>
       </div>

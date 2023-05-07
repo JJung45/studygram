@@ -15,7 +15,7 @@ public class NotificationController {
 
     private final NotificationService notificationService;
     
-    @GetMapping(value = "/subscribe/{userIdx}", produces = "text/event-stream")
+    @GetMapping(value = "/api/subscribe/{userIdx}", produces = "text/event-stream")
     public SseEmitter subscribe(@PathVariable int userIdx) {
 
         return notificationService.subscribe(userIdx);
