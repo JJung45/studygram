@@ -26,7 +26,8 @@
     </select>
 
     <select id="searchAccountList" parameterType="String" resultType="User">
-        select u.idx, u.user_name, u.profile_msg, u.full_name, count(fl.idx) as followers_cnt
+        select u.idx, u.user_name, u.profile_msg, u.profile_image_url, u.full_name, count(fl.idx) as followers_cnt
+        /* 프로필 사진 join 필요 */
         from user u
             left outer join follow fl on u.idx = fl.to_user_idx
         where 1 = 1
