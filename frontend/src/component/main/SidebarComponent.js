@@ -3,11 +3,17 @@ import styles from "../../styles/Sidebar.css";
 import SearchListComponent from "./SearchListComponent";
 
 
+
 const SidebarComponent = ({ width=280, children }) => {
     const [isOpen, setOpen] = useState(false);
     // left
     const [xPosition, setX] = useState(width);
     const side = useRef();
+
+    const meta = document.createElement('meta');
+    meta.name = "viewport";
+    meta.content = "width=device-width, initial-scale=1.0";
+    document.getElementsByTagName('head')[0].appendChild(meta);
 
     // button 클릭 시 토글
     const toggleMenu = () => {

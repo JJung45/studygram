@@ -35,7 +35,6 @@ const NavComponent = () => {
                             alt="logo_img"
                         />
                     </div>
-                    {/*<SearchListComponent/>*/}
                     <SearchBoxComponent/>
                     <div className="nav-2">
                         <img

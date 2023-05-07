@@ -8,7 +8,7 @@ import SidebarComponent from "../component/main/SidebarComponent";
 const PostPage = () => {
   return (
     <>
-        <SidebarComponent width={320}/>
+        {/*<SidebarComponent width={320}/>*/}
         <NavContainer />
       <main>
         <PostContainer />

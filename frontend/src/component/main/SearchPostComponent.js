@@ -14,6 +14,7 @@ const SearchListComponent = (props) => {
     const [posts, setPosts] = useState([]);
 
     useEffect(() => {
+        console.log('type', type)
         if(type === orderingType.LIKE) {
             SearchApi.searchPosts(tagIdx, 0)
                 .then(res => {
@@ -28,7 +29,7 @@ const SearchListComponent = (props) => {
 
                 })
         }
-    }, []);
+    }, [type]);
 
     return(
         <div>
