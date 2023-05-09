@@ -44,5 +44,16 @@ public class ImageUploadService {
 
         imageMapper.save(newImage);
     }
+    public void deletePostImage(Post post, MultipartFile mfile)
+    {
+        FileDetail fileDetail = FileDetail.multipartOf(mfile); // mfile x -> file id
+
+        // TODO
+        // find file
+        // find post by file
+        // delete file
+
+        amazonS3ResourceStorage.delete(fileDetail.getName());
+    }
 
 }

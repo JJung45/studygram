@@ -28,4 +28,8 @@ public class AmazonS3ResourceStorage {
             throw new RuntimeException();
         }
     }
+
+    public void delete(final String fileName) { // TODO test
+        amazonS3Client.deleteObject(bucket, fileName);
+    }
 }
