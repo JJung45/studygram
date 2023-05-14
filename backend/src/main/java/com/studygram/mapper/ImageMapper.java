@@ -12,6 +12,6 @@ public interface ImageMapper {
 
     void delete(Image image);
 
-    // find post by image // TODO
+    Image findByPostIdx(int postIdx);
 
 }

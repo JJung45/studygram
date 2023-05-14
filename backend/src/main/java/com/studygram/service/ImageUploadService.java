@@ -44,16 +44,25 @@ public class ImageUploadService {
 
         imageMapper.save(newImage);
     }
-    public void deletePostImage(Post post, MultipartFile mfile)
+    public void deletePostImage(Post post)
     {
-        FileDetail fileDetail = FileDetail.multipartOf(mfile); // mfile x -> file id
+        //현재는 post:image=1:1 관계
+        Image postImage = findByPostIdx(post.getIdx());
 
-        // TODO
-        // find file
-        // find post by file
-        // delete file
+        deleteImage(postImage);
 
-        amazonS3ResourceStorage.delete(fileDetail.getName());
+        String originalFileName = postImage.getOriginalFilename();
+        String[] fileNames = originalFileName.split("/");
+        amazonS3ResourceStorage.delete(fileNames[fileNames.length-1]);
     }
 
+    private Image findByPostIdx(int postIdx)
+    {
+        return imageMapper.findByPostIdx(postIdx);
+    }
+
+    private void deleteImage(Image image)
+    {
+        imageMapper.delete(image);
+    }
 }
