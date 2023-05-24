@@ -29,7 +29,7 @@ public class AmazonS3ResourceStorage {
         }
     }
 
-    public void delete(final String fileName) { // TODO test
+    public void delete(final String fileName) {
         amazonS3Client.deleteObject(bucket, fileName);
     }
 }

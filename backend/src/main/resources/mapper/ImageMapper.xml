@@ -8,7 +8,7 @@
     <select id="findByPostIdx" parameterType="Integer" resultType="Image">
         select * from image where post_idx = #{idx}
     </select>
-    <delete id="delete">
-        delete from image where idx = #{image.idx}
+    <delete id="delete" parameterType="Image">
+        delete from image where idx = #{idx}
     </delete>
 </mapper>

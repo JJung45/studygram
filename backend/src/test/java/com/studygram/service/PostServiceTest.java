@@ -1,20 +1,30 @@
 package com.studygram.service;
 
 import com.studygram.domain.*;
+import com.studygram.mapper.ImageMapper;
+import com.studygram.mapper.PostMapper;
+import lombok.SneakyThrows;
 import org.junit.Test;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -39,12 +49,36 @@ public class PostServiceTest {
     LikeService likeService;
     Like like;
 
+    @Autowired
+    UserService userService;
+
+    @Autowired
+    PostMapper postMapper;
+
+    @Autowired
+    ImageMapper imageMapper;
+
+    @Autowired
+    private AmazonS3ResourceStorage amazonS3ResourceStorage;
+
+    private MockMultipartFile mockImage;
+
+    @SneakyThrows
     @Before
     public void beforeEach() {
+
+        mockImage = new MockMultipartFile(
+                "image",
+                "image.jpg",
+                "image/jpeg",
+                new byte[0]
+        );
+
         originalPost = new Post();
         originalPost.setContent("test");
         originalPost.setUserIdx(userIdx);
-        postService.save(originalPost);
+
+        postService.save(originalPost, mockImage);
 
         comment = new Comment();
         comment.setContent("sdfsdf");
@@ -71,7 +105,7 @@ public class PostServiceTest {
         post.setUserIdx(userIdx);
 
         //when
-        postService.save(post);
+        postService.save(post, mockImage);
 
         //then
         Post resPost = postService.findById(post.getIdx());
@@ -84,7 +118,7 @@ public class PostServiceTest {
     public void 게시판_특정인물_조회() {
         // given
         Post post = Post.builder().content("특정인물 조회").build();
-        postService.save(post);
+        postService.save(post,mockImage);
 
         List<Post> posts = postService.findByClientId();
 
@@ -97,7 +131,7 @@ public class PostServiceTest {
         Post post = new Post();
         post.setContent("test22");
         post.setUserIdx(userIdx);
-        postService.save(post);
+        postService.save(post,mockImage);
 
         //then
         List<Post> nowPosts = postService.findAll(100,1);
@@ -154,5 +188,25 @@ public class PostServiceTest {
         // then
         assertTrue(postService.findByIds(originalPost.getIdx(), likeduserIdx).isHasLiked());
     }
+
+    @Test
+    @WithMockUser(username = "108915067662391092609")
+    @Transactional
+    public void 게시글_지우기() {
+        // given
+        Post post = postMapper.findSortByIdAsc();
+        Image image = imageMapper.findByPostIdx(post.getIdx());
+        assertNotNull(image);
+
+        // when
+        postService.delete(post);
+
+        // then
+        assertNull(postMapper.findById(post.getIdx()));
+        assertNull(imageMapper.findByPostIdx(post.getIdx()));
+
+    }
 }
+
+
 

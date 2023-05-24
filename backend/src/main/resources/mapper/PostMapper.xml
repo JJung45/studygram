@@ -111,4 +111,8 @@
     <select id="countPostsByClientId" parameterType="String" resultType="Integer">
         SELECT count(*) FROM post WHERE user_idx = (SELECT idx FROM `user` WHERE client_id=#{clientId})
     </select>
+
+    <select id="findSortByIdAsc" resultType="Post">
+        select * from post order by idx asc limit 1;
+    </select>
 </mapper>
