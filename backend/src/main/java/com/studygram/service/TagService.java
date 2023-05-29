@@ -4,6 +4,7 @@ import com.studygram.domain.Post;
 import com.studygram.domain.PostTag;
 import com.studygram.domain.Tag;
 import com.studygram.mapper.TagMapper;
+import com.studygram.utils.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
@@ -21,11 +22,14 @@ public class TagService {
     private PostTagService postTagService;
 
     public List<String> saveTags(Post post) {
+
         String content = post.getContent();
         String[] arr = content.split(" ");
         List<String> tagList = Arrays.stream(arr)
                 .filter(string -> string.contains("#"))
                 .collect(Collectors.toList());
+
+//        List<String> tagList = StringUtil.getTagsFromContent(content);
 
         // 게시물이 저장된 다음에 가져와야할듯!
         for(String tagContent : tagList) {

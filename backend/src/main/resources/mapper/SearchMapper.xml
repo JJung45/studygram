@@ -13,7 +13,7 @@
     <select id="searchTagList" parameterType="String" resultType="Tag">
         select t.idx, t.content, count(pt.post_idx) as post_cnt
         from tag t
-           left outer join post_tag pt on t.idx = pt.idx
+           left outer join post_tag pt on t.idx = pt.tag_idx
         where 1 = 1
           and t.content like concat('%', #{keyword}, '%')
         group by t.idx

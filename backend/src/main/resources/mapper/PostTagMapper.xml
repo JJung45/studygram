@@ -17,19 +17,25 @@
 
     <resultMap id="postTagResultMap" type="com.studygram.domain.Post">
         <id column="idx" property="idx"/>
-<!--        <result column="user_idx" property="userIdx"/>-->
-<!--        <result column="user_name" property="userName"/>-->
-<!--        <result column="created_date" property="createdDate"/>-->
-        <collection property="storePath" column="idx" javaType="String" ofType="String" select="com.studygram.mapper.ImageMapper.getStoredImagePathByPostIdx"/>
-<!--        <collection property="commentCnt" column="idx" select="com.studygram.mapper.CommentMapper.findCommentCntByPostIdx"/>-->
+        <result column="user_idx" property="userIdx"/>
+        <result column="content" property="content"/>
+        <result column="store_path" property="storePath"/>
+        <result column="created_date" property="createdDate"/>
+        <collection property="commentCnt" column="idx" select="com.studygram.mapper.CommentMapper.findCommentCntByPostIdx"/>
     </resultMap>
     <select id="findPostsByTagIdx" parameterType="Integer" resultMap="postTagResultMap">
-        select p.idx, count(li.idx) likeCnt
-        from post_tag pt, post p, `like` li
-        where pt.tag_idx = #{tagIdx}
-          and pt.post_idx = p.idx
-          and p.idx = li.post_idx
-        group by pt.post_idx
+        WITH T as (
+        select p.idx, p.user_idx, p.content, img.store_path, p.created_date
+          from post p, image img
+         where p.idx in (select post_idx
+                           from post_tag
+                          where tag_idx = #{tagIdx})
+        and p.idx = img.post_idx)
+
+        select T.*, coalesce(li.cnt, 0) likeCnt
+        from T
+        left outer join (select post_idx, count(idx) cnt from `like` group by post_idx) li
+        on T.idx = li.post_idx
         order by
         <if test="ordering == 0">
             -- 좋아요 순 정렬

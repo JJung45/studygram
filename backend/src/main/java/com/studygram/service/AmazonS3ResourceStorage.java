@@ -28,4 +28,6 @@ public class AmazonS3ResourceStorage {
             throw new RuntimeException();
         }
     }
+
+    // 프로필 사진 수정 삭제용 만들기
 }
