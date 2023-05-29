@@ -14,4 +14,5 @@ public interface ImageMapper {
 
     Image findByPostIdx(int postIdx);
 
+    String getStoredImagePathByPostIdx(int postIdx);
 }
