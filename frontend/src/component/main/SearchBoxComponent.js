@@ -20,7 +20,6 @@ const SearchBoxComponent = () => {
             setTagList([]);
             setUserList([]);
         }
-
     };
 
     useEffect(() => {
@@ -50,6 +49,11 @@ const SearchBoxComponent = () => {
         }
     }, [keyword]);
 
+    const resetResList = () => {
+        setTagList([]);
+        setUserList([]);
+    }
+
     return (
         <div>
             <input
@@ -67,12 +71,11 @@ const SearchBoxComponent = () => {
                         {tagList.map((item, idx) => {
                             return (
                                 <>
-                                    <div className="s_d_peo" key={idx + item.idx}>
+                                    <div className="s_d_peo" key={idx + item.idx} onClick={() => resetResList()}>
                                         <Link className="s_d_p" to={"/tagPost/" + item.idx}
                                               style={{textDecoration: "none", color: "black", fontSize: "13px"}}>
                                             {/*뒤로가기 시 자동완성 남아있는 경우 비워주는 코드*/}
-                                            <Fragment onClick={() => setTagList([])}>
-                                                {/*<img src=""/>*/}
+                                            <Fragment>
                                                 <FaHashtag style={{width: "30px", height: "30px", borderRadius: "50%"}}/>
                                                 <div className="s_d_c">
                                                     <span className="s_d_username">{item.content}</span>
@@ -88,7 +91,7 @@ const SearchBoxComponent = () => {
                         {userList.map((item, idx) => {
                             return (
                                 <>
-                                    <div className="s_d_peo" onClick={() => setUserList([])}>
+                                    <div className="s_d_peo" key={idx + item.idx} onClick={() => resetResList()}>
                                         <Link className="s_d_p" to={"/" + item.userName}>
                                             <Fragment>
                                                 <img src={item.profileImageUrl}/>

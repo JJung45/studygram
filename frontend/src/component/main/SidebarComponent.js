@@ -1,5 +1,4 @@
 import React, {useEffect, useRef, useState } from "react";
-import styles from "../../styles/Sidebar.css";
 import SearchListComponent from "./SearchListComponent";
 
 

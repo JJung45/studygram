@@ -3,7 +3,7 @@ import SearchApi from "../../lib/api/search";
 import {useParams} from "react-router-dom";
 
 // TagList, AccountList
-const SearchListComponent = (props) => {
+const SearchPostComponent = (props) => {
     const {tagIdx} = useParams();
     const orderingType = {
         LIKE: "like",
@@ -19,13 +19,13 @@ const SearchListComponent = (props) => {
             SearchApi.searchPosts(tagIdx, 0)
                 .then(res => {
                     console.log('인기순 정렬:', res.data);
-                    setPosts(res.data);
+                    setPosts(res.data.body.postList);
                 })
         }
         else {
             SearchApi.searchPosts(tagIdx, 1)
                 .then(res => {
-                    setPosts(res.data);
+                    setPosts(res.data.body.postList);
 
                 })
         }
@@ -85,15 +85,15 @@ const SearchListComponent = (props) => {
                                                         <i className="ri-heart-3-fill ri-admin-line ri-xl"></i>{" "}
                                                         {post.likeCnt}
                                                     </li>
-                                                    {/*<li className="gallery-item-comments">*/}
-                                                    {/*    <span className="visually-hidden">Comments:</span>*/}
-                                                    {/*    <img*/}
-                                                    {/*        className="icon-react"*/}
-                                                    {/*        src="https://cdn0.iconfinder.com/data/icons/font-awesome-solid-vol-1/512/comment-512.png"*/}
-                                                    {/*        alt="말풍선"*/}
-                                                    {/*    />*/}
-                                                    {/*    {posts.commentCnt}*/}
-                                                    {/*</li>*/}
+                                                    <li className="gallery-item-comments">
+                                                        <span className="visually-hidden">Comments:</span>
+                                                        <img
+                                                            className="icon-react"
+                                                            src="https://cdn0.iconfinder.com/data/icons/font-awesome-solid-vol-1/512/comment-512.png"
+                                                            alt="말풍선"
+                                                        />
+                                                        {posts.commentCnt}
+                                                    </li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -109,4 +109,4 @@ const SearchListComponent = (props) => {
 
 };
 
-export default SearchListComponent;
+export default SearchPostComponent;
