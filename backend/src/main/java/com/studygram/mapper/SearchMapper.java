@@ -1,6 +1,7 @@
 package com.studygram.mapper;
 
 import com.studygram.domain.Post;
+import com.studygram.domain.SearchResultObject;
 import com.studygram.domain.Tag;
 import com.studygram.domain.User;
 import org.apache.ibatis.annotations.Mapper;
