@@ -31,9 +31,14 @@ const SearchPostComponent = (props) => {
         }
     }, [type]);
 
+    const handleClick = (post) => {
+        console.log(post.idx + '번 게시물로 이동');
+        //TODO
+    }
+
     return(
         <div>
-            <div className="feed">
+            <div className="feed" style={{borderTop: "none"}}>
                 <div className="feed-header">
                     <div
                         className="sub"
@@ -66,7 +71,7 @@ const SearchPostComponent = (props) => {
                             <div className="gallery">
                                 {posts &&
                                     Object.values(posts).map((post, index) => (
-                                        <div className="gallery-item" tabIndex="0">
+                                        <div className="gallery-item" tabIndex="0" onClick={() => handleClick(post)} key={post.idx + index}>
                                             <img
                                                 src={post.storePath ?? "https://cdn.pixabay.com/photo/2016/01/05/17/51/maltese-1123016_1280.jpg"}
                                                 className="gallery-image"
@@ -89,10 +94,10 @@ const SearchPostComponent = (props) => {
                                                         <span className="visually-hidden">Comments:</span>
                                                         <img
                                                             className="icon-react"
-                                                            src="https://cdn0.iconfinder.com/data/icons/font-awesome-solid-vol-1/512/comment-512.png"
+                                                            src={"https://cdn0.iconfinder.com/data/icons/font-awesome-solid-vol-1/512/comment-512.png"}
                                                             alt="말풍선"
                                                         />
-                                                        {posts.commentCnt}
+                                                        {post.commentCnt}
                                                     </li>
                                                 </ul>
                                             </div>

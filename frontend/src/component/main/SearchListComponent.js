@@ -18,7 +18,7 @@ const SearchListComponent = () => {
         }
     }
     useEffect(() => {
-        console.log(keyword);
+        console.log('검색', keyword);
         if (keyword.length === 0) {
             setTagList([]);
             setUserList([]);
