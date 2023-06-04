@@ -5,4 +5,15 @@
         insert into image (original_file_name, store_path, post_idx)
             values(#{originalFilename}, #{storePath}, #{post.idx})
     </insert>
+    <select id="findByPostIdx" parameterType="Integer" resultType="Image">
+        select * from image where post_idx = #{idx}
+    </select>
+    <delete id="delete" parameterType="Image">
+        delete from image where idx = #{idx}
+    </delete>
+    <select id="getStoredImagePathByPostIdx" parameterType="Integer" resultType="String">
+        select store_path
+        from image
+        where post_idx = #{postIdx}
+    </select>
 </mapper>

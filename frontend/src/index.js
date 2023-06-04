@@ -8,6 +8,7 @@ import { createStore, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import rootReducer from './module/auth';
 import createSagaMiddleware from 'redux-saga';
+import ErrorBoundary from './component/ErrorBoundary';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
@@ -19,7 +20,9 @@ const store = createStore(
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
-      <App />
+      <ErrorBoundary>
+        <App />
+      </ErrorBoundary>
     </BrowserRouter>
   </Provider>,
   document.getElementById('root'),

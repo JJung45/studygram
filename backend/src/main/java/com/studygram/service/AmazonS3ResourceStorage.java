@@ -19,15 +19,17 @@ public class AmazonS3ResourceStorage {
     private final AmazonS3Client amazonS3Client;
 
     public String store(String fullPath, MultipartFile multipartFile) {
-        File file = new File(MultipartUtil.getLocalHomeDirectory(), fullPath);
         try {
-            multipartFile.transferTo(file);
-            amazonS3Client.putObject(new PutObjectRequest(bucket, fullPath, file)
+            amazonS3Client.putObject(new PutObjectRequest(bucket, fullPath, multipartFile.getInputStream(), null)
                     .withCannedAcl(CannedAccessControlList.PublicRead));
 
             return amazonS3Client.getUrl(bucket, fullPath).toString();
         } catch (Exception e) {
             throw new RuntimeException();
         }
+    }
+
+    public void delete(final String fileName) {
+        amazonS3Client.deleteObject(bucket, fileName);
     }
 }

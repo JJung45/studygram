@@ -32,4 +32,9 @@ public class PostTagService {
         return postTagMapper.findPostTagsByTag(tag);
     }
 
+    // Tag ID로 Post 목록 가져오기
+    public List<Post> findPostByTagIdx(int idx, int ordering) {
+        return postTagMapper.findPostsByTagIdx(idx, ordering);
+    }
+
 }

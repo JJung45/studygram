@@ -3,18 +3,19 @@ package com.studygram.service;
 import com.studygram.domain.*;
 import com.studygram.mapper.PostMapper;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class PostService {
+
+    @Autowired
+    private ImageUploadService imageUploadService;
 
     @Autowired
     private PostMapper postMapper;
@@ -25,7 +26,8 @@ public class PostService {
     @Autowired
     private UserService userService;
 
-    public Post save(Post post) {
+    @Transactional
+    public Post save(Post post, MultipartFile file) {
         User user = userService.getUser();
         post.setUserIdx(user.getIdx());
         postMapper.save(post);
@@ -38,6 +40,8 @@ public class PostService {
 
             postMapper.update(post);
         }
+
+        imageUploadService.createPostImage(post, file);
 
         return post;
     }
@@ -62,7 +66,8 @@ public class PostService {
 
     public List<Post> findAll(Integer limit, Integer offset) {
         User user = userService.getUser();
-        return postMapper.findAll(limit, offset, user.getIdx());
+        Integer userIdx = (user == null ? null : user.getIdx());
+        return postMapper.findAll(limit, offset, userIdx);
     }
 
     public Post update(Post post) {
@@ -73,5 +78,6 @@ public class PostService {
 
     public void delete(Post post) {
         postMapper.delete(post);
+        imageUploadService.deletePostImage(post);
     }
 }

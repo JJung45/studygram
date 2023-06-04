@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../../styles/modal.css";
 import "../../styles/Write.css";
-import PostApi from "../../lib/api/post";
-import LikeApi from "../../lib/api/like";
-
-import { useParams } from "react-router-dom";
 
 const LikeModal = (props) => {
   const { open, close, header, likers } = props;
