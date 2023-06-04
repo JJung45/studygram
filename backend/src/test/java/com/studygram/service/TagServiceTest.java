@@ -7,8 +7,10 @@ import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import static org.junit.Assert.assertThat;
 
@@ -35,12 +37,15 @@ public class TagServiceTest {
     @Autowired
     PostTagService postTagService;
 
+    @Autowired
+    MockMultipartFile mockImage;
+
     @Before
     public void beforeEach() {
         originalPost = new Post();
         originalPost.setContent("testassdfdsfsfsfs " + test1Tag + test2Tag + test3Tag);
         originalPost.setUserIdx(userIdx);
-        postService.save(originalPost);
+        postService.save(originalPost,mockImage);
     }
 
 //    @Test

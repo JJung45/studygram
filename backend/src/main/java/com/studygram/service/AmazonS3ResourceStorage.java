@@ -29,5 +29,7 @@ public class AmazonS3ResourceStorage {
         }
     }
 
-    // 프로필 사진 수정 삭제용 만들기
+    public void delete(final String fileName) {
+        amazonS3Client.deleteObject(bucket, fileName);
+    }
 }

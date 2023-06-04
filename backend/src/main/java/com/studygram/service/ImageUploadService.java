@@ -44,5 +44,24 @@ public class ImageUploadService {
 
         imageMapper.save(newImage);
     }
+    public void deletePostImage(Post post)
+    {
+        //현재는 post:image=1:1 관계. db에서 지우기
+        Image postImage = findByPostIdx(post.getIdx());
+        deleteImage(postImage);
 
+        //aws 저장소에서 지우기
+        String originalFileName = postImage.getOriginalFilename();
+        amazonS3ResourceStorage.delete(originalFileName);
+    }
+
+    private Image findByPostIdx(int postIdx)
+    {
+        return imageMapper.findByPostIdx(postIdx);
+    }
+
+    private void deleteImage(Image image)
+    {
+        imageMapper.delete(image);
+    }
 }

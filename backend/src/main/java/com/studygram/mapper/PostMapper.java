@@ -23,4 +23,5 @@ public interface PostMapper {
     void delete(Post post);
     List<Post> findByManyIds(@Param("postTagIds") List<Integer> postTagIds);
     int countPostsByUserName(String userName);
+    Post findSortByIdAsc();
 }
