@@ -1,8 +1,7 @@
 package com.studygram.service;
 
 import com.studygram.domain.*;
-import com.studygram.mapper.ImageMapper;
-import com.studygram.mapper.PostMapper;
+import com.studygram.mapper.*;
 import lombok.SneakyThrows;
 import org.junit.Test;
 import org.junit.Assert;
@@ -57,6 +56,15 @@ public class PostServiceTest {
 
     @Autowired
     ImageMapper imageMapper;
+
+    @Autowired
+    TagMapper tagMapper;
+
+    @Autowired
+    LikeMapper likeMapper;
+
+    @Autowired
+    CommentMapper commentMapper;
 
     @Autowired
     private AmazonS3ResourceStorage amazonS3ResourceStorage;
@@ -154,17 +162,6 @@ public class PostServiceTest {
     }
 
     @Test
-    public void 게시판_삭제() {
-        //given
-
-        //when
-        postService.delete(originalPost);
-
-        //then
-        Assert.assertNull(postService.findById(originalPost.getIdx()));
-    }
-
-    @Test
     public void 게시글_1개_조회() {
         // given
         int postIdx = 12;
@@ -195,15 +192,20 @@ public class PostServiceTest {
     public void 게시글_지우기() {
         // given
         Post post = postMapper.findSortByIdAsc();
-        Image image = imageMapper.findByPostIdx(post.getIdx());
-        assertNotNull(image);
 
         // when
         postService.delete(post);
 
         // then
+        // TODO 지웠을 때 image, tag, like, comment 모두 지워지는 지 확인 -> 다 입력하고 지워볼것
         assertNull(postMapper.findById(post.getIdx()));
         assertNull(imageMapper.findByPostIdx(post.getIdx()));
+        assertNull(tagMapper.findTagsByPostId(post.getIdx()));
+        assertNull(likeMapper.findLikes(post.getIdx()));
+        assertNull(commentMapper.findCommentsByPostIdx(post.getIdx()));
+
+        // TODO 사이즈 모달 안나옴 / size cover
+
 
     }
 }
