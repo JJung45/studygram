@@ -58,7 +58,7 @@ public class PostServiceTest {
     ImageMapper imageMapper;
 
     @Autowired
-    TagMapper tagMapper;
+    PostTagMapper postTagMapper;
 
     @Autowired
     LikeMapper likeMapper;
@@ -197,15 +197,11 @@ public class PostServiceTest {
         postService.delete(post);
 
         // then
-        // TODO 지웠을 때 image, tag, like, comment 모두 지워지는 지 확인 -> 다 입력하고 지워볼것
         assertNull(postMapper.findById(post.getIdx()));
         assertNull(imageMapper.findByPostIdx(post.getIdx()));
-        assertNull(tagMapper.findTagsByPostId(post.getIdx()));
-        assertNull(likeMapper.findLikes(post.getIdx()));
-        assertNull(commentMapper.findCommentsByPostIdx(post.getIdx()));
-
-        // TODO 사이즈 모달 안나옴 / size cover
-
+        assertTrue(postTagMapper.findTags(post).isEmpty());
+        assertTrue(likeMapper.findLikes(post.getIdx()).isEmpty());
+        assertTrue(commentMapper.findCommentsByPostIdx(post.getIdx()).isEmpty());
 
     }
 }

@@ -77,7 +77,7 @@ public class PostService {
     }
 
     public void delete(Post post) {
-        postMapper.delete(post);
         imageUploadService.deletePostImage(post);
+        postMapper.delete(post);
     }
 }
