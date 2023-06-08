@@ -5,7 +5,7 @@ const Suggestions = (props) => {
     const {eleImg, eleName, eleIdx, arrIdx, isFollow, followClick} = props;
 
     useEffect(() => {
-        console.log('배열 인덱스:', arrIdx, ', user아이디: ', eleIdx);
+        // console.log('배열 인덱스:', arrIdx, ', user아이디: ', eleIdx);
     }, [props]);
 
     return (

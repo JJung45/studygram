@@ -46,6 +46,8 @@ const AsideComponent = (props) => {
   });
 
   return (
+      // {
+      //     userIdx === '' ?
     <div className="main-right">
       <div className="myProfile">
         <a href={`/${user.userName}/`}>

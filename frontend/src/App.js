@@ -8,6 +8,7 @@ import MyPage from "./pages/MyPage";
 import PostPage from "./pages/PostPage";
 import CommentPage from "./pages/CommentPage";
 import RedirectPage from "./pages/RedirectPage";
+import SearchPage from "./pages/SearchPage";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/post" element={<PostPage />} />
         <Route path="/comment" element={<CommentPage />} />
         <Route path="/:userName/" element={<MyPage />} />
+        <Route path="/tagPost/:tagIdx" element={<SearchPage/>} />
       </Routes>
     </>
   );

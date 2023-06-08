@@ -6,6 +6,7 @@ import LikeApi from "../../lib/api/like";
 
 import PostComment from "./PostCommentComponent";
 import LikeModal from "./LikeModal";
+import {convertContentTag} from "../../module/utils/convertContentTag";
 
 import moment from "moment";
 
@@ -13,6 +14,7 @@ const Post = ({ data }) => {
   const [post, setPost] = useState(data);
   const [modalOpen, setModalOpen] = useState(false);
   const [likers, setLikers] = useState(null);
+  // const postTags = data.tags.length > 0 ? data.tags : [];
 
   const deleteLike = (data) => {
     const postIdx = data.idx;
@@ -166,7 +168,8 @@ const Post = ({ data }) => {
             <span className="point-span userID">
               {data.userName ?? "anoymous"}
             </span>
-            <span className="at-tag">{data.content}</span>
+            {/*<span className="at-tag">{data.content}</span>*/}
+            {convertContentTag(data.content, data.tags)}
           </p>
         </div>
         {data.commentCnt !== 0 && (
