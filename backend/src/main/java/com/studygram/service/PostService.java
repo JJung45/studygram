@@ -31,15 +31,20 @@ public class PostService {
         User user = userService.getUser();
         post.setUserIdx(user.getIdx());
         postMapper.save(post);
+        // 태그 내용 그대로 저장 (a태그로 변환하지않음)
+        tagService.saveTags(post);
 
+        /*
         List<String> tagList = tagService.saveTags(post);
-
         for(String tagContent : tagList) {
             String newContent = post.getContent().replace(tagContent, "<a link=''>"+tagContent+"</a>");
             post.setContent(newContent);
 
             postMapper.update(post);
         }
+
+         */
+
 
         imageUploadService.createPostImage(post, file);
 

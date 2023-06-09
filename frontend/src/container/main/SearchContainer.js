@@ -4,11 +4,7 @@ import SearchPage from "../../pages/SearchPage";
 
 const SearchContainer = () => {
     return (
-        <div>
-            <SearchBoxComponent></SearchBoxComponent>
-            <br/>
-            <SearchPage></SearchPage>
-        </div>
+        <SearchPage/>
     );
 };
 export default SearchContainer;
