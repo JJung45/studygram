@@ -1,5 +1,6 @@
 package com.studygram.service;
 
+import com.studygram.common.ApiResponse;
 import com.studygram.domain.*;
 import com.studygram.mapper.PostMapper;
 import lombok.RequiredArgsConstructor;
