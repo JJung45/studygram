@@ -9,7 +9,7 @@ export default function ErrorBoundary({ children }) {
 
     // e.reason이 Error의 인스턴스일 경우
     if (e.reason instanceof Error) {
-      window.alert(e.reason.message === "undefined" ? e.reason.response.data.message : e.reason.message);
+      window.alert(e.reason.response.data.message);
       navigate(-1);
     }
   };
