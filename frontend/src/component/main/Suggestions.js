@@ -5,7 +5,6 @@ const Suggestions = (props) => {
     const {eleImg, eleName, eleIdx, arrIdx, isFollow, followClick} = props;
 
     useEffect(() => {
-        // console.log('배열 인덱스:', arrIdx, ', user아이디: ', eleIdx);
     }, [props]);
 
     return (
@@ -18,7 +17,6 @@ const Suggestions = (props) => {
                 />
                 <div className="profile-text">
                     <span className="userID point-span">{eleName}</span>
-                    {/*<span className="sub-span">(이거하드코딩이다)hakyeong님 외 2명이 팔로우합니다</span>*/}
                 </div>
             </div>
             <div style={{

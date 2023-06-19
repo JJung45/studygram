@@ -74,7 +74,7 @@ const AsideComponent = (props) => {
                     isFollow={activeBtnArr[index]}
                     followClick={followClick}
                     eleIdx={ele.idx}
-                    eleName={ele.username}
+                    eleName={ele.userName}
                     eleImg={ele.profileImageUrl}
                 />
             ))}

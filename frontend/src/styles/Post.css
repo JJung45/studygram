@@ -358,7 +358,7 @@ ul.story-list .profile-text {
 }
 .profile-text {
   display: inline-block;
-  margin: 0 0 10px 8px;
+  margin: 8px 0 10px 8px;
 }
 .profile-text span {
   display: block;
