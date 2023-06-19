@@ -24,12 +24,12 @@ public class TagService {
     public List<String> saveTags(Post post) {
 
         String content = post.getContent();
-        String[] arr = content.split(" ");
-        List<String> tagList = Arrays.stream(arr)
-                .filter(string -> string.contains("#"))
-                .collect(Collectors.toList());
+//        String[] arr = content.split(" ");
+//        List<String> tagList = Arrays.stream(arr)
+//                .filter(string -> string.contains("#"))
+//                .collect(Collectors.toList());
 
-//        List<String> tagList = StringUtil.getTagsFromContent(content);
+        List<String> tagList = StringUtil.getTagsFromContent(content);
 
         // 게시물이 저장된 다음에 가져와야할듯!
         for(String tagContent : tagList) {
