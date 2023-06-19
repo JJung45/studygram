@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +30,9 @@ public class LikeServiceTest {
     Post originalPost;
 
     @Autowired
+    MockMultipartFile mockImage;
+
+    @Autowired
     LikeService likeService;
     int likeCount;
 
@@ -37,7 +41,7 @@ public class LikeServiceTest {
         originalPost = new Post();
         originalPost.setContent("test");
         originalPost.setUserIdx(userIdx);
-//        postService.save(originalPost);
+        postService.save(originalPost, mockImage);
 
         // TODO likeservice count 제작
         likeCount = likeService.countAll();

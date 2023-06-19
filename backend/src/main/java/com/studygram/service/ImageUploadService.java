@@ -45,4 +45,24 @@ public class ImageUploadService {
         imageMapper.save(newImage);
     }
 
+    // db에서는 자동으로 지워지구 aws 에서만 지우기
+    public void deletePostImage(Post post)
+    {
+        Image postImage = findByPostIdx(post.getIdx());
+        //deleteImage(postImage);
+
+        //aws 저장소에서 지우기
+        String originalFileName = postImage.getOriginalFilename();
+        amazonS3ResourceStorage.delete(originalFileName);
+    }
+
+    private Image findByPostIdx(int postIdx)
+    {
+        return imageMapper.findByPostIdx(postIdx);
+    }
+
+    private void deleteImage(Image image)
+    {
+        imageMapper.delete(image);
+    }
 }

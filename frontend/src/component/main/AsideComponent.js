@@ -4,11 +4,11 @@ import followAPI from "../../lib/api/follow";
 import Suggestions from "./Suggestions";
 import UserApi from "../../lib/api/user";
 
-const AsideComponent = () => {
+const AsideComponent = (props) => {
     // header에서 가져옴
-    const userIdx = window.localStorage.getItem("userIdx");
     const [suggestions, setSuggestions] = useState([]);
     const [activeBtnArr, setActiveBtnArr] = useState(Array(suggestions.length).fill(false));
+    const [userIdx, setUserIdx] = useState(props.userIdx);
 
     useEffect(() => {
         followAPI.getSuggestions(userIdx)
@@ -46,6 +46,8 @@ const AsideComponent = () => {
   });
 
   return (
+      // {
+      //     userIdx === '' ?
     <div className="main-right">
       <div className="myProfile">
         <a href={`/${user.userName}/`}>

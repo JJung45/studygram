@@ -22,7 +22,9 @@ public class User {
     String clientId;
     ProviderType providerType;
     RoleType roleType;
+    // profileimageurl google 소셜
     String profileImageUrl;
+
     // 프로필 메시지
     String profileMsg;
     int followingCnt;

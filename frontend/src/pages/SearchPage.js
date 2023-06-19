@@ -1,12 +1,15 @@
 import React, {useState, useEffect} from 'react';
-import SearchContainer from "../container/main/SearchContainer";
-import SearchBoxComponent from "../component/main/SearchBoxComponent";
-import SearchListComponent from "../component/main/SearchListComponent";
+import SearchPostComponent from "../component/main/SearchPostComponent";
+import NavContainer from "../container/main/NavContainer";
 
 const SearchPage = () => {
     return (
-        <SearchBoxComponent></SearchBoxComponent>
-
+        <>
+            <NavContainer/>
+            <main>
+                <SearchPostComponent/>
+            </main>
+        </>
     )
 };
 export default SearchPage;
