@@ -179,8 +179,8 @@ const Post = ({ data }) => {
         )}
         <div className="comment-section">
           <div>
-            {post.comments?.map((comment) => (
-              <PostComment data={comment}></PostComment>
+            {post.comments?.map((comment, idx) => (
+              <PostComment data={comment} key={idx}></PostComment>
             ))}
           </div>
           <div className="time-log">

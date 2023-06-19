@@ -1,8 +1,6 @@
 import React, {useState} from "react";
 import SavePostModal from "./SavePostModal";
 import SearchBoxComponent from "./SearchBoxComponent";
-import SidebarComponent from "./SidebarComponent";
-import SearchListComponent from "./SearchListComponent";
 
 const NavComponent = () => {
     // useState를 사용하여 open상태를 변경한다. (open일때 true로 만들어 열리는 방식)
