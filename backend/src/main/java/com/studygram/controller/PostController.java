@@ -28,13 +28,8 @@ public class PostController {
     @PostMapping(path = "/save")
     public ApiResponse<Post> addPost(HttpServletRequest request,
                                @RequestParam(value="fileImage") MultipartFile file, Post post) throws Exception {
-        // TODO catch로 에러 잡기 -> error 스크린은 리액트에서 기본 제공해주는 에러 페이지라고 함...(근데 왜 갑자기 이제 와서..?) APIResponse 캐치처리 필요
-        try {
-            Post newPost = postService.save(post, file);
-            return ApiResponse.success(HttpStatus.OK.name(), newPost);
-        } catch (Exception e) {
-            return ApiResponse.fail(e.getMessage());
-        }
+        Post newPost = postService.save(post, file);
+        return ApiResponse.success(HttpStatus.OK.name(), newPost);
     }
 
     // TODO @PathVariable(name="postIdx")?
