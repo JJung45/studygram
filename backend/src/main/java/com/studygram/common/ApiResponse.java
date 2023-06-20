@@ -1,6 +1,7 @@
 package com.studygram.common;
 
 import com.studygram.common.oauth.ApiResponseHeader;
+import lombok.Data;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -9,6 +10,7 @@ import java.util.Map;
 
 @Getter
 @RequiredArgsConstructor
+@Data
 public class ApiResponse<T> {
 
     private final static int SUCCESS = 200;
@@ -34,6 +36,10 @@ public class ApiResponse<T> {
 
     public static <T> ApiResponse<T> fail() {
         return new ApiResponse(new ApiResponseHeader(FAILED, FAILED_MESSAGE), null);
+    }
+
+    public static <T> ApiResponse<T> fail(String message) {
+        return new ApiResponse<>(new ApiResponseHeader(FAILED, message), null);
     }
 
     public static <T> ApiResponse<T> invalidAccessToken() {
