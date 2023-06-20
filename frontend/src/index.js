@@ -21,10 +21,6 @@ ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
       <App/>
-     {//TODO 얘가 필요할까? axios response error로 처리하면 <ErrorBoundary>
-        //<App />
-      //</ErrorBoundary>
-    }
     </BrowserRouter>
   </Provider>,
   document.getElementById('root'),

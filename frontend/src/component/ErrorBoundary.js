@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { axios } from 'axios';
 
+// TODO 지울지 고민
 export default function ErrorBoundary({ children }) {
 
   const navigate = useNavigate();
