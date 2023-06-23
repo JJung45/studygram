@@ -130,6 +130,7 @@ article,
   border: 1px solid #dbdbdb;
 }
 article {
+  padding: 16px;
   margin-bottom: 60px;
 }
 .section-story,
@@ -147,8 +148,7 @@ article {
 }
 /* article */
 header {
-  height: 60px;
-  padding: 0 16px;
+  padding: 10px 0 20px 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -174,7 +174,6 @@ header {
 }
 .icons-react {
   height: 40px;
-  padding: 0 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -189,10 +188,6 @@ header {
 }
 .icons-left .icon-react {
   margin-right: 12px;
-}
-/* article text data */
-.reaction {
-  padding: 0 16px;
 }
 .liked-people {
   display: flex;
