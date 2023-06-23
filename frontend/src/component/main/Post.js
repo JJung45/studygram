@@ -120,15 +120,17 @@ const Post = ({ data }) => {
           alt="more"
         />
       </header>
+      <div className="main-image-div">
       <Link to={"/post/" + data.idx} state={data}>
         <div className="main-image">
           <img
             src={post.storePath}
-            alt={post.userName + "님의 피드 사진"}
+            alt={post.storePath}
             className="mainPic"
           />
         </div>
       </Link>
+      </div>
       <div className="icons-react">
         <div className="icons-left">
           {!post.hasLiked && (
@@ -192,11 +194,6 @@ const Post = ({ data }) => {
             </div>
             )
           }
-          {data.commentCnt !== 0 && (
-          <Link to={"/comment?postId=" + data.idx} state={{ data: data.idx }}>
-            <span>View all {data.commentCnt} comments </span>
-          </Link>
-        )}
         <div className="description">
           <p>
             <span className="point-span userID">
@@ -205,6 +202,14 @@ const Post = ({ data }) => {
             {/*<span className="at-tag">{data.content}</span>*/}
             {convertContentTag(data.content, data.tags)}
           </p>
+        </div>
+
+        <div>
+        {data.commentCnt !== 0 && (
+          <Link to={"/comment?postId=" + data.idx} state={{ data: data.idx }}>
+            <span>View all {data.commentCnt} comments </span>
+          </Link>
+        )}
         </div>
         
               <div>

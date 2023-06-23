@@ -133,6 +133,12 @@ article {
   padding: 16px;
   margin-bottom: 60px;
 }
+article>div {
+  padding-bottom: 8px;
+}
+article>div.time-log {
+  padding-bottom: 0;
+}
 .section-story,
 .section-recommend {
   width: 310px;
@@ -163,8 +169,18 @@ header {
   border: 1px solid #fafafa;
   border-radius: 100%;
 }
-.main-image img {
-  width: 612px;
+.main-image-div {
+  display: flex;
+  padding:0;
+}
+.main-image-div>a{
+  flex-grow: 1;
+}
+.main-image-div div.main-image {
+  display: flex;
+}
+.main-image-div div.main-image img {
+  flex-grow: 1;
 }
 .main-id {
   margin-left: 14px;
@@ -241,9 +257,6 @@ ul.comments li {
 img.comment-heart {
   width: 12px;
   height: 12px;
-}
-div.time-log {
-  margin-bottom: 8px;
 }
 div.time-log span {
   height: 18px;
