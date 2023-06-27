@@ -17,6 +17,7 @@ const Post = ({ data }) => {
   const [comment, setComment] = useState({
     content: "",
   });
+  const [commentOpen,setCommentOpen] = useState(false);
   // const postTags = data.tags.length > 0 ? data.tags : [];
 
   const deleteLike = (data) => {
@@ -65,11 +66,16 @@ const Post = ({ data }) => {
     setModalOpen(false);
   };
 
-  const handleInput = (e) => {
+  const handleChange = (e) => {
+    if (e.target.value == "" ){
+      setCommentOpen(false);
+    } else {
+      setCommentOpen(true);
+    }
     setComment({
       content: e.target.value,
     });
-  };
+  }
 
   const addComment = async () => {
     await commentAPI
@@ -203,26 +209,26 @@ const Post = ({ data }) => {
             {convertContentTag(data.content, data.tags)}
           </p>
         </div>
-
-        <div>
+        <div className="comments">
         {data.commentCnt !== 0 && (
           <Link to={"/comment?postId=" + data.idx} state={{ data: data.idx }}>
             <span>View all {data.commentCnt} comments </span>
           </Link>
         )}
         </div>
-        
-              <div>
-                <input
-                  className="comments-header-textarea"
-                  id="content"
-                  type="text"
-                  value={comment.content}
-                  onChange={handleInput}
-                  placeholder="댓글을 입력하세요"
-                />
-                <button onClick={addComment}>입력</button>
-                </div>
+        <div className="add-comment">
+          <input
+            className="comments-header-textarea"
+            id="content"
+            type="text"
+            value={comment.content}
+            onChange={(event) => {
+              handleChange(event);
+            }}
+            placeholder="Add a comment"
+          />
+          {commentOpen && (<button onClick={addComment}>입력</button>)}
+          </div>
       <div className="time-log">
       <span>{ getTimeDifference(post) }</span>
     </div>

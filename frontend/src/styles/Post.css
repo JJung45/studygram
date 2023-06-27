@@ -228,6 +228,26 @@ header {
   align-items: center;
   height: 18px;
 }
+.comments a {
+  text-decoration: none;
+  color: gray;
+}
+.addcomment {
+  display: none;
+}
+.addcomment.visible {
+  display: block;
+}
+.add-comment {
+  display: flex;
+}
+.add-comment input {
+    flex-grow: 1;
+    border: none;
+    font-size: 12px;
+    padding: 0;
+    color: gray;
+}
 span.at-tag {
   color: #00376b;
 }
