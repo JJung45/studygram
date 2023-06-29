@@ -7,6 +7,7 @@ const NavComponent = () => {
     const [modalOpen, setModalOpen] = useState(false);
 
     const openModal = () => {
+        document.body.style= `overflow: hidden`;
         setModalOpen(true);
     };
     const closeModal = () => {
