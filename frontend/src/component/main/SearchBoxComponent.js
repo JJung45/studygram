@@ -13,7 +13,7 @@ const SearchBoxComponent = () => {
     const [userList, setUserList] = useState([]);
 
     const onKeywordChange = (e) => {
-        console.log('검색', keyword);
+        // console.log('검색', keyword);
         setKeyword(e.target.value);
         if(keyword.length === 0) {
             // setSearchList([]);
@@ -23,7 +23,7 @@ const SearchBoxComponent = () => {
     };
 
     useEffect(() => {
-        console.log('검색',keyword);
+        // console.log('검색',keyword);
         if(keyword.length === 0) {
             // setSearchList([]);
             setTagList([]);
@@ -38,7 +38,7 @@ const SearchBoxComponent = () => {
             //     });
             searchAPI.searchBoth(keyword)
                 .then((res) => {
-                    console.log('검색결과: ', res.data.body.searchList);
+                    // console.log('검색결과: ', res.data.body.searchList);
                     // user || tag
                     const resultList = res.data.body.searchList;
                     const tags = resultList.tagList;
@@ -70,8 +70,8 @@ const SearchBoxComponent = () => {
                         <span className="s_header">{humanReadable(userList.length+tagList.length, 'results')}</span>
                         {tagList.map((item, idx) => {
                             return (
-                                <>
-                                    <div className="s_d_peo" key={idx + item.idx} onClick={() => resetResList()}>
+                                <div key={idx + item.idx}>
+                                    <div className="s_d_peo" onClick={() => resetResList()}>
                                         <Link className="s_d_p" to={"/tagPost/" + item.idx}
                                               style={{textDecoration: "none", color: "black", fontSize: "13px"}}>
                                             {/*뒤로가기 시 자동완성 남아있는 경우 비워주는 코드*/}
@@ -83,14 +83,13 @@ const SearchBoxComponent = () => {
                                                 </div>
                                             </Fragment>
                                         </Link>
-
                                     </div>
-                                </>
+                                </div>
                             )
                         })}
                         {userList.map((item, idx) => {
                             return (
-                                <>
+                                <div key={idx + item.idx}>
                                     <div className="s_d_peo" key={idx + item.idx} onClick={() => resetResList()}>
                                         <Link className="s_d_p" to={"/" + item.userName}>
                                             <Fragment>
@@ -102,7 +101,7 @@ const SearchBoxComponent = () => {
                                             </Fragment>
                                         </Link>
                                     </div>
-                                </>
+                                </div>
                             )
                         })}
                     </div>

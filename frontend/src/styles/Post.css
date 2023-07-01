@@ -130,7 +130,14 @@ article,
   border: 1px solid #dbdbdb;
 }
 article {
+  padding: 16px;
   margin-bottom: 60px;
+}
+article>div {
+  padding-bottom: 8px;
+}
+article>div.time-log {
+  padding-bottom: 0;
 }
 .section-story,
 .section-recommend {
@@ -147,8 +154,7 @@ article {
 }
 /* article */
 header {
-  height: 60px;
-  padding: 0 16px;
+  padding: 10px 0 20px 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -163,8 +169,18 @@ header {
   border: 1px solid #fafafa;
   border-radius: 100%;
 }
-.main-image img {
-  width: 612px;
+.main-image-div {
+  display: flex;
+  padding:0;
+}
+.main-image-div>a{
+  flex-grow: 1;
+}
+.main-image-div div.main-image {
+  display: flex;
+}
+.main-image-div div.main-image img {
+  flex-grow: 1;
 }
 .main-id {
   margin-left: 14px;
@@ -174,7 +190,6 @@ header {
 }
 .icons-react {
   height: 40px;
-  padding: 0 16px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -189,10 +204,6 @@ header {
 }
 .icons-left .icon-react {
   margin-right: 12px;
-}
-/* article text data */
-.reaction {
-  padding: 0 16px;
 }
 .liked-people {
   display: flex;
@@ -216,6 +227,26 @@ header {
   display: flex;
   align-items: center;
   height: 18px;
+}
+.comments a {
+  text-decoration: none;
+  color: gray;
+}
+.addcomment {
+  display: none;
+}
+.addcomment.visible {
+  display: block;
+}
+.add-comment {
+  display: flex;
+}
+.add-comment input {
+    flex-grow: 1;
+    border: none;
+    font-size: 12px;
+    padding: 0;
+    color: gray;
 }
 span.at-tag {
   color: #00376b;
@@ -246,9 +277,6 @@ ul.comments li {
 img.comment-heart {
   width: 12px;
   height: 12px;
-}
-div.time-log {
-  margin-bottom: 8px;
 }
 div.time-log span {
   height: 18px;
@@ -358,7 +386,7 @@ ul.story-list .profile-text {
 }
 .profile-text {
   display: inline-block;
-  margin: 0 0 10px 8px;
+  margin: 8px 0 10px 8px;
 }
 .profile-text span {
   display: block;

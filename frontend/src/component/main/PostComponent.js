@@ -10,8 +10,6 @@ const PostComponent = () => {
   const nextData = () => {
     PostApi.getPosts().then((res) => {
       setData(res.data);
-      //leehyeji
-      console.log('태그 확인용', res.data);
     });
   };
 
