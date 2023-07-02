@@ -71,7 +71,7 @@ const SavePostModal = (props) => {
       };  
   
       return (
-        <div className={open ? 'openModal modal' : 'modal'}>
+        <div className={open ? 'openModal modal savepost' : 'modal savepost'}>
           {open ? (
             <section>
               <form onSubmit={onClickWrite} method="post" className="Write"  encType="multipart/form-data">
