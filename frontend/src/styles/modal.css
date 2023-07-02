@@ -208,3 +208,30 @@ button {
     opacity: 1;
   }
 }
+
+.modal.savepost section{
+  display: flex;
+  flex-grow: 1;
+  padding: 0;
+  margin: 0 auto;
+}
+
+.modal.savepost section form {
+  flex-grow: 1;
+}
+
+.modal.savepost section form header {
+  display: flex;
+  justify-content: normal;
+  align-items: baseline;
+  font-size: 15px;
+  padding: 20px 0 20px 10px;
+}
+
+.modal.savepost section form main {
+  height: 80%;
+}
+
+.modal.savepost section form footer {
+  padding: 20px 10px 20px 0;
+}
