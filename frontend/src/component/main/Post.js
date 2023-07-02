@@ -1,24 +1,27 @@
-import React, {useState} from "react";
-import {Link} from "react-router-dom";
+import React, { useState,useEffect } from "react";
+import { Link } from "react-router-dom";
 
 import PostApi from "../../lib/api/post";
 import LikeApi from "../../lib/api/like";
 import CommentApi from "../../lib/api/comment";
 
-import PostComment from "./PostCommentComponent";
 import LikeModal from "./LikeModal";
 import {convertContentTag} from "../../module/utils/convertContentTag";
 
 import moment from "moment";
 import PostModal from "../auth/PostModal";
 
-const Post = ({data}) => {
-    const [post, setPost] = useState(data);
-    const [modalOpen, setModalOpen] = useState(false);
-    const [likers, setLikers] = useState(null);
-    const [postModalOpen, setPostModalOpen] = useState(false);
-    const [selectedPost, setSelectedPost] = useState(null);
-    const [comment, setComment] = useState('');
+const Post = ({ data }) => {
+  const [post, setPost] = useState(data);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [likers, setLikers] = useState(null);
+  const [comments, setComments] = useState(null);
+  const [comment, setComment] = useState({
+    content: "",
+  });
+  const [commentOpen,setCommentOpen] = useState(false);
+  const [postModalOpen, setPostModalOpen] = useState(false);
+  const [selectedPost, setSelectedPost] = useState(null);
 
     const deleteLike = (data) => {
         const postIdx = data.idx;
