@@ -20,9 +20,7 @@ const store = createStore(
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
-      <ErrorBoundary>
-        <App />
-      </ErrorBoundary>
+      <App/>
     </BrowserRouter>
   </Provider>,
   document.getElementById('root'),

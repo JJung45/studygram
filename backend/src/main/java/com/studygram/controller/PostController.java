@@ -26,9 +26,8 @@ public class PostController {
     private PostService postService;
 
     @PostMapping(path = "/save")
-    public ApiResponse addPost(HttpServletRequest request,
-                               @RequestParam(value="fileImage") MultipartFile file, Post post) {
-        // TODO catch로 에러 잡기
+    public ApiResponse<Post> addPost(HttpServletRequest request,
+                               @RequestParam(value="fileImage") MultipartFile file, Post post) throws Exception {
         Post newPost = postService.save(post, file);
         return ApiResponse.success(HttpStatus.OK.name(), newPost);
     }
