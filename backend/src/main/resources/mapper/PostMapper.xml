@@ -16,6 +16,7 @@
         <result column="updated_date" property="updatedDate"/>
         <result column="has_liked" property="hasLiked"></result>
         <result column="top_liker" property="topLiker"></result>
+        <result column="store_path" property="storePath"></result>
         <collection property="tags" column="idx" javaType="java.util.ArrayList" ofType="com.studygram.domain.PostTag" select="com.studygram.mapper.PostTagMapper.findTags" />
         <collection property="likes" column="idx" javaType="java.util.ArrayList" ofType="com.studygram.domain.Like" select="com.studygram.mapper.LikeMapper.findLikes" />
         <collection property="likeCnt" column="idx" select="com.studygram.mapper.LikeMapper.findLikesCntByPostIdx"/>
@@ -24,12 +25,13 @@
     </resultMap>
 
     <select id="findById" parameterType="Integer" resultMap="postResultMap">
-        select post.idx as idx, post.user_idx as user_idx, `user`.user_name as user_name, post.content as content, post.created_date as created_date, post.updated_date as updated_date
+        select post.idx as idx, post.user_idx as user_idx, `user`.user_name as user_name, post.content as content, post.created_date as created_date, post.updated_date as updated_date, image.store_path as store_path
             from post
                 left join `user` on post.user_idx = `user`.idx
                 left join post_tag on post_tag.post_idx = post.idx
                 left join `like` on `like`.post_idx = post.idx
                 left join comment on comment.post_idx = post.idx
+            left join image on post.idx = image.post_idx
             where 1 = 1
               and post.idx = #{idx}
             group by post.idx
@@ -37,22 +39,19 @@
     </select>
 
     <select id="findByIds" parameterType="Integer" resultMap="postResultMap">
-        select post.idx as idx, post.user_idx as user_idx, `user`.user_name as user_name, post.content as content, post.created_date as created_date, post.updated_date as updated_date,
-        (select if(count(*) = 1, 1, 0)
-        from `like`
-        where post_idx = #{postIdx} AND user_idx = #{userIdx}) AS has_liked,
-        (SELECT user_name
-        FROM `like`
-        LEFT JOIN `user` ON like.user_idx = `user`.idx
-        WHERE post_idx = 1 LIMIT 1 OFFSET 0) AS top_liker
+        select post.idx as idx, post.user_idx as user_idx, `user`.user_name as user_name, post.content as content, post.created_date as created_date, post.updated_date as updated_date, image.store_path as store_path,
+               (select if(count(*) = 1, 1, 0)
+                from `like`
+                where post_idx =110 AND user_idx = 3) AS has_liked,
+               (SELECT user_name
+                FROM `like`
+                         LEFT JOIN `user` ON like.user_idx = `user`.idx
+                WHERE post_idx = 110 LIMIT 1 OFFSET 0) AS top_liker
         from post
-        left join `user` on post.user_idx = `user`.idx
-        left join post_tag on post_tag.post_idx = post.idx
-        left join `like` on `like`.post_idx = post.idx
-        left join comment on comment.post_idx = post.idx
+            left join `user` on post.user_idx = `user`.idx
+            join image on post.idx = image.post_idx
         where 1 = 1
-        and post.idx = #{postIdx}
-        group by post.idx
+          and post.idx = #{idx}
         order by post.idx desc
     </select>
 
@@ -67,8 +66,6 @@
         FROM post
         LEFT JOIN `user` ON post.user_idx = `user`.idx
         LEFT JOIN post_tag ON post_tag.post_idx = post.idx
-        LEFT JOIN `like` ON `like`.post_idx = post.idx
-        LEFT JOIN comment ON comment.post_idx = post.idx
         LEFT JOIN image ON image.post_idx = post.idx
         <where>
             <if test="clientId != null">

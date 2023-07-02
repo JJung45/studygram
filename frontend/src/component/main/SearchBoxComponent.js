@@ -1,7 +1,7 @@
 import React, {useState, useEffect, Fragment} from 'react';
 import searchAPI from "../../lib/api/search"
 import {Link} from "react-router-dom";
-import "../../styles/search.scss";
+import "../../styles/search.css";
 import "../../module/utils/utils";
 import {humanReadable} from "../../module/utils/utils";
 import {FaHashtag} from "react-icons/fa";

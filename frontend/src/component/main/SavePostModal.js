@@ -45,6 +45,11 @@ const SavePostModal = (props) => {
         e.preventDefault();
         addPost(post);      
       };
+
+      const captureReject = (e) => {
+        // 이벤트 버블링 방지
+        e.preventDefault();
+      };
       
       const addPost = async(post) => {
           let formData = new FormData();
@@ -56,11 +61,17 @@ const SavePostModal = (props) => {
           .then(() => {
               document.location.href = '/post'
           })
+          // .catch(error => {
+          //   // Promise에서 발생한 에러를 처리합니다.
+          //   console.error(error);
+          //   // 에러 스크린을 구성하거나 다른 작업을 수행할 수 있습니다.
+          //   // 예를 들어, 상태를 업데이트하여 에러 메시지를 보여줄 수 있습니다.
+          // });
       
       };  
   
       return (
-        <div className={open ? 'openModal modal' : 'modal'}>
+        <div className={open ? 'openModal modal savepost' : 'modal savepost'}>
           {open ? (
             <section>
               <form onSubmit={onClickWrite} method="post" className="Write"  encType="multipart/form-data">
