@@ -3,6 +3,7 @@ package com.studygram.service;
 import com.studygram.common.ApiResponse;
 import com.studygram.common.SimplePageRequest;
 import com.studygram.domain.Comment;
+import com.studygram.domain.NotificationType;
 import com.studygram.domain.User;
 import com.studygram.mapper.CommentMapper;
 import com.studygram.utils.TimeUtil;
@@ -23,6 +24,9 @@ public class CommentService {
     private PostService postService;
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private NotificationService notificationService;
 
     @Autowired
     public CommentService(CommentMapper commentMapper, PostService postService) {
@@ -70,6 +74,7 @@ public class CommentService {
         User user = userService.getUser(userDetails.getUsername());
         comment.setUserIdx(user.getIdx());
         comment.setUserName(user.getUserName());
+        notificationService.send(user.getIdx(), user.getIdx(), NotificationType.COMMENT);
         if(commentMapper.save(comment) < 0) {
             ApiResponse.fail();
         }

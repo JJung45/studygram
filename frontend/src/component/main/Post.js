@@ -5,9 +5,9 @@ import PostApi from "../../lib/api/post";
 import LikeApi from "../../lib/api/like";
 import CommentApi from "../../lib/api/comment";
 
+
 import LikeModal from "./LikeModal";
 import {convertContentTag} from "../../module/utils/convertContentTag";
-
 import moment from "moment";
 import PostModal from "../auth/PostModal";
 
@@ -29,15 +29,16 @@ const Post = ({data}) => {
         });
     };
 
-    const saveLike = async (data) => {
-        const postIdx = data.idx;
-        const like = {
-            postIdx: postIdx,
-        };
-        const save = await LikeApi.save(like).then(() => {
-            reloadPost(postIdx);
-        });
+  const saveLike = async (data) => {
+    const postIdx = data.idx;
+    const like = {
+      postUserIdx: data.userIdx,
+      postIdx: postIdx,
     };
+    const save = await LikeApi.save(like).then(() => {
+      reloadPost(postIdx);
+    });
+  };
 
     const reloadPost = async (postIdx) => {
         const newPost = await PostApi.getPost(postIdx).then((result) => {

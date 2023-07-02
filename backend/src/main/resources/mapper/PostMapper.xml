@@ -39,20 +39,28 @@
     </select>
 
     <select id="findByIds" parameterType="Integer" resultMap="postResultMap">
-        select post.idx as idx, post.user_idx as user_idx, `user`.user_name as user_name, post.content as content, post.created_date as created_date, post.updated_date as updated_date, image.store_path as store_path,
-               (select if(count(*) = 1, 1, 0)
-                from `like`
-                where post_idx =110 AND user_idx = 3) AS has_liked,
-               (SELECT user_name
-                FROM `like`
-                         LEFT JOIN `user` ON like.user_idx = `user`.idx
-                WHERE post_idx = 110 LIMIT 1 OFFSET 0) AS top_liker
-        from post
-            left join `user` on post.user_idx = `user`.idx
-            join image on post.idx = image.post_idx
-        where 1 = 1
-          and post.idx = #{idx}
-        order by post.idx desc
+        SELECT
+            post.idx AS idx,
+            post.user_idx AS user_idx,
+            `user`.user_name AS user_name,
+            post.content AS content,
+            post.created_date AS created_date,
+            post.updated_date AS updated_date,
+            image.store_path AS store_path,
+            `user`.profile_image_url,
+            (SELECT IF(COUNT(*) = 1, 1, 0)
+            FROM `like`
+            WHERE post_idx = #{postIdx} AND user_idx = #{userIdx}) AS has_liked,
+            (SELECT user_name
+            FROM `like`
+            LEFT JOIN `user` ON like.user_idx = `user`.idx
+            WHERE post_idx = #{postIdx} LIMIT 1 OFFSET 0) AS top_liker
+        FROM
+            post
+        LEFT JOIN `user` ON post.user_idx = `user`.idx
+        LEFT JOIN image ON post.idx = image.post_idx
+        WHERE 1 = 1 AND post.idx = #{postIdx}
+        ORDER BY post.idx DESC;
     </select>
 
     <select id="findByUserInfo" parameterType="String" resultMap="postResultMap">
@@ -65,7 +73,7 @@
         WHERE post_idx = post.idx LIMIT 1 OFFSET 0) AS top_liker
         FROM post
         LEFT JOIN `user` ON post.user_idx = `user`.idx
-        LEFT JOIN post_tag ON post_tag.post_idx = post.idx
+        LEFT JOIN post_tag ON post_tag.post_idx = post.id
         LEFT JOIN image ON image.post_idx = post.idx
         <where>
             <if test="clientId != null">
