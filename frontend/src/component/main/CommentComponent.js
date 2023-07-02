@@ -15,7 +15,6 @@ import commentAPI from "../../lib/api/comment";
 import { useLocation, useNavigate } from "react-router-dom";
 // import DisabledByDefaultOutlinedIcon from "@mui/icons-material/DisabledByDefaultOutlined";
 // import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-// import "../../styles/Comment.scss"
 import styled from "styled-components";
 
 const CommentComponent = forwardRef((props, ref) => {

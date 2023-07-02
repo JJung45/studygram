@@ -10,6 +10,7 @@ const BoardComponent = () => {
 
   const [posts, setPosts] = useState(async () => {
     await PostApi.getPostsByUserName(userName).then((res) => {
+      console.log('reee', res.data);
       setPosts(res.data);
     });
   });
@@ -38,7 +39,7 @@ const BoardComponent = () => {
             <div
               className="gallery-item"
               tabIndex={post.index}
-              key={post.index+index}
+              key={post.idx}
               onClick={(event) => {
                 openModal(post, event);
               }}
