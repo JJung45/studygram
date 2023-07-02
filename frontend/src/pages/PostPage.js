@@ -10,7 +10,7 @@ const PostPage = () => {
 
   return (
     <>
-      <NavContainer />
+        <NavContainer />
       <main>
         <PostContainer />
         {

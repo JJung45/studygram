@@ -2,7 +2,8 @@ button {
   border: 0;
   order: 0;
   background: white;
-  height: 22px;
+  /*height: 22px;*/
+  font-weight: bold;
   cursor: pointer;
 }
 
@@ -22,9 +23,12 @@ button {
   border: 0;
 }
 .modal > section {
-  width: 90%;
+  width: 100%;
   max-width: 800px;
+  height: 80%;
   margin: 0 auto;
+  padding-top: 40px;
+  padding-bottom: 40px;
   border-radius: 0.3rem;
   background-color: #fff;
   /* 팝업이 열릴때 스르륵 열리는 효과 */
@@ -137,14 +141,53 @@ button {
 
 .postModal {
   display: flex;
+  /*height: 100%;*/
 }
 
 .postModal > .file {
   flex-grow: 1;
 }
 
+.postModal > .file > img {
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-size: contain;
+  padding: 10px;
+}
+
 .postModal > .postContent {
   flex-grow: 1;
+  color: black;
+}
+.postModal > .postContent > textarea {
+  height: 85%;
+}
+.postModal > .postContent > .myProfile {
+  height: 20px;
+  padding: 0;
+}
+.postModal > .postContent > .myProfile > img {
+  width: 30px;
+  height: 30px;
+  margin: 0;
+}
+.postModal > .postContent > .myProfile > div {
+  margin-left: 10px;
+}
+
+.modal > section > button {
+  padding: 16px 64px 16px 16px;
+  font-weight: 700;
+  height: 20px;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  width: 30px;
+  font-size: 21px;
+  text-align: center;
+  color: #fff;
+  background-color: transparent;
 }
 
 @keyframes modal-show {

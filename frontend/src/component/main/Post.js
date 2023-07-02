@@ -1,18 +1,24 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import PostApi from "../../lib/api/post";
 import LikeApi from "../../lib/api/like";
 
-import PostComment from "./PostCommentComponent";
 import LikeModal from "./LikeModal";
-
+import {convertContentTag} from "../../module/utils/convertContentTag";
+import commentAPI from "../../lib/api/comment";
 import moment from "moment";
 
 const Post = ({ data }) => {
   const [post, setPost] = useState(data);
   const [modalOpen, setModalOpen] = useState(false);
   const [likers, setLikers] = useState(null);
+  const [comments, setComments] = useState(null);
+  const [comment, setComment] = useState({
+    content: "",
+  });
+  const [commentOpen,setCommentOpen] = useState(false);
+  // const postTags = data.tags.length > 0 ? data.tags : [];
 
   const deleteLike = (data) => {
     const postIdx = data.idx;
@@ -60,6 +66,32 @@ const Post = ({ data }) => {
     setModalOpen(false);
   };
 
+  const handleChange = (e) => {
+    if (e.target.value == "" ){
+      setCommentOpen(false);
+    } else {
+      setCommentOpen(true);
+    }
+    setComment({
+      content: e.target.value,
+    });
+  }
+
+  const addComment = async () => {
+    await commentAPI
+      .addComment({
+        postIdx: post.idx,
+        content: comment.content,
+      })
+      .then(async () => {
+        await commentAPI.getComments(post.idx).then((result) => {
+          setComments(result.data);
+        });
+      })
+      .catch((err) => {
+        console.log("Add New Comment Failed!", err);
+      });
+  };
   
  const getTimeDifference = (post) => {
     const diffInMinutes =  moment().diff(moment(post.createdDate), "minutes");
@@ -94,15 +126,17 @@ const Post = ({ data }) => {
           alt="more"
         />
       </header>
+      <div className="main-image-div">
       <Link to={"/post/" + data.idx} state={data}>
         <div className="main-image">
           <img
             src={post.storePath}
-            alt={post.userName + "님의 피드 사진"}
+            alt={post.storePath}
             className="mainPic"
           />
         </div>
       </Link>
+      </div>
       <div className="icons-react">
         <div className="icons-left">
           {!post.hasLiked && (
@@ -140,52 +174,64 @@ const Post = ({ data }) => {
           alt="북마크"
         />
       </div>
-      <div className="reaction">
-        <div className="liked-people">
-          <img
-            className="pic"
-            src="https://cdn4.iconfinder.com/data/icons/48-bubbles/48/30.User-512.png"
-            alt="test님의 프로필 사진"
-          />
-        </div>
-        <p
-          onClick={(event) => {
-            openModal(post, event);
-          }}
-        >
-          {likeMessage(post)}
-        </p>
-        <LikeModal
-          open={modalOpen}
-          close={closeModal}
-          header="좋아요"
-          likers={likers}
-        ></LikeModal>
+        {
+           likeMessage(post) && (
+              <div className="reaction">
+              <div className="liked-people">
+                <img
+                  className="pic"
+                  src="https://cdn4.iconfinder.com/data/icons/48-bubbles/48/30.User-512.png"
+                  alt="test님의 프로필 사진"
+                />
+                <span
+                onClick={(event) => {
+                  openModal(post, event);
+                }}
+              >
+                {likeMessage(post)}
+              </span>
+              </div>
+              <LikeModal
+                open={modalOpen}
+                close={closeModal}
+                header="좋아요"
+                likers={likers}
+              ></LikeModal>
+            </div>
+            )
+          }
         <div className="description">
           <p>
             <span className="point-span userID">
               {data.userName ?? "anoymous"}
             </span>
-            <span className="at-tag">{data.content}</span>
+            {/*<span className="at-tag">{data.content}</span>*/}
+            {convertContentTag(data.content, data.tags)}
           </p>
         </div>
+        <div className="comments">
         {data.commentCnt !== 0 && (
           <Link to={"/comment?postId=" + data.idx} state={{ data: data.idx }}>
             <span>View all {data.commentCnt} comments </span>
           </Link>
         )}
-        <div className="comment-section">
-          <div>
-            {post.comments?.map((comment) => (
-              <PostComment data={comment}></PostComment>
-            ))}
-          </div>
-          <div className="time-log">
-            <span>{ getTimeDifference(post) }</span>
-          </div>
         </div>
-      </div>
-      <div className="hl"></div>
+        <div className="add-comment">
+          <input
+            className="comments-header-textarea"
+            id="content"
+            type="text"
+            value={comment.content}
+            onChange={(event) => {
+              handleChange(event);
+            }}
+            placeholder="Add a comment"
+          />
+          {commentOpen && (<button onClick={addComment}>입력</button>)}
+          </div>
+      <div className="time-log">
+      <span>{ getTimeDifference(post) }</span>
+    </div>
     </article>
   );
 };

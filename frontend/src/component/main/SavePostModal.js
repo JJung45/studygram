@@ -80,7 +80,8 @@ const SavePostModal = (props) => {
                           id="fileImage"
                           onChange={saveFileImage} multiple />
                       {imgBase64 && 
-                      (<div style={{ backgroundImage: "url("+imgBase64+")", backgroundRepeat: "no-repeat", backgroundSize : "cover", height : "100%"}}></div>)}
+                      // (<div style={{ backgroundImage: "url("+imgBase64+")", backgroundRepeat: "no-repeat", backgroundSize : "cover", height : "100%"}}></div>)}
+                      (<div style={{ background: `url(${imgBase64}) no-repeat center center / contain`, width:"100%", height : "100%"}}></div>)}
                     </div>
                   </div>
                   <div className="postContent">

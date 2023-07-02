@@ -38,7 +38,7 @@ const BoardComponent = () => {
             <div
               className="gallery-item"
               tabIndex={post.index}
-              key={post.index}
+              key={post.index+index}
               onClick={(event) => {
                 openModal(post, event);
               }}
@@ -62,11 +62,7 @@ const BoardComponent = () => {
                   </li>
                   <li className="gallery-item-comments">
                     <span className="visually-hidden">Comments:</span>
-                    <img
-                      className="icon-react"
-                      src="https://cdn0.iconfinder.com/data/icons/font-awesome-solid-vol-1/512/comment-512.png"
-                      alt="말풍선"
-                    />
+                    <i className="ri-chat-3-fill ri-admin-line ri-xl"></i>
                     {post.commentCnt}
                   </li>
                 </ul>

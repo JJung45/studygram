@@ -46,6 +46,8 @@ const AsideComponent = (props) => {
   });
 
   return (
+      // {
+      //     userIdx === '' ?
     <div className="main-right">
       <div className="myProfile">
         <a href={`/${user.userName}/`}>
@@ -72,7 +74,7 @@ const AsideComponent = (props) => {
                     isFollow={activeBtnArr[index]}
                     followClick={followClick}
                     eleIdx={ele.idx}
-                    eleName={ele.username}
+                    eleName={ele.userName}
                     eleImg={ele.profileImageUrl}
                 />
             ))}
