@@ -1,10 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.studygram.mapper.NotificationMapper">
+    <resultMap id="notificationResultMap" type="com.studygram.domain.Notification">
+        <id column="idx" property="idx"/>
+        <id column="fromUserIdx" property="fromUserIdx"/>
+        <id column="toUserIdx" property="toUserIdx"/>
+        <id column="isRead" property="isRead"/>
+        <id column="likeIdx" property="likeIdx"></id>
+        <id column="notificationType" property="notificationType"></id>
+        <id column="createdDate" property="createdDate"/>
+        <association javaType="com.studygram.domain.User" property="fromUser">
+            <result column="fromUserIdx" property="idx"></result>
+            <result column="fromUserUserName" property="userName"></result>
+            <result column="fromUserUserProfileImageUrl" property="profileImageUrl"></result>
+        </association>
+        <association javaType="com.studygram.domain.User" property="toUser">
+            <result column="toUserIdx" property="idx"></result>
+            <result column="toUserUserName" property="userName"></result>
+            <result column="toUserUserProfileImageUrl" property="profileImageUrl"></result>
+        </association>
+    </resultMap>
     <insert id="save" parameterType="Notification">
         insert into notification
-            (from_user_idx, to_user_idx, isRead, notificationType)
+            (from_user_idx, to_user_idx, isRead, like_idx, notificationType)
         values
-            (#{fromUserIdx}, #{toUserIdx}, #{isRead}, #{notificationType})
+            (#{fromUserIdx}, #{toUserIdx}, #{isRead}, #{likeIdx}, #{notificationType})
     </insert>
+    <select id="getNotifications" parameterType="Integer" resultMap="notificationResultMap">
+        SELECT
+            notification.idx AS idx,
+            notification.from_user_idx AS fromUserIdx,
+            notification.to_user_idx AS toUserIdx,
+            notification.isRead AS isRead,
+            notification.like_idx AS likeIdx,
+            notification.created_date AS createdDate,
+            notification.notificationType AS notificationType,
+            fromuser.idx AS fromUserIdx,
+            fromuser.user_name AS fromUserUserName,
+            fromuser.profile_image_url AS fromUserUserProfileImageUrl,
+            touser.idx AS toUserIdx,
+            touser.user_name AS toUserUserName,
+            touser.profile_image_url AS toUserUserProfileImageUrl
+        FROM
+            notification
+        INNER JOIN
+            `like`
+        ON notification.like_idx = like.idx
+        INNER JOIN
+            `user` fromuser
+        ON notification.from_user_idx = fromuser.idx
+        INNER JOIN
+            `user` touser
+        ON notification.to_user_idx = touser.idx and touser.idx = #{toUserIdx}
+        WHERE notification.isRead = 0
+    </select>
+    <select id="getNotReadNotificationsCount" parameterType="Integer" resultType="int">
+        select
+            count(idx)
+        from
+            notification
+        where
+            to_user_idx = #{toUserIdx} and isRead = 0
+    </select>
 </mapper>

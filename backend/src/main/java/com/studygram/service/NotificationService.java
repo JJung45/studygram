@@ -1,5 +1,6 @@
 package com.studygram.service;
 
+import com.studygram.domain.Like;
 import com.studygram.domain.Notification;
 import com.studygram.domain.NotificationType;
 import com.studygram.domain.User;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -25,8 +27,6 @@ public class NotificationService {
         this.notificationMapper = notificationMapper;
         this.userService = userService;
     }
-
-//    private final UserService userService;
 
     public SseEmitter subscribe(int userIdx) {
         SseEmitter emitter = emitterRepository.save(userIdx, new SseEmitter(60 * 1000L));
@@ -49,19 +49,25 @@ public class NotificationService {
         }
     }
 
-    public void send(int toUserIdx, int fromUserIdx, NotificationType notificationType) {
+    public void send(int toUserIdx, int fromUserIdx, Like like, NotificationType notificationType) {
         Notification notification = Notification
                 .builder()
                 .toUserIdx(toUserIdx)
                 .fromUserIdx(fromUserIdx)
                 .isRead(false)
+                .likeIdx(like != null ? like.getIdx() : null)
                 .notificationType(notificationType.getType())
                 .build();
+
         notificationMapper.save(notification);
         Map<Integer, SseEmitter> emitters = emitterRepository.findAllEmitterStartWithByUserIdx(toUserIdx);
         emitters.forEach((emmiterId, emmiter) ->
                 sendNotification(emmiter, emmiterId, getMessage(notification))
         );
+    }
+
+    public void send(int toUserIdx, int fromUserIdx, NotificationType notificationType) {
+        send(toUserIdx, fromUserIdx, null, notificationType);
     }
 
     private String getMessage(Notification notification) {
@@ -79,5 +85,30 @@ public class NotificationService {
         } else {
             return NotificationType.DUMMY.getMessage();
         }
+    }
+
+    public List<Notification> getNotifications() {
+        User toUser = userService.getUser();
+
+        List<Notification> notifications = notificationMapper.getNotifications(toUser.getIdx());
+
+        for (Notification notification : notifications) {
+            notification.setMessage(getMessage(notification));
+        }
+
+        return notifications;
+    }
+
+    public List<Notification> getNotifications(int userIdx) {
+        return notificationMapper.getNotifications(userIdx);
+    }
+
+    public int getNotReadNotificationsCount() {
+        User user = userService.getUser();
+        return notificationMapper.getNotReadNotificationsCount(user.getIdx());
+    }
+
+    public int getNotReadNotificationsCount(int userIdx) {
+        return notificationMapper.getNotReadNotificationsCount(userIdx);
     }
 }

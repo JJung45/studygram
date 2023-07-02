@@ -20,11 +20,11 @@ public class LikeService {
 
     private final NotificationService notificationService;
 
-    public int save(Like like) {
+    public void save(Like like) {
         User user = userService.getUser();
         like.setUserIdx(user.getIdx());
-        notificationService.send(user.getIdx(), user.getIdx(), NotificationType.LIKE);
-        return likeMapper.save(like);
+        likeMapper.save(like);
+        notificationService.send(user.getIdx(), user.getIdx(), like, NotificationType.LIKE);
     }
 
     public int countAll() {

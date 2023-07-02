@@ -1,6 +1,7 @@
 package com.studygram.service;
 
 import com.studygram.domain.Follow;
+import com.studygram.domain.NotificationType;
 import com.studygram.domain.User;
 import com.studygram.mapper.FollowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +32,9 @@ public class FollowService {
             return 0;
 
         // 팔로우 이미 되어있는지 확인 => 없으면 return
-        if(followMapper.getFollowInfo(follow) == null)
+        if(followMapper.getFollowInfo(follow) == null) {
             return followMapper.saveFollow(follow);
+        };
 
         System.out.println("Already Followed User");
         return 0;
