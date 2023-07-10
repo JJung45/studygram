@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import PostApi from "../../lib/api/post";
 import LikeApi from "../../lib/api/like";
 
+
 import LikeModal from "./LikeModal";
 import {convertContentTag} from "../../module/utils/convertContentTag";
 import CommentApi from "../../lib/api/comment";
@@ -26,6 +27,16 @@ const Post = ({ data }) => {
   const deleteLike = (data) => {
     const postIdx = data.idx;
     const cancle = LikeApi.cancle(postIdx).then(() => {
+      reloadPost(postIdx);
+    });
+
+  const saveLike = async (data) => {
+    const postIdx = data.idx;
+    const like = {
+      postUserIdx: data.userIdx,
+      postIdx: postIdx,
+    };
+    const save = await LikeApi.save(like).then(() => {
       reloadPost(postIdx);
     });
   };

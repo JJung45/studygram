@@ -1,26 +1,30 @@
 package com.studygram.service;
 
 import com.studygram.domain.Like;
+import com.studygram.domain.NotificationType;
 import com.studygram.domain.User;
 import com.studygram.mapper.LikeMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class LikeService {
 
-    @Autowired
-    private LikeMapper likeMapper;
+    private final LikeMapper likeMapper;
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
-    public int save(Like like) {
+    private final NotificationService notificationService;
+
+    public void save(Like like) {
         User user = userService.getUser();
         like.setUserIdx(user.getIdx());
-        return likeMapper.save(like);
+        likeMapper.save(like);
+        notificationService.send(user.getIdx(), user.getIdx(), like, NotificationType.LIKE);
     }
 
     public int countAll() {
