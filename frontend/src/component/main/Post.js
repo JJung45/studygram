@@ -65,24 +65,33 @@ const Post = ({ data }) => {
       setLikers(likers);
     });
   };
+  
   const closeModal = () => {
+    console.log("sdf");
+    document.body.style= `overflow: visible`;
     setModalOpen(false);
   };
 
-  const openPostModal = async (post) => {
+const openPostModal = async (post) => {
+    document.body.style= `overflow: hidden`;
     setPostModalOpen(true);
     setSelectedPost(post);
 };
 const closePostModal = () => {
-    setPostModalOpen(false);
-    setSelectedPost(null);
+  document.body.style= `overflow: visible`;
+  setPostModalOpen(false);
+  setSelectedPost(null);
 };
 
 const handleCommentChange = (e) => {
-  const {name, value} = e.target;
+  if (e.target.value == "" ){
+    setCommentOpen(false);
+  } else {
+    setCommentOpen(true);
+  }
+
   setComment({
-      ...comment,
-      [name]: value,
+      content: e.target.value,
   });
 }
 
@@ -220,7 +229,7 @@ const handleCommentSubmit = (e) => {
         </div>
         <div className="comments">
         {post.commentCnt !== 0 && (<div className="comment-section">
-                        <Link onClick={() => openPostModal(post)}>
+                        <Link onClick={() => openModal(post)}>
                             댓글 {post.commentCnt}개 모두 보기
                         </Link>
                     </div>)}

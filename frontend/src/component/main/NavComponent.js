@@ -11,7 +11,8 @@ const NavComponent = () => {
         setModalOpen(true);
     };
     const closeModal = () => {
-        setModalOpen(false);
+      document.body.style= `overflow: visible`;
+      setModalOpen(false);
     };
 
     const styles = {
