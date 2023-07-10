@@ -29,21 +29,12 @@ const Post = ({ data }) => {
     const cancle = LikeApi.cancle(postIdx).then(() => {
       reloadPost(postIdx);
     });
+  }
 
   const saveLike = async (data) => {
     const postIdx = data.idx;
     const like = {
       postUserIdx: data.userIdx,
-      postIdx: postIdx,
-    };
-    const save = await LikeApi.save(like).then(() => {
-      reloadPost(postIdx);
-    });
-  };
-
-  const saveLike = async (data) => {
-    const postIdx = data.idx;
-    const like = {
       postIdx: postIdx,
     };
     const save = await LikeApi.save(like).then(() => {
@@ -78,16 +69,16 @@ const Post = ({ data }) => {
   };
   
   const closeModal = () => {
-    console.log("sdf");
     document.body.style= `overflow: visible`;
     setModalOpen(false);
   };
 
 const openPostModal = async (post) => {
-    document.body.style= `overflow: hidden`;
+    //document.body.style= `overflow: hidden`;
     setPostModalOpen(true);
     setSelectedPost(post);
 };
+
 const closePostModal = () => {
   document.body.style= `overflow: visible`;
   setPostModalOpen(false);
@@ -261,6 +252,6 @@ const handleCommentSubmit = (e) => {
     </div>
     </article>
   );
-};
+}
 
 export default Post;
