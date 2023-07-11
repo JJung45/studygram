@@ -73,62 +73,58 @@ const PostModal = (props) => {
     return (
         <div className={open ? "openModal modal" : "modal"}>
             {open ? (
-               <div className={open ? "openModal modal" : "modal"}>
-               {open ? (
-                 <section>
-                   <button className="close" onClick={close}>
-                     &times;
-                   </button>
-                   <div className="postModal">
-                     <div className="file">
-                          {post.storePath && (
-                             <img
-                                 src={post.storePath ?? "https://cdn.pixabay.com/photo/2016/01/05/17/51/maltese-1123016_1280.jpg"}
-                                 alt=""
-                             />
-                           )}
-                     </div>
-                     <div className="postContent">
-                       <div className="myProfile">
-                         <img
-                           src={post.profileImageUrl}
-                           alt="프로필이미지"
-                         />
-                         <div>
-                           <span className="userID point-span">{post.userName}</span>
-                         </div>
-                       </div>
-                       <hr />
-                       <div style={{height: "20%"}}>
-                         <span className="userId point-span">{post.userName}</span>
-                         &nbsp; {post.content}
-                       </div>
-                       <hr />
-                       <div className="comment-section">
-                         <div>
-                           {comments?.map((comment) => (
-                             <PostComment data={comment}></PostComment>
-                           ))}
-                         </div>
-                         <input
-                           className="comments-header-textarea"
-                           id="content"
-                           type="text"
-                           value={comment.content}
-                           onChange={handleInput}
-                           placeholder="댓글을 입력하세요"
-                         />
-                         <button onClick={addComment}>입력</button>
-                       </div>
-                       <hr />
-                         <div className="time-log">
-                           <span>{moment(post.createdDate).format("YYYY-MM-DD")}</span>
-                         </div>
-                     </div>
-                   </div>
-                 </section>
-               ) : null}
-             </div>
+                <section  >
+                    <button className="close" onClick={()=>!open}>
+                        &times;
+                    </button>
+                    <div className="postModal" ref={node} style={{ overflow: "auto" }}>
+                        <div className="file">
+                            {post.storePath && (
+                                <img
+                                    src={post.storePath ?? "https://cdn.pixabay.com/photo/2016/01/05/17/51/maltese-1123016_1280.jpg"}
+                                    alt=""
+                                />
+                            )}
+                        </div>
+                        <div className="postContent">
+                            <div className="myProfile">
+                                <img
+                                    src={post.profileImageUrl}
+                                    alt="프로필이미지"
+                                />
+                                <div>
+                                    <span className="userID point-span">{post.userName}</span>
+                                </div>
+                            </div>
+                            <hr/>
+                            <div style={{height: "20%"}}>
+                                <span className="userId point-span">{post.userName}</span>
+                                &nbsp; {post.content}
+                            </div>
+                            <hr/>
+                            <div className="comment-section">
+                                <div>
+                                    {comments?.map((comment) => (
+                                        <PostComment data={comment} key={comment.idx}></PostComment>
+                                    ))}
+                                </div>
+                                <input
+                                    className="comments-header-textarea"
+                                    id="content"
+                                    type="text"
+                                    value={comment.content}
+                                    onChange={handleInput}
+                                    placeholder="댓글을 입력하세요"
+                                />
+                                <button onClick={addComment}>입력</button>
+                            </div>
+                            <hr/>
+                            <div className="time-log">
+                                <span>{moment(post.createdDate).format("YYYY-MM-DD")}</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
             ) : null}
         </div>
     );

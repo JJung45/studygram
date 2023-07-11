@@ -16,8 +16,8 @@ const Post = ({ data }) => {
   const [post, setPost] = useState(data);
   const [modalOpen, setModalOpen] = useState(false);
   const [likers, setLikers] = useState(null);
-  const [comments, setComments] = useState(null);
   const [comment, setComment] = useState({
+    postIdx : post.idx,
     content: "",
   });
   const [commentOpen,setCommentOpen] = useState(false);
@@ -26,7 +26,7 @@ const Post = ({ data }) => {
 
   const deleteLike = (data) => {
     const postIdx = data.idx;
-    const cancle = LikeApi.cancle(postIdx).then(() => {
+    const cancel = LikeApi.cancle(postIdx).then(() => {
       reloadPost(postIdx);
     });
   }
@@ -34,7 +34,6 @@ const Post = ({ data }) => {
   const saveLike = async (data) => {
     const postIdx = data.idx;
     const like = {
-      postUserIdx: data.userIdx,
       postIdx: postIdx,
     };
     const save = await LikeApi.save(like).then(() => {
@@ -74,7 +73,7 @@ const Post = ({ data }) => {
   };
 
 const openPostModal = async (post) => {
-    //document.body.style= `overflow: hidden`;
+    document.body.style= `overflow: hidden`;
     setPostModalOpen(true);
     setSelectedPost(post);
 };
@@ -151,7 +150,7 @@ const handleCommentSubmit = (e) => {
         <div className="main-image">
           <img
             src={post.storePath}
-            alt={post.storePath}
+            alt={post.userName + "님의 피드 사진"}
             className="mainPic"
           />
         </div>
@@ -231,7 +230,7 @@ const handleCommentSubmit = (e) => {
         </div>
         <div className="comments">
         {post.commentCnt !== 0 && (<div className="comment-section">
-                        <Link onClick={() => openModal(post)}>
+                        <Link onClick={() => openPostModal(post)}>
                             댓글 {post.commentCnt}개 모두 보기
                         </Link>
                     </div>)}
@@ -250,6 +249,11 @@ const handleCommentSubmit = (e) => {
       <div className="time-log">
       <span>{ getTimeDifference(post) }</span>
     </div>
+    <PostModal
+                open={postModalOpen}
+                close={closePostModal}
+                post={selectedPost}>
+            </PostModal>
     </article>
   );
 }
