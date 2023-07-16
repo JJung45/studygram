@@ -50,6 +50,7 @@ public class NotificationService {
     }
 
     public void send(int toUserIdx, int fromUserIdx, Like like, NotificationType notificationType) {
+        // TODO 민경쓰 확인
         Notification notification = Notification
                 .builder()
                 .toUserIdx(toUserIdx)
