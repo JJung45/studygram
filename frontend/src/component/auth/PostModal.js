@@ -27,7 +27,6 @@ const PostModal = (props) => {
     const node = useRef(null);
     const modalCloseHandler = (e) => {
         if(open && !node.current.contains(e.target)) {
-            console.log('닫혀야지');
             close();
         }
     }
@@ -73,7 +72,7 @@ const PostModal = (props) => {
     return (
         <div className={open ? "openModal modal" : "modal"}>
             {open ? (
-                <section  >
+                <section>
                     <button className="close" onClick={()=>!open}>
                         &times;
                     </button>
