@@ -44,7 +44,7 @@
 
 .container {
   position: relative;
-  display: none;
+  /*display: none;*/
 }
 
 .list {

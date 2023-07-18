@@ -73,7 +73,7 @@
         WHERE post_idx = post.idx LIMIT 1 OFFSET 0) AS top_liker
         FROM post
         LEFT JOIN `user` ON post.user_idx = `user`.idx
-        LEFT JOIN post_tag ON post_tag.post_idx = post.id
+        LEFT JOIN post_tag ON post_tag.post_idx = post.idx
         LEFT JOIN image ON image.post_idx = post.idx
         <where>
             <if test="clientId != null">

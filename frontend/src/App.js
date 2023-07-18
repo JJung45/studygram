@@ -9,6 +9,7 @@ import PostPage from "./pages/PostPage";
 import CommentPage from "./pages/CommentPage";
 import RedirectPage from "./pages/RedirectPage";
 import SearchPage from "./pages/SearchPage";
+import SettingPage from "./pages/SettingPage";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/comment" element={<CommentPage />} />
         <Route path="/:userName/" element={<MyPage />} />
         <Route path="/tagPost/:tagIdx" element={<SearchPage/>} />
+        <Route path="/accounts/edit" element={<SettingPage/>} />
       </Routes>
     </>
   );
