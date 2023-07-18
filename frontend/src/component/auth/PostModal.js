@@ -72,7 +72,7 @@ const PostModal = (props) => {
     return (
         <div className={open ? "openModal modal" : "modal"}>
             {open ? (
-                <section>
+                <section className="postMoal-sec">
                     <button className="close" onClick={()=>!open}>
                         &times;
                     </button>
