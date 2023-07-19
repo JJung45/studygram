@@ -95,12 +95,18 @@ const PostModal = (props) => {
                                     <span className="userID point-span">{post.userName}</span>
                                 </div>
                             </div>
-                            <hr/>
-                            <div style={{height: "20%"}}>
-                                <span className="userId point-span">{post.userName}</span>
+                            <div className="content">
+                            <div className="myProfile">
+                                <img
+                                    src={post.profileImageUrl}
+                                    alt="프로필이미지"
+                                />
+                                <div>
+                                    <span className="userID point-span">{post.userName}</span>
+                                </div>
+                            </div>
                                 &nbsp; {post.content}
                             </div>
-                            <hr/>
                             <div className="comment-section">
                                 <div>
                                     {comments?.map((comment) => (
@@ -117,7 +123,6 @@ const PostModal = (props) => {
                                 />
                                 <button onClick={addComment}>입력</button>
                             </div>
-                            <hr/>
                             <div className="time-log">
                                 <span>{moment(post.createdDate).format("YYYY-MM-DD")}</span>
                             </div>

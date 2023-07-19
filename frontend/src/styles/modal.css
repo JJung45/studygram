@@ -146,6 +146,7 @@ button {
   display: flex;
   align-items: center;
   min-height: 400px;
+  height: 100%;
 }
 
 .postModal > .file {
@@ -166,15 +167,27 @@ button {
   flex-direction: column;
   height: 100%;
 }
+.postModal > .postContent > .content {
+  overflow-y: scroll;
+  padding-top: 10px;
+  padding-bottom: 5px;
+  height: calc(100% - 200px);
+  margin-top: 0;
+}
 .postModal > .postContent > textarea {
   height: 85%;
 }
-.postModal > .postContent > .myProfile {
+.postModal > .postContent > .myProfile, .postModal > .postContent > .content {
   border-bottom: 1px solid #EBEDF0;
-  margin-top: 0;
+  margin: 0;
   padding: 0;
 }
 .postModal > .postContent > .myProfile > img {
+  width: 30px;
+  height: 30px;
+  margin: 0;
+}
+.postModal > .postContent > .content > .myProfile > img {
   width: 30px;
   height: 30px;
   margin: 0;
