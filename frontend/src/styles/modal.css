@@ -187,6 +187,11 @@ button {
   height: 30px;
   margin: 0;
 }
+.postModal > .postContent > .content > .myProfile {
+  height: 40px;
+  margin: 0;
+  display: inline-flex;
+}
 .postModal > .postContent > .content > .myProfile > img {
   width: 30px;
   height: 30px;
@@ -195,7 +200,9 @@ button {
 .postModal > .postContent > .myProfile > div {
   margin-left: 10px;
 }
-
+.postModal > .postContent > .content > .post-content{
+  display: inline-flex;
+}
 .modal > section > button {
   padding: 16px 64px 16px 16px;
   font-weight: 700;

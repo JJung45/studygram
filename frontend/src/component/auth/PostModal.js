@@ -105,7 +105,7 @@ const PostModal = (props) => {
                                     <span className="userID point-span">{post.userName}</span>
                                 </div>
                             </div>
-                                &nbsp; {post.content}
+                            <div className="post-content"> {post.content} </div>
                             </div>
                             <div className="comment-section">
                                 <div>
