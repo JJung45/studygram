@@ -10,7 +10,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Notification {
-    private Long idx;
+    private Integer idx;
 
     private User fromUser;
 
@@ -22,7 +22,7 @@ public class Notification {
 
     private Boolean isRead; // 알림 읽음 여부
 
-    private int likeIdx; // 좋아요
+    private Integer notificationIdx;
 
     private Post post;
 

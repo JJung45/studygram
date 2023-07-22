@@ -51,6 +51,9 @@
     <insert id="save" parameterType="Comment">
         insert into comment(post_idx, user_idx, content)
             values (#{postIdx}, #{userIdx}, #{content})
+        <selectKey resultType="int" keyProperty="idx" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
     </insert>
 
     <update id="update" parameterType="Comment">

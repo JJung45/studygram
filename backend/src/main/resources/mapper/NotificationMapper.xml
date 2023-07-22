@@ -6,7 +6,7 @@
         <id column="fromUserIdx" property="fromUserIdx"/>
         <id column="toUserIdx" property="toUserIdx"/>
         <id column="isRead" property="isRead"/>
-        <id column="likeIdx" property="likeIdx"></id>
+        <id column="notificationIdx" property="notificationIdx"></id>
         <id column="notificationType" property="notificationType"></id>
         <id column="createdDate" property="createdDate"/>
         <association javaType="com.studygram.domain.User" property="fromUser">
@@ -22,17 +22,16 @@
     </resultMap>
     <insert id="save" parameterType="Notification">
         insert into notification
-            (from_user_idx, to_user_idx, isRead, like_idx, notificationType)
+            (from_user_idx, to_user_idx, isRead, notification_idx, notificationType)
         values
-            (#{fromUserIdx}, #{toUserIdx}, #{isRead}, #{likeIdx}, #{notificationType})
+            (#{fromUserIdx}, #{toUserIdx}, #{isRead}, #{notificationIdx}, #{notificationType})
     </insert>
     <select id="getNotifications" parameterType="Integer" resultMap="notificationResultMap">
         SELECT
-            notification.idx AS idx,
             notification.from_user_idx AS fromUserIdx,
             notification.to_user_idx AS toUserIdx,
             notification.isRead AS isRead,
-            notification.like_idx AS likeIdx,
+            notification.idx AS idx,
             notification.created_date AS createdDate,
             notification.notificationType AS notificationType,
             fromuser.idx AS fromUserIdx,

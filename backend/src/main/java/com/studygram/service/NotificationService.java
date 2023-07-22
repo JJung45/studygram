@@ -1,6 +1,5 @@
 package com.studygram.service;
 
-import com.studygram.domain.Like;
 import com.studygram.domain.Notification;
 import com.studygram.domain.NotificationType;
 import com.studygram.domain.User;
@@ -49,14 +48,14 @@ public class NotificationService {
         }
     }
 
-    public void send(int toUserIdx, int fromUserIdx, Like like, NotificationType notificationType) {
-        // TODO 민경쓰 확인
+    public void send(int toUserIdx, int fromUserIdx, Integer notificationIdx, NotificationType notificationType) {
+
         Notification notification = Notification
                 .builder()
                 .toUserIdx(toUserIdx)
                 .fromUserIdx(fromUserIdx)
                 .isRead(false)
-                .likeIdx(like != null ? like.getIdx() : null)
+                .notificationIdx(notificationIdx)
                 .notificationType(notificationType.getType())
                 .build();
 
