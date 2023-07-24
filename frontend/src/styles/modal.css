@@ -182,15 +182,57 @@ button {
   margin: 0;
   padding: 0;
 }
+.postModal > .postContent > .content {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.postModal > .postContent > .content .image {
+  margin-right: 10px;
+}
+
+.postModal > .postContent > .content .image img {
+  width: 30px;
+  height: 30px;
+  margin: 0;
+  border-radius: 40px;
+}
+
+.postModal > .postContent > .content .posting {
+  border: 0;
+    box-sizing: border-box;
+    display: inline-block;
+    flex-shrink: 1;
+    font: inherit;
+    font-size: 100%;
+    margin: 0;
+    min-width: 0;
+    flex-direction: column;
+    padding: 0;
+    position: relative;
+    vertical-align: baseline;
+    margin-top: 5px;
+}
+
+.postModal > .postContent > .content .posting .userID {
+  align-items: center;
+  display: inline-flex;
+}
+
+.postModal > .postContent > .content .posting .postContent {
+  display: inline;
+}
+
+
 .postModal > .postContent > .myProfile > img {
   width: 30px;
   height: 30px;
   margin: 0;
 }
-.postModal > .postContent > .content > .myProfile {
-  height: 40px;
-  margin: 0;
-  display: inline-flex;
+.postModal > .postContent > .content > div {
+  display: inline;
 }
 .postModal > .postContent > .content > .myProfile > img {
   width: 30px;

@@ -96,16 +96,16 @@ const PostModal = (props) => {
                                 </div>
                             </div>
                             <div className="content">
-                            <div className="myProfile">
-                                <img
-                                    src={post.profileImageUrl}
-                                    alt="프로필이미지"
-                                />
-                                <div>
-                                    <span className="userID point-span">{post.userName}</span>
+                                <div className="image">
+                                    <img
+                                        src={post.profileImageUrl}
+                                        alt="프로필이미지"
+                                    />
                                 </div>
-                            </div>
-                            <div className="post-content"> {post.content} </div>
+                                <div className="posting">
+                                    <span className="userID point-span">{post.userName}</span>
+                                    <div className="post-content"> {post.content} </div>
+                                </div>
                             </div>
                             <div className="comment-section">
                                 <div>
