@@ -170,31 +170,30 @@ button {
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding-left: 10px;
 }
 .postModal > .postContent > .content {
-  overflow-y: scroll;
   padding-top: 10px;
   padding-bottom: 5px;
-  height: calc(100% - 200px);
+  /*height: calc(100% - 200px);*/
   margin-top: 0;
-}
-.postModal > .postContent > textarea {
-  height: 85%;
-}
-.postModal > .postContent > .myProfile, .postModal > .postContent > .content {
-  border-bottom: 1px solid #EBEDF0;
-  margin: 0;
-  padding: 0;
-}
-.postModal > .postContent > .content {
   align-items: flex-start;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
-  padding-top: 10px;
+  padding: 10px;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
-
+.postModal > .postContent > .content::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera*/
+}
+.postModal > .postContent > textarea {
+  height: 85%;
+}
+.postModal > .postContent > .myProfile {
+  border-bottom: 1px solid #EBEDF0;
+  margin: 0;
+}
 .postModal > .postContent > .content .image {
   margin-right: 10px;
 }
@@ -207,6 +206,7 @@ button {
 }
 
 .postModal > .postContent > .content .posting {
+  font-size: 13px;
   border: 0;
     box-sizing: border-box;
     display: inline-block;
