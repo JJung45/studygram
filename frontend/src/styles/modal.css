@@ -156,6 +156,8 @@ button {
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100%;
+  flex: 1;
 }
 
 .postModal > .file > img {
@@ -170,8 +172,9 @@ button {
   display: flex;
   flex-direction: column;
   height: 100%;
+  flex: 1;
 }
-.postModal > .postContent > .content {
+.postModal > .postContent .content {
   padding-top: 10px;
   padding-bottom: 5px;
   /*height: calc(100% - 200px);*/
@@ -181,8 +184,12 @@ button {
   flex-direction: row;
   justify-content: flex-start;
   padding: 10px;
+  font-size: 13px;
+  width: 100%;
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
+  max-width: none;
+  flex-grow: 0;
 }
 .postModal > .postContent > .content::-webkit-scrollbar {
   display: none; /* Chrome, Safari, Opera*/
@@ -193,6 +200,8 @@ button {
 .postModal > .postContent > .myProfile {
   border-bottom: 1px solid #EBEDF0;
   margin: 0;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 .postModal > .postContent > .content .image {
   margin-right: 10px;
@@ -220,6 +229,7 @@ button {
     position: relative;
     vertical-align: baseline;
     margin-top: 5px;
+    width: 100%;
 }
 
 .postModal > .postContent > .content .posting .userID {

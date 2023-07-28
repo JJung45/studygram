@@ -108,11 +108,9 @@ const PostModal = (props) => {
                                 </div>
                             </div>
                             <div className="comment-section">
-                                <div>
                                     {comments?.map((comment) => (
                                         <PostComment data={comment} key={comment.idx}></PostComment>
                                     ))}
-                                </div>
                                 <input
                                     className="comments-header-textarea"
                                     id="content"
