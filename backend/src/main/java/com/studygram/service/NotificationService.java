@@ -55,7 +55,7 @@ public class NotificationService {
                 .toUserIdx(toUserIdx)
                 .fromUserIdx(fromUserIdx)
                 .isRead(false)
-                .notificationIdx(notificationIdx)
+                .idx(notificationIdx)
                 .notificationType(notificationType.getType())
                 .build();
 
