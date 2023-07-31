@@ -1,20 +1,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
 const Comment = ({ data }) => {
-
+  console.log(data); //TODO findCommentsByPostIdx 추가정보 가져오기
   return (
-    <div className="comments_div">
-      <ul className="comments">
-        <li className="comments_content" key={data.idx}>
-          <span className="point-span userID">{data.userId}</span>
-          {data.content}
-          <img
-            className="comment-heart"
-            src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/bearu/heart.png"
-            alt="하트"
-          />
-        </li>
-      </ul>
+    <div className="content">
+      <div className="image">
+        <img src="" alt="프로필이미지" />
+      </div>
+      <div className="posting">
+        <span className="userID point-span">{data.userId}</span>
+        <div className="post-content"> {data.content}</div>
+      </div>
     </div>
   );
 };

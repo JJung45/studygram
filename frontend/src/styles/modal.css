@@ -35,6 +35,9 @@ button {
   animation: modal-show 0.3s;
   overflow: hidden;
 }
+.modal section.postMoal-sec {
+  padding: 0;
+}
 .modal > section.like {
   width: 30%;
 }
@@ -141,33 +144,113 @@ button {
 
 .postModal {
   display: flex;
-  /*height: 100%;*/
+  align-items: center;
+  min-height: 400px;
+  height: 100%;
 }
 
 .postModal > .file {
   flex-grow: 1;
+  background-color: black;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  flex: 1;
 }
 
 .postModal > .file > img {
   width: 100%;
-  height: 100%;
   background-repeat: no-repeat;
   background-size: contain;
-  padding: 10px;
 }
 
 .postModal > .postContent {
   flex-grow: 1;
   color: black;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  flex: 1;
+}
+.postModal > .postContent .content {
+  padding-top: 10px;
+  padding-bottom: 5px;
+  /*height: calc(100% - 200px);*/
+  margin-top: 0;
+  align-items: flex-start;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  padding: 10px;
+  font-size: 13px;
+  width: 100%;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  max-width: none;
+  flex-grow: 0;
+}
+.postModal > .postContent > .content::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera*/
 }
 .postModal > .postContent > textarea {
   height: 85%;
 }
 .postModal > .postContent > .myProfile {
-  height: 20px;
-  padding: 0;
+  border-bottom: 1px solid #EBEDF0;
+  margin: 0;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
+.postModal > .postContent > .content .image {
+  margin-right: 10px;
+}
+
+.postModal > .postContent > .content .image img {
+  width: 30px;
+  height: 30px;
+  margin: 0;
+  border-radius: 40px;
+}
+
+.postModal > .postContent > .content .posting {
+  font-size: 13px;
+  border: 0;
+    box-sizing: border-box;
+    display: inline-block;
+    flex-shrink: 1;
+    font: inherit;
+    font-size: 100%;
+    margin: 0;
+    min-width: 0;
+    flex-direction: column;
+    padding: 0;
+    position: relative;
+    vertical-align: baseline;
+    margin-top: 5px;
+    width: 100%;
+}
+
+.postModal > .postContent > .content .posting .userID {
+  align-items: center;
+  display: inline-flex;
+}
+
+.postModal > .postContent > .content .posting .post-content {
+  display: inline;
+}
+
+
 .postModal > .postContent > .myProfile > img {
+  width: 30px;
+  height: 30px;
+  margin: 0;
+}
+.postModal > .postContent > .content > div {
+  display: inline;
+}
+.postModal > .postContent > .content > .myProfile > img {
   width: 30px;
   height: 30px;
   margin: 0;
@@ -175,7 +258,9 @@ button {
 .postModal > .postContent > .myProfile > div {
   margin-left: 10px;
 }
-
+.postModal > .postContent > .content > .post-content{
+  display: inline-flex;
+}
 .modal > section > button {
   padding: 16px 64px 16px 16px;
   font-weight: 700;

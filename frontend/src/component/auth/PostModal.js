@@ -72,7 +72,7 @@ const PostModal = (props) => {
     return (
         <div className={open ? "openModal modal" : "modal"}>
             {open ? (
-                <section>
+                <section className="postMoal-sec">
                     <button className="close" onClick={()=>!open}>
                         &times;
                     </button>
@@ -95,18 +95,22 @@ const PostModal = (props) => {
                                     <span className="userID point-span">{post.userName}</span>
                                 </div>
                             </div>
-                            <hr/>
-                            <div style={{height: "20%"}}>
-                                <span className="userId point-span">{post.userName}</span>
-                                &nbsp; {post.content}
+                            <div className="content">
+                                <div className="image">
+                                    <img
+                                        src={post.profileImageUrl}
+                                        alt="프로필이미지"
+                                    />
+                                </div>
+                                <div className="posting">
+                                    <span className="userID point-span">{post.userName}</span>
+                                    <div className="post-content"> {post.content} </div>
+                                </div>
                             </div>
-                            <hr/>
                             <div className="comment-section">
-                                <div>
                                     {comments?.map((comment) => (
                                         <PostComment data={comment} key={comment.idx}></PostComment>
                                     ))}
-                                </div>
                                 <input
                                     className="comments-header-textarea"
                                     id="content"
@@ -117,7 +121,6 @@ const PostModal = (props) => {
                                 />
                                 <button onClick={addComment}>입력</button>
                             </div>
-                            <hr/>
                             <div className="time-log">
                                 <span>{moment(post.createdDate).format("YYYY-MM-DD")}</span>
                             </div>
