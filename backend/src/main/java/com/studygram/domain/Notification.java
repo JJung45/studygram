@@ -22,9 +22,9 @@ public class Notification {
 
     private Boolean isRead; // 알림 읽음 여부
 
-    private Integer notificationIdx;
-
     private Post post;
+
+    private Comment comment;
 
     private Date createdDate;
 
