@@ -2,16 +2,16 @@ package com.studygram.controller;
 
 import com.studygram.common.ApiResponse;
 import com.studygram.domain.User;
+import com.studygram.service.ImageUploadService;
 import com.studygram.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/users")
@@ -45,5 +45,19 @@ public class UserController {
     public ApiResponse getUserInfoByUserName(@PathVariable(name = "userName") String userName) {
         User user = userService.getUserInfo(userName);
         return ApiResponse.success("user", user);
+    }
+
+    @PutMapping("/{userIdx}/profile")
+    public ApiResponse updateProfileImage(@PathVariable int userIdx, @RequestParam(value="fileImage") MultipartFile file)
+    {
+        try{
+            System.out.println("File Info = "+file);
+            String profileImgUrl = userService.updateProfileImage(userIdx, file);
+            return ApiResponse.success("profileImageUrl", profileImgUrl);
+        } catch(MaxUploadSizeExceededException e) {
+            return ApiResponse.fail("Max File Size Exception");
+        } catch (Exception e) {
+            return ApiResponse.fail("Fail to Update ProfileImage");
+        }
     }
 }

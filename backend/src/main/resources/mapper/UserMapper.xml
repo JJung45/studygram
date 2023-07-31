@@ -10,11 +10,12 @@
         <result column="client_id" property="clientId"/>
         <result column="provider_type" property="providerType"/>
         <result column="role_type" property="roleType"/>
-        <result column="profile_image_url" property="profileImageUrl"/>
         <result column="profile_msg" property="profileMsg"/>
         <result column="public_type" property="publicType"/>
         <result column="created_date" property="createdDate"/>
         <result column="last_login_date" property="lastLoginDate" />
+<!--        <result column="profile_image_url" property="profileImageUrl"/>-->
+        <collection property="profileImageUrl" column="profile_image_url" select="com.studygram.mapper.ImageMapper.findRecentImageByUserIdx"/>
         <collection property="postCnt" column="user_name" select="com.studygram.mapper.PostMapper.countPostsByUserName"/>
         <collection property="followingCnt" column="user_name" select="com.studygram.mapper.FollowMapper.countFollowingsByUserName"/>
         <collection property="followersCnt" column="user_name" select="com.studygram.mapper.FollowMapper.countFollowersByUserName"/>
@@ -29,11 +30,12 @@
         <result column="client_id" property="clientId"/>
         <result column="provider_type" property="providerType"/>
         <result column="role_type" property="roleType"/>
-        <result column="profile_image_url" property="profileImageUrl"/>
+<!--        <result column="profile_image_url" property="profileImageUrl"/>-->
         <result column="profile_msg" property="profileMsg"/>
         <result column="public_type" property="publicType"/>
         <result column="created_date" property="createdDate"/>
         <result column="last_login_date" property="lastLoginDate" />
+        <collection property="profileImageUrl" column="profile_image_url" select="com.studygram.mapper.ImageMapper.findRecentImageByUserIdx"/>
         <collection property="postCnt" column="idx" select="com.studygram.mapper.PostMapper.countPostsByClientId"/>
         <collection property="followingCnt" column="idx" select="com.studygram.mapper.FollowMapper.countFollowingsByClientId"/>
         <collection property="followersCnt" column="idx" select="com.studygram.mapper.FollowMapper.countFollowersByClientId"/>
@@ -75,6 +77,11 @@
         update User set user_name = #{userName}
             where client_id = #{clientId}
         return user_name;
+    </update>
+
+    <update id="updateProfileImage" parameterType="Integer">
+        update User set profileImageUrl = #{imgUrl}
+                    where user_idx = #{userIdx}
     </update>
 
 </mapper>

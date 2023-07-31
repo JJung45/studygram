@@ -3,6 +3,7 @@ package com.studygram.service;
 import com.studygram.domain.FileDetail;
 import com.studygram.domain.Image;
 import com.studygram.domain.Post;
+import com.studygram.domain.User;
 import com.studygram.mapper.ImageMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ import java.util.Date;
 @RequiredArgsConstructor
 public class ImageUploadService {
 
-    private static final long MAX_FILE_SIZE = 10240; //10kb 제한
+    public static final long MAX_FILE_SIZE = 10240; //10kb 제한
     @Autowired
     private ImageMapper imageMapper;
     @Autowired
@@ -40,9 +41,12 @@ public class ImageUploadService {
         newImage.setOriginalFilename(fileDetail.getPath());
         newImage.setStorePath(imageWithHttp);
         newImage.setCreatedDate(new Date());
-        newImage.setPost(post);
+//        newImage.setPost(post);
 
-        imageMapper.save(newImage);
+        int imageIdx = imageMapper.save(newImage);
+        newImage.setIdx(imageIdx);
+        imageMapper.savePostImage(imageIdx, post.getIdx());
+
     }
 
     // db에서는 자동으로 지워지구 aws 에서만 지우기
@@ -65,4 +69,5 @@ public class ImageUploadService {
     {
         imageMapper.delete(image);
     }
+
 }

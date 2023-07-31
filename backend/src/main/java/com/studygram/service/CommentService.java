@@ -74,7 +74,7 @@ public class CommentService {
         User user = userService.getUser(userDetails.getUsername());
         comment.setUserIdx(user.getIdx());
         comment.setUserName(user.getUserName());
-        notificationService.send(user.getIdx(), user.getIdx(), NotificationType.COMMENT);
+//        notificationService.send(user.getIdx(), user.getIdx(), NotificationType.COMMENT);
         if(commentMapper.save(comment) < 0) {
             ApiResponse.fail();
         }

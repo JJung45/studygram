@@ -2,8 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.studygram.mapper.ImageMapper">
     <insert id="save" parameterType="Image">
-        insert into image (original_file_name, store_path, post_idx)
-            values(#{originalFilename}, #{storePath}, #{post.idx})
+        insert into image (original_file_name, store_path)
+            values(#{originalFilename}, #{storePath})
+        <selectKey resultType="int" keyProperty="idx" order="AFTER">
+            SELECT IFNULL(MAX(image.idx), 1) FROM `image`
+        </selectKey>
     </insert>
     <select id="findByPostIdx" parameterType="Integer" resultType="Image">
         select * from image where post_idx = #{idx}
@@ -15,5 +18,18 @@
         select store_path
         from image
         where post_idx = #{postIdx}
+    </select>
+
+    <insert id="saveUserImage" parameterType="Integer">
+        insert into image(image_idx, user_idx) values(#{imageIdx}, #{userIdx})
+    </insert>
+    <insert id="savePostImage" parameterType="Integer">
+        insert into image(image_idx, post_idx) values(#{imageIdx}, #{postIdx})
+    </insert>
+    <select id="findRecentImageByUserIdx" parameterType="Integer">
+        select ifnull(store_path, (select profile_image_url from user where idx = #{userIdx})) profile_image_url
+        from image img
+        where img.idx =
+              (select image_idx from image_user where user_idx = #{userIdx} order by idx desc limit 1);
     </select>
 </mapper>
