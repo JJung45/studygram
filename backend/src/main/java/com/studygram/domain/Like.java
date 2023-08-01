@@ -10,7 +10,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Like {
-    int idx;
+    Integer idx;
     int postIdx;
     int commentIdx;
     int userIdx;
