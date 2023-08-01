@@ -24,7 +24,7 @@ public class LikeService {
         User user = userService.getUser();
         like.setUserIdx(user.getIdx());
         likeMapper.save(like);
-        notificationService.send(user.getIdx(), user.getIdx(), like, NotificationType.LIKE);
+        notificationService.send(user.getIdx(), user.getIdx(), like.getIdx(), NotificationType.LIKE);
     }
 
     public int countAll() {

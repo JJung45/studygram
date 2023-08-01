@@ -16,11 +16,12 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Comment {
-    int idx;
+    Integer idx;
     int userIdx;
     int postIdx;
     String content;
     String userName;
+    String profileImageUrl;
     List<Tag> tags;
     List<Like> likes;
     Date createdDate;
