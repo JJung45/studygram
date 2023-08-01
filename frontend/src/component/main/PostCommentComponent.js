@@ -1,11 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import CommentApi from "../../lib/api/comment";
+
 const Comment = ({ data }) => {
-  console.log(data); //TODO findCommentsByPostIdx 추가정보 가져오기
+  console.log(data);
+
   return (
     <div className="content">
       <div className="image">
-        <img src="" alt="프로필이미지" />
+        <img src={data.profileImageUrl} alt="프로필이미지" />
       </div>
       <div className="posting">
         <span className="userID point-span">{data.userId}</span>
