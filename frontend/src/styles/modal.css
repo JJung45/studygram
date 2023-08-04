@@ -275,6 +275,22 @@ button {
   background-color: transparent;
 }
 
+.postModal > .postContent > .comment-section > .content > .image {
+  display: flex;
+  align-self: center
+}
+
+.postModal > .postContent > .comment-section > .content > .image img{
+  width: 30px;
+  height: 30px;
+  border-radius: 40px;
+}
+
+.postModal > .postContent > .comment-section > .content > .posting {
+  align-self: center;
+  display: flex;
+}
+
 @keyframes modal-show {
   from {
     opacity: 0;
