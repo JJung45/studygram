@@ -14,6 +14,9 @@ const Comment = ({ data }) => {
         <span className="userID point-span">{data.userId}</span>
         <div className="post-content"> {data.content}</div>
       </div>
+      <span className="heart">
+        ♡
+      </span>
     </div>
   );
 };
