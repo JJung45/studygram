@@ -92,6 +92,8 @@ const handleCommentChange = (e) => {
   }
 
   setComment({
+      ...comment,
+      postIdx : post.idx,
       content: e.target.value,
   });
 }
@@ -102,6 +104,7 @@ const handleCommentSubmit = (e) => {
       alert("내용을 입력하세요");
       return;
   }
+  console.log('111 comment', comment);
   CommentApi.addComment(comment)
       .then((res) => {
           reloadPost(post.idx);

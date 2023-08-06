@@ -13,7 +13,7 @@ import {modalClose} from "../module/utils/utils";
 const ProfileModal = (props) => {
     const {open, close, user, type} = props;
 
-    console.log('user',user, 'type', type);
+    // console.log('user',user, 'type', type);
     /**
      * INFO: 아이디 클릭
      * 1. 프로필사진, 아이디
