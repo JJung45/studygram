@@ -25,9 +25,13 @@
                      else 4 end
     </select>
 
+
     <select id="searchAccountList" parameterType="String" resultType="User">
-        select u.idx, u.user_name, u.profile_msg, u.profile_image_url, u.full_name, count(fl.idx) as followers_cnt
-        /* 프로필 사진 join 필요 */
+        select u.idx, u.user_name, u.profile_msg, u.full_name, count(fl.idx) as followers_cnt,
+        SELECT IFNULL(
+        (SELECT img.store_path FROM image img WHERE img.idx = (SELECT image_idx FROM image_user WHERE user_idx = #{userIdx} ORDER BY idx DESC LIMIT 1)),
+        (SELECT user.profile_image_url FROM user WHERE idx = #{userIdx} )
+        ) as profile_image_url
         from user u
             left outer join follow fl on u.idx = fl.to_user_idx
         where 1 = 1

@@ -44,8 +44,6 @@ public class PostService {
         }
 
          */
-
-
         imageUploadService.createPostImage(post, file);
 
         return post;

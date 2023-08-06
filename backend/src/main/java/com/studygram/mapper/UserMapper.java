@@ -2,6 +2,7 @@ package com.studygram.mapper;
 
 import com.studygram.domain.User;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -19,4 +20,5 @@ public interface UserMapper {
     int updateUser(User user);
     List<User> selectAll();
     int countPosts(String clientId);
+    int updateProfileImage(@Param("userIdx") int userIdx, @Param("imgUrl") String imgUrl);
 }
