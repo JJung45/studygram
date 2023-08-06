@@ -5,7 +5,7 @@
         insert into image (original_file_name, store_path)
             values(#{originalFilename}, #{storePath})
         <selectKey resultType="int" keyProperty="idx" order="AFTER">
-            SELECT IFNULL(MAX(image.idx), 1) FROM `image`
+            SELECT LAST_INSERT_ID()
         </selectKey>
     </insert>
     <select id="findByPostIdx" parameterType="Integer" resultType="Image">
@@ -26,10 +26,10 @@
     </select>
 
     <insert id="saveUserImageRel" parameterType="Integer">
-        insert into image(image_idx, user_idx) values(#{imageIdx}, #{userIdx})
+        insert into image_user (image_idx, user_idx) values(#{imageIdx}, #{userIdx})
     </insert>
     <insert id="savePostImageRel" parameterType="Integer">
-        insert into image(image_idx, post_idx) values(#{imageIdx}, #{postIdx})
+        insert into image_post (image_idx, post_idx) values(#{imageIdx}, #{postIdx})
     </insert>
     <select id="findRecentImageByUserIdx" parameterType="Integer" resultType="String">
         SELECT IFNULL(

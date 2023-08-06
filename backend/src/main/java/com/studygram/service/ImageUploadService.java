@@ -52,7 +52,7 @@ public class ImageUploadService {
     public void deletePostImage(Post post)
     {
         Image postImage = findByPostIdx(post.getIdx());
-        //deleteImage(postImage);
+        deleteImage(postImage);
 
         int imageIdx = postImage.getIdx();
         imageMapper.deletePostImageRel(imageIdx, post.getIdx());

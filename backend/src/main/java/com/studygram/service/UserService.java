@@ -103,16 +103,9 @@ public class UserService {
         image.setStorePath(imgUrl);
         image.setCreatedDate(new Date());
 
-        int imageIdx = imageMapper.save(image);
-        image.setIdx(imageIdx);
-        imageMapper.saveUserImageRel(imageIdx, userIdx);
+        imageMapper.save(image);
+        imageMapper.saveUserImageRel(image.getIdx(), userIdx);
 
-        // user update
-//        if(userMapper.updateProfileImage(userIdx, imgUrl) > 0 ) {
-//            return imgUrl;
-//        } else {
-//            return null;
-//        }
         return imgUrl;
     }
 

@@ -48,16 +48,16 @@ public class UserController {
     }
 
     @PutMapping("/{userIdx}/profile")
-    public ApiResponse updateProfileImage(@PathVariable int userIdx, @RequestParam(value="fileImage") MultipartFile file)
+    public ApiResponse updateProfileImage(@PathVariable int userIdx, @RequestParam(value="fileImage") MultipartFile file) throws Exception
     {
-        try{
+//        try{
             System.out.println("File Info = "+file);
             String profileImgUrl = userService.updateProfileImage(userIdx, file);
             return ApiResponse.success("profileImageUrl", profileImgUrl);
-        } catch(MaxUploadSizeExceededException e) {
-            return ApiResponse.fail("Max File Size Exception");
-        } catch (Exception e) {
-            return ApiResponse.fail("Fail to Update ProfileImage");
-        }
+//        } catch(MaxUploadSizeExceededException e) {
+//            return ApiResponse.fail("Max File Size Exception");
+//        } catch (Exception e) {
+//            return ApiResponse.fail("Fail to Update ProfileImage");
+//        }
     }
 }
