@@ -53,7 +53,7 @@ const SearchBoxComponent = () => {
   };
 
   return (
-    <div>
+    <div className="searchBox">
       <input
         id="searchInput"
         type="search"

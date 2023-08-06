@@ -6,9 +6,15 @@
         <id column="fromUserIdx" property="fromUserIdx"/>
         <id column="toUserIdx" property="toUserIdx"/>
         <id column="isRead" property="isRead"/>
-        <id column="likeIdx" property="likeIdx"></id>
+        <id column="notificationIdx" property="notificationIdx"></id>
         <id column="notificationType" property="notificationType"></id>
         <id column="createdDate" property="createdDate"/>
+        <association javaType="com.studygram.domain.Post" property="post">
+            <result column="imageStorePath" property="storePath"></result>
+        </association>
+        <association javaType="com.studygram.domain.Comment" property="comment">
+            <result column="content" property="commentContent"></result>
+        </association>
         <association javaType="com.studygram.domain.User" property="fromUser">
             <result column="fromUserIdx" property="idx"></result>
             <result column="fromUserUserName" property="userName"></result>
@@ -22,19 +28,19 @@
     </resultMap>
     <insert id="save" parameterType="Notification">
         insert into notification
-            (from_user_idx, to_user_idx, isRead, like_idx, notificationType)
+            (from_user_idx, to_user_idx, isRead, notification_idx, notificationType)
         values
-            (#{fromUserIdx}, #{toUserIdx}, #{isRead}, #{likeIdx}, #{notificationType})
+            (#{fromUserIdx}, #{toUserIdx}, #{isRead}, #{notificationIdx}, #{notificationType})
     </insert>
     <select id="getNotifications" parameterType="Integer" resultMap="notificationResultMap">
         SELECT
-            notification.idx AS idx,
             notification.from_user_idx AS fromUserIdx,
             notification.to_user_idx AS toUserIdx,
             notification.isRead AS isRead,
-            notification.like_idx AS likeIdx,
             notification.created_date AS createdDate,
             notification.notificationType AS notificationType,
+            comment.content AS commentContent,
+            image.store_path AS imageStorePath,
             fromuser.idx AS fromUserIdx,
             fromuser.user_name AS fromUserUserName,
             fromuser.profile_image_url AS fromUserUserProfileImageUrl,
@@ -43,15 +49,15 @@
             touser.profile_image_url AS toUserUserProfileImageUrl
         FROM
             notification
-        INNER JOIN
-            `like`
-        ON notification.like_idx = like.idx
-        INNER JOIN
-            `user` fromuser
-        ON notification.from_user_idx = fromuser.idx
-        INNER JOIN
-            `user` touser
-        ON notification.to_user_idx = touser.idx and touser.idx = #{toUserIdx}
+        LEFT JOIN notification_like nl ON notification.idx = nl.notification_idx
+        LEFT JOIN `like` ON nl.like_idx = `like`.idx
+        LEFT JOIN notification_comment cm ON notification.idx = cm.notification_idx
+        LEFT JOIN `comment` ON cm.comment_idx = comment.idx
+        INNER JOIN post ON (`like`.post_idx = post.idx OR comment.post_idx = post.idx)
+        LEFT JOIN image_post ip ON post.idx = ip.post_idx
+        LEFT JOIN image ON ip.image_idx = image.idx
+        INNER JOIN `user` touser ON notification.to_user_idx = #{toUserIdx}
+        INNER JOIN `user` fromuser ON notification.from_user_idx = fromuser.idx
         WHERE notification.isRead = 0
     </select>
     <select id="getNotReadNotificationsCount" parameterType="Integer" resultType="int">
