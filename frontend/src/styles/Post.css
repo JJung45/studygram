@@ -40,22 +40,25 @@ nav {
   z-index: 999;
 }
 .nav-container {
-  max-width: 1000px;
-  padding: 0 20px;
   display: flex;
-  align-items: center;
+  padding-top: 10px;
+  padding-right: 10px;
+  padding-left: 10px;
 }
-nav div.nav-1,
+nav div.nav-1 {
+  flex-grow: 0.5;
+}
+.nav-container .searchBox {
+  flex-grow: 1.6;
+  text-align: center;
+}
 nav div.nav-2 {
-  width: 370px;
-  display: flex;
-  align-items: center;
-}
-div.nav-2 {
-  justify-content: flex-end;
+  flex-grow: 1;
+  text-align: start;
 }
 nav img {
   height: 22px;
+  padding-right: 10px;
 }
 .vl {
   height: 22px;
@@ -65,7 +68,7 @@ nav img {
 .logo_instagram_txt {
   height: 30px;
 }
-.nav-2 img {
+.nav-2 img:not{
   margin-left: 20px;
 }
 .input-search {

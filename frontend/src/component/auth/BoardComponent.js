@@ -10,7 +10,6 @@ const BoardComponent = () => {
 
   const [posts, setPosts] = useState(async () => {
     await PostApi.getPostsByUserName(userName).then((res) => {
-      console.log('reee', res.data);
       setPosts(res.data);
     });
   });

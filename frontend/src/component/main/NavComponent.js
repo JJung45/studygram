@@ -3,6 +3,7 @@ import SavePostModal from "./SavePostModal";
 import SearchBoxComponent from "./SearchBoxComponent";
 import NotificationApi from "../../lib/api/notification";
 import "../../styles/alarm.css";
+import UserApi from "../../lib/api/user";
 
 const NavComponent = () => {
   // useState를 사용하여 open상태를 변경한다. (open일때 true로 만들어 열리는 방식)
@@ -67,22 +68,33 @@ const NavComponent = () => {
     },
   };
 
+  const [user, setUser] = useState(async () => {
+    await UserApi.myInfo().then((res) => {
+      setUser(res.data.body.user);
+    });
+  });
+
+
   return (
     <>
       <nav>
         <div className="nav-container">
           <div className="nav-1">
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Instagram_logo.svg/320px-Instagram_logo.svg.png"
-              alt="logo_img"
-            />
+            <a href={`/post`}>
+              <img
+                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Instagram_logo.svg/320px-Instagram_logo.svg.png"
+                  alt="logo_img"
+              />
+            </a>
           </div>
           <SearchBoxComponent />
           <div className="nav-2">
-            <img
-              src="https://cdn4.iconfinder.com/data/icons/pictype-free-vector-icons/16/home-512.png"
-              alt="home"
-            />
+            <a href={`/post`}>
+              <img
+                src="https://cdn4.iconfinder.com/data/icons/pictype-free-vector-icons/16/home-512.png"
+                alt="home"
+              />
+            </a>
             <img
               src="https://cdn3.iconfinder.com/data/icons/email-133/32/Email_paper_air_plane_airplane_send_message-512.png"
               alt="direct-message"
@@ -131,11 +143,13 @@ const NavComponent = () => {
                 </div>
               )} */}
             </button>
-            <img
-              className="pic"
-              src="https://cdn4.iconfinder.com/data/icons/48-bubbles/48/30.User-512.png"
-              alt="mypage"
-            />
+            <a href={`/${user.userName}/`}>
+              <img
+                  className="pic"
+                  src="https://cdn4.iconfinder.com/data/icons/48-bubbles/48/30.User-512.png"
+                  alt="mypage"
+              />
+            </a>
           </div>
         </div>
       </nav>

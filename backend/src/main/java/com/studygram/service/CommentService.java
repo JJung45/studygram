@@ -74,11 +74,12 @@ public class CommentService {
         User user = userService.getUser(userDetails.getUsername());
         comment.setUserIdx(user.getIdx());
         comment.setUserName(user.getUserName());
-//        notificationService.send(user.getIdx(), user.getIdx(), NotificationType.COMMENT);
+
         if(commentMapper.save(comment) < 0) {
             ApiResponse.fail();
         }
 
+        notificationService.send(user.getIdx(), user.getIdx(), comment.getIdx(), NotificationType.COMMENT);
     }
 
     public void updateComment(Comment comment) {
@@ -98,7 +99,7 @@ public class CommentService {
 
     }
 
-    public void deleteCommentByCommentId(int commentIdx) {
+    public void deleteCommentByCommentId(Integer commentIdx) {
         if(commentMapper.findByCommentIdx(commentIdx) == null) {
             log.error("Can't find Comment!");
             ApiResponse.notFoundFail();
