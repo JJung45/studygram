@@ -105,7 +105,7 @@ public class UserService {
 
         int imageIdx = imageMapper.save(image);
         image.setIdx(imageIdx);
-        imageMapper.saveUserImage(imageIdx, userIdx);
+        imageMapper.saveUserImageRel(imageIdx, userIdx);
 
         // user update
 //        if(userMapper.updateProfileImage(userIdx, imgUrl) > 0 ) {

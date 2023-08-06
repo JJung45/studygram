@@ -3,7 +3,6 @@ package com.studygram.service;
 import com.studygram.domain.FileDetail;
 import com.studygram.domain.Image;
 import com.studygram.domain.Post;
-import com.studygram.domain.User;
 import com.studygram.mapper.ImageMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +44,7 @@ public class ImageUploadService {
 
         int imageIdx = imageMapper.save(newImage);
         newImage.setIdx(imageIdx);
-        imageMapper.savePostImage(imageIdx, post.getIdx());
+        imageMapper.savePostImageRel(imageIdx, post.getIdx());
 
     }
 
@@ -54,6 +53,9 @@ public class ImageUploadService {
     {
         Image postImage = findByPostIdx(post.getIdx());
         //deleteImage(postImage);
+
+        int imageIdx = postImage.getIdx();
+        imageMapper.deletePostImageRel(imageIdx, post.getIdx());
 
         //aws 저장소에서 지우기
         String originalFileName = postImage.getOriginalFilename();
