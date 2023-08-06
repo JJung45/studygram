@@ -93,6 +93,7 @@ public class FollowService {
         // 나는 팔로우 안했는데 걔는 날 팔로우해 ? 고맙다-> 우선순위 1등
         // 3개 정도 뽑아주고, 정렬....... 우선순위 안되면 가나다 순으로 ..
         // 페이징 필요할듯;; -> 일단은 5개 뽑기
+        System.out.println("추천목록!!!!"+followMapper.getSuggestions(userIdx));
         return followMapper.getSuggestions(userIdx);
     }
 }

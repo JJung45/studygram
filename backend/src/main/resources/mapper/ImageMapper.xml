@@ -2,18 +2,58 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.studygram.mapper.ImageMapper">
     <insert id="save" parameterType="Image">
-        insert into image (original_file_name, store_path, post_idx)
-            values(#{originalFilename}, #{storePath}, #{post.idx})
+        insert into image (original_file_name, store_path)
+            values(#{originalFilename}, #{storePath})
+        <selectKey resultType="int" keyProperty="idx" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
     </insert>
     <select id="findByPostIdx" parameterType="Integer" resultType="Image">
-        select * from image where post_idx = #{idx}
+        select img.* from image img
+                 inner join image_post ip
+                     on ip.image_idx = img.idx
+                 where ip.post_idx = #{idx}
     </select>
     <delete id="delete" parameterType="Image">
         delete from image where idx = #{idx}
     </delete>
     <select id="getStoredImagePathByPostIdx" parameterType="Integer" resultType="String">
-        select store_path
-        from image
-        where post_idx = #{postIdx}
+        select img.store_path
+        from image img
+                 inner join image_post ip
+                            on ip.image_idx = img.idx
+        where ip.post_idx = #{postIdx}
     </select>
+
+    <insert id="saveUserImageRel" parameterType="Integer">
+        insert into image_user (image_idx, user_idx) values(#{imageIdx}, #{userIdx})
+    </insert>
+    <insert id="savePostImageRel" parameterType="Integer">
+        insert into image_post (image_idx, post_idx) values(#{imageIdx}, #{postIdx})
+    </insert>
+    <select id="findRecentImageByUserIdx" parameterType="Integer" resultType="String">
+        SELECT IFNULL(
+                (SELECT img.store_path FROM image img WHERE img.idx = (SELECT image_idx FROM image_user WHERE user_idx = #{userIdx} ORDER BY idx DESC LIMIT 1)),
+                (SELECT user.profile_image_url FROM user WHERE idx = #{userIdx} )
+        )
+    </select>
+    <select id="findRecentImageByClientId" parameterType="String" resultType="String">
+        SELECT IFNULL(
+                (SELECT img.store_path FROM image img WHERE img.idx =
+                                        (SELECT image_idx FROM image_user WHERE user_idx = (select idx from user u where u.client_id = #{clientId}) ORDER BY idx DESC LIMIT 1)),
+                (SELECT user.profile_image_url FROM user WHERE user.client_id = #{clientId})
+        )
+    </select>
+    <select id="findRecentImageByUserName" parameterType="String" resultType="String">
+        SELECT IFNULL(
+                (SELECT img.store_path FROM image img WHERE img.idx =
+                                                                   (SELECT image_idx FROM image_user WHERE user_idx = (select idx from user u where u.user_name = #{userName}) ORDER BY idx DESC LIMIT 1)),
+                (SELECT user.profile_image_url FROM user WHERE user.user_name = #{userName})
+        )
+    </select>
+    <delete id="deletePostImageRel" parameterType="Integer">
+        delete from image_post where post_idx = #{postIdx} and image_idx = #{imageIdx}
+    </delete>
+
+
 </mapper>
