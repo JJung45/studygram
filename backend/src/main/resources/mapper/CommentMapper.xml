@@ -18,7 +18,7 @@
     </resultMap>
 
     <select id="findCommentsByPostIdx" resultMap="commentResultMap">
-        select t1.idx as idx, t1.post_idx as post_idx, t2.idx as user_idx, t2.user_name, t1.content as content
+        select t1.idx as idx, t1.post_idx as post_idx, t2.idx as user_idx, t2.user_name as user_name, t1.content as content, t1.created_date as created_date
         from comment t1
                  left join user t2 on t1.user_idx = t2.idx
         where 1 = 1
@@ -27,7 +27,7 @@
         limit 3 offset 0
     </select>
     <select id="findCommentsByPostIdxWithPaging" resultMap="commentResultMap">
-        select t1.idx as idx, t1.post_idx as post_idx, t2.idx as user_idx, t2.user_name, t1.content as content
+        select t1.idx as idx, t1.post_idx as post_idx, t2.idx as user_idx, t2.user_name as user_name, t1.content as content
             from comment t1
                 left join user t2 on t1.user_idx = t2.idx
             where 1 = 1
