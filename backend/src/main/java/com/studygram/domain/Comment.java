@@ -21,6 +21,7 @@ public class Comment {
     int postIdx;
     String content;
     String userName;
+    String profileImageUrl;
     List<Tag> tags;
     List<Like> likes;
     Date createdDate;

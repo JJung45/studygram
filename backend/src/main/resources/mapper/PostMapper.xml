@@ -21,7 +21,7 @@
         <collection property="tags" column="idx" javaType="java.util.ArrayList" ofType="com.studygram.domain.PostTag" select="com.studygram.mapper.PostTagMapper.findTags" />
         <collection property="likes" column="idx" javaType="java.util.ArrayList" ofType="com.studygram.domain.Like" select="com.studygram.mapper.LikeMapper.findLikes" />
         <collection property="likeCnt" column="idx" select="com.studygram.mapper.LikeMapper.findLikesCntByPostIdx"/>
-        <collection property="comments" column="idx" javaType="java.util.List" ofType="com.studygram.domain.Comment" select="com.studygram.mapper.CommentMapper.findComments" />
+        <collection property="comments" column="idx" javaType="java.util.List" ofType="com.studygram.domain.Comment" select="com.studygram.mapper.CommentMapper.findCommentsByPostIdx" />
         <collection property="commentCnt" column="idx" select="com.studygram.mapper.CommentMapper.findCommentCntByPostIdx"/>
     </resultMap>
 
