@@ -16,7 +16,7 @@ import java.util.Date;
 @RequiredArgsConstructor
 public class ImageUploadService {
 
-    private static final long MAX_FILE_SIZE = 10240; //10kb 제한
+    public static final long MAX_FILE_SIZE = 10240; //10kb 제한
     @Autowired
     private ImageMapper imageMapper;
     @Autowired
@@ -40,16 +40,22 @@ public class ImageUploadService {
         newImage.setOriginalFilename(fileDetail.getPath());
         newImage.setStorePath(imageWithHttp);
         newImage.setCreatedDate(new Date());
-        newImage.setPost(post);
+//        newImage.setPost(post);
 
-        imageMapper.save(newImage);
+        int imageIdx = imageMapper.save(newImage);
+        newImage.setIdx(imageIdx);
+        imageMapper.savePostImageRel(imageIdx, post.getIdx());
+
     }
 
     // db에서는 자동으로 지워지구 aws 에서만 지우기
     public void deletePostImage(Post post)
     {
         Image postImage = findByPostIdx(post.getIdx());
-        //deleteImage(postImage);
+        deleteImage(postImage);
+
+        int imageIdx = postImage.getIdx();
+        imageMapper.deletePostImageRel(imageIdx, post.getIdx());
 
         //aws 저장소에서 지우기
         String originalFileName = postImage.getOriginalFilename();
@@ -65,4 +71,5 @@ public class ImageUploadService {
     {
         imageMapper.delete(image);
     }
+
 }
