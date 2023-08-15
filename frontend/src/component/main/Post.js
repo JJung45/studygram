@@ -24,6 +24,11 @@ const Post = ({ data }) => {
   const [postModalOpen, setPostModalOpen] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null);
 
+  useEffect(() => {
+      reloadPost(data.idx);
+
+  }, [data.commentCnt]);
+
   const deleteLike = (data) => {
     const postIdx = data.idx;
     const cancel = LikeApi.cancle(postIdx).then(() => {
@@ -104,7 +109,7 @@ const handleCommentSubmit = (e) => {
       alert("내용을 입력하세요");
       return;
   }
-  console.log('111 comment', comment);
+  console.log('새로운 댓글 등록', comment.content);
   CommentApi.addComment(comment)
       .then((res) => {
           reloadPost(post.idx);
@@ -149,7 +154,7 @@ const handleCommentSubmit = (e) => {
         />
       </header>
       <div className="main-image-div">
-      <Link to={"/post/" + data.idx} state={data}>
+      <Link onClick={() => openPostModal(post)}>
         <div className="main-image">
           <img
             src={post.storePath}
