@@ -275,6 +275,37 @@ button {
   background-color: transparent;
 }
 
+.postModal > .postContent > .comment-section {
+  position: relative;
+}
+
+.postModal > .postContent > .comment-section > .content > .image {
+  display: flex;
+  align-self: center
+}
+
+.postModal > .postContent > .comment-section > .content > .image img{
+  width: 30px;
+  height: 30px;
+  border-radius: 40px;
+}
+
+.postModal > .postContent > .comment-section > .content > .posting {
+  align-self: center;
+  display: flex;
+}
+
+.postModal > .postContent > .comment-section > .content > .heart {
+  align-self: center;
+  padding-bottom: 6px;
+  padding-right: 10px;
+  padding-top: 5px;
+  position: absolute;
+  right: 0;
+  font-size: 21px;
+  display: inline;
+}
+
 @keyframes modal-show {
   from {
     opacity: 0;
