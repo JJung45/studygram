@@ -17,7 +17,7 @@
         <result column="has_liked" property="hasLiked"></result>
         <result column="top_liker" property="topLiker"></result>
         <collection property="storePath" column="idx" ofType="java.lang.String" select="com.studygram.mapper.ImageMapper.getStoredImagePathByPostIdx" />
-        <collection property="profileImageUrl" column="idx" ofType="java.lang.String" select="com.studygram.mapper.ImageMapper.findRecentImageByUserIdx" />
+        <collection property="profileImageUrl" column="user_idx" ofType="java.lang.String" select="com.studygram.mapper.ImageMapper.findRecentImageByUserIdx" />
         <collection property="tags" column="idx" javaType="java.util.ArrayList" ofType="com.studygram.domain.PostTag" select="com.studygram.mapper.PostTagMapper.findTags" />
         <collection property="likes" column="idx" javaType="java.util.ArrayList" ofType="com.studygram.domain.Like" select="com.studygram.mapper.LikeMapper.findLikes" />
         <collection property="likeCnt" column="idx" select="com.studygram.mapper.LikeMapper.findLikesCntByPostIdx"/>
