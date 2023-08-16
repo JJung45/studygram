@@ -20,4 +20,14 @@ const userInfo = (userName) =>
     url: `${prefix}/${userName}/info`,
   });
 
-export default { myInfo, userInfo };
+/**
+ * 프로필 이미지 업데이트
+ */
+const userProfileImageUpload = (userIdx, file) =>
+    client({
+        method: "put",
+        url: `${prefix}/${userIdx}/profile`,
+        data: file,
+    });
+
+export default { myInfo, userInfo, userProfileImageUpload };

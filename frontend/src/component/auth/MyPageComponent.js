@@ -40,6 +40,7 @@ const MyPageComponent = ({}) => {
   const saveProfileImage = (e) => {
     console.log('프로필 이미지 선택');
     if(e.target.files[0]) {
+      console.log('file', e.target.files[0]);
       setImgUrl(e.target.files[0])
     } else {
       setImgUrl(user.profileImageUrl);
@@ -53,8 +54,17 @@ const MyPageComponent = ({}) => {
     }
     reader.readAsDataURL(e.target.files[0]);
 
-    // TODO
-    // 프로필 사진 저장 -> API 호출 필요
+    // file 보낼때 무조건 form ㅡㅇ로 보내야하나? multipart-form 이라서?
+    let formData = new FormData();
+    formData.append("fileImage", e.target.files[0])
+
+    UserApi.userProfileImageUpload(user.idx, formData)
+        .then((res)=>{
+          console.log("Res", res);
+        })
+
+
+
 
   }
 
