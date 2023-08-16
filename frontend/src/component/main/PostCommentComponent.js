@@ -25,15 +25,17 @@ const Comment = ({ data }) => {
         <img src={data.profileImageUrl} alt="프로필이미지" />
       </div>
       <div className="posting">
-        <span className="userID point-span">{data.userName}</span>
+        <div>
+          <span className="userID point-span">{data.userName}</span>
+          <div className="time">
+            { getTimeDifference(data) }
+          </div>
+        </div>
         <div className="post-content"> {data.content}</div>
       </div>
       <span className="heart">
         ♡
       </span>
-      <div className="time">
-        { getTimeDifference(data) }
-      </div>
     </div>
   );
 };

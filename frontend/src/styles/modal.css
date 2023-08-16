@@ -295,6 +295,12 @@ button {
   display: flex;
 }
 
+.postModal > .postContent > .comment-section > .content > .posting .time{
+  position: absolute;
+  font-size: 9px;
+  margin-top: 3px;
+}
+
 .postModal > .postContent > .comment-section > .content > .heart {
   align-self: center;
   padding-bottom: 6px;
