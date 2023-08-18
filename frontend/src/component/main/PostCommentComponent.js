@@ -2,8 +2,17 @@ import React from "react";
 import { Link } from "react-router-dom";
 import CommentApi from "../../lib/api/comment";
 import moment from "moment";
+import LikeApi from "../../lib/api/like";
 
 const Comment = ({ data }) => {
+
+  const saveLike = async (data) => {
+    const postIdx = data.postIdx;
+    const like = {
+      postIdx: postIdx,
+    };
+    const save = await LikeApi.save(like); // TODO 에러 확인 필요
+  };
 
   const getTimeDifference = (data) => {
     const diffInMinutes =  moment().diff(moment(data.createdDate), "minutes");
@@ -33,7 +42,7 @@ const Comment = ({ data }) => {
         </div>
         <div className="post-content"> {data.content}</div>
       </div>
-      <span className="heart">
+      <span className="heart" onClick={() => {saveLike(data);}}>
         ♡
       </span>
     </div>
