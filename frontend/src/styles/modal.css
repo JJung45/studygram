@@ -310,6 +310,7 @@ button {
   right: 0;
   font-size: 21px;
   display: inline;
+  cursor: pointer;
 }
 
 @keyframes modal-show {
