@@ -43,6 +43,16 @@ const NavComponent = () => {
     }
   };
 
+  const getNotificationMessage = (notification) => {
+    let message = "";
+
+    if (notification.notificationType == "덧글") {
+      message = notification.comment.content;
+    }
+
+    return message;
+  };
+
   useEffect(() => {
     getNotificationState();
     // getNotifications();
@@ -114,6 +124,8 @@ const NavComponent = () => {
                 {notificationList.map((notification, index) => (
                   <div id={index} className="notify_box">
                     {notification.message}
+                    <br />
+                    {getNotificationMessage(notification)}
                   </div>
                 ))}
               </div>
