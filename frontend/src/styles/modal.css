@@ -281,7 +281,8 @@ button {
 
 .postModal > .postContent > .comment-section > .content > .image {
   display: flex;
-  align-self: center
+  align-self: center;
+  padding-right: 5px;
 }
 
 .postModal > .postContent > .comment-section > .content > .image img{
