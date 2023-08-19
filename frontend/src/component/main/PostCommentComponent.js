@@ -5,7 +5,6 @@ import moment from "moment";
 import LikeApi from "../../lib/api/like";
 
 const Comment = ({ data }) => {
-
   const saveLike = async (data) => {
     const postIdx = data.postIdx;
     const like = {
