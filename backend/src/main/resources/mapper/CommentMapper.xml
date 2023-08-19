@@ -5,7 +5,7 @@
         <id column="idx" property="idx"/>
         <result column="post_idx" property="postIdx"/>
         <result column="user_name" property="userName"/>
-        <result column="profile_image_url" property="profileImageUrl"/>
+<!--        <result column="profile_image_url" property="profileImageUrl"/>-->
         <result column="content" property="content"/>
         <result column="created_date" property="createdDate"/>
         <result column="updated_date" property="updatedDate"/>
