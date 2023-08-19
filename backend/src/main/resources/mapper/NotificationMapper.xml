@@ -10,10 +10,11 @@
         <id column="notificationType" property="notificationType"></id>
         <id column="createdDate" property="createdDate"/>
         <association javaType="com.studygram.domain.Post" property="post">
+            <result column="postIdx" property="idx"></result>
             <result column="imageStorePath" property="storePath"></result>
         </association>
         <association javaType="com.studygram.domain.Comment" property="comment">
-            <result column="content" property="commentContent"></result>
+            <result column="commentContent" property="content"></result>
         </association>
         <association javaType="com.studygram.domain.User" property="fromUser">
             <result column="fromUserIdx" property="idx"></result>
@@ -28,10 +29,28 @@
     </resultMap>
     <insert id="save" parameterType="Notification">
         insert into notification
-            (from_user_idx, to_user_idx, isRead, notification_idx, notificationType)
+            (from_user_idx, to_user_idx, isRead, notificationType)
         values
-            (#{fromUserIdx}, #{toUserIdx}, #{isRead}, #{notificationIdx}, #{notificationType})
+            (#{fromUserIdx}, #{toUserIdx}, #{isRead}, #{notificationType})
+        <selectKey resultType="int" keyProperty="idx" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
     </insert>
+
+    <insert id="saveNotificationComment" parameterType="NotificationComment">
+        insert into notification_comment
+            (notification_idx, comment_idx)
+        values
+            (#{notificationIdx}, #{commentIdx})
+    </insert>
+
+    <insert id="saveNotificationLike" parameterType="NotificationLike">
+        insert into notification_like
+            (notification_idx, like_idx)
+        values
+            (#{notificationIdx}, #{likeIdx})
+    </insert>
+
     <select id="getNotifications" parameterType="Integer" resultMap="notificationResultMap">
         SELECT
             notification.from_user_idx AS fromUserIdx,
@@ -46,7 +65,8 @@
             fromuser.profile_image_url AS fromUserUserProfileImageUrl,
             touser.idx AS toUserIdx,
             touser.user_name AS toUserUserName,
-            touser.profile_image_url AS toUserUserProfileImageUrl
+            touser.profile_image_url AS toUserUserProfileImageUrl,
+            post.idx AS postIdx
         FROM
             notification
         LEFT JOIN notification_like nl ON notification.idx = nl.notification_idx
