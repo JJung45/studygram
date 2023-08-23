@@ -38,8 +38,10 @@ const Post = ({ data }) => {
 
   const saveLike = async (data) => {
     const postIdx = data.idx;
+    const postUserIdx = data.userIdx;
     const like = {
       postIdx: postIdx,
+      postUserIdx : postUserIdx
     };
     const save = await LikeApi.save(like).then(() => {
       reloadPost(postIdx);
