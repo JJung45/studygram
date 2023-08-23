@@ -173,6 +173,7 @@ button {
   flex-direction: column;
   height: 100%;
   flex: 1;
+  overflow: overlay;
 }
 .postModal > .postContent .content {
   padding-top: 10px;
