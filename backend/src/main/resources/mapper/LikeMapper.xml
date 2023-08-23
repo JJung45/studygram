@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.studygram.mapper.LikeMapper">
     <insert id="save" useGeneratedKeys="true" keyProperty="idx" parameterType="Like">
-        insert into `like` (post_idx, user_idx)
-        values(#{postIdx}, #{userIdx})
+        insert into `like` (comment_idx, post_idx, user_idx)
+        values(${commentIdx}, #{postIdx}, #{userIdx})
         <selectKey resultType="int" keyProperty="idx" order="AFTER">
             SELECT LAST_INSERT_ID()
         </selectKey>

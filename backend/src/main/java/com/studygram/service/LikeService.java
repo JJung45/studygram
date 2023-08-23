@@ -35,10 +35,12 @@ public class LikeService {
         like.setUserIdx(user.getIdx());
         likeMapper.save(like);
 
-        Post post = postService.findById(like.getPostIdx());
-        int toUserIdx = post.getUserIdx();
+        int toUser = like.getPostUserIdx(); // TODO post 좋아요 누를 때 에러 생기는 문제
+        if(like.getCommentIdx() != 0) {
+            toUser = like.getCommentUserIdx();
+        }
 
-        notificationService.send(toUserIdx, user.getIdx(), like.getIdx(), NotificationType.LIKE);
+        notificationService.send(toUser, user.getIdx(), like.getIdx(), NotificationType.LIKE);
     }
 
     public int countAll() {
