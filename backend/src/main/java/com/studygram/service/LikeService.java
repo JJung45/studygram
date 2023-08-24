@@ -35,7 +35,7 @@ public class LikeService {
         like.setUserIdx(user.getIdx());
         likeMapper.save(like);
 
-        int toUser = like.getPostUserIdx(); // TODO post 좋아요 누를 때 에러 생기는 문제
+        int toUser = like.getPostUserIdx();
         if(like.getCommentIdx() != 0) {
             toUser = like.getCommentUserIdx();
         }
