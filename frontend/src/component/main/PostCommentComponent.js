@@ -6,10 +6,13 @@ import LikeApi from "../../lib/api/like";
 
 const Comment = ({ data }) => {
   const saveLike = async (data) => {
+    console.log(data.userIdx);
     const commentIdx = data.idx;
+    const commentUserIdx = data.userIdx;
     const postIdx = data.postIdx;
     const like = {
       commentIdx: commentIdx,
+      commentUserIdx : commentUserIdx,
       postIdx : postIdx
     };
     const save = await LikeApi.save(like);  // TODO 알림
