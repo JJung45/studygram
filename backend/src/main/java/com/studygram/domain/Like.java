@@ -15,6 +15,7 @@ public class Like {
     int commentIdx;
     int userIdx;
     int postUserIdx;
+    int commentUserIdx;
     Date createdDate;
 
     @Override

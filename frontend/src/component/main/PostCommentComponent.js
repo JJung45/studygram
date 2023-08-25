@@ -6,11 +6,14 @@ import LikeApi from "../../lib/api/like";
 
 const Comment = ({ data }) => {
   const saveLike = async (data) => {
-    const postIdx = data.postIdx;
+    console.log(data.userIdx);
+    const commentIdx = data.idx;
+    const commentUserIdx = data.userIdx;
     const like = {
-      postIdx: postIdx,
+      commentIdx: commentIdx,
+      commentUserIdx : commentUserIdx,
     };
-    const save = await LikeApi.save(like); // TODO 에러 확인 필요
+    const save = await LikeApi.save(like);  // TODO 알림
   };
 
   const getTimeDifference = (data) => {
