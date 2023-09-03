@@ -1,8 +1,6 @@
 package com.studygram.service;
 
-import com.studygram.domain.Notification;
-import com.studygram.domain.NotificationType;
-import com.studygram.domain.User;
+import com.studygram.domain.*;
 import com.studygram.mapper.NotificationMapper;
 import com.studygram.repository.EmitterRepository;
 import org.springframework.stereotype.Service;
@@ -48,18 +46,34 @@ public class NotificationService {
         }
     }
 
-    public void send(int toUserIdx, int fromUserIdx, Integer notificationIdx, NotificationType notificationType) {
+    public void send(int toUserIdx, int fromUserIdx, Integer targetIdx, NotificationType notificationType) {
 
         Notification notification = Notification
                 .builder()
                 .toUserIdx(toUserIdx)
                 .fromUserIdx(fromUserIdx)
                 .isRead(false)
-                .idx(notificationIdx)
                 .notificationType(notificationType.getType())
                 .build();
 
         notificationMapper.save(notification);
+
+        if (NotificationType.LIKE == notificationType) {
+            NotificationLike notificationLike = NotificationLike
+                    .builder()
+                    .notificationIdx(notification.getIdx())
+                    .likeIdx(targetIdx)
+                    .build();
+            notificationMapper.saveNotificationLike(notificationLike);
+        } else if (NotificationType.COMMENT == notificationType) {
+            NotificationComment notificationComment = NotificationComment
+                    .builder()
+                    .notificationIdx(notification.getIdx())
+                    .commentIdx(targetIdx)
+                    .build();
+            notificationMapper.saveNotificationComment(notificationComment);
+        }
+
         Map<Integer, SseEmitter> emitters = emitterRepository.findAllEmitterStartWithByUserIdx(toUserIdx);
         emitters.forEach((emmiterId, emmiter) ->
                 sendNotification(emmiter, emmiterId, getMessage(notification))
