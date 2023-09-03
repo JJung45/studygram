@@ -19,4 +19,5 @@ public interface CommentMapper {
     int deleteByCommentIdx(int commentIdx);
     int deleteByPostIdx(int postIdx);
     int findCommentCntByPostIdx(int postIdx);
+    List<Comment> findCommentsByUserIdx(int userIdx);
 }

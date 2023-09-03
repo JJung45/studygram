@@ -4,10 +4,9 @@ import com.studygram.common.oauth.AuthTokenProvider;
 import com.studygram.config.AppProperties;
 import com.studygram.domain.FileDetail;
 import com.studygram.domain.Image;
+import com.studygram.domain.Post;
 import com.studygram.domain.User;
-import com.studygram.mapper.FollowMapper;
-import com.studygram.mapper.ImageMapper;
-import com.studygram.mapper.UserMapper;
+import com.studygram.mapper.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -17,8 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import static com.studygram.service.ImageUploadService.MAX_FILE_SIZE;
 
@@ -39,6 +37,12 @@ public class UserService {
     private final AmazonS3ResourceStorage amazonS3ResourceStorage;
     @Autowired
     private final ImageMapper imageMapper;
+
+    @Autowired
+    private final PostMapper postMapper;
+
+    @Autowired
+    private final CommentMapper commentMapper;
 
     public User getUser() {
         Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
@@ -108,5 +112,19 @@ public class UserService {
 
         return imgUrl;
     }
+
+    public Map<String, Object> getMyActivities(int userIdx) {
+        Map<String, Object> myActivityMap = new HashMap<>();
+        // 좋아요
+        List<Post> likedPostList = postMapper.findPostsByLikeUserIdx(userIdx);
+        myActivityMap.put("likedPostList", likedPostList);
+
+        // 댓글
+
+
+
+        return myActivityMap;
+    }
+
 
 }

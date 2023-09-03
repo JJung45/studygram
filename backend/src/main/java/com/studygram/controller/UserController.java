@@ -60,4 +60,11 @@ public class UserController {
 //            return ApiResponse.fail("Fail to Update ProfileImage");
 //        }
     }
+
+    @GetMapping("/{userIdx}/activities")
+    public ApiResponse getMyActivities(@PathVariable int userIdx) {
+
+        // 좋아요(게시물), 댓글 목록
+        return ApiResponse.success("getMyActivities", null);
+    }
 }
