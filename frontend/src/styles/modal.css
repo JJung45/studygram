@@ -173,6 +173,7 @@ button {
   flex-direction: column;
   height: 100%;
   flex: 1;
+  overflow: overlay;
 }
 .postModal > .postContent .content {
   padding-top: 10px;
@@ -281,7 +282,8 @@ button {
 
 .postModal > .postContent > .comment-section > .content > .image {
   display: flex;
-  align-self: center
+  align-self: center;
+  padding-right: 5px;
 }
 
 .postModal > .postContent > .comment-section > .content > .image img{
@@ -295,6 +297,12 @@ button {
   display: flex;
 }
 
+.postModal > .postContent > .comment-section > .content > .posting .time{
+  position: absolute;
+  font-size: 9px;
+  margin-top: 3px;
+}
+
 .postModal > .postContent > .comment-section > .content > .heart {
   align-self: center;
   padding-bottom: 6px;
@@ -304,6 +312,7 @@ button {
   right: 0;
   font-size: 21px;
   display: inline;
+  cursor: pointer;
 }
 
 @keyframes modal-show {

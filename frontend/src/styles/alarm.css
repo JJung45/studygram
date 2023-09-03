@@ -67,3 +67,29 @@
 .container:not(:hover) .list {
   display: none;
 }
+
+.icon {
+  font-size: 13px;
+  color: #91a5be;
+  transform: rotate(0deg);
+  transition: all 0.2s ease-in-out;
+}
+
+.icon.open {
+  transform: rotate(90deg);
+}
+
+.notify_area {
+  position: absolute;
+  width: 300px;
+  top: 48px;
+  right: 8%;
+  z-index: 10;
+  border-radius: 8px;
+  box-shadow: 0 0 0 1px #eaebec, 0 4px 8px 0 rgba(0, 0, 0, 0.3);
+  background-color: #fff;
+}
+
+.notify_area .notify_box {
+  padding: 19px 8px;
+}

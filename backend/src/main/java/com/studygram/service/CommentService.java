@@ -4,6 +4,7 @@ import com.studygram.common.ApiResponse;
 import com.studygram.common.SimplePageRequest;
 import com.studygram.domain.Comment;
 import com.studygram.domain.NotificationType;
+import com.studygram.domain.Post;
 import com.studygram.domain.User;
 import com.studygram.mapper.CommentMapper;
 import com.studygram.utils.TimeUtil;
@@ -79,7 +80,9 @@ public class CommentService {
             ApiResponse.fail();
         }
 
-        notificationService.send(user.getIdx(), user.getIdx(), comment.getIdx(), NotificationType.COMMENT);
+        Post postByComment = postService.findById(comment.getPostIdx());
+        int toUserIdx = postByComment.getUserIdx();
+        notificationService.send(toUserIdx, user.getIdx(), comment.getIdx(), NotificationType.COMMENT);
     }
 
     public void updateComment(Comment comment) {
