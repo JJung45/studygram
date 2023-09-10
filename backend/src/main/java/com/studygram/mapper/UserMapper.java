@@ -21,4 +21,5 @@ public interface UserMapper {
     List<User> selectAll();
     int countPosts(String clientId);
     int updateProfileImage(@Param("userIdx") int userIdx, @Param("imgUrl") String imgUrl);
+    int updateUserInfo(User user);
 }

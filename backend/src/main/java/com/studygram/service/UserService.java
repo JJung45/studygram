@@ -9,6 +9,7 @@ import com.studygram.domain.User;
 import com.studygram.mapper.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.Nullable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -126,5 +127,17 @@ public class UserService {
         return myActivityMap;
     }
 
+    public User updateUserInfo(User user, MultipartFile file) throws Exception {
+        int userIdx = user.getIdx();
+        User findUser = userMapper.findByUserIdx(userIdx);
+        if(findUser == null) {
+            throw new Exception("Not Found User");
+        }
 
+        if(user.getProfileImageUrl() != null) {
+            updateProfileImage(userIdx, file);
+        }
+        userMapper.updateUserInfo(user);
+        return userMapper.findByUserIdx(userIdx);
+    }
 }

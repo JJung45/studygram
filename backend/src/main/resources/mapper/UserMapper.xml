@@ -96,5 +96,10 @@
         return user_name;
     </update>
 
+    <update id="updateUserInfo" parameterType="User">
+        update User set profile_msg = #{profileMsg}, public_type = #{publicType}
+        where idx = #{idx}
+    </update>
+
 
 </mapper>

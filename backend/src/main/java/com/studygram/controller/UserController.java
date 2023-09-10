@@ -6,12 +6,16 @@ import com.studygram.service.ImageUploadService;
 import com.studygram.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.Nullable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.validation.constraints.Null;
 
 @RestController
 @RequestMapping("/users")
@@ -66,5 +70,16 @@ public class UserController {
 
         // 좋아요(게시물), 댓글 목록
         return ApiResponse.success("getMyActivities", null);
+    }
+
+    @PatchMapping("/update")
+    public ApiResponse updateUserInfo(User user, @Nullable MultipartFile file) {
+        // 프로필 수정 (프로필사진, 프로필 메시지, 공개/비공개)
+        try {
+            userService.updateUserInfo(user, file);
+            return ApiResponse.success("user", user);
+        } catch (Exception e) {
+            return ApiResponse.notFoundFail();
+        }
     }
 }
