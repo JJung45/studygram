@@ -1,16 +1,23 @@
 import React, { useEffect, useState, useRef } from "react";
 import SavePostModal from "./SavePostModal";
 import SearchBoxComponent from "./SearchBoxComponent";
+import PostModal from "../auth/PostModal";
 import NotificationApi from "../../lib/api/notification";
 import "../../styles/alarm.css";
 import UserApi from "../../lib/api/user";
 import notification from "../../lib/api/notification";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const NavComponent = () => {
   // useState를 사용하여 open상태를 변경한다. (open일때 true로 만들어 열리는 방식)
   const [modalOpen, setModalOpen] = useState(false);
+  const [postModalOpen, setPostModalOpen] = useState(false);
+  const [selectedPost, setSelectedPost] = useState(null);
+
   const [notificationState, setNotificationState] = useState(false);
   const [notificationList, setNotificationList] = useState(null);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const openModal = () => {
     document.body.style = `overflow: hidden`;
@@ -19,6 +26,18 @@ const NavComponent = () => {
   const closeModal = () => {
     document.body.style = `overflow: visible`;
     setModalOpen(false);
+  };
+
+  const openPostModal = async (post) => {
+    document.body.style = `overflow: hidden`;
+    setPostModalOpen(true);
+    setSelectedPost(post);
+  };
+
+  const closePostModal = () => {
+    document.body.style = `overflow: visible`;
+    setPostModalOpen(false);
+    setSelectedPost(null);
   };
 
   const getNotificationState = async () => {
@@ -43,6 +62,15 @@ const NavComponent = () => {
     }
   };
 
+  const convertNotificationMessage = (notification) => {
+    const userNameRegex = new RegExp(notification.fromUser.userName, "g");
+
+    return notification.message.replace(
+      userNameRegex,
+      `<a href="/${notification.fromUser.userName}">${notification.fromUser.userName}</a>`
+    );
+  };
+
   const getNotificationMessage = (notification) => {
     let message = "";
 
@@ -51,6 +79,11 @@ const NavComponent = () => {
     }
 
     return message;
+  };
+
+  const clickNotificationMessage = (post) => {
+    console.log("click: " + post);
+    openPostModal(post);
   };
 
   useEffect(() => {
@@ -122,9 +155,18 @@ const NavComponent = () => {
             {notificationList ? (
               <div className="notify_area">
                 {notificationList.map((notification, index) => (
-                  <div id={index} className="notify_box">
-                    {notification.message}
-                    <br />
+                  <div
+                    id={index}
+                    className="notify_box"
+                    onClick={(event) =>
+                      clickNotificationMessage(notification.post)
+                    }
+                  >
+                    <p
+                      dangerouslySetInnerHTML={{
+                        __html: convertNotificationMessage(notification),
+                      }}
+                    ></p>
                     {getNotificationMessage(notification)}
                   </div>
                 ))}
@@ -140,6 +182,11 @@ const NavComponent = () => {
           </div>
         </div>
       </nav>
+      <PostModal
+        open={postModalOpen}
+        close={closePostModal}
+        post={selectedPost}
+      ></PostModal>
       <div style={styles.contentDiv}></div>
     </>
   );
