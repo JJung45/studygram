@@ -2,10 +2,11 @@ import React, { useEffect, useState, useRef } from "react";
 import SavePostModal from "./SavePostModal";
 import SearchBoxComponent from "./SearchBoxComponent";
 import PostModal from "../auth/PostModal";
-import NotificationApi from "../../lib/api/notification";
-import "../../styles/alarm.css";
 import UserApi from "../../lib/api/user";
-import notification from "../../lib/api/notification";
+import NotificationApi from "../../lib/api/notification";
+import PostApi from "../../lib/api/post";
+import "../../styles/alarm.css";
+// import notification from "../../lib/api/notification";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const NavComponent = () => {
@@ -29,14 +30,14 @@ const NavComponent = () => {
   };
 
   const openPostModal = async (post) => {
+    setSelectedPost(post);
     document.body.style = `overflow: hidden`;
     setPostModalOpen(true);
-    setSelectedPost(post);
   };
 
   const closePostModal = () => {
-    document.body.style = `overflow: visible`;
     setPostModalOpen(false);
+    document.body.style = `overflow: visible`;
     setSelectedPost(null);
   };
 
@@ -49,7 +50,7 @@ const NavComponent = () => {
   };
 
   const getNotifications = async () => {
-    setNotificationList(!notification);
+    // setNotificationList(!notification);
 
     if (notificationState) {
       await NotificationApi.getNotifications().then((res) => {
@@ -81,9 +82,14 @@ const NavComponent = () => {
     return message;
   };
 
-  const clickNotificationMessage = (post) => {
-    console.log("click: " + post);
-    openPostModal(post);
+  const clickNotificationMessage = async (post) => {
+    await PostApi.getPost(post.idx).then((result) => {
+      console.log("clickNotificationMessage");
+      console.log(result.data);
+      openPostModal(result.data);
+      console.log("clickNotificationMessage");
+      console.log(selectedPost);
+    });
   };
 
   useEffect(() => {
