@@ -7,6 +7,7 @@ import NotificationApi from "../../lib/api/notification";
 import PostApi from "../../lib/api/post";
 import "../../styles/alarm.css";
 import { useLocation, useNavigate } from "react-router-dom";
+import moment from "moment";
 
 const NavComponent = () => {
   // useState를 사용하여 open상태를 변경한다. (open일때 true로 만들어 열리는 방식)
@@ -63,10 +64,19 @@ const NavComponent = () => {
   const convertNotificationMessage = (notification) => {
     const userNameRegex = new RegExp(notification.fromUser.userName, "g");
 
-    return notification.message.replace(
+    let message = notification.message.replace(
       userNameRegex,
-      `<a href="/${notification.fromUser.userName}">${notification.fromUser.userName}</a>`
+      `<img style="width: 15px; height: 15px; border: 1px solid #fafafa; border-radius: 100%; padding-right: 0px;"
+      src=${notification.fromUser.profileImageUrl}
+      alt=${notification.fromUser.userName + "님의 프로필 사진"}
+    /> <a href="/${notification.fromUser.userName}">${
+        notification.fromUser.userName
+      }</a>`
     );
+    message += getNotificationMessage(notification);
+    message += " " + getTimeDifference(notification);
+
+    return message;
   };
 
   const getNotificationMessage = (notification) => {
@@ -104,6 +114,20 @@ const NavComponent = () => {
       setUser(res.data.body.user);
     });
   });
+
+  const getTimeDifference = (post) => {
+    const diffInMinutes = moment().diff(moment(post.createdDate), "minutes");
+    const diffInHours = moment().diff(moment(post.createdDate), "hours");
+    const diffInDays = moment().diff(moment(post.createdDate), "days");
+    const humanizedTimeDiff =
+      diffInMinutes < 60
+        ? `${diffInMinutes}분 전`
+        : diffInHours >= 24
+        ? `${diffInDays}일 전`
+        : `${diffInHours}시간 전`;
+
+    return humanizedTimeDiff;
+  };
 
   return (
     <>
@@ -165,7 +189,6 @@ const NavComponent = () => {
                         __html: convertNotificationMessage(notification),
                       }}
                     ></p>
-                    {getNotificationMessage(notification)}
                   </div>
                 ))}
               </div>
