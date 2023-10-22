@@ -52,7 +52,6 @@ public class PostController {
 
     @GetMapping(path = "/")
     public List<Post> getPosts(@RequestParam @Nullable Integer limit, @RequestParam @Nullable Integer offset) throws Exception {
-        // TODO 사진 연동 필요
         if (limit == null) {
             limit = LIMIT;
         }
