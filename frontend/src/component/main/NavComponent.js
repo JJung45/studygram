@@ -6,7 +6,6 @@ import UserApi from "../../lib/api/user";
 import NotificationApi from "../../lib/api/notification";
 import PostApi from "../../lib/api/post";
 import "../../styles/alarm.css";
-// import notification from "../../lib/api/notification";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const NavComponent = () => {
@@ -50,8 +49,6 @@ const NavComponent = () => {
   };
 
   const getNotifications = async () => {
-    // setNotificationList(!notification);
-
     if (notificationState) {
       await NotificationApi.getNotifications().then((res) => {
         setNotificationList(res.data);
@@ -84,17 +81,12 @@ const NavComponent = () => {
 
   const clickNotificationMessage = async (post) => {
     await PostApi.getPost(post.idx).then((result) => {
-      console.log("clickNotificationMessage");
-      console.log(result.data);
       openPostModal(result.data);
-      console.log("clickNotificationMessage");
-      console.log(selectedPost);
     });
   };
 
   useEffect(() => {
     getNotificationState();
-    // getNotifications();
   }, []);
 
   const styles = {
