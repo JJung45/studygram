@@ -4,6 +4,7 @@ import com.studygram.common.ApiResponse;
 import com.studygram.common.SimplePageRequest;
 import com.studygram.domain.Comment;
 import com.studygram.domain.NotificationType;
+import com.studygram.domain.Post;
 import com.studygram.domain.User;
 import com.studygram.mapper.CommentMapper;
 import com.studygram.utils.TimeUtil;
@@ -50,7 +51,9 @@ public class CommentService {
 
     public void createComment(Comment comment) {
         // 1. Post 데이터 있는지 확인
-        if(postService.findById(comment.getPostIdx()) == null) {
+
+        Post post = postService.findById(comment.getPostIdx());
+        if(post == null) {
             ApiResponse.fail();
         }
 
@@ -79,7 +82,7 @@ public class CommentService {
             ApiResponse.fail();
         }
 
-        notificationService.send(user.getIdx(), user.getIdx(), comment.getIdx(), NotificationType.COMMENT);
+        notificationService.send(post.getUserIdx(), user.getIdx(), comment.getIdx(), NotificationType.COMMENT);
     }
 
     public void updateComment(Comment comment) {
