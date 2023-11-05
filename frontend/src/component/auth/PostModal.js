@@ -111,6 +111,35 @@ const PostModal = (props) => {
                                     {comments?.map((comment) => (
                                         <PostComment data={comment} key={comment.idx}></PostComment>
                                     ))}
+                            </div>
+                            <div className="post-info">
+                                <div className="icons-react">
+                                    <div className="icons-left">
+                                        <img
+                                            className="icon-react"
+                                            src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/bearu/heart.png"
+                                            alt="heart_disLike" />
+                                        <img
+                                            className="icon-react"
+                                            src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/bearu/comment.png"
+                                            alt="말풍선"
+                                        />
+                                        <img
+                                            className="icon-react"
+                                            src="https://cdn3.iconfinder.com/data/icons/email-133/32/Email_paper_air_plane_airplane_send_message-512.png"
+                                            alt="DM"
+                                        />
+                                    </div>
+                                        <img
+                                        className="icon-react"
+                                        src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/bearu/bookmark.png"
+                                        alt="북마크"
+                                        />
+                                </div>
+                                <div className='like'>{} likes</div>
+                                <div className='time-log'>{moment(post.createdDate).format("YYYY-MM-DD")}</div>
+                            </div>
+                            <div>
                                 <input
                                     className="comments-header-textarea"
                                     id="content"
@@ -120,9 +149,6 @@ const PostModal = (props) => {
                                     placeholder="댓글을 입력하세요"
                                 />
                                 <button onClick={addComment}>입력</button>
-                            </div>
-                            <div className="time-log">
-                                <span>{moment(post.createdDate).format("YYYY-MM-DD")}</span>
                             </div>
                         </div>
                     </div>

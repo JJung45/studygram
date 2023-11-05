@@ -234,7 +234,6 @@ const handleCommentSubmit = (e) => {
             <span className="point-span userID">
               {data.userName ?? "anoymous"}
             </span>
-            {/*<span className="at-tag">{data.content}</span>*/}
             {convertContentTag(data.content, data.tags)}
           </p>
         </div>

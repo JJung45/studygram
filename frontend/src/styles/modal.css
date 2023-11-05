@@ -166,6 +166,22 @@ button {
   background-size: contain;
 }
 
+.postModal .post-info {
+  border-top: 1px solid #ccc;
+  padding: 10px;
+}
+
+.postModal .post-info .like{
+  justify-content: start;
+  display: flex;
+  font-weight: bold;
+}
+
+.postModal .post-info .time-log, .like{
+  justify-content: start;
+  display: flex;
+}
+
 .postModal > .postContent {
   flex-grow: 1;
   color: black;
