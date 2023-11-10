@@ -1,12 +1,11 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import PostApi from "../../lib/api/post";
 import LikeApi from "../../lib/api/like";
 
-
 import LikeModal from "./LikeModal";
-import {convertContentTag} from "../../module/utils/convertContentTag";
+import { convertContentTag } from "../../module/utils/convertContentTag";
 import CommentApi from "../../lib/api/comment";
 import moment from "moment";
 
@@ -17,16 +16,15 @@ const Post = ({ data }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [likers, setLikers] = useState(null);
   const [comment, setComment] = useState({
-    postIdx : post.idx,
+    postIdx: post.idx,
     content: "",
   });
-  const [commentOpen,setCommentOpen] = useState(false);
+  const [commentOpen, setCommentOpen] = useState(false);
   const [postModalOpen, setPostModalOpen] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null);
 
   useEffect(() => {
-      reloadPost(data.idx);
-
+    reloadPost(data.idx);
   }, [data.commentCnt]);
 
   const deleteLike = (data) => {
@@ -34,14 +32,14 @@ const Post = ({ data }) => {
     const cancel = LikeApi.cancle(postIdx).then(() => {
       reloadPost(postIdx);
     });
-  }
+  };
 
   const saveLike = async (data) => {
     const postIdx = data.idx;
     const postUserIdx = data.userIdx;
     const like = {
       postIdx: postIdx,
-      postUserIdx : postUserIdx
+      postUserIdx: postUserIdx,
     };
     const save = await LikeApi.save(like).then(() => {
       reloadPost(postIdx);
@@ -73,59 +71,58 @@ const Post = ({ data }) => {
       setLikers(likers);
     });
   };
-  
+
   const closeModal = () => {
-    document.body.style= `overflow: visible`;
+    document.body.style = `overflow: visible`;
     setModalOpen(false);
   };
 
-const openPostModal = async (post) => {
-    document.body.style= `overflow: hidden`;
+  const openPostModal = async (post) => {
+    document.body.style = `overflow: hidden`;
     setPostModalOpen(true);
     setSelectedPost(post);
-};
+  };
 
-const closePostModal = () => {
-  document.body.style= `overflow: visible`;
-  setPostModalOpen(false);
-  setSelectedPost(null);
-};
+  const closePostModal = () => {
+    document.body.style = `overflow: visible`;
+    setPostModalOpen(false);
+    setSelectedPost(null);
+  };
 
-const handleCommentChange = (e) => {
-  if (e.target.value == "" ){
-    setCommentOpen(false);
-  } else {
-    setCommentOpen(true);
-  }
+  const handleCommentChange = (e) => {
+    if (e.target.value == "") {
+      setCommentOpen(false);
+    } else {
+      setCommentOpen(true);
+    }
 
-  setComment({
+    setComment({
       ...comment,
-      postIdx : post.idx,
+      postIdx: post.idx,
       content: e.target.value,
-  });
-}
+    });
+  };
 
-const handleCommentSubmit = (e) => {
-  e.preventDefault();
-  if (comment.content === "") {
+  const handleCommentSubmit = (e) => {
+    e.preventDefault();
+    if (comment.content === "") {
       alert("내용을 입력하세요");
       return;
-  }
-  console.log('새로운 댓글 등록', comment.content);
-  CommentApi.addComment(comment)
-      .then((res) => {
-          reloadPost(post.idx);
-          setComment({
-              postIdx: post.idx,
-              content: "",
-          })
+    }
+    console.log("새로운 댓글 등록", comment.content);
+    CommentApi.addComment(comment).then((res) => {
+      reloadPost(post.idx);
+      setComment({
+        postIdx: post.idx,
+        content: "",
       });
-}
-  
- const getTimeDifference = (post) => {
-    const diffInMinutes =  moment().diff(moment(post.createdDate), "minutes");
-    const diffInHours =  moment().diff(moment(post.createdDate), "hours");
-    const diffInDays =  moment().diff(moment(post.createdDate), "days");
+    });
+  };
+
+  const getTimeDifference = (post) => {
+    const diffInMinutes = moment().diff(moment(post.createdDate), "minutes");
+    const diffInHours = moment().diff(moment(post.createdDate), "hours");
+    const diffInDays = moment().diff(moment(post.createdDate), "days");
     const humanizedTimeDiff =
       diffInMinutes < 60
         ? `${diffInMinutes}분 전`
@@ -134,7 +131,7 @@ const handleCommentSubmit = (e) => {
         : `${diffInHours}시간 전`;
 
     return humanizedTimeDiff;
-  }
+  };
 
   return (
     <article>
@@ -156,15 +153,15 @@ const handleCommentSubmit = (e) => {
         />
       </header>
       <div className="main-image-div">
-      <Link onClick={() => openPostModal(post)}>
-        <div className="main-image">
-          <img
-            src={post.storePath}
-            alt={post.userName + "님의 피드 사진"}
-            className="mainPic"
-          />
-        </div>
-      </Link>
+        <Link onClick={() => openPostModal(post)}>
+          <div className="main-image">
+            <img
+              src={post.storePath}
+              alt={post.userName + "님의 피드 사진"}
+              className="mainPic"
+            />
+          </div>
+        </Link>
       </div>
       <div className="icons-react">
         <div className="icons-left">
@@ -179,12 +176,14 @@ const handleCommentSubmit = (e) => {
             />
           )}
           {post.hasLiked && (
-            <i
-              className="ri-heart-3-fill ri-admin-line ri-xl"
+            <img
+              className="icon-react"
+              src="https://cdn1.iconfinder.com/data/icons/neutro-essential/32/heart-1024.png"
+              alt="heart_Like"
               onClick={() => {
                 deleteLike(post);
               }}
-            ></i>
+            />
           )}
           <img
             className="icon-react"
@@ -203,69 +202,69 @@ const handleCommentSubmit = (e) => {
           alt="북마크"
         />
       </div>
-        {
-           likeMessage(post) && (
-              <div className="reaction">
-              <div className="liked-people">
-                <img
-                  className="pic"
-                  src="https://cdn4.iconfinder.com/data/icons/48-bubbles/48/30.User-512.png"
-                  alt="test님의 프로필 사진"
-                />
-                <span
-                onClick={(event) => {
-                  openModal(post, event);
-                }}
-              >
-                {likeMessage(post)}
-              </span>
-              </div>
-              <LikeModal
-                open={modalOpen}
-                close={closeModal}
-                header="좋아요"
-                likers={likers}
-              ></LikeModal>
-            </div>
-            )
-          }
-        <div className="description">
-          <p>
-            <span className="point-span userID">
-              {data.userName ?? "anoymous"}
+      {likeMessage(post) && (
+        <div className="reaction">
+          <div className="liked-people">
+            <img
+              className="pic"
+              src="https://cdn4.iconfinder.com/data/icons/48-bubbles/48/30.User-512.png"
+              alt="test님의 프로필 사진"
+            />
+            <span
+              onClick={(event) => {
+                openModal(post, event);
+              }}
+            >
+              {likeMessage(post)}
             </span>
-            {/*<span className="at-tag">{data.content}</span>*/}
-            {convertContentTag(data.content, data.tags)}
-          </p>
-        </div>
-        <div className="comments">
-        {post.commentCnt !== 0 && (<div className="comment-section">
-                        <Link onClick={() => openPostModal(post)}>
-                            댓글 {post.commentCnt}개 모두 보기
-                        </Link>
-                    </div>)}
-        </div>
-        <div className="add-comment">
-          <input
-            className="comments-header-textarea"
-            id="content"
-            type="text"
-            value={comment.content}
-            onChange={handleCommentChange}
-            placeholder="Add a comment"
-          />
-          {commentOpen && (<button onClick={handleCommentSubmit}>입력</button>)}
           </div>
+          <LikeModal
+            open={modalOpen}
+            close={closeModal}
+            header="좋아요"
+            likers={likers}
+          ></LikeModal>
+        </div>
+      )}
+      <div className="description">
+        <p>
+          <span className="point-span userID">
+            {data.userName ?? "anoymous"}
+          </span>
+          {/*<span className="at-tag">{data.content}</span>*/}
+          {convertContentTag(data.content, data.tags)}
+        </p>
+      </div>
+      <div className="comments">
+        {post.commentCnt !== 0 && (
+          <div className="comment-section">
+            <Link onClick={() => openPostModal(post)}>
+              댓글 {post.commentCnt}개 모두 보기
+            </Link>
+          </div>
+        )}
+      </div>
+      <div className="add-comment">
+        <input
+          className="comments-header-textarea"
+          id="content"
+          type="text"
+          value={comment.content}
+          onChange={handleCommentChange}
+          placeholder="Add a comment"
+        />
+        {commentOpen && <button onClick={handleCommentSubmit}>입력</button>}
+      </div>
       <div className="time-log">
-      <span>{ getTimeDifference(post) }</span>
-    </div>
-    <PostModal
-                open={postModalOpen}
-                close={closePostModal}
-                post={selectedPost}>
-            </PostModal>
+        <span>{getTimeDifference(post)}</span>
+      </div>
+      <PostModal
+        open={postModalOpen}
+        close={closePostModal}
+        post={selectedPost}
+      ></PostModal>
     </article>
   );
-}
+};
 
 export default Post;
