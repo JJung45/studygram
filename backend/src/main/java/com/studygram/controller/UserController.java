@@ -5,6 +5,7 @@ import com.studygram.domain.User;
 import com.studygram.service.ImageUploadService;
 import com.studygram.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.security.core.Authentication;
@@ -20,6 +21,7 @@ import javax.validation.constraints.Null;
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor
+@Slf4j
 public class UserController {
     @Autowired
     private UserService userService;
@@ -51,7 +53,7 @@ public class UserController {
         return ApiResponse.success("user", user);
     }
 
-    @PutMapping("/{userIdx}/profile")
+    @PutMapping("/{userIdx}/profileImage")
     public ApiResponse updateProfileImage(@PathVariable int userIdx, @RequestParam(value="fileImage") MultipartFile file) throws Exception
     {
 //        try{
@@ -72,13 +74,15 @@ public class UserController {
         return ApiResponse.success("getMyActivities", null);
     }
 
-    @PatchMapping("/update")
-    public ApiResponse updateUserInfo(User user, @Nullable MultipartFile file) {
+    @PutMapping("/update")
+    public ApiResponse updateUserInfo(@RequestBody User user, @RequestParam(value="fileImage") @Nullable MultipartFile file) {
         // 프로필 수정 (프로필사진, 프로필 메시지, 공개/비공개)
+        System.out.println("userInfo="+user.getIdx());
         try {
             userService.updateUserInfo(user, file);
             return ApiResponse.success("user", user);
         } catch (Exception e) {
+            log.error("Not Found user!");
             return ApiResponse.notFoundFail();
         }
     }

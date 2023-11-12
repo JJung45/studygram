@@ -134,9 +134,10 @@ public class UserService {
             throw new Exception("Not Found User");
         }
 
-        if(user.getProfileImageUrl() != null) {
+        if(file != null) {
             updateProfileImage(userIdx, file);
         }
+        System.out.println("User!"+user.getProfileMsg());
         userMapper.updateUserInfo(user);
         return userMapper.findByUserIdx(userIdx);
     }
