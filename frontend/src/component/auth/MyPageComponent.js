@@ -54,18 +54,14 @@ const MyPageComponent = ({}) => {
     }
     reader.readAsDataURL(e.target.files[0]);
 
-    // file 보낼때 무조건 form ㅡㅇ로 보내야하나? multipart-form 이라서?
+    // file 보낼때 무조건 form 으로 보내야하나? multipart-form 이라서?
     let formData = new FormData();
-    formData.append("fileImage", e.target.files[0])
+    formData.append("fileImage", e.target.files[0]);
 
     UserApi.userProfileImageUpload(user.idx, formData)
         .then((res)=>{
           console.log("Res", res);
         })
-
-
-
-
   }
 
   const modal = {
@@ -98,7 +94,7 @@ const MyPageComponent = ({}) => {
           <div className="›profile-user-settings">
             <h1 className="profile-user-name" onClick={()=>openModal(modal.INFO)}>{user.userName}</h1>
             <button className="profile-edit-btn">
-              <Link to={"/accounts/edit"} style={{
+              <Link to={"/accounts/edit"} state={{info: user}} style={{
                 textDecoration: "none",
                 color: "black"}}>프로필 편집</Link>
             </button>

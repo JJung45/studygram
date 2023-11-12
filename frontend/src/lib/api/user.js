@@ -26,8 +26,16 @@ const userInfo = (userName) =>
 const userProfileImageUpload = (userIdx, file) =>
     client({
         method: "put",
-        url: `${prefix}/${userIdx}/profile`,
+        url: `${prefix}/${userIdx}/profileImage`,
         data: file,
     });
 
-export default { myInfo, userInfo, userProfileImageUpload };
+const userProfileEdit = (form) => {
+    client({
+        method: "put",
+        url: `${prefix}/update`,
+        data: form,
+    });
+}
+
+export default { myInfo, userInfo, userProfileImageUpload, userProfileEdit };

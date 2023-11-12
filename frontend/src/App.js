@@ -10,6 +10,9 @@ import CommentPage from "./pages/CommentPage";
 import RedirectPage from "./pages/RedirectPage";
 import SearchPage from "./pages/SearchPage";
 import SettingPage from "./pages/SettingPage";
+import PushAlarmComponent from "./component/auth/PushAlarmComponent";
+import ProfileEditComponent from "./component/auth/ProfileEditComponent";
+import ActivityComponent from "./component/auth/ActivitiyComponent";
 
 function App() {
   return (
@@ -23,7 +26,11 @@ function App() {
         <Route path="/comment" element={<CommentPage />} />
         <Route path="/:userName/" element={<MyPage />} />
         <Route path="/tagPost/:tagIdx" element={<SearchPage/>} />
-        <Route path="/accounts/edit" element={<SettingPage/>} />
+        <Route path="/accounts" element={<SettingPage/>}>
+          <Route path="edit" element={<ProfileEditComponent/>}/>
+          {/*<Route path="push" element={<PushAlarmComponent/>}/>*/}
+          <Route path="activity" element={<ActivityComponent/>}/>
+        </Route>
       </Routes>
     </>
   );
