@@ -6,7 +6,6 @@ import LikeApi from "../../lib/api/like";
 
 const Comment = ({ data }) => {
   const saveLike = async (data) => {
-    console.log(data.userIdx);
     const commentIdx = data.idx;
     const commentUserIdx = data.userIdx;
     const like = {
