@@ -28,7 +28,7 @@ function App() {
         <Route path="/tagPost/:tagIdx" element={<SearchPage/>} />
         <Route path="/accounts" element={<SettingPage/>}>
           <Route path="edit" element={<ProfileEditComponent/>}/>
-          <Route path="push" element={<PushAlarmComponent/>}/>
+          {/*<Route path="push" element={<PushAlarmComponent/>}/>*/}
           <Route path="activity" element={<ActivityComponent/>}/>
         </Route>
       </Routes>

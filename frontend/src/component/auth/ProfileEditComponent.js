@@ -19,8 +19,16 @@ const ProfileEditComponent = () => {
 
     const location = useLocation();
     const info = location.state?.info;
+    // const [profile, setProfile] = useState({
+    //     idx: info.idx,
+    //     profileImageUrl: info.profileImageUrl,
+    //     profileMsg: info.profileMsg,
+    //     publicType: info.publicType,
+    // });
     const [imgUrl, setImgUrl] = useState(info.profileImageUrl);
-    const [publicType, setPublicType] = useState(info.publicType==="Y");
+    const [publicType, setPublicType] = useState(info.publicType);
+    const [profileMsg, setProfileMsg] = useState(info.profileMsg);
+    let [msgCount, setMsgCount] = useState(0);
 
     const fileInput = useRef(null);
     const saveProfileImage = (e) => {
@@ -41,16 +49,35 @@ const ProfileEditComponent = () => {
         reader.readAsDataURL(e.target.files[0]);
     }
 
-   const updateUserInfo = () => {
+   const handleSubmit = (e) => {
+        e.preventDefault();
+
         // file 보낼때 무조건 form 으로 보내야하나? multipart-form 이라서?
         let formData = new FormData();
-        formData.append("fileImage", imgUrl)
+        formData.append("fileImage", imgUrl);
 
-        UserApi.userProfileImageUpload(info.idx, formData)
-            .then((res) => {
-                console.log("Res", res);
-            })
+       // setProfile({
+       //     ...profile,
+       //     publicType: publicType,
+       //     profileImageUrl: imgUrl,
+       // })
+
+       info.publicType = publicType;
+       info.profileImageUrl = imgUrl;
+       info.profileMsg = profileMsg;
+
+       const user = info;
+       console.log('updatedUser', user);
+
+       UserApi.userProfileEdit({user});
+
     }
+
+    const onTextareaHandler = (e) => {
+        setMsgCount(e.target.value.replace(/[\0-\x7f]|([0-\u07ff]|(.))/g, "$&$1$2").length);
+        setProfileMsg(e.target.value);
+    }
+
 
     // userAPI
     return (
@@ -62,7 +89,7 @@ const ProfileEditComponent = () => {
                     </div>
                 </div>
             </div>
-            <form onSubmit={updateUserInfo} method="patch">
+            <form onSubmit={handleSubmit} method="put">
                 <div>
                     <div>
                         <div className="myProfile">
@@ -89,10 +116,11 @@ const ProfileEditComponent = () => {
                         <label>소개</label>
                     </aside>
                     <div>
-                        <textarea></textarea>
-                        <div>
-                            <span>0 / 150</span>
-                        </div>
+                        <textarea onChange={onTextareaHandler} maxLength="100" defaultValue={info.profileMsg}></textarea>
+                        <p>
+                            <span>{msgCount}</span>
+                            <span>/ 150</span>
+                        </p>
                     </div>
                 </div>
                 <div>
@@ -101,7 +129,7 @@ const ProfileEditComponent = () => {
                     </aside>
                     <div>
                         <label>
-                            <input className="_aahe" id="f2a55e2f3866c08" type="checkbox" checked={publicType}
+                            <input className="_aahe" id="f2a55e2f3866c08" type="checkbox"
                                    onChange={({target: {publicType}}) => setPublicType(!publicType)}/>
                         </label>
                     </div>
@@ -114,7 +142,7 @@ const ProfileEditComponent = () => {
                         <div className="_ab47">
                             <div aria-disabled="true"
                                  className="x1i10hfl xjqpnuy xa49m3k xqeqjp1 x2hbi6w x972fbf xcfux6l x1qhh985 xm0m39n xdl72j9 x2lah0s xe8uvvx xdj266r x11i5rnm xat24cr x1mh8g0r x2lwn1j xeuugli xexx8yu x18d9i69 x1hl2dhg xggy1nq x1ja2u2z x1t137rt x1q0g3np x1lku1pv x1a2a7pz x6s0dn4 xjyslct x1lq5wgf xgqcy7u x30kzoy x9jhf4c x1ejq31n xd10rxx x1sy0etr x17r0tee x9f619 x9bdzbf x1ypdohk x78zum5 x1i0vuye x1f6kntn xwhw2v2 x10w6t97 xl56j7k x17ydfre x1swvt13 x1pi30zi x1n2onr6 x2b8uid xlyipyv x87ps6o x14atkfc xcdnw81 x1tu34mt xzloghq xuzhngd x47corl"
-                                 role="button" tabIndex="-1"><span className="xbyyjgo">제출</span></div>
+                                 role="button" tabIndex="-1"><button className="xbyyjgo" type="submit">제출</button></div>
                         </div>
                     </div>
                 </div>
