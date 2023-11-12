@@ -189,13 +189,11 @@ button {
   flex-direction: column;
   height: 100%;
   flex: 1;
-  overflow: overlay;
 }
 .postModal > .postContent .content {
   padding-top: 10px;
   padding-bottom: 5px;
   /*height: calc(100% - 200px);*/
-  margin-top: 0;
   align-items: flex-start;
   display: flex;
   flex-direction: row;
@@ -208,30 +206,33 @@ button {
   max-width: none;
   flex-grow: 0;
 }
-.postModal > .postContent > .content::-webkit-scrollbar {
+.postModal > .postContent .content::-webkit-scrollbar {
   display: none; /* Chrome, Safari, Opera*/
 }
-.postModal > .postContent > textarea {
+.postModal > .postContent textarea {
   height: 85%;
 }
-.postModal > .postContent > .myProfile {
+.postModal > .postContent .myProfile {
   border-bottom: 1px solid #EBEDF0;
   margin: 0;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding: 10px;
+  position: sticky;
+  background-color: white;
+  z-index: 100;
+  top: 0;
 }
-.postModal > .postContent > .content .image {
+.postModal > .postContent .content .image {
   margin-right: 10px;
 }
 
-.postModal > .postContent > .content .image img {
+.postModal > .postContent .content .image img {
   width: 30px;
   height: 30px;
   margin: 0;
   border-radius: 40px;
 }
 
-.postModal > .postContent > .content .posting {
+.postModal > .postContent .content .posting {
   font-size: 13px;
   border: 0;
     box-sizing: border-box;
@@ -241,33 +242,52 @@ button {
     font-size: 100%;
     margin: 0;
     min-width: 0;
-    flex-direction: column;
+    flex-direction: row;
     padding: 0;
     position: relative;
     vertical-align: baseline;
-    margin-top: 5px;
+    margin: 0;
     width: 100%;
 }
 
-.postModal > .postContent > .content .posting .userID {
+.postModal > .postContent > .content-comment {
+  overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+
+.postModal > .postContent > .content-comment::-webkit-scrollbar{
+  width : 6px
+}
+
+.postModal > .postContent > .content-comment::-webkit-scrollbar-thumb{
+  background-color: transparent;
+}
+
+.postModal > .postContent .content .posting > div{
+  display: flex;
+  flex-direction: column;
+}
+
+.postModal > .postContent .content .posting .userID {
   align-items: center;
   display: inline-flex;
 }
 
-.postModal > .postContent > .content .posting .post-content {
+.postModal > .postContent .content .posting .post-content {
   display: inline;
 }
 
 
-.postModal > .postContent > .myProfile > img {
+.postModal > .postContent .myProfile > img {
   width: 30px;
   height: 30px;
   margin: 0;
 }
-.postModal > .postContent > .content > div {
+.postModal > .postContent .content div {
   display: inline;
 }
-.postModal > .postContent > .content > .myProfile > img {
+.postModal > .postContent .content .myProfile img {
   width: 30px;
   height: 30px;
   margin: 0;
@@ -275,9 +295,27 @@ button {
 .postModal > .postContent > .myProfile > div {
   margin-left: 10px;
 }
-.postModal > .postContent > .content > .post-content{
+.postModal > .postContent .content .post-content{
   display: inline-flex;
 }
+
+.postModal > .postContent .comments-header {
+  border-top: 1px solid #ccc;
+  padding: 10px;
+  display: flex;
+}
+
+.postModal > .postContent .comments-header-textarea {
+  border: none;
+  width: 100%;
+  outline: none;
+  resize: none;
+}
+
+.postModal > .postContent .comments-header button {
+  color: #3578E5;
+}
+
 .modal > section > button {
   padding: 16px 64px 16px 16px;
   font-weight: 700;
@@ -292,34 +330,37 @@ button {
   background-color: transparent;
 }
 
-.postModal > .postContent > .comment-section {
+.postModal > .postContent .comment-section {
   position: relative;
 }
 
-.postModal > .postContent > .comment-section > .content > .image {
+.postModal > .postContent .comment-section .content{
+  margin-top: 0;
+}
+
+.postModal > .postContent .comment-section .content .image {
   display: flex;
   align-self: center;
   padding-right: 5px;
 }
 
-.postModal > .postContent > .comment-section > .content > .image img{
+.postModal > .postContent .comment-section .content .image img{
   width: 30px;
   height: 30px;
   border-radius: 40px;
 }
 
-.postModal > .postContent > .comment-section > .content > .posting {
+.postModal > .postContent .comment-section > .content > .posting {
   align-self: center;
   display: flex;
 }
 
-.postModal > .postContent > .comment-section > .content > .posting .time{
-  position: absolute;
+.postModal > .postContent .comment-section .content .posting .time{
   font-size: 9px;
   margin-top: 3px;
 }
 
-.postModal > .postContent > .comment-section > .content > .heart {
+.postModal > .postContent .comment-section .content .heart {
   align-self: center;
   padding-bottom: 6px;
   padding-right: 10px;

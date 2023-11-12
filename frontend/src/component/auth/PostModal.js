@@ -69,6 +69,20 @@ const PostModal = (props) => {
         })
     };
 
+    const getTimeDifference = (post) => {
+        const diffInMinutes =  moment().diff(moment(post.createdDate), "minutes");
+        const diffInHours =  moment().diff(moment(post.createdDate), "hours");
+        const diffInDays =  moment().diff(moment(post.createdDate), "days");
+        const humanizedTimeDiff =
+          diffInMinutes < 60
+            ? `${diffInMinutes}분 전`
+            : diffInHours >= 24
+            ? `${diffInDays}일 전`
+            : `${diffInHours}시간 전`;
+    
+        return humanizedTimeDiff;
+      }
+
     return (
         <div className={open ? "openModal modal" : "modal"}>
             {open ? (
@@ -76,7 +90,7 @@ const PostModal = (props) => {
                     <button className="close" onClick={()=>!open}>
                         &times;
                     </button>
-                    <div className="postModal" ref={node} style={{ overflow: "auto" }}>
+                    <div className="postModal" ref={node}>
                         <div className="file">
                             {post.storePath && (
                                 <img
@@ -95,6 +109,7 @@ const PostModal = (props) => {
                                     <span className="userID point-span">{post.userName}</span>
                                 </div>
                             </div>
+                            <div className="content-comment">
                             <div className="content">
                                 <div className="image">
                                     <img
@@ -111,6 +126,7 @@ const PostModal = (props) => {
                                     {comments?.map((comment) => (
                                         <PostComment data={comment} key={comment.idx}></PostComment>
                                     ))}
+                            </div>
                             </div>
                             <div className="post-info">
                                 <div className="icons-react">
@@ -136,19 +152,19 @@ const PostModal = (props) => {
                                         alt="북마크"
                                         />
                                 </div>
-                                <div className='like'>{} likes</div>
-                                <div className='time-log'>{moment(post.createdDate).format("YYYY-MM-DD")}</div>
+                                <div className='like'>{post.likeCnt} likes</div>
+                                <div className='time-log'>{getTimeDifference(post)}</div>
                             </div>
-                            <div>
-                                <input
+                            <div className="comments-header">
+                                <textarea
                                     className="comments-header-textarea"
                                     id="content"
                                     type="text"
                                     value={comment.content}
                                     onChange={handleInput}
-                                    placeholder="댓글을 입력하세요"
-                                />
-                                <button onClick={addComment}>입력</button>
+                                    placeholder="Add a comment..."
+                                ></textarea>
+                                <button onClick={addComment}>Post</button>
                             </div>
                         </div>
                     </div>
