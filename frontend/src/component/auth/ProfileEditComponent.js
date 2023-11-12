@@ -2,6 +2,7 @@ import React, {useState, useEffect, useRef} from "react";
 import "../../styles/Setting.css";
 import UserApi from "../../lib/api/user";
 import {useLocation} from "react-router-dom";
+import User from "../../lib/api/user";
 
 const ProfileEditComponent = () => {
     /**
@@ -18,21 +19,24 @@ const ProfileEditComponent = () => {
      */
 
     const location = useLocation();
-    const info = location.state?.info;
-    // const [profile, setProfile] = useState({
-    //     idx: info.idx,
-    //     profileImageUrl: info.profileImageUrl,
-    //     profileMsg: info.profileMsg,
-    //     publicType: info.publicType,
-    // });
+    let info = location.state?.info;
     const [imgUrl, setImgUrl] = useState(info.profileImageUrl);
     const [publicType, setPublicType] = useState(info.publicType);
     const [profileMsg, setProfileMsg] = useState(info.profileMsg);
     let [msgCount, setMsgCount] = useState(0);
+    const [refresh, setRefresh] = useState(0);
+
+    useEffect(() => {
+        UserApi.myInfo().then((res) => {
+            info = res.data.body.user;
+            console.log('rrr',info);
+        })
+        setRefresh(0);
+    }, [refresh]);
 
     const fileInput = useRef(null);
+    // 왜 버튼 누를때 바로 submit 나오는지???
     const saveProfileImage = (e) => {
-        console.log('프로필 이미지 선택');
         if (e.target.files[0]) {
             console.log('file', e.target.files[0]);
             setImgUrl(e.target.files[0])
@@ -46,30 +50,30 @@ const ProfileEditComponent = () => {
                 setImgUrl(reader.result);
             }
         }
-        reader.readAsDataURL(e.target.files[0]);
+        // reader.readAsDataURL(e.target.files[0]); ==> 왜?
+
+    }
+
+    const checkHandler = (e) => {
+        setPublicType(!publicType);
     }
 
    const handleSubmit = (e) => {
         e.preventDefault();
 
-        // file 보낼때 무조건 form 으로 보내야하나? multipart-form 이라서?
-        let formData = new FormData();
-        formData.append("fileImage", imgUrl);
-
-       // setProfile({
-       //     ...profile,
-       //     publicType: publicType,
-       //     profileImageUrl: imgUrl,
-       // })
-
        info.publicType = publicType;
-       info.profileImageUrl = imgUrl;
        info.profileMsg = profileMsg;
 
-       const user = info;
-       console.log('updatedUser', user);
+       let formData = new FormData();
 
-       UserApi.userProfileEdit({user});
+       formData.append("fileImage", imgUrl);
+       formData.append("user", new Blob([JSON.stringify(info)], {type:"application/json"}));
+
+       console.log('formData=', formData.get("fileImage"));
+       console.log('user=', formData.get("user"));
+
+       UserApi.userProfileEdit(formData);
+       setRefresh(1);
 
     }
 
@@ -93,11 +97,12 @@ const ProfileEditComponent = () => {
                 <div>
                     <div>
                         <div className="myProfile">
-                            <button onClick={() => fileInput.current.click()}>
+                            {/*button 왜??*/}
+                            <div onClick={() => fileInput.current.click()}>
                                 <img alt="프로필 사진" className="pic" src={imgUrl}/>
                                 <input name="profileImage" type="file" accept="image/*" id="profileImage"
                                        onChange={saveProfileImage} style={{display: "none"}} ref={fileInput}/>
-                            </button>
+                            </div>
                         </div>
                     </div>
                     <div>
@@ -129,8 +134,8 @@ const ProfileEditComponent = () => {
                     </aside>
                     <div>
                         <label>
-                            <input className="_aahe" id="f2a55e2f3866c08" type="checkbox"
-                                   onChange={({target: {publicType}}) => setPublicType(!publicType)}/>
+                            <input className="_aahe" id="f2a55e2f3866c08" type="checkbox" checked={publicType}
+                                   onChange={(e) => checkHandler(e)}/>
                         </label>
                     </div>
                 </div>

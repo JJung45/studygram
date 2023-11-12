@@ -56,7 +56,7 @@ const MyPageComponent = ({}) => {
 
     // file 보낼때 무조건 form 으로 보내야하나? multipart-form 이라서?
     let formData = new FormData();
-    formData.append("fileImage", e.target.files[0])
+    formData.append("fileImage", e.target.files[0]);
 
     UserApi.userProfileImageUpload(user.idx, formData)
         .then((res)=>{

@@ -30,12 +30,12 @@ const userProfileImageUpload = (userIdx, file) =>
         data: file,
     });
 
-const userProfileEdit = (user) => {
+const userProfileEdit = (form) => {
     client({
         method: "put",
         url: `${prefix}/update`,
-        data: user,
-    })
+        data: form,
+    });
 }
 
 export default { myInfo, userInfo, userProfileImageUpload, userProfileEdit };
