@@ -217,13 +217,15 @@ const Post = ({ data }) => {
             >
               {likeMessage(post)}
             </span>
-          </div>
-          <LikeModal
-            open={modalOpen}
-            close={closeModal}
-            header="좋아요"
-            likers={likers}
-          ></LikeModal>
+            {convertContentTag(data.content, data.tags)}
+          </p>
+        </div>
+        <div className="comments">
+        {post.commentCnt !== 0 && (<div className="comment-section">
+                        <Link onClick={() => openPostModal(post)}>
+                            댓글 {post.commentCnt}개 모두 보기
+                        </Link>
+                    </div>)}
         </div>
       )}
       <div className="description">
