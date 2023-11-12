@@ -91,5 +91,16 @@
 }
 
 .notify_area .notify_box {
-  padding: 19px 8px;
+  padding: 5px 8px;
+}
+
+image.img-profile {
+  width: 32px;
+  height: 32px;
+  border: 1px solid #fafafa;
+  border-radius: 100%;
+}
+
+.pic {
+  border-radius: 100%;
 }
