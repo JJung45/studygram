@@ -75,14 +75,14 @@ public class UserController {
     }
 
     @PutMapping("/update")
-    public ApiResponse updateUserInfo(@RequestBody User user, @RequestParam(value="fileImage") @Nullable MultipartFile file) {
+    public ApiResponse updateUserInfo(@RequestPart(value="fileImage", required = false) MultipartFile file, @RequestPart(value="user") User user) {
         // 프로필 수정 (프로필사진, 프로필 메시지, 공개/비공개)
-        System.out.println("userInfo="+user.getIdx());
         try {
-            userService.updateUserInfo(user, file);
-            return ApiResponse.success("user", user);
+            System.out.println("file="+file);
+            User updatedUser = userService.updateUserInfo(user, file);
+            return ApiResponse.success("user", updatedUser);
         } catch (Exception e) {
-            log.error("Not Found user!");
+            log.error("Not Found user!", e);
             return ApiResponse.notFoundFail();
         }
     }

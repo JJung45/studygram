@@ -93,7 +93,6 @@ public class UserService {
             throw new Exception("Not Found User");
         }
 
-
         // AWS S3 저장
         Long fileSize = file.getSize();
         if(fileSize > MAX_FILE_SIZE) {
@@ -137,7 +136,6 @@ public class UserService {
         if(file != null) {
             updateProfileImage(userIdx, file);
         }
-        System.out.println("User!"+user.getProfileMsg());
         userMapper.updateUserInfo(user);
         return userMapper.findByUserIdx(userIdx);
     }
