@@ -35,7 +35,7 @@ public class User {
     // 검색 기록 List
     List<String> searchList;
     // 계정 공개 / 비공개
-    String publicType;
+    boolean publicType;
     Date createdDate;
     Date lastLoginDate;
 
@@ -63,6 +63,7 @@ public class User {
                 ", providerType=" + providerType +
                 ", roleType=" + roleType +
                 ", profileImageUrl='" + profileImageUrl + '\'' +
+                ", profileMsg='" + profileMsg +
                 ", followingCnt=" + followingCnt +
                 ", following=" + following +
                 ", followersCnt=" + followersCnt +
@@ -70,6 +71,7 @@ public class User {
                 ", postCnt=" + postCnt +
                 ", createdDate=" + createdDate +
                 ", lastLoginDate=" + lastLoginDate +
+                ", publicType=" + publicType +
                 '}';
     }
 }

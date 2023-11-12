@@ -1,35 +1,60 @@
 package com.studygram.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.studygram.AwsS3TestConfig;
 import com.studygram.config.AwsS3Config;
+import com.studygram.controller.UserController;
+import com.studygram.domain.AuthReqModel;
+import com.studygram.domain.User;
 import io.findify.s3mock.S3Mock;
 import org.junit.Test;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 //@Import(AwsS3TestConfig.class)
-@SpringBootTest
+//@SpringBootTest
 @RunWith(SpringRunner.class)
-//@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
+@AutoConfigureMockMvc
 public class UserServiceTest {
 
 //    @Autowired
 //    private S3Mock s3Mock;
 
     @Autowired
+    UserService userService;
+
+    @Mock
+    private User mockUser;
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Autowired
     private AmazonS3ResourceStorage amazonS3ResourceStorage;
+
+    AutoCloseable openMocks;
+    ObjectMapper objectMapper = new ObjectMapper();
 
 //    @AfterEach
 //    void tearDown() {
@@ -59,11 +84,34 @@ public class UserServiceTest {
         assertThat(replacedImgUrl).isEqualTo("http://"+S3URL+"/"+path);
     }
 
+    @BeforeEach
+    public void setup() throws Exception {
+        openMocks = MockitoAnnotations.openMocks(this);
+        mockMvc = MockMvcBuilders.standaloneSetup(UserController.class).build();
+
+        //given
+        AuthReqModel authReqModel = new AuthReqModel("leehyeji", "1234");
+        //when & then
+        mockMvc.perform(post("/api/v1/auth/login")
+                        .content(objectMapper.writeValueAsString(authReqModel))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
     @Test
     @DisplayName("user profile update")
-    public void updateProfileImage() {
+    public void updateProfileInfoTest() {
+        User user = userService.getUserInfo(1);
+        System.out.println("기존 User Info ="+ user);
+        user.setProfileMsg("새로운 프로필 메시지");
+        user.setPublicType(false);
 
+        try {
+            userService.updateUserInfo(user, null);
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
 
+        System.out.println("변경된 UserInfo = " + user);
 
     }
 

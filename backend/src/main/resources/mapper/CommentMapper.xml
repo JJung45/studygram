@@ -5,7 +5,6 @@
         <id column="idx" property="idx"/>
         <result column="post_idx" property="postIdx"/>
         <result column="user_name" property="userName"/>
-        <!--        <result column="profile_image_url" property="profileImageUrl"/>-->
         <result column="content" property="content"/>
         <result column="created_date" property="createdDate"/>
         <result column="updated_date" property="updatedDate"/>
@@ -78,5 +77,23 @@
         from comment
         where 1 = 1
           and post_idx = #{idx}
+    </select>
+
+    <select id="findCommentsByUserIdx" resultType="Comment">
+        select * from comment where user_idx = #{userIdx}
+    </select>
+
+    <resultMap id="postCommentResultMap" type="com.studygram.domain.Post">
+        <id column="idx" property="idx"/>
+        <result column="user_idx" property="userIdx"/>
+        <result column="content" property="content"/>
+        <result column="created_date" property="createdDate"/>
+        <result column="updated_date" property="updatedDate"/>
+        <collection property="storePath" column="idx" ofType="java.lang.String" select="com.studygram.mapper.ImageMapper.getStoredImagePathByPostIdx" />
+        <collection property="profileImageUrl" column="user_idx" ofType="java.lang.String" select="com.studygram.mapper.ImageMapper.findRecentImageByUserIdx" />
+        <collection property="comments" column="idx" javaType="java.util.List" ofType="com.studygram.domain.Comment" select="com.studygram.mapper.CommentMapper.findCommentsByPostIdx" />
+    </resultMap>
+    <select id="findPostsByCommentUserIdx" resultMap="postCommentResultMap">
+        select  from comment where user_idx = #{userIdx}
     </select>
 </mapper>

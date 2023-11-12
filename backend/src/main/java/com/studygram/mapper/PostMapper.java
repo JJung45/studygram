@@ -24,4 +24,7 @@ public interface PostMapper {
     List<Post> findByManyIds(@Param("postTagIds") List<Integer> postTagIds);
     int countPostsByUserName(String userName);
     Post findSortByIdAsc();
+    List<Post> findPostsByLikeUserIdx(int userIdx);
+    List<Post> findPostsByCommentUserIdx(int userIdx);
+
 }

@@ -23,12 +23,12 @@
         <result column="created_date" property="createdDate"/>
         <result column="updated_date" property="updatedDate"/>
         <result column="user_name" property="userName"/>
-        <result column="profile_image_url" property="profileImageUrl"/>
+        <collection property="profileImageUrl" column="user_idx" ofType="java.lang.String" select="com.studygram.mapper.ImageMapper.findRecentImageByUserIdx" />
         <collection property="commentCnt" column="idx" select="com.studygram.mapper.CommentMapper.findCommentCntByPostIdx"/>
     </resultMap>
     <select id="findPostsByTagIdx" parameterType="Integer" resultMap="postTagResultMap">
         WITH T as (
-        select p.idx, p.user_idx, p.content, img.store_path, p.created_date, p.updated_date, u.user_name, u.profile_image_url
+        select p.idx, p.user_idx, p.content, img.store_path, p.created_date, p.updated_date, u.user_name
           from post p, image img, user u
          where p.idx in (select post_idx
                            from post_tag

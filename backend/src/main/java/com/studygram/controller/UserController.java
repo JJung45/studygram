@@ -5,17 +5,23 @@ import com.studygram.domain.User;
 import com.studygram.service.ImageUploadService;
 import com.studygram.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.Nullable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.constraints.Null;
+
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor
+@Slf4j
 public class UserController {
     @Autowired
     private UserService userService;
@@ -47,7 +53,7 @@ public class UserController {
         return ApiResponse.success("user", user);
     }
 
-    @PutMapping("/{userIdx}/profile")
+    @PutMapping("/{userIdx}/profileImage")
     public ApiResponse updateProfileImage(@PathVariable int userIdx, @RequestParam(value="fileImage") MultipartFile file) throws Exception
     {
 //        try{
@@ -59,5 +65,25 @@ public class UserController {
 //        } catch (Exception e) {
 //            return ApiResponse.fail("Fail to Update ProfileImage");
 //        }
+    }
+
+    @GetMapping("/{userIdx}/activities")
+    public ApiResponse getMyActivities(@PathVariable int userIdx) {
+
+        // 좋아요(게시물), 댓글 목록
+        return ApiResponse.success("getMyActivities", null);
+    }
+
+    @PutMapping("/update")
+    public ApiResponse updateUserInfo(@RequestPart(value="fileImage", required = false) MultipartFile file, @RequestPart(value="user") User user) {
+        // 프로필 수정 (프로필사진, 프로필 메시지, 공개/비공개)
+        try {
+            System.out.println("file="+file);
+            User updatedUser = userService.updateUserInfo(user, file);
+            return ApiResponse.success("user", updatedUser);
+        } catch (Exception e) {
+            log.error("Not Found user!", e);
+            return ApiResponse.notFoundFail();
+        }
     }
 }
