@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from "react";
+import React, { useState, useEffect, useRef } from "react";
 import PostComment from "../main/PostCommentComponent";
 import "../../styles/modal.css";
 import "../../styles/Write.css";
@@ -6,68 +6,68 @@ import commentAPI from "../../lib/api/comment";
 import moment from "moment";
 
 const PostModal = (props) => {
-    const {open, close, post} = props;
-    const [comments, setComments] = useState(null);
-    const [comment, setComment] = useState({
-        postIdx: 0,
-        content: "",
-    });
+  const { open, close, post } = props;
+  const [comments, setComments] = useState(null);
+  const [comment, setComment] = useState({
+    postIdx: 0,
+    content: "",
+  });
 
-    useEffect(() => {
-        if (post && post.commentCnt > 0) {
-            setComments(post.comments);
-            setComment({
-                ...comment,
-                postIdx: post.idx,
-            })
-        }
-    }, [post]);
+  useEffect(() => {
+    if (post && post.commentCnt > 0) {
+      setComments(post.comments);
+      setComment({
+        ...comment,
+        postIdx: post.idx,
+      });
+    }
+  }, [post]);
 
-    // 모달 영역 밖 클릭 시 닫기
-    const node = useRef(null);
-    const modalCloseHandler = (e) => {
-        if(open && !node.current.contains(e.target)) {
-            close();
-        }
+  // 모달 영역 밖 클릭 시 닫기
+  const node = useRef(null);
+  const modalCloseHandler = (e) => {
+    if (open && !node.current.contains(e.target)) {
+      close();
+    }
+  };
+
+  useEffect(() => {
+    if (open) {
+      window.addEventListener("click", modalCloseHandler);
+    } else {
+      window.removeEventListener("click", modalCloseHandler);
     }
 
-    useEffect(() => {
-        if (open) {
-            window.addEventListener('click', modalCloseHandler);
-        } else {
-            window.removeEventListener('click', modalCloseHandler);
-        }
+    return () => {
+      window.removeEventListener("click", modalCloseHandler);
+    };
+  }, [open]);
 
-        return () => {
-            window.removeEventListener('click', modalCloseHandler);
-        };
-    }, [open]);
+  const handleInput = (e) => {
+    setComment({
+      ...comment,
+      content: e.target.value,
+    });
+  };
 
-
-    const handleInput = (e) => {
-        setComment({
-            ...comment,
-            content: e.target.value,
+  const addComment = async () => {
+    await commentAPI
+      .addComment(comment)
+      .then(async () => {
+        await commentAPI.getCommentList(post.idx).then((result) => {
+          setComments(result.data);
         });
-    };
+      })
+      .catch((err) => {
+        console.log("Add New Comment Failed!", err);
+      });
 
-    const addComment = async () => {
-        await commentAPI.addComment(comment)
-            .then(async () => {
-                await commentAPI.getCommentList(post.idx).then((result) => {
-                    setComments(result.data);
-                });
-            })
-            .catch((err) => {
-                console.log("Add New Comment Failed!", err);
-            });
-
-        // 댓글 입력창 reset
-        setComment({
-            ...comment,
-            content: "",
-        })
-    };
+    // 댓글 입력창 reset
+    setComment({
+      ...comment,
+      content: "",
+    });
+  };
 
     const getTimeDifference = (post) => {
         const diffInMinutes =  moment().diff(moment(post.createdDate), "minutes");

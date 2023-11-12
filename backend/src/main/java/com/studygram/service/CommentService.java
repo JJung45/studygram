@@ -51,7 +51,9 @@ public class CommentService {
 
     public void createComment(Comment comment) {
         // 1. Post 데이터 있는지 확인
-        if(postService.findById(comment.getPostIdx()) == null) {
+
+        Post post = postService.findById(comment.getPostIdx());
+        if(post == null) {
             ApiResponse.fail();
         }
 
@@ -80,9 +82,7 @@ public class CommentService {
             ApiResponse.fail();
         }
 
-        Post postByComment = postService.findById(comment.getPostIdx());
-        int toUserIdx = postByComment.getUserIdx();
-        notificationService.send(toUserIdx, user.getIdx(), comment.getIdx(), NotificationType.COMMENT);
+        notificationService.send(post.getUserIdx(), user.getIdx(), comment.getIdx(), NotificationType.COMMENT);
     }
 
     public void updateComment(Comment comment) {
