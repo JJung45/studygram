@@ -79,21 +79,14 @@
           and post_idx = #{idx}
     </select>
 
-    <select id="findCommentsByUserIdx" resultType="Comment">
-        select * from comment where user_idx = #{userIdx}
+    <!-- 댓글 달린 게시물 인덱스 가져오기(중복 없음) -->
+    <select id="findPostIdxByCommentUserIdx" resultType="Integer">
+        select post_idx from comment where user_idx = #{userIdx} group by post_idx
     </select>
 
-    <resultMap id="postCommentResultMap" type="com.studygram.domain.Post">
-        <id column="idx" property="idx"/>
-        <result column="user_idx" property="userIdx"/>
-        <result column="content" property="content"/>
-        <result column="created_date" property="createdDate"/>
-        <result column="updated_date" property="updatedDate"/>
-        <collection property="storePath" column="idx" ofType="java.lang.String" select="com.studygram.mapper.ImageMapper.getStoredImagePathByPostIdx" />
-        <collection property="profileImageUrl" column="user_idx" ofType="java.lang.String" select="com.studygram.mapper.ImageMapper.findRecentImageByUserIdx" />
-        <collection property="comments" column="idx" javaType="java.util.List" ofType="com.studygram.domain.Comment" select="com.studygram.mapper.CommentMapper.findCommentsByPostIdx" />
-    </resultMap>
-    <select id="findPostsByCommentUserIdx" resultMap="postCommentResultMap">
-        select  from comment where user_idx = #{userIdx}
+    <!-- 게시글에 내가 쓴 댓글만 가져올 때 사용 -->
+    <select id="findCommentsByUserAndPostIdx" parameterType="java.util.Map" resultType="Comment">
+        select * from comment where user_idx = #{user_idx} and post_idx = #{idx}
     </select>
+
 </mapper>

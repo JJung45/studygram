@@ -1,5 +1,6 @@
 package com.studygram.mapper;
 
+import com.studygram.domain.Comment;
 import com.studygram.domain.Post;
 import com.studygram.domain.PostTag;
 import org.apache.ibatis.annotations.Mapper;
@@ -9,6 +10,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 @Repository
@@ -24,7 +26,7 @@ public interface PostMapper {
     List<Post> findByManyIds(@Param("postTagIds") List<Integer> postTagIds);
     int countPostsByUserName(String userName);
     Post findSortByIdAsc();
-    List<Post> findPostsByLikeUserIdx(int userIdx);
-    List<Post> findPostsByCommentUserIdx(int userIdx);
+    List<Integer> findPostIdxByLikeUserIdx(int userIdx);
+    Post findPostAndCommentByCommentUserIdx(Map<String, Object> paramMap);
 
 }

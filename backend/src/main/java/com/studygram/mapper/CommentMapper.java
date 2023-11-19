@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 @Repository
@@ -19,5 +20,6 @@ public interface CommentMapper {
     int deleteByCommentIdx(int commentIdx);
     int deleteByPostIdx(int postIdx);
     int findCommentCntByPostIdx(int postIdx);
-    List<Comment> findCommentsByUserIdx(int userIdx);
+    List<Integer> findPostIdxByCommentUserIdx(int userIdx);
+    List<Comment> findCommentsByUserAndPostIdx(Map<String, Object> paramMap);
 }

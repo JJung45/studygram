@@ -6,6 +6,7 @@ import com.studygram.service.ImageUploadService;
 import com.studygram.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.security.core.Authentication;
@@ -17,6 +18,7 @@ import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.Null;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/users")
@@ -57,7 +59,6 @@ public class UserController {
     public ApiResponse updateProfileImage(@PathVariable int userIdx, @RequestParam(value="fileImage") MultipartFile file) throws Exception
     {
 //        try{
-            System.out.println("File Info = "+file);
             String profileImgUrl = userService.updateProfileImage(userIdx, file);
             return ApiResponse.success("profileImageUrl", profileImgUrl);
 //        } catch(MaxUploadSizeExceededException e) {
@@ -69,9 +70,14 @@ public class UserController {
 
     @GetMapping("/{userIdx}/activities")
     public ApiResponse getMyActivities(@PathVariable int userIdx) {
-
+        Map<String, Object> activitiesMap;
+        try {
+            activitiesMap = userService.getMyActivities(userIdx);
+        } catch (NotFoundException ne) {
+            return ApiResponse.notFoundFail();
+        }
         // 좋아요(게시물), 댓글 목록
-        return ApiResponse.success("getMyActivities", null);
+        return ApiResponse.success("getMyActivities", activitiesMap);
     }
 
     @PutMapping("/update")

@@ -8,6 +8,7 @@ import com.studygram.domain.Post;
 import com.studygram.domain.User;
 import com.studygram.mapper.*;
 import lombok.RequiredArgsConstructor;
+import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.security.core.Authentication;
@@ -113,15 +114,40 @@ public class UserService {
         return imgUrl;
     }
 
-    public Map<String, Object> getMyActivities(int userIdx) {
+    public Map<String, Object> getMyActivities(int userIdx) throws NotFoundException {
         Map<String, Object> myActivityMap = new HashMap<>();
         // 좋아요
-        List<Post> likedPostList = postMapper.findPostsByLikeUserIdx(userIdx);
-        myActivityMap.put("likedPostList", likedPostList);
+        List<Integer> likedPostIdxList = postMapper.findPostIdxByLikeUserIdx(userIdx);
+        List<Post> likedPostList = new ArrayList<>();
+        if(!likedPostIdxList.isEmpty()) {
+            for(int idx : likedPostIdxList) {
+                Post selectedPost = postMapper.findById(idx);
+                if(selectedPost == null) {
+                    throw new NotFoundException("There's no Post idx"+idx);
+                }
+                likedPostList.add(selectedPost);
+            }
+            myActivityMap.put("likedPostList", likedPostList);
+        }
 
         // 댓글
-
-
+        List<Integer> commentedPostIdxList = commentMapper.findPostIdxByCommentUserIdx(userIdx);
+        List<Post> commentedPostList = new ArrayList<>();
+        if(!commentedPostIdxList.isEmpty()) {
+            for(int idx : commentedPostIdxList) {
+                Map<String, Object> paramMap = new HashMap<>();
+                paramMap.put("userIdx", userIdx);
+                paramMap.put("idx", idx);
+                Post selectedPost = postMapper.findPostAndCommentByCommentUserIdx(paramMap);
+                if(selectedPost == null) {
+                    throw new NotFoundException("There's no Post idx"+idx);
+                }
+                commentedPostList.add(selectedPost);
+                System.out.println("SelectedPost IDX="+ selectedPost.getIdx() + ", UserIDX ="+selectedPost.getUserIdx());
+            }
+            myActivityMap.put("commentedPostList", commentedPostList);
+            System.out.println("commentSize"+commentedPostList.get(1).getComments().size());
+        }
 
         return myActivityMap;
     }

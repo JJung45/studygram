@@ -126,26 +126,22 @@
         select * from post order by idx asc limit 1;
     </select>
 
-    <resultMap id="postImageResultMap" type="com.studygram.domain.Post">
-        <id column="idx" property="idx"/>
-        <collection property="storePath" column="idx" ofType="java.lang.String" select="com.studygram.mapper.ImageMapper.getStoredImagePathByPostIdx" />
-    </resultMap>
-    <select id="findPostsByLikeUserIdx" resultMap="postImageResultMap">
-        select idx from postxwhere idx in
+
+    <select id="findPostIdxByLikeUserIdx" resultType="Integer">
+        select idx from post where idx in
                                  (select post_idx from `like` where user_idx=#{userIdx});
     </select>
 
-    <resultMap id="postCommentResultMap" type="com.studygram.domain.Post">
+    <resultMap id="postCommentRes" type="com.studygram.domain.Post">
         <id column="idx" property="idx"/>
         <result column="user_idx" property="userIdx"/>
         <result column="content" property="content"/>
         <result column="created_date" property="createdDate"/>
-        <result column="updated_date" property="updatedDate"/>
         <collection property="storePath" column="idx" ofType="java.lang.String" select="com.studygram.mapper.ImageMapper.getStoredImagePathByPostIdx" />
         <collection property="profileImageUrl" column="user_idx" ofType="java.lang.String" select="com.studygram.mapper.ImageMapper.findRecentImageByUserIdx" />
-        <collection property="comments" column="idx" javaType="java.util.List" ofType="com.studygram.domain.Comment" select="com.studygram.mapper.CommentMapper.findCommentsByPostIdx" />
+        <collection property="comments" column="{user_idx=user_idx, post_idx=idx}" javaType="java.util.List" ofType="com.studygram.domain.Comment" select="com.studygram.mapper.CommentMapper.findCommentsByUserAndPostIdx" />
     </resultMap>
-    <select id="findPostsByCommentUserIdx" resultMap="postCommentResultMap">
-
+    <select id="findPostAndCommentByCommentUserIdx" resultMap="postCommentRes">
+        select * from post where idx = #{idx}
     </select>
 </mapper>

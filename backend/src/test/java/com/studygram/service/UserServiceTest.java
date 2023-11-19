@@ -7,6 +7,7 @@ import com.studygram.controller.UserController;
 import com.studygram.domain.AuthReqModel;
 import com.studygram.domain.User;
 import io.findify.s3mock.S3Mock;
+import org.apache.ibatis.javassist.NotFoundException;
 import org.junit.Test;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,6 +28,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -115,4 +117,15 @@ public class UserServiceTest {
 
     }
 
+    @Test
+    @DisplayName("Get My Activities")
+    public void getMyActivities(){
+        try {
+            Map<String, Object> ResMap = userService.getMyActivities(1);
+            System.out.println(ResMap.get("likedPostList"));
+            System.out.println(ResMap.get("commentedPostList"));
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 }
