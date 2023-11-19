@@ -167,7 +167,7 @@ button {
 }
 
 .postModal .post-info {
-  border-top: 1px solid #ccc;
+  border-top: 1px solid #EBEDF0;
   padding: 10px;
 }
 
@@ -300,7 +300,7 @@ button {
 }
 
 .postModal > .postContent .comments-header {
-  border-top: 1px solid #ccc;
+  border-top: 1px solid #EBEDF0;
   padding: 10px;
   display: flex;
 }
