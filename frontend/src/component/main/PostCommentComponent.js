@@ -5,7 +5,7 @@ import moment from "moment";
 import LikeApi from "../../lib/api/like";
 
 const Comment = ({ data }) => {
-  const saveLike = async (data) => {
+  const saveLike = async (hasLike, data) => {
     const commentIdx = data.idx;
     const commentUserIdx = data.userIdx;
     const like = {
@@ -14,6 +14,10 @@ const Comment = ({ data }) => {
     };
     const save = await LikeApi.save(like);  // TODO 알림
   };
+
+  const hasCommentLike = (data) => {
+      return data.likes.some(like => like.commentIdx == data.idx)
+  }
 
   const getTimeDifference = (data) => {
     const diffInMinutes =  moment().diff(moment(data.createdDate), "minutes");
@@ -43,9 +47,10 @@ const Comment = ({ data }) => {
         </div>
         <div className="post-content"> {data.content}</div>
       </div>
-      <span className="heart" onClick={() => {saveLike(data);}}>
-        ♡
-      </span>
+      { (data.likes.length === 0 || !hasCommentLike(data)) ?
+           <span className="heart" onClick={() => {saveLike(hasCommentLike(data), data);}}> ♡</span>
+        :  <span className="heart" onClick={() => {saveLike(hasCommentLike(data), data);}}> ♥ </span>
+      }
     </div>
   );
 };
