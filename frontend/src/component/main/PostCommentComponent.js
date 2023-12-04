@@ -5,14 +5,18 @@ import moment from "moment";
 import LikeApi from "../../lib/api/like";
 
 const Comment = ({ data }) => {
-  const saveLike = async (hasLike, data) => {
+  const saveLike = async (target, hasLike, data) => {
     const commentIdx = data.idx;
     const commentUserIdx = data.userIdx;
     const like = {
       commentIdx: commentIdx,
-      commentUserIdx : commentUserIdx,
+      commentUserIdx: commentUserIdx,
     };
-    const save = await LikeApi.save(like);  // TODO 알림
+    const result = await LikeApi.save(like);
+
+    if (result.status == 200) {
+      target.innerHTML = target.innerHTML === '♥' ? '♡' : '♥';
+    }
   };
 
   const hasCommentLike = (data) => {
@@ -48,8 +52,8 @@ const Comment = ({ data }) => {
         <div className="post-content"> {data.content}</div>
       </div>
       { (data.likes.length === 0 || !hasCommentLike(data)) ?
-           <span className="heart" onClick={() => {saveLike(hasCommentLike(data), data);}}> ♡</span>
-        :  <span className="heart" onClick={() => {saveLike(hasCommentLike(data), data);}}> ♥ </span>
+           <span className="heart" onClick={(e) => {saveLike(e.currentTarget, hasCommentLike(data), data);}}> ♡</span>
+        :  <span className="heart" onClick={(e) => {saveLike(e.currentTarget, hasCommentLike(data), data);}}> ♥ </span>
       }
     </div>
   );
